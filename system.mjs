@@ -32,13 +32,12 @@ Hooks.once("init", async () => {
   "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
-   "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs"
 ]);
-
 
   // Optional: remove core sheet so only ours shows
   // Actors.unregisterSheet("core", ActorSheet);
