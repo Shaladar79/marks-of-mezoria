@@ -18,3 +18,18 @@ MezoriaConfig.races = {
   earthen:    "Earthen",
   prismatic:  "Prismatic"
 };
+
+// -------------------------------------
+// RANKS (key → label)
+// -------------------------------------
+MezoriaConfig.ranks = {
+  normal:    "Normal",
+  quartz:    "Quartz",
+  topaz:     "Topaz",
+  garnet:    "Garnet",
+  emerald:   "Emerald",
+  sapphire:  "Sapphire",
+  ruby:      "Ruby",
+  diamond:   "Diamond",
+  mythrite:  "Mythrite",
+  celestite: "Celestite"
