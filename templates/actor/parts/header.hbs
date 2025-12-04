@@ -54,14 +54,14 @@
   </div>
 
   {{!-- PURPOSE (read-only, auto later) --}}
-  <div class="field purpose-field">
-    <label>Purpose</label>
-    <input type="text"
-           name="system.details.purpose"
-           value="{{system.details.purpose}}"
-           placeholder="(Assigned by Mark of Purpose)"
-           readonly />
-  </div>
+ <div class="field purpose-field">
+  <label>Purpose</label>
+  <input type="text"
+         value="{{lookup config.markOfPurpose system.details.purpose}}"
+         placeholder="(No Mark)"
+         readonly />
+</div>
+
 
   {{!-- BACKGROUND (read-only) --}}
   <div class="field background-display-field">
