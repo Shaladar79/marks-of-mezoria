@@ -1,5 +1,12 @@
 {{!-- templates/actor/parts/subparts/charinfo/rankinfo.hbs --}}
 
 <div class="cinfo-block rankinfo">
-  <p><em>Rank details will go here. (Progression, tier notes, etc.)</em></p>
+
+  <p class="cinfo-help">
+    Select the character’s current Rank. This controls progression, powers, and other features.
+  </p>
+
+  {{!-- Reuse the existing rank dropdown partial --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"}}
+
 </div>
