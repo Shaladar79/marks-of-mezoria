@@ -28,7 +28,8 @@ Hooks.once("init", async () => {
   // 🔹 PRELOAD PARTIAL TEMPLATES 🔹
   await loadTemplates([
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"
+    "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"
   ]);
 
   // Optional: remove core sheet so only ours shows
