@@ -33,12 +33,18 @@
                placeholder="Name" />
       </div>
 
-      <div class="meta-row flexrow">
+     <div class="meta-row flexrow">
 
-       {{!-- RANK DROPDOWN --}}
-  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"}}
+  {{!-- RANK (read-only display of current rank) --}}
+  <div class="field rank-display-field">
+    <label>Rank</label>
+    <input type="text"
+           value="{{lookup config.ranks system.details.rank}}"
+           placeholder="Unranked"
+           readonly />
+  </div>
 
-  {{!-- RACE DROPDOWN --}}
+  {{!-- RACE DROPDOWN (still here) --}}
   {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
 
   {{!-- PURPOSE (auto-populated later) --}}
@@ -58,6 +64,7 @@
   {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs"}}
 
 </div>
+
     </div>
   </div>
 </header>
