@@ -68,3 +68,34 @@
   font-style: italic;
   opacity: 0.9;
 }
+
+/* Tab bar */
+.sheet-tabs {
+  border-bottom: 1px solid #444;
+  margin-bottom: 4px;
+}
+
+.sheet-tabs .item {
+  display: inline-block;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.sheet-tabs .item.active {
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+}
+
+/* Tab content */
+.sheet-body {
+  padding-top: 4px;
+}
+
+.cinfo-section {
+  margin-bottom: 6px;
+}
+
+.cinfo-section > summary {
+  cursor: pointer;
+  font-weight: bold;
+}
