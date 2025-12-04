@@ -1,5 +1,5 @@
 {
-  "id": "marks-of-mezroria",
+  "id": "marks-of-mezoria",
   "title": "Marks of Mezoria System",
   "description": "A barebones Foundry VTT system.",
   "version": "0.0.1",
@@ -17,7 +17,7 @@
 
   "esmodules": ["system.mjs"],
   "styles": ["styles/styles.css"],
-  "template": ["template.json"],
+  "template": "template.json",
 
   "languages": [
     {
@@ -31,7 +31,7 @@
   "gridDistance": 5,
   "gridUnits": "ft",
 
-  "url": "",
-  "manifest": "",
-  "download": ""
+  "url": "https://github.com/Shaladar79/marks-of-mezoria",
+  "manifest": "https://raw.githubusercontent.com/Shaladar79/marks-of-mezoria/main/system.json",
+  "download": "https://github.com/Shaladar79/marks-of-mezoria/archive/refs/heads/main.zip"
 }
