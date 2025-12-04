@@ -35,13 +35,8 @@
 
       <div class="meta-row flexrow">
 
-        <div class="field">
-          <label>Rank</label>
-          <input type="text"
-                 name="system.details.rank"
-                 value="{{system.details.rank}}"
-                 placeholder="Iron / Bronze / etc." />
-        </div>
+        {{!-- RANK DROPDOWN --}}
+        {{> "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"}}
 
         {{!-- RACE DROPDOWN PARTIAL --}}
         {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
