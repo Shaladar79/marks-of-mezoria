@@ -1,3 +1,64 @@
-.your-system.sheet.actor {
-  padding: 10px;
+.marks-of-mezoria.sheet.actor {
+  padding: 8px;
+}
+
+.sheet-header {
+  margin-bottom: 8px;
+}
+
+.header-top-row {
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.type-field .type-display {
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  text-align: right;
+}
+
+.header-main-row {
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.profile {
+  flex: 0 0 80px;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.header-fields {
+  flex: 1;
+}
+
+.name-row input {
+  width: 100%;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.meta-row {
+  gap: 8px;
+}
+
+.meta-row .field {
+  flex: 1;
+}
+
+.meta-row label {
+  display: block;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.meta-row input,
+.meta-row select {
+  width: 100%;
 }
