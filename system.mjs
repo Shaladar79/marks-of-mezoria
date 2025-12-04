@@ -1,16 +1,5 @@
+// system.mjs
 import { MezoriaConfig } from "./config.mjs";
-
-Hooks.once("init", () => {
-  console.log("Marks of Mezoria | Initializing minimal system");
-
-  // Expose config so other code can reach it if needed
-  CONFIG["marks-of-mezoria"] = MezoriaConfig;
-
-  Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
-    types: ["pc"],
-    makeDefault: true
-  });
-});
 
 class MinimalActorSheet extends ActorSheet {
   static get defaultOptions() {
@@ -29,3 +18,24 @@ class MinimalActorSheet extends ActorSheet {
     return data;
   }
 }
+
+Hooks.once("init", async () => {
+  console.log("Marks of Mezoria | Initializing minimal system");
+
+  // Expose config
+  CONFIG["marks-of-mezoria"] = MezoriaConfig;
+
+  // 🔹 PRELOAD PARTIAL TEMPLATES 🔹
+  await loadTemplates([
+    "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"
+  ]);
+
+  // Optional: remove core sheet so only ours shows
+  // Actors.unregisterSheet("core", ActorSheet);
+
+  Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
+    types: ["pc"],
+    makeDefault: true
+  });
+});
