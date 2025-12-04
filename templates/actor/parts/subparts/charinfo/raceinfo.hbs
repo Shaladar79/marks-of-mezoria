@@ -1,5 +1,12 @@
 {{!-- templates/actor/parts/subparts/charinfo/raceinfo.hbs --}}
 
 <div class="cinfo-block raceinfo">
-  <p><em>Race details will go here. (Traits, bonuses, lore snippets.)</em></p>
+
+  <p class="cinfo-help">
+    Select the character’s Race. This determines base traits, movement, and other racial features.
+  </p>
+
+  {{!-- Reuse the existing race dropdown partial --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
+
 </div>
