@@ -43,13 +43,8 @@
                  placeholder="Iron / Bronze / etc." />
         </div>
 
-        <div class="field">
-          <label>Race</label>
-          <input type="text"
-                 name="system.details.race"
-                 value="{{system.details.race}}"
-                 placeholder="Human / Sprite / etc." />
-        </div>
+        {{!-- RACE DROPDOWN PARTIAL --}}
+        {{> "systems/marks-of-mezoria/templates/actors/parts/drops/racedrop.hbs"}}
 
         <div class="field">
           <label>Role</label>
