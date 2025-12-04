@@ -44,8 +44,43 @@
            readonly />
   </div>
 
-  {{!-- RACE DROPDOWN (still here) --}}
-  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
+ <div class="meta-row flexrow">
+
+  {{!-- RANK (read-only display of current rank) --}}
+  <div class="field rank-display-field">
+    <label>Rank</label>
+    <input type="text"
+           value="{{lookup config.ranks system.details.rank}}"
+           placeholder="Unranked"
+           readonly />
+  </div>
+
+  {{!-- RACE (read-only display of current race) --}}
+  <div class="field race-display-field">
+    <label>Race</label>
+    <input type="text"
+           value="{{lookup config.races system.details.race}}"
+           placeholder="Unchosen"
+           readonly />
+  </div>
+
+  {{!-- PURPOSE (auto-populated later) --}}
+  <div class="field purpose-field">
+    <label>Purpose</label>
+    <input type="text"
+           name="system.details.purpose"
+           value="{{system.details.purpose}}"
+           placeholder="(Assigned by Mark of Purpose)"
+           readonly />
+  </div>
+
+  {{!-- BACKGROUND TYPE --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs"}}
+
+  {{!-- BACKGROUND --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs"}}
+
+</div>
 
   {{!-- PURPOSE (auto-populated later) --}}
   <div class="field purpose-field">
