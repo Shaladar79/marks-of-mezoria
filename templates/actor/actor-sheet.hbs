@@ -2,12 +2,23 @@
 
 <form class="marks-of-mezoria sheet actor" autocomplete="off">
 
-  {{!-- HEADER PARTIAL --}}
+  {{!-- HEADER --}}
   {{> "systems/marks-of-mezoria/templates/actor/parts/header.hbs"}}
 
-  {{!-- BODY PLACEHOLDER (we'll replace this later with tabs/sections) --}}
+  {{!-- TAB NAVIGATION --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="cinfo">Character Information</a>
+    {{!-- Later: more tabs like attributes, skills, inventory, etc. --}}
+  </nav>
+
+  {{!-- TAB CONTENT AREA --}}
   <section class="sheet-body">
-    <p>Marks of Mezoria – body content coming soon.</p>
+
+    {{!-- CHARACTER INFORMATION TAB --}}
+    <div class="tab" data-group="primary" data-tab="cinfo">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs"}}
+    </div>
+
   </section>
 
 </form>
