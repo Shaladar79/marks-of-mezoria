@@ -1,9 +1,13 @@
-<form class="your-system sheet actor" autocomplete="off">
-  <header class="sheet-header">
-    <h1><input name="name" type="text" value="{{actor.name}}" /></h1>
-  </header>
+{{!-- templates/actor/actor-sheet.hbs --}}
 
+<form class="marks-of-mezoria sheet actor" autocomplete="off">
+
+  {{!-- HEADER PARTIAL --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/header.hbs"}}
+
+  {{!-- BODY PLACEHOLDER (we'll replace this later with tabs/sections) --}}
   <section class="sheet-body">
-    <p>Minimal Actor Sheet Loaded</p>
+    <p>Marks of Mezoria – body content coming soon.</p>
   </section>
+
 </form>
