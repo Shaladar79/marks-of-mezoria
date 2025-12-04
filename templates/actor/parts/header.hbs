@@ -35,30 +35,29 @@
 
       <div class="meta-row flexrow">
 
-        {{!-- RANK DROPDOWN --}}
-        {{> "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"}}
+       {{!-- RANK DROPDOWN --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs"}}
 
-        {{!-- RACE DROPDOWN PARTIAL --}}
-        {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
+  {{!-- RACE DROPDOWN --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
 
-      {{!-- PURPOSE (auto-populated, read-only) --}}
-        <div class="field purpose-field">
-          <label>Purpose</label>
-          <input type="text"
-                 name="system.details.purpose"
-                 value="{{system.details.purpose}}"
-                 placeholder="(Assigned by Mark of Purpose)"
-                 readonly />
-        </div>
-        <div class="field">
-          <label>Background</label>
-          <input type="text"
-                 name="system.details.background"
-                 value="{{system.details.background}}"
-                 placeholder="Background" />
-        </div>
+  {{!-- PURPOSE (auto-populated later) --}}
+  <div class="field purpose-field">
+    <label>Purpose</label>
+    <input type="text"
+           name="system.details.purpose"
+           value="{{system.details.purpose}}"
+           placeholder="(Assigned by Mark of Purpose)"
+           readonly />
+  </div>
 
-      </div>
+  {{!-- BACKGROUND TYPE --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs"}}
+
+  {{!-- BACKGROUND --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs"}}
+
+</div>
     </div>
   </div>
 </header>
