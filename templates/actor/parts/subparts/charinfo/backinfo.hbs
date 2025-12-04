@@ -1,5 +1,29 @@
 {{!-- templates/actor/parts/subparts/charinfo/backinfo.hbs --}}
 
 <div class="cinfo-block backinfo">
-  <p><em>Background details will go here. (Chosen background, description, hooks.)</em></p>
+
+  <p class="cinfo-help">
+    Choose a Background Type, then a specific Background. This shapes your early life,
+    skills, and story hooks.
+  </p>
+
+  <div class="cinfo-row flexrow">
+    {{!-- BACKGROUND TYPE DROPDOWN --}}
+    {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs"}}
+
+    {{!-- BACKGROUND DROPDOWN (depends on type) --}}
+    {{> "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs"}}
+  </div>
+
+  {{!-- BACKGROUND DESCRIPTION --}}
+  <div class="background-description">
+    {{#if system.details.background}}
+      <p>
+        {{lookup config.backgroundDescriptions system.details.background}}
+      </p>
+    {{else}}
+      <p><em>Select a background to see its description.</em></p>
+    {{/if}}
+  </div>
+
 </div>
