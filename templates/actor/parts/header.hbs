@@ -41,14 +41,15 @@
         {{!-- RACE DROPDOWN PARTIAL --}}
         {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
 
-        <div class="field">
-          <label>Role</label>
+      {{!-- PURPOSE (auto-populated, read-only) --}}
+        <div class="field purpose-field">
+          <label>Purpose</label>
           <input type="text"
-                 name="system.details.role"
-                 value="{{system.details.role}}"
-                 placeholder="Striker / Support / etc." />
+                 name="system.details.purpose"
+                 value="{{system.details.purpose}}"
+                 placeholder="(Assigned by Mark of Purpose)"
+                 readonly />
         </div>
-
         <div class="field">
           <label>Background</label>
           <input type="text"
