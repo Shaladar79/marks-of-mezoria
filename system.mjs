@@ -16,7 +16,7 @@ class MinimalActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["marks-of-mezoria", "sheet", "actor"],
-      template: "systems/marks-of-mezoria/templates/actors/actor-sheet.hbs",
+      template: "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
       width: 600,
       height: 400
     });
