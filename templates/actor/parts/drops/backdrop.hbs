@@ -4,15 +4,27 @@
   <label>Background</label>
 
   {{#if system.details.backgroundType}}
-    {{!-- Look up the correct sub-list for the chosen type --}}
+
+    {{!-- Try to find the map for the chosen type --}}
     {{#with (lookup config.backgroundsByType system.details.backgroundType) as |bgMap|}}
-      <select name="system.details.background" data-dtype="String">
-        {{selectOptions bgMap selected=system.details.background}}
-      </select>
+
+      {{#if bgMap}}
+        <select name="system.details.background" data-dtype="String">
+          {{selectOptions bgMap selected=system.details.background}}
+        </select>
+      {{else}}
+        <select name="system.details.background" data-dtype="String" disabled>
+          <option value="">No backgrounds defined for this type</option>
+        </select>
+      {{/if}}
+
     {{/with}}
+
   {{else}}
+
     <select name="system.details.background" data-dtype="String" disabled>
       <option value="">Select a background type first</option>
     </select>
+
   {{/if}}
 </div>
