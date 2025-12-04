@@ -1,0 +1,12 @@
+{
+  "Actor": {
+    "types": ["pc"],
+    "templates": {
+      "base": {
+        "details": {
+          "name": ""
+        }
+      }
+    }
+  }
+}
