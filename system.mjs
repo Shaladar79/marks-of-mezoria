@@ -7,11 +7,17 @@ class MinimalActorSheet extends ActorSheet {
       classes: ["marks-of-mezoria", "sheet", "actor"],
       template: "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
       width: 600,
-      height: 400
+      height: 400,
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "cinfo"
+        }
+      ]
     });
   }
 
-  /** Supply config to the template */
   getData(options) {
     const data = super.getData(options);
     data.config = CONFIG["marks-of-mezoria"];
