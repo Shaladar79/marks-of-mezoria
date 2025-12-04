@@ -3,7 +3,7 @@
 export const MezoriaConfig = {};
 
 // -------------------------------------
-// RACES (simple key → label)
+// RACES
 // -------------------------------------
 MezoriaConfig.races = {
   human:      "Human",
@@ -33,3 +33,4 @@ MezoriaConfig.ranks = {
   diamond:   "Diamond",
   mythrite:  "Mythrite",
   celestite: "Celestite"
+};
