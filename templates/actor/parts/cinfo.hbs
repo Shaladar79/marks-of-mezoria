@@ -1,0 +1,30 @@
+{{!-- templates/actor/parts/cinfo.hbs --}}
+<section class="cinfo-tab">
+
+  <h2>Character Information</h2>
+
+  {{!-- RANK INFO --}}
+  <details class="cinfo-section cinfo-rank" open>
+    <summary>Rank</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs"}}
+  </details>
+
+  {{!-- RACE INFO --}}
+  <details class="cinfo-section cinfo-race" open>
+    <summary>Race</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs"}}
+  </details>
+
+  {{!-- BACKGROUND INFO --}}
+  <details class="cinfo-section cinfo-background" open>
+    <summary>Background</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs"}}
+  </details>
+
+  {{!-- MARKS INFO --}}
+  <details class="cinfo-section cinfo-marks" open>
+    <summary>Marks</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs"}}
+  </details>
+
+</section>
