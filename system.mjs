@@ -15,29 +15,31 @@ class MinimalActorSheet extends ActorSheet {
           initial: "cinfo"
         }
       ],
-      // 🔹 This makes dropdowns and inputs save immediately on change
-      submitOnChange: true
+      submitOnChange: true   // 🔹 auto-submit whenever an input/select changes
     });
   }
 
-  getData(options) {
-    const data = super.getData(options);
-    // expose our config to templates as {{config}}
+  // Use async + await super.getData to be safe on v13
+  async getData(options) {
+    const data = await super.getData(options);
+    // expose our config as {{config}} in all templates
     data.config = CONFIG["marks-of-mezoria"];
     return data;
   }
 
   /**
-   * Ensure that form data actually updates the Actor.
-   * This is the "save" for everything named like system.details.* etc.
+   * This is where ALL changes coming from the form actually get saved.
+   * If this doesn't run or throws, nothing will persist.
    */
   async _updateObject(event, formData) {
-    // Debug log (optional but useful while testing)
-    console.log("Marks of Mezoria | Updating actor with form data:", formData);
+    console.log("Marks of Mezoria | _updateObject called with:", formData);
 
-    // formData is a flat object: { "system.details.race": "sprite", ... }
-    // Actor.update happily accepts that format.
-    await this.actor.update(formData);
+    // Expand flat formData into nested object (safe for any Foundry version)
+    const expanded = foundry.utils.expandObject(formData);
+    console.log("Marks of Mezoria | Expanded formData:", expanded);
+
+    // `this.object` is the canonical document for DocumentSheet (ActorSheet)
+    await this.object.update(expanded);
   }
 }
 
@@ -47,14 +49,17 @@ Hooks.once("init", async () => {
   // Make config globally available
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
 
-  // Preload all partials
+  // Preload all templates / partials we use
   await loadTemplates([
+    "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
+
     "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
+
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
