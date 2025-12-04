@@ -1,5 +1,23 @@
 {{!-- templates/actor/parts/subparts/charinfo/markinfo.hbs --}}
 
 <div class="cinfo-block markinfo">
-  <p><em>Mark information will go here. (Mark of Purpose, elemental marks, etc.)</em></p>
+
+  <p class="cinfo-help">
+    Choose a Mark of Purpose. This defines your primary combat and narrative role.
+  </p>
+
+  {{!-- Mark of Purpose dropdown --}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs"}}
+
+  {{!-- Description of the selected mark --}}
+  <div class="mark-purpose-description">
+    {{#if system.details.purpose}}
+      <p>
+        {{lookup config.markOfPurposeDescriptions system.details.purpose}}
+      </p>
+    {{else}}
+      <p><em>Select a Mark of Purpose to see its description.</em></p>
+    {{/if}}
+  </div>
+
 </div>
