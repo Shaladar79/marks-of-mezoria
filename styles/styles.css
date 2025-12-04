@@ -62,3 +62,9 @@
 .meta-row select {
   width: 100%;
 }
+
+/* Later we'll hide/show Purpose by rank via JS; class is ready for it */
+.purpose-field input[readonly] {
+  font-style: italic;
+  opacity: 0.9;
+}
