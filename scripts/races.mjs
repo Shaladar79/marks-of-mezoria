@@ -788,5 +788,19 @@ a spark of ancient creation—and the potential for future revelation.
     stag:       "Stag Tribe",
     badger:     "Badger Tribe"
   }
+    
+// -------------------------------------
+// DRACONIAN CLANS (terrain-based)
+// -------------------------------------
+draconianClans: {
+  mountain: "Mountain Clan",
+  sea:      "Sea Clan",
+  forest:   "Forest Clan",
+  desert:   "Desert Clan",
+  volcano:  "Volcano Clan",
+  tundra:   "Tundra Clan",
+  plains:   "Plains Clan",
+  swamp:    "Swamp Clan"
+}
 
 }; // end RaceData
