@@ -613,87 +613,53 @@ artisanship with philosophy, creating a culture where creation and identity are 
       `
     },
 
-    earthen: {
-      label: "Earthen",
-      description: `
-<h2>Earthen</h2>
+   scion: {
+  label: "Scion",
+  description: `
+<h2>Scion</h2>
 
-<h3>Appearance</h3>
 <p>
-The Earthen are stout, compact beings forged from the stone and soil of Mezoria’s deepest reaches. 
-Their bodies resemble living sculptures: dense, rugged skin with natural cracks and seams where 
-glowing mineral light occasionally shines through. Small fragments of rock protrude along their 
-arms, shoulders, and back, giving them a rugged, weathered silhouette.
+Scions are beings infused with the primal elemental forces of Mezoria. 
+Their flesh carries faint patterns, colors, or glows tied directly to the 
+elemental Aspect they awaken into. Though humanoid in appearance, subtle 
+signs of their elemental nature ripple beneath the skin.
+</p>
+
+<h3>Elemental Nature</h3>
+<p>
+Every Scion is born connected to the raw energies of creation—earth, flame, 
+frost, storm, tide, light, or shadow. These powers do not merely influence 
+them; they <strong>shape their instincts, emotions, and magical resonance</strong>.
 </p>
 
 <p>
-What outsiders often mistake for decorative jewelry is actually part of their anatomy—
-<strong>clusters of gemstones</strong> that sprout like hair from their skulls, jaws, and brows. These 
-gemstone formations come in countless shapes and hues, from dull granite-like growths to brilliant 
-crystalline arrays. Both men and women possess these gemstone “manes” and “beards,” 
-making gender nearly impossible for outsiders to identify. Among Earthen, slight differences in 
-stone texture, gem cut, and mineral sheen are unmistakable markers of identity and heritage.
+Upon adulthood, each Scion undergoes the <strong>Kindling Rite</strong>, choosing or 
+awakening into an elemental Aspect that defines their destiny.
 </p>
 
-<h3>Temperament</h3>
+<h3>Cultural Identity</h3>
 <p>
-Earthen are famously <strong>stoic</strong>. Their emotions move as slowly and as deeply as the tectonic 
-forces that birthed them. They speak little, listen much, and only act after long contemplation. 
-To most other races they appear <strong>grumpy, curt, or indifferent</strong>, yet their cool demeanor hides a 
-well of patience, loyalty, and quiet wisdom.
+Scions do not form nations or kingdoms. Instead, they gather in 
+<strong>Aspected enclaves</strong>, each tied to their elemental source. These are 
+places of training, meditation, artistry, and controlled power.
 </p>
 
 <p>
-Anger is rare for the Earthen—  
-but once roused, it is unstoppable, like a mountain deciding to move.
-</p>
-
-<h3>Society & Culture</h3>
-<p>
-Earthen cities lie far beneath Mezoria’s surface in vast caverns lit by glowing fungi, molten 
-channels, and crystal forests. Their communities favor:
-</p>
-
-<ul>
-  <li><strong>carved stone architecture</strong> shaped directly into the cavern walls</li>
-  <li><strong>gem-forging halls</strong> where artisans coax beauty from raw crystal</li>
-  <li><strong>deep communal chambers</strong> used for meditation and harmonic chanting</li>
-</ul>
-
-<p>
-Their culture revolves around concepts of endurance, legacy, and the slow but inevitable shaping 
-of the world. They revere the <strong>Earth Heart</strong>, a mythic core of Mezoria representing resilience 
-and unbroken strength. Rituals often involve harmonic vibrations—deep chants that resonate through 
-stone and can be felt more than heard.
-</p>
-
-<h3>Gender & Family</h3>
-<p>
-Earthen do not emphasize gender distinctions. To outsiders they appear nearly identical, but among 
-their own kind they see endless nuances in mineral patterns, gem grain, density, and luster. 
-Their familial structures are built around <strong>stone-bonds</strong>—communal kin groups formed through shared 
-labor, shared stone ancestry, and shared resonance traditions.
+While Scions coexist peacefully with most races, their presence can be 
+intimidating. Their elemental resonance affects the environment subtly—warm 
+breezes following a Flame Scion, stone vibrating softly under a Terradim’s 
+footsteps, or shadows deepening around an Umbrin.
 </p>
 
 <h3>Role in Mezoria</h3>
 <p>
-Earthen are valued across the world as:
-</p>
-
-<ul>
-  <li><strong>master craftsmen</strong> of gemstone, metal, and stone</li>
-  <li><strong>miners and excavators</strong> who navigate the depths safely</li>
-  <li><strong>geomancers</strong> with an intuitive sense of earth magic</li>
-  <li><strong>unshakable warriors</strong> whose patience outlasts any foe</li>
-</ul>
-
-<p>
-Despite their gruff exterior, Earthen are reliable allies whose word is as firm as the mountains. 
-Their patience can frustrate more impulsive races, but their wisdom and quiet strength have shaped 
-the foundations—literally and culturally—of civilizations throughout Mezoria.
+Scions walk both the mortal and elemental worlds. They become mystics, 
+warriors, guardians, and wanderers who seek balance between their humanity 
+and the living element inside them.
 </p>
       `
-    },
+}
+
 
     prismatic: {
       label: "Prismatic",
