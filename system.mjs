@@ -53,32 +53,34 @@ Hooks.once("init", async () => {
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
 
   // Preload templates used by the sheet
-  await loadTemplates([
-    "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
+ await loadTemplates([
+  "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
 
-    // Header
-    "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
+  // Header
+  "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
-    // Dropdowns
-    "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
+  // Dropdowns
+  "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
 
-    // Character Info tab + subparts
-    "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
+  // Character Info tab + subparts
+  "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
 
-    // Attributes & Status tab + subparts  ✅ NEW
-    "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"
-  ]);
+  // Attributes & Status tab + subparts
+  "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs",
+  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs"   // ⬅️ NEW
+]);
+
 
   // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
