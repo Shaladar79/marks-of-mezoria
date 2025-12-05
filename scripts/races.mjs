@@ -4,6 +4,27 @@
 // Keys MUST match the race keys in MarkedConfig.races
 //   (e.g. "anthozoan", "human", "draconian", etc.)
 
+// systems/marks-of-mezoria/scripts/races.mjs
+
+export const RaceData = {
+
+  // -------------------------------------
+  // BASIC LABELS (used in drop-down)
+  // -------------------------------------
+  labels: {
+    human:      "Human",
+    etherean:   "Etherean",
+    mythrian:   "Mythrian",
+    anthozoan:  "Anthozoan",
+    sylvan:     "Sylvan",
+    sprite:     "Sprite",
+    auramine:   "Auramine",
+    draconian:  "Draconian",
+    embergiest: "Embergiest",
+    earthen:    "Earthen",
+    prismatic:  "Prismatic"
+  },
+
 export const MarkedRaceDescriptions = {
  anthozoan: {
   label: "Anthozoan",
