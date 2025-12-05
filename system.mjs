@@ -1,5 +1,6 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
+import { RaceData } from "./scripts/races.mjs";   // ✅ ADD THIS
 
 class MinimalActorSheet extends ActorSheet {
 
@@ -20,7 +21,7 @@ class MinimalActorSheet extends ActorSheet {
     });
   }
 
-  // Make sure templates get system + config
+  // Make sure templates get system + config + raceData
   async getData(options) {
     const data = await super.getData(options);
 
@@ -29,6 +30,9 @@ class MinimalActorSheet extends ActorSheet {
 
     // {{config}} in templates
     data.config = CONFIG["marks-of-mezoria"];
+
+    // ✅ Add raceData so raceinfo.hbs can use it
+    data.raceData = RaceData;
 
     return data;
   }
