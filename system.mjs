@@ -1,6 +1,6 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
-import { RaceData } from "./scripts/races.mjs";   // ✅ ADD THIS
+import { RaceData } from "./races.mjs";
 
 class MinimalActorSheet extends ActorSheet {
 
@@ -21,23 +21,21 @@ class MinimalActorSheet extends ActorSheet {
     });
   }
 
-  // Make sure templates get system + config + raceData
   async getData(options) {
     const data = await super.getData(options);
 
-    // {{system}} in templates
+    // Actor system data
     data.system = this.actor.system;
 
-    // {{config}} in templates
+    // Global config
     data.config = CONFIG["marks-of-mezoria"];
 
-    // ✅ Add raceData so raceinfo.hbs can use it
+    // RaceData (labels, descriptions, tribes, etc.)
     data.raceData = RaceData;
 
     return data;
   }
 
-  // Save all form changes back to the actor
   async _updateObject(event, formData) {
     console.log("Marks of Mezoria | _updateObject called with:", formData);
     const expanded = foundry.utils.expandObject(formData);
@@ -53,35 +51,34 @@ Hooks.once("init", async () => {
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
 
   // Preload templates used by the sheet
- await loadTemplates([
-  "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
+  await loadTemplates([
+    "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
 
-  // Header
-  "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
+    // Header
+    "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
-  // Dropdowns
-  "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
-   "systems/marks-of-mezoria/templates/actor/parts/drops/tribedrop.hbs",
+    // Dropdowns
+    "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/tribedrop.hbs",
 
-  // Character Info tab + subparts
-  "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
+    // Character Info tab + subparts
+    "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
 
-  // Attributes & Status tab + subparts
-  "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs",
-  "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs"   // ⬅️ NEW
-]);
-
+    // Attributes & Status tab + subparts
+    "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs"
+  ]);
 
   // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
