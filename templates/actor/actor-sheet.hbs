@@ -6,6 +6,7 @@
   {{!-- TAB NAVIGATION --}}
   <nav class="sheet-tabs" data-group="primary">
     <a class="item" data-tab="cinfo">Character Info</a>
+    <a class="item" data-tab="astats">Attributes &amp; Status</a>
   </nav>
 
   {{!-- TAB CONTENT AREA --}}
@@ -14,6 +15,11 @@
     {{!-- CHARACTER INFO TAB --}}
     <div class="tab" data-group="primary" data-tab="cinfo">
       {{> "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs"}}
+    </div>
+
+    {{!-- ATTRIBUTES & STATUS TAB --}}
+    <div class="tab" data-group="primary" data-tab="astats">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/astats.hbs"}}
     </div>
 
   </section>
