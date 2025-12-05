@@ -19,17 +19,18 @@ class MinimalActorSheet extends ActorSheet {
     });
   }
 
-  getData(options) {
-    const data = super.getData(options);
+   async getData(options) {
+    const data = await super.getData(options);
 
     // 🔹 Make sure templates have {{system}} pointing at the actor's system data
-    data.system = this.actor.system;
+    data.system = this.actor.system;   // or this.object.system
 
     // 🔹 Also give them config
     data.config = CONFIG["marks-of-mezoria"];
 
     return data;
   }
+
 
   async _updateObject(event, formData) {
     console.log("Marks of Mezoria | _updateObject called with:", formData);
