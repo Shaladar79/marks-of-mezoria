@@ -1,6 +1,5 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
-import { RaceData } from "./scripts/races.mjs";
 
 class MinimalActorSheet extends ActorSheet {
 
@@ -21,26 +20,24 @@ class MinimalActorSheet extends ActorSheet {
     });
   }
 
-  // Ensure context has system + config
+  // Make sure templates get system + config
   async getData(options) {
     const data = await super.getData(options);
 
-    // Make {{system}} usable in templates
+    // {{system}} in templates
     data.system = this.actor.system;
 
-    // Expose config globally in templates
+    // {{config}} in templates
     data.config = CONFIG["marks-of-mezoria"];
 
     return data;
   }
 
-  // Save form changes properly
+  // Save all form changes back to the actor
   async _updateObject(event, formData) {
-    console.log("Marks of Mezoria | FormData received:", formData);
-
+    console.log("Marks of Mezoria | _updateObject called with:", formData);
     const expanded = foundry.utils.expandObject(formData);
-    console.log("Marks of Mezoria | Expanded:", expanded);
-
+    console.log("Marks of Mezoria | Expanded formData:", expanded);
     await this.object.update(expanded);
   }
 }
@@ -48,12 +45,8 @@ class MinimalActorSheet extends ActorSheet {
 Hooks.once("init", async () => {
   console.log("Marks of Mezoria | Initializing system");
 
-  // Make config accessible system-wide
+  // Make our config globally available
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
-
-  // Inject RaceData into config
-  CONFIG["marks-of-mezoria"].races = RaceData.labels;
-  CONFIG["marks-of-mezoria"].raceDescriptions = RaceData.descriptions;
 
   // Preload templates used by the sheet
   await loadTemplates([
@@ -69,7 +62,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
 
-    // Character Info Tab
+    // Character Info tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
@@ -77,7 +70,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs"
   ]);
 
-  // Register sheet for PCs
+  // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
     makeDefault: true
