@@ -760,9 +760,8 @@ a spark of ancient creation—and the potential for future revelation.
       `
     }
 
-  } // end descriptions
+  }, // end descriptions
 
-  } // end descriptions
 
   // -------------------------------------
   // MYTHRIAN TRIBES (for dropdowns, etc.)
