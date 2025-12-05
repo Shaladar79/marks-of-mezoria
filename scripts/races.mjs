@@ -769,4 +769,4 @@ Their existence safeguards the balance of Mezoria, for within each Prismatic lie
 a spark of ancient creation—and the potential for future revelation.
 </p>
     `
-  }
+  };
