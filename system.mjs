@@ -15,30 +15,26 @@ class MinimalActorSheet extends ActorSheet {
           initial: "cinfo"
         }
       ],
-      submitOnChange: true   // 🔹 auto-submit whenever an input/select changes
+      submitOnChange: true
     });
   }
 
-  // Use async + await super.getData to be safe on v13
-  async getData(options) {
-    const data = await super.getData(options);
-    // expose our config as {{config}} in all templates
+  getData(options) {
+    const data = super.getData(options);
+
+    // 🔹 Make sure templates have {{system}} pointing at the actor's system data
+    data.system = this.actor.system;
+
+    // 🔹 Also give them config
     data.config = CONFIG["marks-of-mezoria"];
+
     return data;
   }
 
-  /**
-   * This is where ALL changes coming from the form actually get saved.
-   * If this doesn't run or throws, nothing will persist.
-   */
   async _updateObject(event, formData) {
     console.log("Marks of Mezoria | _updateObject called with:", formData);
-
-    // Expand flat formData into nested object (safe for any Foundry version)
     const expanded = foundry.utils.expandObject(formData);
     console.log("Marks of Mezoria | Expanded formData:", expanded);
-
-    // `this.object` is the canonical document for DocumentSheet (ActorSheet)
     await this.object.update(expanded);
   }
 }
