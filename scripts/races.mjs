@@ -787,7 +787,7 @@ a spark of ancient creation—and the potential for future revelation.
     mantis:     "Mantis Tribe",
     stag:       "Stag Tribe",
     badger:     "Badger Tribe"
-  }
+  },
     
 // -------------------------------------
 // DRACONIAN CLANS (terrain-based)
