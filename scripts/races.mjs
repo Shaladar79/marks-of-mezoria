@@ -762,4 +762,30 @@ a spark of ancient creation—and the potential for future revelation.
 
   } // end descriptions
 
+  // -------------------------------------
+// MYTHRIAN TRIBES
+// -------------------------------------
+MezoriaConfig.mythrianTribes = {
+  lion:       "Lion Tribe",
+  wolf:       "Wolf Tribe",
+  bear:       "Bear Tribe",
+  fox:        "Fox Tribe",
+  leopard:    "Leopard Tribe",
+  falcon:     "Falcon Tribe",
+  owl:        "Owl Tribe",
+  crow:       "Crow Tribe",
+  bull:       "Bull Tribe",
+  serpent:    "Serpent Tribe",
+  panther:    "Panther Tribe",
+  toad:       "Toad Tribe",
+  cuttlefish: "Cuttlefish Tribe",
+  shark:      "Shark Tribe",
+  tiger:      "Tiger Tribe",
+  boar:       "Boar Tribe",
+  goat:       "Goat Tribe",
+  mantis:     "Mantis Tribe",
+  stag:       "Stag Tribe",
+  badger:     "Badger Tribe"
+};
+
 }; // end RaceData
