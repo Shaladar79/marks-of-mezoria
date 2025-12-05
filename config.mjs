@@ -14,6 +14,11 @@ MezoriaConfig.races = RaceData.labels;
 MezoriaConfig.raceDescriptions = RaceData.descriptions;
 
 // -------------------------------------
+// MYTHRIAN TRIBES (for dropdowns, etc.)
+// -------------------------------------
+MezoriaConfig.mythrianTribes = RaceData.mythrianTribes;
+
+// -------------------------------------
 // RANKS (key → label)
 // -------------------------------------
 MezoriaConfig.ranks = {
