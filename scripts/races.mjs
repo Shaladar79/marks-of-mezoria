@@ -766,7 +766,7 @@ draconianClans: {
   tundra:   "Tundra Clan",
   plains:   "Plains Clan",
   swamp:    "Swamp Clan"
-}
+},
 
 scionAspects: {
   terradim: "Terradim (Earth)",
