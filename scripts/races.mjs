@@ -274,10 +274,10 @@ keepers of ancient primal wisdom.
       `
     },
 
- sylvan: {
-  label: "Sylvan",
-  img: "systems/the-marked-system/assets/races/sylvan.webp",
-  description: `
+  sylvan: {
+    label: "Sylvan",
+    img: "systems/the-marked-system/assets/races/sylvan.webp",
+    description: `
 <h2>Sylvan</h2>
 
 <h3>Physical Appearance</h3>
@@ -361,12 +361,12 @@ They are <strong>wise allies</strong> to those who honor the wild… and <strong
 who trespass against it.
 </p>
     `
-},
+  },
 
- sprite: {
-  label: "Sprite",
-  img: "systems/the-marked-system/assets/races/sprite.webp",
-  description: `
+  sprite: {
+    label: "Sprite",
+    img: "systems/the-marked-system/assets/races/sprite.webp",
+    description: `
 <h2>Sprite</h2>
 
 <h3>Appearance</h3>
@@ -438,7 +438,7 @@ Above all else, Sprites adventure for one reason:
 <strong>to see something new.</strong>
 </p>
     `
-},
+  },
 
   auramine: {
     label: "Auramine",
@@ -484,10 +484,10 @@ is both a work of art and a conduit of their connection to the celestial realms.
     `
   },
 
- draconian: {
-  label: "Draconian",
-  img: "systems/the-marked-system/assets/races/draconian.webp",
-  description: `
+  draconian: {
+    label: "Draconian",
+    img: "systems/the-marked-system/assets/races/draconian.webp",
+    description: `
 <h2>Draconian</h2>
 
 <h3>Physical Appearance</h3>
@@ -567,12 +567,12 @@ heritage and unity in times of need. Their presence shifts the balance of any co
 their wisdom shapes the political, martial, and cultural fabric of the world.
 </p>
     `
-},
+  },
 
- embergiest: {
-  label: "Embergeist",
-  img: "systems/the-marked-system/assets/races/embergeist.webp",
-  description: `
+  embergiest: {
+    label: "Embergeist",
+    img: "systems/the-marked-system/assets/races/embergeist.webp",
+    description: `
 <h2>Embergeist</h2>
 
 <h3>Origins and Ancestry</h3>
@@ -620,12 +620,12 @@ a mark of maturity and spiritual clarity. As such, Embergeist societies often bl
 artisanship with philosophy, creating a culture where creation and identity are deeply intertwined.
 </p>
     `
-},
+  },
 
   earthen: {
-  label: "Earthen",
-  img: "systems/the-marked-system/assets/races/earthen.webp",
-  description: `
+    label: "Earthen",
+    img: "systems/the-marked-system/assets/races/earthen.webp",
+    description: `
 <h2>Earthen</h2>
 
 <h3>Appearance</h3>
@@ -703,12 +703,12 @@ Their patience can frustrate more impulsive races, but their wisdom and quiet st
 the foundations—literally and culturally—of civilizations throughout Mezoria.
 </p>
     `
-},
+  },
 
   prismatic: {
-  label: "Prismatic",
-  img: "systems/the-marked-system/assets/races/prismatic.webp",
-  description: `
+    label: "Prismatic",
+    img: "systems/the-marked-system/assets/races/prismatic.webp",
+    description: `
 <h2>Prismatic</h2>
 
 <h3>Appearance</h3>
@@ -769,6 +769,4 @@ Their existence safeguards the balance of Mezoria, for within each Prismatic lie
 a spark of ancient creation—and the potential for future revelation.
 </p>
     `
-},
-
-}
+  }
