@@ -779,3 +779,73 @@ scionAspects: {
 }
 
 }; // end RaceData
+
+// -------------------------------------
+// SUB-ATTRIBUTE BONUSES BY BASE RACE
+// -------------------------------------
+
+export const RaceBonuses = {
+  human: {
+    might: 1,
+    insight: 1,
+    presence: 1
+  },
+
+  etherean: {
+    insight: 2,
+    willpower: 1,
+    resolve: 1
+  },
+
+  anthozoan: {
+    endurance: 2,
+    insight: 1,
+    grace: 1
+  },
+
+  sylvan: {
+    grace: 2,
+    insight: 1,
+    resolve: 1
+  },
+
+  sprite: {
+    swiftness: 2,
+    focus: 1,
+    grace: 1
+  },
+
+  auramine: {
+    resolve: 2,
+    insight: 1,
+    presence: 1
+  },
+
+  embergiest: {
+    might: 2,
+    endurance: 1,
+    resolve: 1
+  },
+
+  prismatic: {
+    willpower: 2,
+    focus: 1,
+    presence: 1
+  },
+
+  // SPECIAL RACES (base race only; +2 comes from tribe/clan/aspect)
+  mythrian: {
+    swiftness: 1,
+    presence: 1
+  },
+
+  draconian: {
+    might: 1,
+    insight: 1
+  },
+
+  scion: {
+    grace: 1,
+    resolve: 1
+  }
+};
