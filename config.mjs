@@ -1,23 +1,17 @@
 // config.mjs – Marks of Mezoria config
 
+// -------------------------------------
+// IMPORTS
+// -------------------------------------
+import { RaceData } from "./scripts/races.mjs";
+
 export const MezoriaConfig = {};
 
 // -------------------------------------
-// RACES
+// RACES (labels + descriptions imported)
 // -------------------------------------
-MezoriaConfig.races = {
-  human:      "Human",
-  etherean:   "Etherean",
-  mythrian:   "Mythrian",
-  anthozoan:  "Anthozoan",
-  sylvan:     "Sylvan",
-  sprite:     "Sprite",
-  auramine:   "Auramine",
-  draconian:  "Draconian",
-  embergiest: "Embergiest",
-  earthen:    "Earthen",
-  prismatic:  "Prismatic"
-};
+MezoriaConfig.races = RaceData.labels;
+MezoriaConfig.raceDescriptions = RaceData.descriptions;
 
 // -------------------------------------
 // RANKS (key → label)
@@ -217,7 +211,9 @@ MezoriaConfig.backgroundDescriptions = {
   street_preacher: "Shouted truth or madness to anyone who’d listen."
 };
 
-// Optional: flat map of all backgrounds
+// -------------------------------------
+// Optional flat background map
+// -------------------------------------
 MezoriaConfig.backgrounds = {
   ...MezoriaConfig.backgroundsByType.common,
   ...MezoriaConfig.backgroundsByType.skilled,
@@ -229,7 +225,7 @@ MezoriaConfig.backgrounds = {
 // Marks of Purpose
 // -------------------------------------
 MezoriaConfig.markOfPurpose = {
-  none:       "No Mark",     // default placeholder
+  none:       "No Mark",
   alchemist:  "Alchemist",
   arcanist:   "Arcanist",
   berserker:  "Berserker",
