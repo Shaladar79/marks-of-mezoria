@@ -769,4 +769,14 @@ draconianClans: {
   swamp:    "Swamp Clan"
 }
 
+scionAspects: {
+  terradim: "Terradim (Earth)",
+  pyrelith: "Pyrelith (Flame)",
+  glacien:  "Glacien (Frost)",
+  voltari:  "Voltari (Storm)",
+  marisyl:  "Marisyl (Tide)",
+  luminar:  "Luminar (Light)",
+  umbrin:   "Umbrin (Shadow)"
+}
+
 }; // end RaceData
