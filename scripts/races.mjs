@@ -19,7 +19,7 @@ export const RaceData = {
     auramine:   "Auramine",
     draconian:  "Draconian",
     embergiest: "Embergiest",
-    earthen:    "Earthen",
+    scion:      "Scion",
     prismatic:  "Prismatic"
   },
 
