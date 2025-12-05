@@ -658,8 +658,7 @@ warriors, guardians, and wanderers who seek balance between their humanity
 and the living element inside them.
 </p>
       `
-}
-
+},
 
     prismatic: {
       label: "Prismatic",
