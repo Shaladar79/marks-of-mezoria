@@ -1,0 +1,33 @@
+{{!-- templates/actor/parts/astats.hbs --}}
+
+<section class="astats-tab">
+
+  <h2>Attributes &amp; Status</h2>
+
+  {{!-- BODY ATTRIBUTES --}}
+  <details class="astats-section astats-body" open>
+    <summary>Body</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs"}}
+  </details>
+
+  {{!-- MIND ATTRIBUTES --}}
+  <details class="astats-section astats-mind" open>
+    <summary>Mind</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs"}}
+  </details>
+
+  {{!-- SOUL ATTRIBUTES --}}
+  <details class="astats-section astats-soul" open>
+    <summary>Soul</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"}}
+  </details>
+
+  {{!-- STATUS PLACEHOLDER (we’ll wire this later) --}}
+  {{!--
+  <details class="astats-section astats-status" open>
+    <summary>Status</summary>
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs"}}
+  </details>
+  --}}
+
+</section>
