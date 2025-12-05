@@ -65,6 +65,7 @@ Hooks.once("init", async () => {
   "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/drops/backdrop.hbs",
   "systems/marks-of-mezoria/templates/actor/parts/drops/markpurpose.hbs",
+   "systems/marks-of-mezoria/templates/actor/parts/drops/tribedrop.hbs",
 
   // Character Info tab + subparts
   "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
