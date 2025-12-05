@@ -1,10 +1,8 @@
-// scripts/data/races.mjs
+// systems/marks-of-mezoria/scripts/races.mjs
 
 // Central store for long-form race lore / info.
-// Keys MUST match the race keys in MarkedConfig.races
+// Keys MUST match the race keys in MezoriaConfig.races
 //   (e.g. "anthozoan", "human", "draconian", etc.)
-
-// systems/marks-of-mezoria/scripts/races.mjs
 
 export const RaceData = {
 
@@ -25,11 +23,15 @@ export const RaceData = {
     prismatic:  "Prismatic"
   },
 
-descriptions: {
- anthozoan: {
-  label: "Anthozoan",
-  img: "systems/the-marked-system/assets/races/anthozoan.webp",
-  description: `
+  // -------------------------------------
+  // LONG-FORM RACE DATA
+  // -------------------------------------
+  descriptions: {
+
+    anthozoan: {
+      label: "Anthozoan",
+      img: "systems/the-marked-system/assets/races/anthozoan.webp",
+      description: `
 <h2>Anthozoan</h2>
 
 <h3>Physical Attributes</h3>
@@ -69,13 +71,13 @@ blend seamlessly with the surrounding reef. They value cooperation, balance, and
 environmental stewardship, believing that the health of the sea and the health of 
 their people are inseparable.
 </p>
-    `
-},
+      `
+    },
 
-  human: {
-  label: "Human",
-  img: "systems/the-marked-system/assets/races/human.webp",
-  description: `
+    human: {
+      label: "Human",
+      img: "systems/the-marked-system/assets/races/human.webp",
+      description: `
 <h2>Human</h2>
 
 <h3>Appearance</h3>
@@ -119,13 +121,13 @@ calendar, reinforcing their reliance on divine insight in a world filled with un
 Even humans who reject formal worship often carry amulets or mutter prayers “just in case.”
 Faith—whether devoted or doubtful—is woven into the core of the human experience.
 </p>
-    `
-},
+      `
+    },
 
-  etherean: {
-  name: "Etherean",
-  img: "systems/the-marked-system/assets/races/etherean.webp",
-  description: `
+    etherean: {
+      label: "Etherean",
+      img: "systems/the-marked-system/assets/races/etherean.webp",
+      description: `
     <h2>Ethereans: The Otherworldly Entities of Mezoria</h2>
 
     <p><strong>Origin and Arrival:</strong><br>
@@ -165,13 +167,13 @@ Faith—whether devoted or doubtful—is woven into the core of the human experi
     destinies, expands understanding, and introduces knowledge and power unseen
     in Mezoria. Whether as allies, wanderers, or enigmatic forces, they leave
     lasting marks upon the world.</p>
-  `
-},
+      `
+    },
 
-  mythrian: {
-  label: "Mythrian",
-  img: "systems/the-marked-system/assets/races/mythrian.webp",
-  description: `
+    mythrian: {
+      label: "Mythrian",
+      img: "systems/the-marked-system/assets/races/mythrian.webp",
+      description: `
 <h2>Mythrian</h2>
 
 <h3>Appearance</h3>
@@ -269,8 +271,8 @@ manifest as:
 This mystical heritage makes Mythrians both guardians of their territories and 
 keepers of ancient primal wisdom.
 </p>
-    `
-},
+      `
+    },
 
  sylvan: {
   label: "Sylvan",
