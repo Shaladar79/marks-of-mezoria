@@ -25,7 +25,7 @@ export const RaceData = {
     prismatic:  "Prismatic"
   },
 
-export const MarkedRaceDescriptions = {
+descriptions: {
  anthozoan: {
   label: "Anthozoan",
   img: "systems/the-marked-system/assets/races/anthozoan.webp",
