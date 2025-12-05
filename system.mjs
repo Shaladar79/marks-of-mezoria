@@ -71,7 +71,13 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs"
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
+
+    // Attributes & Status tab + subparts  ✅ NEW
+    "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"
   ]);
 
   // Register our custom sheet for PCs
