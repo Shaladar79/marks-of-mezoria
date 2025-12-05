@@ -30,7 +30,6 @@ export const RaceData = {
 
     anthozoan: {
       label: "Anthozoan",
-      img: "systems/the-marked-system/assets/races/anthozoan.webp",
       description: `
 <h2>Anthozoan</h2>
 
@@ -76,7 +75,6 @@ their people are inseparable.
 
     human: {
       label: "Human",
-      img: "systems/the-marked-system/assets/races/human.webp",
       description: `
 <h2>Human</h2>
 
@@ -126,7 +124,6 @@ Faith—whether devoted or doubtful—is woven into the core of the human experi
 
     etherean: {
       label: "Etherean",
-      img: "systems/the-marked-system/assets/races/etherean.webp",
       description: `
 <h2>Ethereans: The Otherworldly Entities of Mezoria</h2>
 
@@ -172,7 +169,6 @@ lasting marks upon the world.</p>
 
     mythrian: {
       label: "Mythrian",
-      img: "systems/the-marked-system/assets/races/mythrian.webp",
       description: `
 <h2>Mythrian</h2>
 
@@ -276,7 +272,6 @@ keepers of ancient primal wisdom.
 
     sylvan: {
       label: "Sylvan",
-      img: "systems/the-marked-system/assets/races/sylvan.webp",
       description: `
 <h2>Sylvan</h2>
 
@@ -365,7 +360,6 @@ who trespass against it.
 
     sprite: {
       label: "Sprite",
-      img: "systems/the-marked-system/assets/races/sprite.webp",
       description: `
 <h2>Sprite</h2>
 
@@ -442,7 +436,6 @@ Above all else, Sprites adventure for one reason:
 
     auramine: {
       label: "Auramine",
-      img: "systems/the-marked-system/assets/races/auramine.webp",
       description: `
 <h2>Auramine</h2>
 
@@ -486,7 +479,6 @@ is both a work of art and a conduit of their connection to the celestial realms.
 
     draconian: {
       label: "Draconian",
-      img: "systems/the-marked-system/assets/races/draconian.webp",
       description: `
 <h2>Draconian</h2>
 
@@ -571,7 +563,6 @@ their wisdom shapes the political, martial, and cultural fabric of the world.
 
     embergiest: {
       label: "Embergeist",
-      img: "systems/the-marked-system/assets/races/embergeist.webp",
       description: `
 <h2>Embergeist</h2>
 
@@ -624,7 +615,6 @@ artisanship with philosophy, creating a culture where creation and identity are 
 
     earthen: {
       label: "Earthen",
-      img: "systems/the-marked-system/assets/races/earthen.webp",
       description: `
 <h2>Earthen</h2>
 
@@ -707,7 +697,6 @@ the foundations—literally and culturally—of civilizations throughout Mezoria
 
     prismatic: {
       label: "Prismatic",
-      img: "systems/the-marked-system/assets/races/prismatic.webp",
       description: `
 <h2>Prismatic</h2>
 
