@@ -18,6 +18,10 @@
       {{> "systems/marks-of-mezoria/templates/actor/parts/drops/clandrop.hbs"}}
     {{/if}}
 
+    {{#if (eq system.details.race "scion")}}
+  {{> "systems/marks-of-mezoria/templates/actor/parts/drops/aspectdrop.hbs"}}
+  {{/if}}
+
     {{!-- 3) Race description: updates when race is selected --}}
     {{#if system.details.race}}
       {{#with (lookup raceData.descriptions system.details.race) as |race|}}
