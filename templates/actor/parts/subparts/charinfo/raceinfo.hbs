@@ -6,16 +6,19 @@
   </header>
 
   <div class="section-body">
-
     {{!-- 1) Race dropdown --}}
     {{> "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs"}}
 
-    {{!-- 1b) Mythrian Tribe dropdown (only when race is Mythrian) --}}
+    {{!-- 2) Conditional extra dropdowns for special races --}}
     {{#if (eq system.details.race "mythrian")}}
       {{> "systems/marks-of-mezoria/templates/actor/parts/drops/tribedrop.hbs"}}
     {{/if}}
 
-    {{!-- 2) Race description: updates when race is selected --}}
+    {{#if (eq system.details.race "draconian")}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/drops/clandrop.hbs"}}
+    {{/if}}
+
+    {{!-- 3) Race description: updates when race is selected --}}
     {{#if system.details.race}}
       {{#with (lookup raceData.descriptions system.details.race) as |race|}}
         <div class="race-lore">
@@ -33,6 +36,5 @@
     {{else}}
       <p class="hint">Select a race to see its description.</p>
     {{/if}}
-
   </div>
 </section>
