@@ -7,7 +7,7 @@
 export const RaceData = {
 
   // -------------------------------------
-  // BASIC LABELS (used in drop-down)
+  // BASIC LABELS (used in drop-downs)
   // -------------------------------------
   labels: {
     human:      "Human",
@@ -128,45 +128,45 @@ Faith—whether devoted or doubtful—is woven into the core of the human experi
       label: "Etherean",
       img: "systems/the-marked-system/assets/races/etherean.webp",
       description: `
-    <h2>Ethereans: The Otherworldly Entities of Mezoria</h2>
+<h2>Ethereans: The Otherworldly Entities of Mezoria</h2>
 
-    <p><strong>Origin and Arrival:</strong><br>
-    Ethereans are enigmatic beings from beyond the known realms of Mezoria,
-    arriving through extraordinary means. Some appear through unstable portals
-    or dimensional ruptures, others are summoned by powerful magic, and a rare
-    few are restored to life by the divine Aspects. Each Etherean’s origin is
-    unique, shaped by the nature of the universe they once inhabited.</p>
+<p><strong>Origin and Arrival:</strong><br>
+Ethereans are enigmatic beings from beyond the known realms of Mezoria,
+arriving through extraordinary means. Some appear through unstable portals
+or dimensional ruptures, others are summoned by powerful magic, and a rare
+few are restored to life by the divine Aspects. Each Etherean’s origin is
+unique, shaped by the nature of the universe they once inhabited.</p>
 
-    <p><strong>Appearance:</strong><br>
-    Ethereans possess forms as varied as the countless realms from which they
-    hail. Some resemble creatures of myth, others walk in shapes that defy
-    natural order. Their presence often carries subtle distortions of reality—
-    glimmers of light, shifting shadows, unusual scents, or ambient energies
-    that reveal their otherworldly nature.</p>
+<p><strong>Appearance:</strong><br>
+Ethereans possess forms as varied as the countless realms from which they
+hail. Some resemble creatures of myth, others walk in shapes that defy
+natural order. Their presence often carries subtle distortions of reality—
+glimmers of light, shifting shadows, unusual scents, or ambient energies
+that reveal their otherworldly nature.</p>
 
-    <p><strong>Abilities:</strong><br>
-    Their powers seem supernatural to Mezoria’s inhabitants. Ethereans often
-    wield abilities that reflect the laws and forces of their home realms:
-    temporal manipulation, elemental resonance, psionic force, spatial warping,
-    or stranger gifts. No two Ethereans manifest the same talents.</p>
+<p><strong>Abilities:</strong><br>
+Their powers seem supernatural to Mezoria’s inhabitants. Ethereans often
+wield abilities that reflect the laws and forces of their home realms:
+temporal manipulation, elemental resonance, psionic force, spatial warping,
+or stranger gifts. No two Ethereans manifest the same talents.</p>
 
-    <p><strong>Integration and Impact:</strong><br>
-    The arrival of an Etherean can be a blessing, a curiosity, or a threat.
-    Some integrate into society as scholars, explorers, or wanderers, sharing
-    knowledge of other worlds. Others bring agendas, mysteries, or dangers from
-    realms beyond, challenging Mezoria’s understanding of magic and existence.</p>
+<p><strong>Integration and Impact:</strong><br>
+The arrival of an Etherean can be a blessing, a curiosity, or a threat.
+Some integrate into society as scholars, explorers, or wanderers, sharing
+knowledge of other worlds. Others bring agendas, mysteries, or dangers from
+realms beyond, challenging Mezoria’s understanding of magic and existence.</p>
 
-    <p><strong>Society and Culture:</strong><br>
-    Ethereans have no unified culture within Mezoria. Each carries remnants of
-    their past life—if they remember it. Some form small enclaves that reflect
-    fragments of their home worlds, while others forge entirely new identities
-    among Mezoria’s races.</p>
+<p><strong>Society and Culture:</strong><br>
+Ethereans have no unified culture within Mezoria. Each carries remnants of
+their past life—if they remember it. Some form small enclaves that reflect
+fragments of their home worlds, while others forge entirely new identities
+among Mezoria’s races.</p>
 
-    <p><strong>Role in Mezoria:</strong><br>
-    Ethereans act as bridges to distant realities. Their presence alters
-    destinies, expands understanding, and introduces knowledge and power unseen
-    in Mezoria. Whether as allies, wanderers, or enigmatic forces, they leave
-    lasting marks upon the world.</p>
+<p><strong>Role in Mezoria:</strong><br>
+Ethereans act as bridges to distant realities. Their presence alters
+destinies, expands understanding, and introduces knowledge and power unseen
+in Mezoria. Whether as allies, wanderers, or enigmatic forces, they leave
+lasting marks upon the world.</p>
       `
     },
 
@@ -274,10 +274,10 @@ keepers of ancient primal wisdom.
       `
     },
 
-  sylvan: {
-    label: "Sylvan",
-    img: "systems/the-marked-system/assets/races/sylvan.webp",
-    description: `
+    sylvan: {
+      label: "Sylvan",
+      img: "systems/the-marked-system/assets/races/sylvan.webp",
+      description: `
 <h2>Sylvan</h2>
 
 <h3>Physical Appearance</h3>
@@ -360,13 +360,13 @@ blight, arcane disruption, or war—it is often the Sylvans who respond first.
 They are <strong>wise allies</strong> to those who honor the wild… and <strong>unforgiving foes</strong> to those
 who trespass against it.
 </p>
-    `
-  },
+      `
+    },
 
-  sprite: {
-    label: "Sprite",
-    img: "systems/the-marked-system/assets/races/sprite.webp",
-    description: `
+    sprite: {
+      label: "Sprite",
+      img: "systems/the-marked-system/assets/races/sprite.webp",
+      description: `
 <h2>Sprite</h2>
 
 <h3>Appearance</h3>
@@ -437,13 +437,13 @@ and innate connection to life make them invaluable companions—and unpredictabl
 Above all else, Sprites adventure for one reason:  
 <strong>to see something new.</strong>
 </p>
-    `
-  },
+      `
+    },
 
-  auramine: {
-    label: "Auramine",
-    img: "systems/the-marked-system/assets/races/auramine.webp",
-    description: `
+    auramine: {
+      label: "Auramine",
+      img: "systems/the-marked-system/assets/races/auramine.webp",
+      description: `
 <h2>Auramine</h2>
 
 <h3>Appearance</h3>
@@ -481,13 +481,13 @@ with intricate glyphs and symbols that channel astral and arcane energies.
 To the Aurumine, beauty and purpose are inseparable. Every craft, structure, and ritual 
 is both a work of art and a conduit of their connection to the celestial realms.
 </p>
-    `
-  },
+      `
+    },
 
-  draconian: {
-    label: "Draconian",
-    img: "systems/the-marked-system/assets/races/draconian.webp",
-    description: `
+    draconian: {
+      label: "Draconian",
+      img: "systems/the-marked-system/assets/races/draconian.webp",
+      description: `
 <h2>Draconian</h2>
 
 <h3>Physical Appearance</h3>
@@ -566,13 +566,13 @@ peoples. Though their clans often hold differing philosophies, they share a powe
 heritage and unity in times of need. Their presence shifts the balance of any conflict, and 
 their wisdom shapes the political, martial, and cultural fabric of the world.
 </p>
-    `
-  },
+      `
+    },
 
-  embergiest: {
-    label: "Embergeist",
-    img: "systems/the-marked-system/assets/races/embergeist.webp",
-    description: `
+    embergiest: {
+      label: "Embergeist",
+      img: "systems/the-marked-system/assets/races/embergeist.webp",
+      description: `
 <h2>Embergeist</h2>
 
 <h3>Origins and Ancestry</h3>
@@ -619,13 +619,13 @@ Among their people, the ability to work seamlessly with both stone and flame is 
 a mark of maturity and spiritual clarity. As such, Embergeist societies often blend 
 artisanship with philosophy, creating a culture where creation and identity are deeply intertwined.
 </p>
-    `
-  },
+      `
+    },
 
-  earthen: {
-    label: "Earthen",
-    img: "systems/the-marked-system/assets/races/earthen.webp",
-    description: `
+    earthen: {
+      label: "Earthen",
+      img: "systems/the-marked-system/assets/races/earthen.webp",
+      description: `
 <h2>Earthen</h2>
 
 <h3>Appearance</h3>
@@ -702,13 +702,13 @@ Despite their gruff exterior, Earthen are reliable allies whose word is as firm 
 Their patience can frustrate more impulsive races, but their wisdom and quiet strength have shaped 
 the foundations—literally and culturally—of civilizations throughout Mezoria.
 </p>
-    `
-  },
+      `
+    },
 
-  prismatic: {
-    label: "Prismatic",
-    img: "systems/the-marked-system/assets/races/prismatic.webp",
-    description: `
+    prismatic: {
+      label: "Prismatic",
+      img: "systems/the-marked-system/assets/races/prismatic.webp",
+      description: `
 <h2>Prismatic</h2>
 
 <h3>Appearance</h3>
@@ -768,5 +768,9 @@ quiet determination, seeking meaning in the fragments of memory they carry.
 Their existence safeguards the balance of Mezoria, for within each Prismatic lies
 a spark of ancient creation—and the potential for future revelation.
 </p>
-    `
-  };
+      `
+    }
+
+  } // end descriptions
+
+}; // end RaceData
