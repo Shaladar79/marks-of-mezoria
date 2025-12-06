@@ -904,56 +904,122 @@ export const RaceBonuses = {
 export const RaceStatus = {
   human: {
     pace: 5,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 10,
+    staminaMax: 10,
+    manaMax: 10,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 0
   },
 
   etherean: {
     pace: 6,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 8,
+    staminaMax: 10,
+    manaMax: 12,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   },
 
   anthozoan: {
     pace: 4,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 12,
+    staminaMax: 8,
+    manaMax: 8,
+    traumaMax: 3,
+    defPhysical: 1,
+    defMagical: 0
   },
 
   sylvan: {
     pace: 6,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 9,
+    staminaMax: 9,
+    manaMax: 11,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   },
 
   sprite: {
     pace: 4,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 7,
+    staminaMax: 10,
+    manaMax: 11,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   },
 
   auramine: {
     pace: 5,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 9,
+    staminaMax: 8,
+    manaMax: 12,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   },
 
   mythrian: {
     pace: 6,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 11,
+    staminaMax: 10,
+    manaMax: 8,
+    traumaMax: 3,
+    defPhysical: 1,
+    defMagical: 0
   },
 
   draconian: {
     pace: 5,
-    naturalArmor: 1   // scales
+    naturalArmor: 1,   // scales
+    vitalityMax: 12,
+    staminaMax: 9,
+    manaMax: 8,
+    traumaMax: 3,
+    defPhysical: 1,
+    defMagical: 0
   },
 
   embergiest: {
     pace: 5,
-    naturalArmor: 1   // stone/lava skin
+    naturalArmor: 1,   // stone/lava skin
+    vitalityMax: 12,
+    staminaMax: 10,
+    manaMax: 8,
+    traumaMax: 3,
+    defPhysical: 1,
+    defMagical: 0
   },
 
   scion: {
     pace: 5,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 9,
+    staminaMax: 9,
+    manaMax: 11,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   },
 
   prismatic: {
     pace: 5,
-    naturalArmor: 0
+    naturalArmor: 0,
+    vitalityMax: 9,
+    staminaMax: 9,
+    manaMax: 11,
+    traumaMax: 2,
+    defPhysical: 0,
+    defMagical: 1
   }
 };
