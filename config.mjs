@@ -5,6 +5,7 @@
 // -------------------------------------
 import { RaceData } from "./scripts/races.mjs";
 import { RaceBonuses } from "./scripts/races.mjs";
+import { RaceStatus } from "./scripts/races.mjs";
 export const MezoriaConfig = {};
 
 // -------------------------------------
@@ -13,6 +14,7 @@ export const MezoriaConfig = {};
 MezoriaConfig.races = RaceData.labels;
 MezoriaConfig.raceDescriptions = RaceData.descriptions;
 MezoriaConfig.raceBonuses = RaceBonuses;
+MezoriaConfig.raceStatus  = RaceStatus;
 // -------------------------------------
 // MYTHRIAN TRIBES (for dropdowns, etc.)
 // -------------------------------------
