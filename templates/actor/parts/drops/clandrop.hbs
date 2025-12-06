@@ -1,7 +1,7 @@
-{{!-- templates/actor/parts/drops/clandrop.hbs --}}
-<div class="field clan-field">
-  <label>Clan</label>
-  <select name="system.details.clan" data-dtype="String">
-    {{selectOptions config.draconianClans selected=system.details.clan blank="Select a clan"}}
+<div class="field">
+  <label>Draconian Clan</label>
+  <select name="system.details.draconianClan" data-dtype="String">
+    <option value="">— None —</option>
+    {{selectOptions config.draconianClans selected=system.details.draconianClan}}
   </select>
 </div>
