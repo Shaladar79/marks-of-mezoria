@@ -1,7 +1,6 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
 import { RaceData } from "./scripts/races.mjs";
-import { RaceBonuses } from "./scripts/races.mjs";
 
 class MinimalActorSheet extends ActorSheet {
 
