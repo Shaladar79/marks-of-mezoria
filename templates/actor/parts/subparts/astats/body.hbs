@@ -2,7 +2,7 @@
 
 <div class="attr-block attr-body">
 
-  <div class="field">
+  <div class="field main-attr">
     <label>Body (Main)</label>
     <input type="number"
            name="system.attributes.body.value"
@@ -10,28 +10,101 @@
            data-dtype="Number" />
   </div>
 
-  <div class="field">
-    <label>Might</label>
-    <input type="number"
-           name="system.attributes.body.might"
-           value="{{system.attributes.body.might}}"
-           data-dtype="Number" />
-  </div>
+  <div class="subattr-table">
+    <div class="subattr-row subattr-header">
+      <span class="subattr-label"></span>
+      <span class="subattr-col">Base</span>
+      <span class="subattr-col">Race</span>
+      <span class="subattr-col">Misc</span>
+      <span class="subattr-col">Total</span>
+    </div>
 
-  <div class="field">
-    <label>Swiftness</label>
-    <input type="number"
-           name="system.attributes.body.swiftness"
-           value="{{system.attributes.body.swiftness}}"
-           data-dtype="Number" />
-  </div>
+    {{!-- MIGHT --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Might</span>
 
-  <div class="field">
-    <label>Endurance</label>
-    <input type="number"
-           name="system.attributes.body.endurance"
-           value="{{system.attributes.body.endurance}}"
-           data-dtype="Number" />
-  </div>
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.might.base"
+             value="{{system.attributes.body.might.base}}"
+             data-dtype="Number" />
 
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.might.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.might.misc"
+             value="{{system.attributes.body.might.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.might.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- SWIFTNESS --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Swiftness</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.swiftness.base"
+             value="{{system.attributes.body.swiftness.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.swiftness.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.swiftness.misc"
+             value="{{system.attributes.body.swiftness.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.swiftness.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- ENDURANCE --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Endurance</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.endurance.base"
+             value="{{system.attributes.body.endurance.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.endurance.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.body.endurance.misc"
+             value="{{system.attributes.body.endurance.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.body.endurance.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+  </div>
 </div>
