@@ -905,6 +905,7 @@ export const RaceStatus = {
   human: {
     pace: 5,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 10,
     staminaMax: 10,
     manaMax: 10,
@@ -916,6 +917,7 @@ export const RaceStatus = {
   etherean: {
     pace: 6,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 8,
     staminaMax: 10,
     manaMax: 12,
@@ -927,6 +929,7 @@ export const RaceStatus = {
   anthozoan: {
     pace: 4,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 12,
     staminaMax: 8,
     manaMax: 8,
@@ -938,6 +941,7 @@ export const RaceStatus = {
   sylvan: {
     pace: 6,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 9,
     staminaMax: 9,
     manaMax: 11,
@@ -949,6 +953,7 @@ export const RaceStatus = {
   sprite: {
     pace: 4,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 7,
     staminaMax: 10,
     manaMax: 11,
@@ -960,6 +965,7 @@ export const RaceStatus = {
   auramine: {
     pace: 5,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 9,
     staminaMax: 8,
     manaMax: 12,
@@ -971,6 +977,7 @@ export const RaceStatus = {
   mythrian: {
     pace: 6,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 11,
     staminaMax: 10,
     manaMax: 8,
@@ -981,7 +988,8 @@ export const RaceStatus = {
 
   draconian: {
     pace: 5,
-    naturalArmor: 1,   // scales
+    naturalArmor: 1,
+    defTouch: 0,
     vitalityMax: 12,
     staminaMax: 9,
     manaMax: 8,
@@ -992,7 +1000,8 @@ export const RaceStatus = {
 
   embergiest: {
     pace: 5,
-    naturalArmor: 1,   // stone/lava skin
+    naturalArmor: 1,
+    defTouch: 0,
     vitalityMax: 12,
     staminaMax: 10,
     manaMax: 8,
@@ -1004,6 +1013,7 @@ export const RaceStatus = {
   scion: {
     pace: 5,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 9,
     staminaMax: 9,
     manaMax: 11,
@@ -1015,6 +1025,7 @@ export const RaceStatus = {
   prismatic: {
     pace: 5,
     naturalArmor: 0,
+    defTouch: 0,
     vitalityMax: 9,
     staminaMax: 9,
     manaMax: 11,
