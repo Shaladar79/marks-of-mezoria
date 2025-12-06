@@ -1,60 +1,62 @@
 // systems/marks-of-mezoria/scripts/actor.mjs
-
 import { MezoriaConfig } from "../config.mjs";
 
 export class MezoriaActor extends Actor {
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    const system = this.system ?? {};
-
-    // Ensure attribute structure exists
-    system.attributes ??= {};
-    const attrs = system.attributes;
+    const system = this.system || {};
+    system.details = system.details || {};
+    system.attributes = system.attributes || {};
 
     const groups = ["body", "mind", "soul"];
-    const subsByGroup = {
+    const groupKeys = {
       body: ["might", "swiftness", "endurance"],
       mind: ["insight", "focus", "willpower"],
       soul: ["presence", "grace", "resolve"]
     };
 
-    // Ensure each attribute node has base/race/misc/total
-    for (const group of groups) {
-      const groupNode = (attrs[group] ??= {});
+    // Ensure each sub-attribute node exists and is numeric
+    for (const g of groups) {
+      system.attributes[g] = system.attributes[g] || {};
+      for (const key of groupKeys[g]) {
+        const node = system.attributes[g][key] || {};
 
-      for (const sub of subsByGroup[group]) {
-        const node = (groupNode[sub] ??= {});
-        node.base ??= 0;
-        node.race ??= 0;
-        node.misc ??= 0;
-        node.total ??= 0;
+        node.base  = Number(node.base  ?? 0);
+        node.race  = Number(node.race  ?? 0);
+        node.misc  = Number(node.misc  ?? 0);
+        node.total = Number(node.total ?? 0);
+        node.mod   = Number(node.mod   ?? 0);
+
+        system.attributes[g][key] = node;
       }
     }
 
-    // Map subattribute keys to their location
-    const subMap = {
-      might:     ["body", "might"],
-      swiftness: ["body", "swiftness"],
-      endurance: ["body", "endurance"],
-      insight:   ["mind", "insight"],
-      focus:     ["mind", "focus"],
-      willpower: ["mind", "willpower"],
-      presence:  ["soul", "presence"],
-      grace:     ["soul", "grace"],
-      resolve:   ["soul", "resolve"]
-    };
+    // -----------------------------
+    // Apply BASE RACE bonuses
+    // -----------------------------
+    const raceKey     = system.details.race;
+    const raceBonuses = MezoriaConfig.raceBonuses || {};
 
     // Clear existing race bonuses
-    for (const [subKey, [group, key]] of Object.entries(subMap)) {
-      const node = attrs[group]?.[key];
-      if (!node) continue;
-      node.race = 0;
+    for (const g of groups) {
+      for (const key of groupKeys[g]) {
+        system.attributes[g][key].race = 0;
+      }
     }
 
-    // Apply race bonuses
-    const raceKey     = system.details?.race;
-    const raceBonuses = MezoriaConfig.raceBonuses || {};
+    // Map flat keys -> (group, key)
+    const subMap = {
+      might:      ["body", "might"],
+      swiftness:  ["body", "swiftness"],
+      endurance:  ["body", "endurance"],
+      insight:    ["mind", "insight"],
+      focus:      ["mind", "focus"],
+      willpower:  ["mind", "willpower"],
+      presence:   ["soul", "presence"],
+      grace:      ["soul", "grace"],
+      resolve:    ["soul", "resolve"]
+    };
 
     if (raceKey && raceBonuses[raceKey]) {
       const bonusSet = raceBonuses[raceKey];
@@ -64,25 +66,26 @@ export class MezoriaActor extends Actor {
         if (!map) continue;
 
         const [group, key] = map;
-        const node = attrs[group][key];
+        const node = system.attributes[group][key];
         node.race = (node.race ?? 0) + Number(value ?? 0);
       }
     }
 
+    // TODO: later add Mythrian tribe / Draconian clan / Scion aspect here.
+
+    // -----------------------------
     // Recalculate totals
-    for (const group of groups) {
-      const groupNode = attrs[group];
-      for (const sub of subsByGroup[group]) {
-        const node = groupNode[sub];
-        const base = Number(node.base ?? 0);
-        const race = Number(node.race ?? 0);
-        const misc = Number(node.misc ?? 0);
+    // -----------------------------
+    for (const g of groups) {
+      for (const key of groupKeys[g]) {
+        const node  = system.attributes[g][key];
+        const base  = Number(node.base  ?? 0);
+        const race  = Number(node.race  ?? 0);
+        const misc  = Number(node.misc  ?? 0);
 
         node.total = base + race + misc;
+        // node.mod = Math.floor((node.total - 10) / 2); // later if you want
       }
     }
-
-    // Optional: debug in console
-    // console.log("Mezoria | Derived attributes:", this.name, system.attributes);
   }
 }
