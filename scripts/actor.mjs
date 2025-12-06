@@ -104,11 +104,21 @@ export class MezoriaActor extends Actor {
       applyToRace(scionAspectBonus[aspectKey]);
     }
 
-    // -------------------------------
+       // -------------------------------
     // Apply race-based status defaults
     // -------------------------------
+    const raceStatus = MezoriaConfig.raceStatus || {};
     const statusDefaults = raceStatus[raceKey] || {};
 
+    // Ensure status structure exists
+    system.status = system.status || {};
+    system.status.vitality  = system.status.vitality  || {};
+    system.status.stamina   = system.status.stamina   || {};
+    system.status.mana      = system.status.mana      || {};
+    system.status.trauma    = system.status.trauma    || {};
+    system.status.defense   = system.status.defense   || {};
+
+    // Pace & natural armor
     if (statusDefaults.pace !== undefined) {
       system.status.pace = Number(statusDefaults.pace);
     }
@@ -116,6 +126,36 @@ export class MezoriaActor extends Actor {
     if (statusDefaults.naturalArmor !== undefined) {
       system.status.naturalArmor = Number(statusDefaults.naturalArmor);
     }
+
+    // Resource maximums
+    if (statusDefaults.vitalityMax !== undefined) {
+      system.status.vitality.max = Number(statusDefaults.vitalityMax);
+      // Optionally, if current should reset when race changes:
+      // if (!Number.isFinite(system.status.vitality.current) || system.status.vitality.current === 0)
+      //   system.status.vitality.current = Number(statusDefaults.vitalityMax);
+    }
+
+    if (statusDefaults.staminaMax !== undefined) {
+      system.status.stamina.max = Number(statusDefaults.staminaMax);
+    }
+
+    if (statusDefaults.manaMax !== undefined) {
+      system.status.mana.max = Number(statusDefaults.manaMax);
+    }
+
+    if (statusDefaults.traumaMax !== undefined) {
+      system.status.trauma.max = Number(statusDefaults.traumaMax);
+    }
+
+    // Defenses
+    if (statusDefaults.defPhysical !== undefined) {
+      system.status.defense.physical = Number(statusDefaults.defPhysical);
+    }
+
+    if (statusDefaults.defMagical !== undefined) {
+      system.status.defense.magical = Number(statusDefaults.defMagical);
+    }
+
 
     // -------------------------------
     // Recalculate totals
