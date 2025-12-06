@@ -829,9 +829,8 @@ scionAspects: {
 }; // end RaceData
 
 // -------------------------------------
-// SUB-ATTRIBUTE BONUSES BY BASE RACE
+// SUB-ATTRIBUTE BONSES BY BASE RACE
 // -------------------------------------
-
 export const RaceBonuses = {
   human: {
     might: 1,
@@ -895,9 +894,11 @@ export const RaceBonuses = {
   scion: {
     grace: 1,
     resolve: 1
-  };
+  }
+};
 
-  // -------------------------------------
+
+// -------------------------------------
 // RACE STATUS DEFAULTS
 // -------------------------------------
 export const RaceStatus = {
@@ -955,6 +956,4 @@ export const RaceStatus = {
     pace: 5,
     naturalArmor: 0
   }
-};
-
 };
