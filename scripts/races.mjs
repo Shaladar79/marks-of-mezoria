@@ -896,4 +896,65 @@ export const RaceBonuses = {
     grace: 1,
     resolve: 1
   }
+
+  // -------------------------------------
+// RACE STATUS DEFAULTS
+// -------------------------------------
+export const RaceStatus = {
+  human: {
+    pace: 5,
+    naturalArmor: 0
+  },
+
+  etherean: {
+    pace: 6,
+    naturalArmor: 0
+  },
+
+  anthozoan: {
+    pace: 4,
+    naturalArmor: 0
+  },
+
+  sylvan: {
+    pace: 6,
+    naturalArmor: 0
+  },
+
+  sprite: {
+    pace: 4,
+    naturalArmor: 0
+  },
+
+  auramine: {
+    pace: 5,
+    naturalArmor: 0
+  },
+
+  mythrian: {
+    pace: 6,
+    naturalArmor: 0
+  },
+
+  draconian: {
+    pace: 5,
+    naturalArmor: 1   // scales
+  },
+
+  embergiest: {
+    pace: 5,
+    naturalArmor: 1   // stone/lava skin
+  },
+
+  scion: {
+    pace: 5,
+    naturalArmor: 0
+  },
+
+  prismatic: {
+    pace: 5,
+    naturalArmor: 0
+  }
+};
+
 };
