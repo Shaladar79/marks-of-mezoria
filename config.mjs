@@ -18,6 +18,11 @@ MezoriaConfig.raceBonuses = RaceBonuses;
 // -------------------------------------
 MezoriaConfig.mythrianTribes = RaceData.mythrianTribes;
 MezoriaConfig.draconianClans  = RaceData.draconianClans;
+MezoriaConfig.scionAspects = RaceData.scionAspects;
+
+MezoriaConfig.mythrianTribeBonuses = RaceData.mythrianTribeBonuses;
+MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
+MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
 // RANKS (key → label)
