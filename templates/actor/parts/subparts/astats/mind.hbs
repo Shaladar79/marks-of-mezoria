@@ -2,7 +2,7 @@
 
 <div class="attr-block attr-mind">
 
-  <div class="field">
+  <div class="field main-attr">
     <label>Mind (Main)</label>
     <input type="number"
            name="system.attributes.mind.value"
@@ -10,28 +10,101 @@
            data-dtype="Number" />
   </div>
 
-  <div class="field">
-    <label>Insight</label>
-    <input type="number"
-           name="system.attributes.mind.insight"
-           value="{{system.attributes.mind.insight}}"
-           data-dtype="Number" />
-  </div>
+  <div class="subattr-table">
+    <div class="subattr-row subattr-header">
+      <span class="subattr-label"></span>
+      <span class="subattr-col">Base</span>
+      <span class="subattr-col">Race</span>
+      <span class="subattr-col">Misc</span>
+      <span class="subattr-col">Total</span>
+    </div>
 
-  <div class="field">
-    <label>Focus</label>
-    <input type="number"
-           name="system.attributes.mind.focus"
-           value="{{system.attributes.mind.focus}}"
-           data-dtype="Number" />
-  </div>
+    {{!-- INSIGHT --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Insight</span>
 
-  <div class="field">
-    <label>Willpower</label>
-    <input type="number"
-           name="system.attributes.mind.willpower"
-           value="{{system.attributes.mind.willpower}}"
-           data-dtype="Number" />
-  </div>
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.insight.base"
+             value="{{system.attributes.mind.insight.base}}"
+             data-dtype="Number" />
 
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.insight.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.insight.misc"
+             value="{{system.attributes.mind.insight.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.insight.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- FOCUS --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Focus</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.focus.base"
+             value="{{system.attributes.mind.focus.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.focus.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.focus.misc"
+             value="{{system.attributes.mind.focus.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.focus.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- WILLPOWER --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Willpower</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.willpower.base"
+             value="{{system.attributes.mind.willpower.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.willpower.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.mind.willpower.misc"
+             value="{{system.attributes.mind.willpower.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.mind.willpower.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+  </div>
 </div>
