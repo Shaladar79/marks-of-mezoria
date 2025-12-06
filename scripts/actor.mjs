@@ -155,6 +155,11 @@ export class MezoriaActor extends Actor {
     if (statusDefaults.defMagical !== undefined) {
       system.status.defense.magical = Number(statusDefaults.defMagical);
     }
+    
+// Touch Defense
+if (statusDefaults.defTouch !== undefined) {
+  system.status.defense.touch = Number(statusDefaults.defTouch);
+}
 
 
     // -------------------------------
