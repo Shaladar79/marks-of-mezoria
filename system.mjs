@@ -1,7 +1,7 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
 import { RaceData } from "./scripts/races.mjs";
-
+import { MezoriaActor } from "./scripts/actor.mjs";
 /* ------------------------------------
  * Custom Actor – handles derived data
  * ----------------------------------*/
