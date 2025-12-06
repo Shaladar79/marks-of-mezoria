@@ -2,7 +2,7 @@
 
 <div class="attr-block attr-mind">
 
-  <div class="field main-attr">
+  <div class="field">
     <label>Mind (Main)</label>
     <input type="number"
            name="system.attributes.mind.value"
@@ -11,100 +11,134 @@
   </div>
 
   <div class="subattr-table">
-    <div class="subattr-row subattr-header">
-      <span class="subattr-label"></span>
-      <span class="subattr-col">Base</span>
-      <span class="subattr-col">Race</span>
-      <span class="subattr-col">Misc</span>
-      <span class="subattr-col">Total</span>
+    <div class="subattr-header">
+      <span class="subattr-name"></span>
+      <span>Race</span>
+      <span>Background</span>
+      <span>Mark</span>
+      <span>Misc</span>
+      <span>Total</span>
     </div>
 
     {{!-- INSIGHT --}}
     <div class="subattr-row">
-      <span class="subattr-label">Insight</span>
+      <span class="subattr-name">Insight</span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.insight.base"
-             value="{{system.attributes.mind.insight.base}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.insight.race}}"
+               data-dtype="Number"
+               disabled />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.insight.race}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.insight.background"
+               value="{{system.attributes.mind.insight.background}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.insight.misc"
-             value="{{system.attributes.mind.insight.misc}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.insight.mark"
+               value="{{system.attributes.mind.insight.mark}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.insight.total}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.insight.misc"
+               value="{{system.attributes.mind.insight.misc}}"
+               data-dtype="Number" />
+      </span>
+
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.insight.total}}"
+               data-dtype="Number"
+               disabled />
+      </span>
     </div>
 
     {{!-- FOCUS --}}
     <div class="subattr-row">
-      <span class="subattr-label">Focus</span>
+      <span class="subattr-name">Focus</span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.focus.base"
-             value="{{system.attributes.mind.focus.base}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.focus.race}}"
+               data-dtype="Number"
+               disabled />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.focus.race}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.focus.background"
+               value="{{system.attributes.mind.focus.background}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.focus.misc"
-             value="{{system.attributes.mind.focus.misc}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.focus.mark"
+               value="{{system.attributes.mind.focus.mark}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.focus.total}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.focus.misc"
+               value="{{system.attributes.mind.focus.misc}}"
+               data-dtype="Number" />
+      </span>
+
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.focus.total}}"
+               data-dtype="Number"
+               disabled />
+      </span>
     </div>
 
     {{!-- WILLPOWER --}}
     <div class="subattr-row">
-      <span class="subattr-label">Willpower</span>
+      <span class="subattr-name">Willpower</span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.willpower.base"
-             value="{{system.attributes.mind.willpower.base}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.willpower.race}}"
+               data-dtype="Number"
+               disabled />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.willpower.race}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.willpower.background"
+               value="{{system.attributes.mind.willpower.background}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             name="system.attributes.mind.willpower.misc"
-             value="{{system.attributes.mind.willpower.misc}}"
-             data-dtype="Number" />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.willpower.mark"
+               value="{{system.attributes.mind.willpower.mark}}"
+               data-dtype="Number" />
+      </span>
 
-      <input class="subattr-col"
-             type="number"
-             value="{{system.attributes.mind.willpower.total}}"
-             data-dtype="Number"
-             disabled />
+      <span>
+        <input type="number"
+               name="system.attributes.mind.willpower.misc"
+               value="{{system.attributes.mind.willpower.misc}}"
+               data-dtype="Number" />
+      </span>
+
+      <span>
+        <input type="number"
+               value="{{system.attributes.mind.willpower.total}}"
+               data-dtype="Number"
+               disabled />
+      </span>
     </div>
-
   </div>
 </div>
+
