@@ -776,7 +776,55 @@ scionAspects: {
   marisyl:  "Marisyl (Tide)",
   luminar:  "Luminar (Light)",
   umbrin:   "Umbrin (Shadow)"
-}
+},
+
+  // -------------------------------------
+  // BONUS TABLES
+  // -------------------------------------
+  // Each entry is the +2 package for that lineage
+  mythrianTribeBonuses: {
+    lion:       { might: 2 },
+    wolf:       { swiftness: 2 },
+    bear:       { endurance: 2 },
+    fox:        { insight: 2 },
+    leopard:    { swiftness: 2 },
+    falcon:     { focus: 2 },
+    owl:        { insight: 2 },
+    crow:       { presence: 2 },
+    bull:       { endurance: 2 },
+    serpent:    { willpower: 2 },
+    panther:    { grace: 2 },
+    toad:       { resolve: 2 },
+    cuttlefish: { focus: 2 },
+    shark:      { resolve: 2 },
+    tiger:      { might: 2 },
+    boar:       { endurance: 2 },
+    goat:       { resolve: 2 },
+    mantis:     { focus: 2 },
+    stag:       { presence: 2 },
+    badger:     { endurance: 2 }
+  },
+
+  draconianClanBonuses: {
+    mountain: { endurance: 2 },
+    sea:      { swiftness: 2 },
+    forest:   { insight: 2 },
+    desert:   { resolve: 2 },
+    volcano:  { might: 2 },
+    tundra:   { willpower: 2 },
+    plains:   { grace: 2 },
+    swamp:    { focus: 2 }
+  },
+
+  scionAspectBonuses: {
+    terradim: { endurance: 2 }, // earth
+    pyrelith: { might: 2 },     // flame
+    glacien:  { willpower: 2 }, // frost
+    voltari:  { swiftness: 2 }, // storm
+    marisyl:  { insight: 2 },   // tide
+    luminar:  { presence: 2 },  // light
+    umbrin:   { focus: 2 }      // shadow
+  }
 
 }; // end RaceData
 
