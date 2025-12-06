@@ -895,7 +895,7 @@ export const RaceBonuses = {
   scion: {
     grace: 1,
     resolve: 1
-  }
+  };
 
   // -------------------------------------
 // RACE STATUS DEFAULTS
