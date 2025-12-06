@@ -10,27 +10,85 @@
           "backgroundType": "",
           "background": "",
           "purpose": "",
-          "mythrianTribe": ""
+          "mythrianTribe": "",
+          "draconianClan": "",
+          "scionAspect": ""
         },
 
         "attributes": {
           "body": {
             "value": 0,
-            "might": 0,
-            "swiftness": 0,
-            "endurance": 0
+
+            "might": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "swiftness": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "endurance": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            }
           },
+
           "mind": {
             "value": 0,
-            "insight": 0,
-            "focus": 0,
-            "willpower": 0
+
+            "insight": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "focus": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "willpower": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            }
           },
+
           "soul": {
             "value": 0,
-            "presence": 0,
-            "grace": 0,
-            "resolve": 0
+
+            "presence": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "grace": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            },
+
+            "resolve": {
+              "base": 0,
+              "race": 0,
+              "misc": 0,
+              "total": 0
+            }
           }
         },
 
