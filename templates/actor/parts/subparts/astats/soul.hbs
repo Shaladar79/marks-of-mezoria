@@ -2,7 +2,7 @@
 
 <div class="attr-block attr-soul">
 
-  <div class="field">
+  <div class="field main-attr">
     <label>Soul (Main)</label>
     <input type="number"
            name="system.attributes.soul.value"
@@ -10,28 +10,101 @@
            data-dtype="Number" />
   </div>
 
-  <div class="field">
-    <label>Presence</label>
-    <input type="number"
-           name="system.attributes.soul.presence"
-           value="{{system.attributes.soul.presence}}"
-           data-dtype="Number" />
-  </div>
+  <div class="subattr-table">
+    <div class="subattr-row subattr-header">
+      <span class="subattr-label"></span>
+      <span class="subattr-col">Base</span>
+      <span class="subattr-col">Race</span>
+      <span class="subattr-col">Misc</span>
+      <span class="subattr-col">Total</span>
+    </div>
 
-  <div class="field">
-    <label>Grace</label>
-    <input type="number"
-           name="system.attributes.soul.grace"
-           value="{{system.attributes.soul.grace}}"
-           data-dtype="Number" />
-  </div>
+    {{!-- PRESENCE --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Presence</span>
 
-  <div class="field">
-    <label>Resolve</label>
-    <input type="number"
-           name="system.attributes.soul.resolve"
-           value="{{system.attributes.soul.resolve}}"
-           data-dtype="Number" />
-  </div>
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.presence.base"
+             value="{{system.attributes.soul.presence.base}}"
+             data-dtype="Number" />
 
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.presence.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.presence.misc"
+             value="{{system.attributes.soul.presence.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.presence.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- GRACE --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Grace</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.grace.base"
+             value="{{system.attributes.soul.grace.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.grace.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.grace.misc"
+             value="{{system.attributes.soul.grace.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.grace.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+    {{!-- RESOLVE --}}
+    <div class="subattr-row">
+      <span class="subattr-label">Resolve</span>
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.resolve.base"
+             value="{{system.attributes.soul.resolve.base}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.resolve.race}}"
+             data-dtype="Number"
+             disabled />
+
+      <input class="subattr-col"
+             type="number"
+             name="system.attributes.soul.resolve.misc"
+             value="{{system.attributes.soul.resolve.misc}}"
+             data-dtype="Number" />
+
+      <input class="subattr-col"
+             type="number"
+             value="{{system.attributes.soul.resolve.total}}"
+             data-dtype="Number"
+             disabled />
+    </div>
+
+  </div>
 </div>
