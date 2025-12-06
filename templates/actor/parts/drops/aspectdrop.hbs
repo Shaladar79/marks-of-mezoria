@@ -1,11 +1,7 @@
 <div class="field">
-  <label>Aspect</label>
-  <select name="system.details.aspect">
-    <option value="">— Select Aspect —</option>
-    {{#each raceData.scionAspects as |label key|}}
-      <option value="{{key}}" {{#if (eq ../system.details.aspect key)}}selected{{/if}}>
-        {{label}}
-      </option>
-    {{/each}}
+  <label>Scion Aspect</label>
+  <select name="system.details.scionAspect" data-dtype="String">
+    <option value="">— None —</option>
+    {{selectOptions config.scionAspects selected=system.details.scionAspect}}
   </select>
 </div>
