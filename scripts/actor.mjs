@@ -9,8 +9,9 @@ export class MezoriaActor extends Actor {
     super.prepareDerivedData();
 
     const system = this.system || {};
-    system.details = system.details || {};
+    system.details   = system.details   || {};
     system.attributes = system.attributes || {};
+    system.status    = system.status    || {};   // <-- make sure status exists
 
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
@@ -60,15 +61,16 @@ export class MezoriaActor extends Actor {
       resolve:    ["soul", "resolve"]
     };
 
-    const raceKey    = system.details.race;
-    const tribeKey   = system.details.mythrianTribe;
-    const clanKey    = system.details.draconianClan;
-    const aspectKey  = system.details.scionAspect;
+    const raceKey   = system.details.race;
+    const tribeKey  = system.details.mythrianTribe;
+    const clanKey   = system.details.draconianClan;
+    const aspectKey = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses || {};
-    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus = MezoriaConfig.scionAspectBonuses || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses           || {};
+    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses  || {};
+    const clanBonuses      = MezoriaConfig.draconianClanBonuses  || {};
+    const scionAspectBonus = MezoriaConfig.scionAspectBonuses    || {};
+    const raceStatus       = MezoriaConfig.raceStatus            || {};  // <-- status table
 
     // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
@@ -100,6 +102,19 @@ export class MezoriaActor extends Actor {
     // 4) Scion aspect bonuses (only if race is Scion)
     if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
       applyToRace(scionAspectBonus[aspectKey]);
+    }
+
+    // -------------------------------
+    // Apply race-based status defaults
+    // -------------------------------
+    const statusDefaults = raceStatus[raceKey] || {};
+
+    if (statusDefaults.pace !== undefined) {
+      system.status.pace = Number(statusDefaults.pace);
+    }
+
+    if (statusDefaults.naturalArmor !== undefined) {
+      system.status.naturalArmor = Number(statusDefaults.naturalArmor);
     }
 
     // -------------------------------
