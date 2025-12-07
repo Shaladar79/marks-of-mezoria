@@ -173,7 +173,7 @@
   padding-left: 4px;
 }
 
-/* Collapsible attribute sections (Body / Mind / Soul) */
+/* Top-level collapsible section (Attributes, Status, etc.) */
 .attr-section {
   margin-bottom: 6px;
 }
@@ -188,23 +188,42 @@
   border-bottom: none;
 }
 
+/* Inner wrapper inside main Attributes section */
+.attr-section-inner {
+  border: 1px solid #444;
+  border-radius: 0 0 3px 3px;
+  border-top: none;
+  padding: 4px 4px 6px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+/* Nested collapsible sections for Body / Mind / Soul */
+.attr-subsection > summary {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: #f0f0f0;
+  border: 1px solid #aaa;
+  margin-bottom: 2px;
+}
+
 /* Generic attribute block “card” */
 .attr-block {
   border: 1px solid #444;
-  border-radius: 0 0 3px 3px;
+  border-radius: 3px;
   padding: 4px 6px 6px;
   background: #ffffff;           /* WHITE background */
   box-sizing: border-box;
 }
 
-/* Make summary + block look like one card when open */
-.attr-section[open] .attr-block {
-  border-top: none;
-}
-
 /* ---------- Attribute table-style layout ---------- */
 
-/* Header text inside the card (Body (Main), Mind (Main), Soul (Main)) */
+/* Header text inside the card (Body Save, Mind Save, Soul Save) */
 .attr-block-header {
   font-weight: bold;
   text-align: center;
@@ -250,11 +269,12 @@
   box-sizing: border-box;
   text-align: center;
 }
+
 /* Save row under the header (Body Save / Mind Save / Soul Save) */
 .attr-save-row {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 4px;
 }
 
@@ -263,15 +283,28 @@
   font-weight: bold;
 }
 
-.attr-save-row input {
+.attr-save-value {
   width: 50px;
   text-align: center;
 }
 
-.attr-save-row .save-roll {
-  font-size: 0.7em;
-  padding: 2px 6px;
+/* Icon roll button */
+.save-roll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1px solid #444;
+  background: #ddd;
   cursor: pointer;
+  padding: 0;
+}
+
+.save-roll i {
+  font-size: 0.8em;
+  line-height: 1;
 }
 
 /* ========================================================================== */
