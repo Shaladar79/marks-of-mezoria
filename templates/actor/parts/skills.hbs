@@ -1,0 +1,46 @@
+{{!-- ================================
+      SKILLS TAB (Body / Mind / Soul)
+================================ --}}
+
+<nav class="skills-tabs tabs" data-group="skills-subtabs">
+  <a class="item" data-tab="skills-body">Body</a>
+  <a class="item" data-tab="skills-mind">Mind</a>
+  <a class="item" data-tab="skills-soul">Soul</a>
+</nav>
+
+<section class="skills-panels">
+
+  {{!-- ===============================
+        BODY SKILLS SUB-TAB
+  ================================ --}}
+  <div class="tab" data-group="skills-subtabs" data-tab="skills-body">
+    <div class="body-skills">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/body-might.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/body-swiftness.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/body-endurance.hbs"}}
+    </div>
+  </div>
+
+  {{!-- ===============================
+        MIND SKILLS SUB-TAB
+  ================================ --}}
+  <div class="tab" data-group="skills-subtabs" data-tab="skills-mind">
+    <div class="mind-skills">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-insight.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-focus.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-willpower.hbs"}}
+    </div>
+  </div>
+
+  {{!-- ===============================
+        SOUL SKILLS SUB-TAB
+  ================================ --}}
+  <div class="tab" data-group="skills-subtabs" data-tab="skills-soul">
+    <div class="soul-skills">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-presence.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-grace.hbs"}}
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-resolve.hbs"}}
+    </div>
+  </div>
+
+</section>
