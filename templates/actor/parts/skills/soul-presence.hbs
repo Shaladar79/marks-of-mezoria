@@ -1,0 +1,138 @@
+{{!-- SOUL – PRESENCE --}}
+
+<details class="skills-section skills-section-soul-presence">
+  <summary>Soul – Presence</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Persuasion --}}
+      <tr>
+        <td>Persuasion</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.presence.persuasion.trained"
+                 {{checked system.skills.soul.presence.persuasion.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.presence.persuasion.specialty"
+                 value="{{system.skills.soul.presence.persuasion.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.presence.persuasion.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.presence.persuasion">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Deception --}}
+      <tr>
+        <td>Deception</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.presence.deception.trained"
+                 {{checked system.skills.soul.presence.deception.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.presence.deception.specialty"
+                 value="{{system.skills.soul.presence.deception.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.presence.deception.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.presence.deception">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Oratory --}}
+      <tr>
+        <td>Oratory</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.presence.oratory.trained"
+                 {{checked system.skills.soul.presence.oratory.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.presence.oratory.specialty"
+                 value="{{system.skills.soul.presence.oratory.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.presence.oratory.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.presence.oratory">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Etiquette --}}
+      <tr>
+        <td>Etiquette</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.presence.etiquette.trained"
+                 {{checked system.skills.soul.presence.etiquette.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.presence.etiquette.specialty"
+                 value="{{system.skills.soul.presence.etiquette.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.presence.etiquette.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.presence.etiquette">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Streetwise --}}
+      <tr>
+        <td>Streetwise</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.presence.streetwise.trained"
+                 {{checked system.skills.soul.presence.streetwise.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.presence.streetwise.specialty"
+                 value="{{system.skills.soul.presence.streetwise.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.presence.streetwise.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.presence.streetwise">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
