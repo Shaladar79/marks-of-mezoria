@@ -1,0 +1,66 @@
+{{!-- BODY – ENDURANCE --}}
+
+<details class="skills-section skills-section-body-endurance">
+  <summary>Body – Endurance</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Fortitude --}}
+      <tr>
+        <td>Fortitude</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.body.endurance.fortitude.trained"
+                 {{checked system.skills.body.endurance.fortitude.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.body.endurance.fortitude.specialty"
+                 value="{{system.skills.body.endurance.fortitude.specialty}}" />
+        </td>
+        <td>{{system.skills.body.endurance.fortitude.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="body.endurance.fortitude">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Pain Tolerance --}}
+      <tr>
+        <td>Pain Tolerance</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.body.endurance.painTolerance.trained"
+                 {{checked system.skills.body.endurance.painTolerance.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.body.endurance.painTolerance.specialty"
+                 value="{{system.skills.body.endurance.painTolerance.specialty}}" />
+        </td>
+        <td>{{system.skills.body.endurance.painTolerance.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="body.endurance.painTolerance">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
