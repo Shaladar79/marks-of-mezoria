@@ -2,11 +2,23 @@
 
 <div class="attr-block attr-soul">
 
-  <div class="attr-block-header">Soul (Main)</div>
+  <div class="attr-block-header">Soul Save</div>
+
+  <div class="attr-save-row">
+    <span class="attr-save-label">Value</span>
+    <input type="number"
+           name="system.attributes.soul.saveValue"
+           value="{{system.attributes.soul.saveValue}}"
+           data-dtype="Number"
+           readonly />
+    <button type="button"
+            class="save-roll"
+            data-attr="soul">
+      Roll
+    </button>
+  </div>
 
   <div class="attr-grid">
-
-    {{!-- Header row --}}
     <div class="attr-grid-row attr-grid-header">
       <div class="attr-col attr-col-name">Attribute</div>
       <div class="attr-col">Race</div>
@@ -16,10 +28,8 @@
       <div class="attr-col">Total</div>
     </div>
 
-    {{!-- Presence --}}
     <div class="attr-grid-row">
       <div class="attr-col attr-col-name">Presence</div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.presence.race"
@@ -27,28 +37,24 @@
                data-dtype="Number"
                readonly />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.presence.background"
                value="{{system.attributes.soul.presence.background}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.presence.mark"
                value="{{system.attributes.soul.presence.mark}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.presence.misc"
                value="{{system.attributes.soul.presence.misc}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.presence.total"
@@ -58,10 +64,8 @@
       </div>
     </div>
 
-    {{!-- Grace --}}
     <div class="attr-grid-row">
       <div class="attr-col attr-col-name">Grace</div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.grace.race"
@@ -69,28 +73,24 @@
                data-dtype="Number"
                readonly />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.grace.background"
                value="{{system.attributes.soul.grace.background}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.grace.mark"
                value="{{system.attributes.soul.grace.mark}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.grace.misc"
                value="{{system.attributes.soul.grace.misc}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.grace.total"
@@ -100,10 +100,8 @@
       </div>
     </div>
 
-    {{!-- Resolve --}}
     <div class="attr-grid-row">
       <div class="attr-col attr-col-name">Resolve</div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.resolve.race"
@@ -111,28 +109,24 @@
                data-dtype="Number"
                readonly />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.resolve.background"
                value="{{system.attributes.soul.resolve.background}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.resolve.mark"
                value="{{system.attributes.soul.resolve.mark}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.resolve.misc"
                value="{{system.attributes.soul.resolve.misc}}"
                data-dtype="Number" />
       </div>
-
       <div class="attr-col">
         <input type="number"
                name="system.attributes.soul.resolve.total"
@@ -141,6 +135,5 @@
                readonly />
       </div>
     </div>
-
   </div>
 </div>
