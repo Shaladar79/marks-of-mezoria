@@ -1,0 +1,43 @@
+{{!-- MIND – LORE (its own subsection) --}}
+
+<details class="skills-section skills-section-mind-lore">
+  <summary>Mind – Lore</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Lore (root skill; specialties will do the heavy lifting) --}}
+      <tr>
+        <td>Lore</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.lore.lore.trained"
+                 {{checked system.skills.mind.lore.lore.trained}} />
+        </td>
+        <td>
+          <select name="system.skills.mind.lore.lore.specialty" data-dtype="String">
+            {{selectOptions config.skillSpecialties.default
+                            selected=system.skills.mind.lore.lore.specialty}}
+          </select>
+        </td>
+        <td>{{system.skills.mind.lore.lore.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.lore.lore">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
