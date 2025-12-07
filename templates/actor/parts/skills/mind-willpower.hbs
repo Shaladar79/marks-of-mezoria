@@ -1,0 +1,66 @@
+{{!-- MIND – WILLPOWER --}}
+
+<details class="skills-section skills-section-mind-willpower">
+  <summary>Mind – Willpower</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Concentration --}}
+      <tr>
+        <td>Concentration</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.willpower.concentration.trained"
+                 {{checked system.skills.mind.willpower.concentration.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.willpower.concentration.specialty"
+                 value="{{system.skills.mind.willpower.concentration.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.willpower.concentration.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.willpower.concentration">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Mental Fortitude --}}
+      <tr>
+        <td>Mental Fortitude</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.willpower.mentalFortitude.trained"
+                 {{checked system.skills.mind.willpower.mentalFortitude.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.willpower.mentalFortitude.specialty"
+                 value="{{system.skills.mind.willpower.mentalFortitude.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.willpower.mentalFortitude.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.willpower.mentalFortitude">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
