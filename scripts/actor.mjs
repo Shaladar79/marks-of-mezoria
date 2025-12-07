@@ -31,7 +31,6 @@ export class MezoriaActor extends Actor {
       for (const key of groupKeys[g]) {
         const node = system.attributes[g][key] || {};
 
-        // Base stays for future scaling
         node.base       = Number(node.base       ?? 0);
         node.race       = Number(node.race       ?? 0);
         node.background = Number(node.background ?? 0);
@@ -43,7 +42,6 @@ export class MezoriaActor extends Actor {
         system.attributes[g][key] = node;
       }
 
-      // Container for the main save value (Body/Mind/Soul save)
       system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
@@ -74,12 +72,12 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan;
     const aspectKey = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses          || {};
-    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus = MezoriaConfig.scionAspectBonuses   || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses            || {};
+    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses   || {};
+    const clanBonuses      = MezoriaConfig.draconianClanBonuses   || {};
+    const scionAspectBonus = MezoriaConfig.scionAspectBonuses     || {};
 
-    // Helper to add a bonus set into the "race" bucket
+    // Helper to add a bonus set into the "race" bucket (attributes)
     const applyToRace = (bonusSet) => {
       if (!bonusSet) return;
       for (const [subKey, value] of Object.entries(bonusSet)) {
@@ -91,22 +89,22 @@ export class MezoriaActor extends Actor {
       }
     };
 
-    // 1) Base race bonuses
+    // 1) Base race bonuses (attributes)
     if (raceKey && raceBonuses[raceKey]) {
       applyToRace(raceBonuses[raceKey]);
     }
 
-    // 2) Mythrian tribe bonuses (only if race is Mythrian)
+    // 2) Mythrian tribe bonuses (attributes)
     if (raceKey === "mythrian" && tribeKey && tribeBonuses[tribeKey]) {
       applyToRace(tribeBonuses[tribeKey]);
     }
 
-    // 3) Draconian clan bonuses (only if race is Draconian)
+    // 3) Draconian clan bonuses (attributes)
     if (raceKey === "draconian" && clanKey && clanBonuses[clanKey]) {
       applyToRace(clanBonuses[clanKey]);
     }
 
-    // 4) Scion aspect bonuses (only if race is Scion)
+    // 4) Scion aspect bonuses (attributes)
     if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
       applyToRace(scionAspectBonus[aspectKey]);
     }
@@ -133,7 +131,6 @@ export class MezoriaActor extends Actor {
         count++;
       }
 
-      // Save value = average of the three substats (rounded down)
       const avg = count > 0 ? Math.floor(sum / count) : 0;
       system.attributes[g].saveValue = avg;
     }
@@ -145,7 +142,6 @@ export class MezoriaActor extends Actor {
     const raceStatusAll = MezoriaConfig.raceStatus || {};
     const rs = raceKey && raceStatusAll[raceKey] ? raceStatusAll[raceKey] : {};
 
-    // ---- Core resources: Vitality, Mana, Stamina, Trauma ----
     const coreResources = ["vitality", "mana", "stamina", "trauma"];
 
     for (const res of coreResources) {
@@ -165,7 +161,6 @@ export class MezoriaActor extends Actor {
       }
     }
 
-    // ---- Pace & Natural Armor from race ----
     system.status.pace = Number(
       rs.pace ?? system.status.pace ?? 0
     );
@@ -174,7 +169,6 @@ export class MezoriaActor extends Actor {
       rs.naturalArmor ?? system.status.naturalArmor ?? 0
     );
 
-    // Ensure armor & shielding nodes exist
     system.status.armor     = system.status.armor     || {};
     system.status.shielding = system.status.shielding || {};
     system.status.defense   = system.status.defense   || {};
@@ -183,33 +177,29 @@ export class MezoriaActor extends Actor {
     system.status.armor.max     = Number(system.status.armor.max     ?? 0);
     system.status.shielding.current = Number(system.status.shielding.current ?? 0);
 
-    // ---- Defenses: natural armor only applies to Physical ----
     const def = system.status.defense;
 
-    const baseDefense = Number(def.touch ?? 10); // changeable base
+    const baseDefense = Number(def.touch ?? 10);
 
-    // Touch is the base
     def.touch = baseDefense;
 
-    // Physical gets natural armor + worn armor
-    const natArmor = system.status.naturalArmor || 0;
+    const natArmor  = system.status.naturalArmor || 0;
     const wornArmor = system.status.armor.current || 0;
     def.physical = baseDefense + natArmor + wornArmor;
 
-    // Magical: currently just uses base (you can add other bonuses later)
     def.magical = Number(def.magical ?? baseDefense);
 
     /* ====================================================================== */
-    /* SKILLS: ATTRIBUTE + RANK TRAINED BONUS (+ FUTURE RACIAL/BACKGROUND)    */
+    /* SKILLS: ATTRIBUTES + RANK TRAINED BONUS + RACIAL/BACKGROUND/MISC       */
     /* ====================================================================== */
 
     const rankKey = system.details.rank || "normal";
     const rankBonusMap = MezoriaConfig.rankSkillBonuses || {};
     const trainedBonus = Number(rankBonusMap[rankKey] ?? 0);
 
+    const raceSkillData = MezoriaConfig.raceSkillData || {};
+
     // Map skill sub-groups to which attribute sub-stat they use
-    // Most sub-keys match directly (might → Might, etc.).
-    // Lore is special: it keys off Insight.
     const subToAttr = {
       might:      "might",
       swiftness:  "swiftness",
@@ -225,11 +215,69 @@ export class MezoriaActor extends Actor {
 
     const skillsRoot = system.skills;
 
+    // Phase 1: normalize / clear racial & background buckets, keep misc
     for (const [catKey, catObj] of Object.entries(skillsRoot)) {
-      if (!catObj || typeof catObj !== "object") continue; // body / mind / soul
+      if (!catObj || typeof catObj !== "object") continue;
 
       for (const [subKey, subObj] of Object.entries(catObj)) {
-        if (!subObj || typeof subObj !== "object") continue; // might, swiftness, etc.
+        if (!subObj || typeof subObj !== "object") continue;
+
+        for (const [skillKey, skillNode] of Object.entries(subObj)) {
+          if (!skillNode || typeof skillNode !== "object") continue;
+          if (skillKey === "expertise") continue;
+
+          skillNode.racialBonus     = 0;
+          skillNode.backgroundBonus = 0;
+          skillNode.misc            = Number(skillNode.misc ?? 0);
+        }
+      }
+    }
+
+    // Helper to apply racial skill bonuses by path: "body.might.athletics"
+    const applySkillBonus = (path, value) => {
+      if (!path) return;
+      const fullPath = `skills.${path}`;
+      const node = foundry.utils.getProperty(system, fullPath);
+      if (!node) return;
+
+      node.racialBonus = Number(node.racialBonus ?? 0) + Number(value ?? 0);
+
+      // Racially boosted skills are always trained
+      node.trained = true;
+    };
+
+    // Phase 2: apply base race skill bonuses
+    if (raceKey && raceSkillData.base?.[raceKey]?.skills) {
+      for (const entry of raceSkillData.base[raceKey].skills) {
+        applySkillBonus(entry.path, entry.value);
+      }
+    }
+
+    // Phase 3: apply tribe/clan/aspect skill bonuses (only for matching races)
+    if (raceKey === "mythrian" && tribeKey && raceSkillData.mythrianTribes?.[tribeKey]?.skills) {
+      for (const entry of raceSkillData.mythrianTribes[tribeKey].skills) {
+        applySkillBonus(entry.path, entry.value);
+      }
+    }
+
+    if (raceKey === "draconian" && clanKey && raceSkillData.draconianClans?.[clanKey]?.skills) {
+      for (const entry of raceSkillData.draconianClans[clanKey].skills) {
+        applySkillBonus(entry.path, entry.value);
+      }
+    }
+
+    if (raceKey === "scion" && aspectKey && raceSkillData.scionAspects?.[aspectKey]?.skills) {
+      for (const entry of raceSkillData.scionAspects[aspectKey].skills) {
+        applySkillBonus(entry.path, entry.value);
+      }
+    }
+
+    // Phase 4: final totals = attribute + rank-trained + racial + background + misc
+    for (const [catKey, catObj] of Object.entries(skillsRoot)) {
+      if (!catObj || typeof catObj !== "object") continue;
+
+      for (const [subKey, subObj] of Object.entries(catObj)) {
+        if (!subObj || typeof subObj !== "object") continue;
 
         const attrSub = subToAttr[subKey];
         if (!attrSub) continue;
@@ -240,24 +288,15 @@ export class MezoriaActor extends Actor {
 
         for (const [skillKey, skillNode] of Object.entries(subObj)) {
           if (!skillNode || typeof skillNode !== "object") continue;
-
-          // Skip any non-skill flags such as "expertise"
           if (skillKey === "expertise") continue;
 
-          // Ensure numeric modifier buckets exist (for future use)
-          skillNode.racialBonus     = Number(skillNode.racialBonus     ?? 0);
-          skillNode.backgroundBonus = Number(skillNode.backgroundBonus ?? 0);
-          skillNode.misc            = Number(skillNode.misc            ?? 0);
+          const isTrainedBonus = skillNode.trained ? trainedBonus : 0;
 
-          const isTrained = skillNode.trained ? trainedBonus : 0;
+          const racial     = Number(skillNode.racialBonus     ?? 0);
+          const background = Number(skillNode.backgroundBonus ?? 0);
+          const misc       = Number(skillNode.misc            ?? 0);
 
-          // Final total = attribute + trained bonus (from rank) + other bonuses
-          skillNode.total =
-            attrTotal +
-            isTrained +
-            skillNode.racialBonus +
-            skillNode.backgroundBonus +
-            skillNode.misc;
+          skillNode.total = attrTotal + isTrainedBonus + racial + background + misc;
         }
       }
     }
