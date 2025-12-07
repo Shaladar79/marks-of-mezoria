@@ -90,34 +90,44 @@
             }
           },
 
-          "mind": {
-            "insight": {
-              "expertise": false,
-              "perception":       { "label": "Perception",          "trained": false, "specialty": "", "total": 0 },
-              "investigation":    { "label": "Investigation",       "trained": false, "specialty": "", "total": 0 },
-              "tracking":         { "label": "Tracking",            "trained": false, "specialty": "", "total": 0 },
-              "lore":             { "label": "Lore",                "trained": false, "specialty": "", "total": 0 },
-              "intuition":        { "label": "Intuition",           "trained": false, "specialty": "", "total": 0 },
-              "awareness":        { "label": "Awareness",           "trained": false, "specialty": "", "total": 0 },
-              "ritualCasting":    { "label": "Ritual Casting",      "trained": false, "specialty": "", "total": 0 },
-              "combatSpellcasting": { "label": "Combat: Spellcasting", "trained": false, "specialty": "", "total": 0 }
-            },
+         "mind": {
+  "insight": {
+    "expertise": false,
+    "perception":       { "label": "Perception",          "trained": false, "specialty": "", "total": 0 },
+    "investigation":    { "label": "Investigation",       "trained": false, "specialty": "", "total": 0 },
+    "tracking":         { "label": "Tracking",            "trained": false, "specialty": "", "total": 0 },
+    "intuition":        { "label": "Intuition",           "trained": false, "specialty": "", "total": 0 },
+    "awareness":        { "label": "Awareness",           "trained": false, "specialty": "", "total": 0 },
+    "ritualCasting":    { "label": "Ritual Casting",      "trained": false, "specialty": "", "total": 0 },
+    "combatSpellcasting": { "label": "Combat: Spellcasting", "trained": false, "specialty": "", "total": 0 }
+  },
 
-            "focus": {
-              "expertise": false,
-              "tactics":        { "label": "Tactics",           "trained": false, "specialty": "", "total": 0 },
-              "research":       { "label": "Research",          "trained": false, "specialty": "", "total": 0 },
-              "logic":          { "label": "Logic",             "trained": false, "specialty": "", "total": 0 },
-              "useMagicDevice": { "label": "Use Magic Device",  "trained": false, "specialty": "", "total": 0 },
-              "combatWands":    { "label": "Combat: Wands",     "trained": false, "specialty": "", "total": 0 }
-            },
+  "focus": {
+    "expertise": false,
+    "tactics":        { "label": "Tactics",           "trained": false, "specialty": "", "total": 0 },
+    "research":       { "label": "Research",          "trained": false, "specialty": "", "total": 0 },
+    "logic":          { "label": "Logic",             "trained": false, "specialty": "", "total": 0 },
+    "useMagicDevice": { "label": "Use Magic Device",  "trained": false, "specialty": "", "total": 0 },
+    "combatWands":    { "label": "Combat: Wands",     "trained": false, "specialty": "", "total": 0 }
+  },
 
-            "willpower": {
-              "expertise": false,
-              "concentration":   { "label": "Concentration",    "trained": false, "specialty": "", "total": 0 },
-              "mentalFortitude": { "label": "Mental Fortitude", "trained": false, "specialty": "", "total": 0 }
-            }
-          },
+  "willpower": {
+    "expertise": false,
+    "concentration":   { "label": "Concentration",    "trained": false, "specialty": "", "total": 0 },
+    "mentalFortitude": { "label": "Mental Fortitude", "trained": false, "specialty": "", "total": 0 }
+  },
+
+  "lore": {
+    "expertise": false,
+    "lore": {
+      "label": "Lore",
+      "trained": false,
+      "specialty": "",
+      "total": 0
+    }
+  }
+}
+
 
           "soul": {
             "presence": {
