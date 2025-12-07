@@ -9,10 +9,8 @@ export class MezoriaActor extends Actor {
     super.prepareDerivedData();
 
     const system = this.system || {};
-    this.system = system;                    // make sure we keep reference
-    system.details   = system.details   || {};
-    system.attributes= system.attributes|| {};
-    system.status    = system.status    || {};
+    system.details = system.details || {};
+    system.attributes = system.attributes || {};
 
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
@@ -21,9 +19,7 @@ export class MezoriaActor extends Actor {
       soul: ["presence", "grace", "resolve"]
     };
 
-    // --------------------------------------------------
-    // Ensure each sub-attribute node + numeric fields
-    // --------------------------------------------------
+    // Ensure each sub-attribute object + numeric fields exist
     for (const g of groups) {
       system.attributes[g] = system.attributes[g] || {};
       for (const key of groupKeys[g]) {
@@ -40,11 +36,14 @@ export class MezoriaActor extends Actor {
 
         system.attributes[g][key] = node;
       }
+
+      // Ensure we have a container for the main save value
+      system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
-    // --------------------------------------------------
+    // -------------------------------
     // Clear all race-derived bonuses
-    // --------------------------------------------------
+    // -------------------------------
     for (const g of groups) {
       for (const key of groupKeys[g]) {
         system.attributes[g][key].race = 0;
@@ -64,15 +63,15 @@ export class MezoriaActor extends Actor {
       resolve:    ["soul", "resolve"]
     };
 
-    const raceKey   = system.details.race;
-    const tribeKey  = system.details.mythrianTribe;
-    const clanKey   = system.details.draconianClan;
-    const aspectKey = system.details.scionAspect;
+    const raceKey    = system.details.race;
+    const tribeKey   = system.details.mythrianTribe;
+    const clanKey    = system.details.draconianClan;
+    const aspectKey  = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses          || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses || {};
     const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
     const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus = MezoriaConfig.scionAspectBonuses   || {};
+    const scionAspectBonus = MezoriaConfig.scionAspectBonuses || {};
 
     // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
@@ -106,10 +105,13 @@ export class MezoriaActor extends Actor {
       applyToRace(scionAspectBonus[aspectKey]);
     }
 
-    // --------------------------------------------------
-    // Recalculate attribute totals
-    // --------------------------------------------------
+    // -------------------------------
+    // Recalculate totals & saves
+    // -------------------------------
     for (const g of groups) {
+      let sum = 0;
+      let count = 0;
+
       for (const key of groupKeys[g]) {
         const node  = system.attributes[g][key];
 
@@ -121,50 +123,13 @@ export class MezoriaActor extends Actor {
 
         node.total = base + race + background + mark + misc;
 
-        // Mod stays manual for now
-        // node.mod = Math.floor((node.total - 10) / 2);
+        sum += node.total;
+        count++;
       }
+
+      // Save value = average of the three substats (rounded down)
+      const avg = count > 0 ? Math.floor(sum / count) : 0;
+      system.attributes[g].saveValue = avg;
     }
-
-    // --------------------------------------------------
-    // Race-based STATUS defaults (pace, armor, defenses)
-    // --------------------------------------------------
-    const raceStatus     = MezoriaConfig.raceStatus || {};
-    const statusDefaults = raceStatus[raceKey] || {};
-
-    // Ensure status sub-objects exist
-    system.status.vitality = system.status.vitality || {};
-    system.status.stamina  = system.status.stamina  || {};
-    system.status.mana     = system.status.mana     || {};
-    system.status.trauma   = system.status.trauma   || {};
-    system.status.defense  = system.status.defense  || {};
-
-    if (statusDefaults.pace !== undefined)
-      system.status.pace = Number(statusDefaults.pace);
-
-    if (statusDefaults.naturalArmor !== undefined)
-      system.status.naturalArmor = Number(statusDefaults.naturalArmor);
-
-    if (statusDefaults.vitalityMax !== undefined)
-      system.status.vitality.max = Number(statusDefaults.vitalityMax);
-
-    if (statusDefaults.staminaMax !== undefined)
-      system.status.stamina.max = Number(statusDefaults.staminaMax);
-
-    if (statusDefaults.manaMax !== undefined)
-      system.status.mana.max = Number(statusDefaults.manaMax);
-
-    if (statusDefaults.traumaMax !== undefined)
-      system.status.trauma.max = Number(statusDefaults.traumaMax);
-
-    if (statusDefaults.defPhysical !== undefined)
-      system.status.defense.physical = Number(statusDefaults.defPhysical);
-
-    if (statusDefaults.defMagical !== undefined)
-      system.status.defense.magical = Number(statusDefaults.defMagical);
-
-    // NEW: Touch Defense from race defaults
-    if (statusDefaults.defTouch !== undefined)
-      system.status.defense.touch = Number(statusDefaults.defTouch);
   }
 }
