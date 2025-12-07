@@ -1,0 +1,114 @@
+{{!-- SOUL – GRACE --}}
+
+<details class="skills-section skills-section-soul-grace">
+  <summary>Soul – Grace</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Performance --}}
+      <tr>
+        <td>Performance</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.grace.performance.trained"
+                 {{checked system.skills.soul.grace.performance.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.grace.performance.specialty"
+                 value="{{system.skills.soul.grace.performance.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.grace.performance.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.grace.performance">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Poise --}}
+      <tr>
+        <td>Poise</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.grace.poise.trained"
+                 {{checked system.skills.soul.grace.poise.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.grace.poise.specialty"
+                 value="{{system.skills.soul.grace.poise.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.grace.poise.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.grace.poise">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Mimicry --}}
+      <tr>
+        <td>Mimicry</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.grace.mimicry.trained"
+                 {{checked system.skills.soul.grace.mimicry.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.grace.mimicry.specialty"
+                 value="{{system.skills.soul.grace.mimicry.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.grace.mimicry.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.grace.mimicry">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Improvisation --}}
+      <tr>
+        <td>Improvisation</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.grace.improvisation.trained"
+                 {{checked system.skills.soul.grace.improvisation.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.grace.improvisation.specialty"
+                 value="{{system.skills.soul.grace.improvisation.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.grace.improvisation.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.grace.improvisation">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
