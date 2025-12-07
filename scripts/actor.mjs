@@ -13,25 +13,6 @@ export class MezoriaActor extends Actor {
     system.attributes = system.attributes || {};
     system.status     = system.status     || {};
 
-    // ---------- STATUS SETUP ----------
-    const ensureResource = (key, withRegen = true) => {
-      system.status[key] = system.status[key] || {};
-      const r = system.status[key];
-      r.current = Number(r.current ?? 0);
-      r.max     = Number(r.max     ?? 0);
-      if (withRegen) r.regen = Number(r.regen ?? 0);
-      return r;
-    };
-
-    const vit     = ensureResource("vitality", true);
-    const mana    = ensureResource("mana", true);
-    const stam    = ensureResource("stamina", true);
-    const trauma  = ensureResource("trauma", false);
-    system.status.armor     = system.status.armor     || {};
-    system.status.shielding = system.status.shielding || {};
-    system.status.defense   = system.status.defense   || {};
-
-    // ---------- ATTRIBUTE SETUP ----------
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
       body: ["might", "swiftness", "endurance"],
@@ -39,11 +20,17 @@ export class MezoriaActor extends Actor {
       soul: ["presence", "grace", "resolve"]
     };
 
+    /* ====================================================================== */
+    /* ATTRIBUTES + SAVES                                                     */
+    /* ====================================================================== */
+
+    // Ensure each sub-attribute object + numeric fields exist
     for (const g of groups) {
       system.attributes[g] = system.attributes[g] || {};
       for (const key of groupKeys[g]) {
         const node = system.attributes[g][key] || {};
 
+        // Base stays for future scaling, but effectively 0 in this system
         node.base       = Number(node.base       ?? 0);
         node.race       = Number(node.race       ?? 0);
         node.background = Number(node.background ?? 0);
@@ -55,11 +42,13 @@ export class MezoriaActor extends Actor {
         system.attributes[g][key] = node;
       }
 
-      // container for Body/Mind/Soul save value
+      // Container for the main save value (Body/Mind/Soul save)
       system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
+    // -------------------------------
     // Clear all race-derived bonuses
+    // -------------------------------
     for (const g of groups) {
       for (const key of groupKeys[g]) {
         system.attributes[g][key].race = 0;
@@ -84,12 +73,12 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan;
     const aspectKey = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses        || {};
     const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
     const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus = MezoriaConfig.scionAspectBonuses || {};
-    const raceStatusTable  = MezoriaConfig.raceStatus || {};
+    const scionAspectBonus = MezoriaConfig.scionAspectBonuses   || {};
 
+    // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
       if (!bonusSet) return;
       for (const [subKey, value] of Object.entries(bonusSet)) {
@@ -106,48 +95,24 @@ export class MezoriaActor extends Actor {
       applyToRace(raceBonuses[raceKey]);
     }
 
-    // 2) Mythrian tribe bonuses
+    // 2) Mythrian tribe bonuses (only if race is Mythrian)
     if (raceKey === "mythrian" && tribeKey && tribeBonuses[tribeKey]) {
       applyToRace(tribeBonuses[tribeKey]);
     }
 
-    // 3) Draconian clan bonuses
+    // 3) Draconian clan bonuses (only if race is Draconian)
     if (raceKey === "draconian" && clanKey && clanBonuses[clanKey]) {
       applyToRace(clanBonuses[clanKey]);
     }
 
-    // 4) Scion aspect bonuses
+    // 4) Scion aspect bonuses (only if race is Scion)
     if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
       applyToRace(scionAspectBonus[aspectKey]);
     }
 
-    // ---------- RACE STATUS (pace, natural armor, core max) ----------
-    if (raceKey && raceStatusTable[raceKey]) {
-      const rStatus = raceStatusTable[raceKey];
-
-      // Pace & natural armor
-      system.status.pace         = Number(rStatus.pace         ?? system.status.pace ?? 0);
-      system.status.naturalArmor = Number(rStatus.naturalArmor ?? system.status.naturalArmor ?? 0);
-
-      // Helper: pull max from raceStatus if present
-      const applyMaxFromConfig = (cfgVal, resourceObj) => {
-        if (cfgVal === undefined || cfgVal === null) return;
-        if (typeof cfgVal === "number") {
-          resourceObj.max = Number(cfgVal);
-        } else if (typeof cfgVal === "object") {
-          if (cfgVal.max !== undefined) {
-            resourceObj.max = Number(cfgVal.max);
-          }
-        }
-      };
-
-      applyMaxFromConfig(rStatus.vitality, vit);
-      applyMaxFromConfig(rStatus.mana,     mana);
-      applyMaxFromConfig(rStatus.stamina,  stam);
-      applyMaxFromConfig(rStatus.trauma,   trauma);
-    }
-
-    // ---------- Recalculate totals & saves ----------
+    // -------------------------------
+    // Recalculate totals & saves
+    // -------------------------------
     for (const g of groups) {
       let sum = 0;
       let count = 0;
@@ -167,19 +132,72 @@ export class MezoriaActor extends Actor {
         count++;
       }
 
+      // Save value = average of the three substats (rounded down)
       const avg = count > 0 ? Math.floor(sum / count) : 0;
       system.attributes[g].saveValue = avg;
     }
 
-    // ---------- DEFENSE CALCULATION ----------
-    const natArmor = Number(system.status.naturalArmor ?? 0);
+    /* ====================================================================== */
+    /* STATUS: CORE RESOURCES, PACE, ARMOR, DEFENSE                           */
+    /* ====================================================================== */
 
-    const baseTouch    = 10;
-    const basePhysical = 10;
-    const baseMagical  = 10;
+    const raceStatusAll = MezoriaConfig.raceStatus || {};
+    const rs = raceKey && raceStatusAll[raceKey] ? raceStatusAll[raceKey] : {};
 
-    system.status.defense.touch    = baseTouch;
-    system.status.defense.physical = basePhysical + natArmor; // only here
-    system.status.defense.magical  = baseMagical;
+    // ---- Core resources: Vitality, Mana, Stamina, Trauma ----
+    const coreResources = ["vitality", "mana", "stamina", "trauma"];
+
+    for (const res of coreResources) {
+      const node = system.status[res] = system.status[res] || {};
+
+      node.current = Number(node.current ?? 0);
+
+      // We expect RaceStatus to maybe have keys like "vitalityMax", "manaMax", etc.
+      // If your keys are different, adjust this mapping.
+      const raceMaxKey = `${res}Max`;
+      if (rs[raceMaxKey] !== undefined) {
+        node.max = Number(rs[raceMaxKey] ?? 0);
+      } else {
+        node.max = Number(node.max ?? 0);
+      }
+
+      if (res !== "trauma") {
+        node.regen = Number(node.regen ?? 0);
+      }
+    }
+
+    // ---- Pace & Natural Armor from race ----
+    system.status.pace = Number(
+      rs.pace ?? system.status.pace ?? 0
+    );
+
+    system.status.naturalArmor = Number(
+      rs.naturalArmor ?? system.status.naturalArmor ?? 0
+    );
+
+    // Ensure armor & shielding nodes exist
+    system.status.armor     = system.status.armor     || {};
+    system.status.shielding = system.status.shielding || {};
+    system.status.defense   = system.status.defense   || {};
+
+    system.status.armor.current = Number(system.status.armor.current ?? 0);
+    system.status.armor.max     = Number(system.status.armor.max     ?? 0);
+    system.status.shielding.current = Number(system.status.shielding.current ?? 0);
+
+    // ---- Defenses: natural armor only applies to Physical ----
+    const def = system.status.defense;
+
+    const baseDefense = Number(def.touch ?? 10); // you can change this base to 11, etc.
+
+    // Touch is the base
+    def.touch = baseDefense;
+
+    // Physical gets natural armor + worn armor
+    const natArmor = system.status.naturalArmor || 0;
+    const wornArmor = system.status.armor.current || 0;
+    def.physical = baseDefense + natArmor + wornArmor;
+
+    // Magical: currently just uses base (you can add other bonuses later)
+    def.magical = Number(def.magical ?? baseDefense);
   }
 }
