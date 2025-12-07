@@ -2,19 +2,13 @@
 
 <div class="attr-block attr-body">
 
-  <div class="field">
-    <label>Body (Main)</label>
-    <input type="number"
-           name="system.attributes.body.value"
-           value="{{system.attributes.body.value}}"
-           data-dtype="Number" />
-  </div>
+  <div class="attr-block-header">Body (Main)</div>
 
-  <hr />
+  <div class="attr-grid">
 
-  <div class="attr-subtable">
-    <div class="attr-row attr-header">
-      <div class="attr-label"></div>
+    {{!-- Header row --}}
+    <div class="attr-grid-row attr-grid-header">
+      <div class="attr-col attr-col-name">Attribute</div>
       <div class="attr-col">Race</div>
       <div class="attr-col">Background</div>
       <div class="attr-col">Mark</div>
@@ -22,108 +16,129 @@
       <div class="attr-col">Total</div>
     </div>
 
-    {{!-- MIGHT --}}
-    <div class="attr-row">
-      <div class="attr-label">Might</div>
+    {{!-- Might --}}
+    <div class="attr-grid-row">
+      <div class="attr-col attr-col-name">Might</div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.might.race"
                value="{{system.attributes.body.might.race}}"
-               data-dtype="Number" />
+               data-dtype="Number"
+               readonly />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.might.background"
                value="{{system.attributes.body.might.background}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.might.mark"
                value="{{system.attributes.body.might.mark}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.might.misc"
                value="{{system.attributes.body.might.misc}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
+               name="system.attributes.body.might.total"
                value="{{system.attributes.body.might.total}}"
                data-dtype="Number"
-               disabled />
+               readonly />
       </div>
     </div>
 
-    {{!-- SWIFTNESS --}}
-    <div class="attr-row">
-      <div class="attr-label">Swiftness</div>
+    {{!-- Swiftness --}}
+    <div class="attr-grid-row">
+      <div class="attr-col attr-col-name">Swiftness</div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.swiftness.race"
                value="{{system.attributes.body.swiftness.race}}"
-               data-dtype="Number" />
+               data-dtype="Number"
+               readonly />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.swiftness.background"
                value="{{system.attributes.body.swiftness.background}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.swiftness.mark"
                value="{{system.attributes.body.swiftness.mark}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.swiftness.misc"
                value="{{system.attributes.body.swiftness.misc}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
+               name="system.attributes.body.swiftness.total"
                value="{{system.attributes.body.swiftness.total}}"
                data-dtype="Number"
-               disabled />
+               readonly />
       </div>
     </div>
 
-    {{!-- ENDURANCE --}}
-    <div class="attr-row">
-      <div class="attr-label">Endurance</div>
+    {{!-- Endurance --}}
+    <div class="attr-grid-row">
+      <div class="attr-col attr-col-name">Endurance</div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.endurance.race"
                value="{{system.attributes.body.endurance.race}}"
-               data-dtype="Number" />
+               data-dtype="Number"
+               readonly />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.endurance.background"
                value="{{system.attributes.body.endurance.background}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.endurance.mark"
                value="{{system.attributes.body.endurance.mark}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
                name="system.attributes.body.endurance.misc"
                value="{{system.attributes.body.endurance.misc}}"
                data-dtype="Number" />
       </div>
+
       <div class="attr-col">
         <input type="number"
+               name="system.attributes.body.endurance.total"
                value="{{system.attributes.body.endurance.total}}"
                data-dtype="Number"
-               disabled />
+               readonly />
       </div>
     </div>
 
