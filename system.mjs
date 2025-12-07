@@ -44,16 +44,17 @@ class MinimalActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     // Save roll buttons: 1d20 + saveValue
-    html.find(".save-roll").on("click", async (event) => {
+    html.find(".save-roll").on("click", (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
       const attr = btn.dataset.attr;  // "body" | "mind" | "soul"
       if (!attr) return;
 
-      const saveValue = getProperty(this.actor.system, `attributes.${attr}.saveValue`) ?? 0;
+      const saveValue =
+        foundry.utils.getProperty(this.actor.system, `attributes.${attr}.saveValue`) ?? 0;
 
       const roll = new Roll("1d20 + @save", { save: saveValue });
-      await roll.roll({ async: true });
+      roll.evaluateSync();
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
