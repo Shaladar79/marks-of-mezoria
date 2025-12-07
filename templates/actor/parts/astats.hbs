@@ -2,22 +2,30 @@
 
 <div class="astats-layout">
 
-  {{!-- LEFT: Attributes (Body / Mind / Soul) --}}
+  {{!-- LEFT: Entire Attributes section --}}
   <div class="astats-left">
 
     <details class="attr-section" open>
-      <summary>Body Attributes</summary>
-      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs"}}
-    </details>
+      <summary>Attributes</summary>
 
-    <details class="attr-section" open>
-      <summary>Mind Attributes</summary>
-      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs"}}
-    </details>
+      <div class="attr-block">
 
-    <details class="attr-section" open>
-      <summary>Soul Attributes</summary>
-      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"}}
+        <details class="attr-section" open>
+          <summary>Body</summary>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs"}}
+        </details>
+
+        <details class="attr-section" open>
+          <summary>Mind</summary>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs"}}
+        </details>
+
+        <details class="attr-section" open>
+          <summary>Soul</summary>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"}}
+        </details>
+
+      </div>
     </details>
 
   </div>
