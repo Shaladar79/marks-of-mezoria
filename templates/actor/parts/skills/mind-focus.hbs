@@ -1,0 +1,138 @@
+{{!-- MIND – FOCUS --}}
+
+<details class="skills-section skills-section-mind-focus">
+  <summary>Mind – Focus</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Tactics --}}
+      <tr>
+        <td>Tactics</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.focus.tactics.trained"
+                 {{checked system.skills.mind.focus.tactics.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.focus.tactics.specialty"
+                 value="{{system.skills.mind.focus.tactics.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.focus.tactics.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.focus.tactics">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Research --}}
+      <tr>
+        <td>Research</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.focus.research.trained"
+                 {{checked system.skills.mind.focus.research.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.focus.research.specialty"
+                 value="{{system.skills.mind.focus.research.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.focus.research.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.focus.research">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Logic --}}
+      <tr>
+        <td>Logic</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.focus.logic.trained"
+                 {{checked system.skills.mind.focus.logic.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.focus.logic.specialty"
+                 value="{{system.skills.mind.focus.logic.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.focus.logic.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.focus.logic">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Use Magic Device --}}
+      <tr>
+        <td>Use Magic Device</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.focus.useMagicDevice.trained"
+                 {{checked system.skills.mind.focus.useMagicDevice.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.focus.useMagicDevice.specialty"
+                 value="{{system.skills.mind.focus.useMagicDevice.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.focus.useMagicDevice.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.focus.useMagicDevice">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Wands --}}
+      <tr>
+        <td>Combat: Wands</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.focus.combatWands.trained"
+                 {{checked system.skills.mind.focus.combatWands.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.focus.combatWands.specialty"
+                 value="{{system.skills.mind.focus.combatWands.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.focus.combatWands.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.focus.combatWands">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
