@@ -1,187 +1,196 @@
 {{!-- templates/actor/parts/subparts/astats/status.hbs --}}
 
-<section class="charinfo-section status-info">
+<div class="status-panel">
 
-  <header class="section-header">
-    <h3>Status</h3>
-  </header>
+  {{!-- CORE RESOURCES -----------------------------------------------------}}
+  <details class="status-section" open>
+    <summary>Core Resources</summary>
 
-  <div class="section-body">
+    <div class="status-block">
+      <div class="status-core-grid">
 
-    {{!-- ========================= --}}
-    {{!--     CORE RESOURCES        --}}
-    {{!-- ========================= --}}
-    <h4>Core Resources</h4>
-
-    <div class="resource-grid">
-
-      <div class="resource-block">
-        <label>Vitality</label>
-        <div class="pair">
-          <span>C:</span>
-          <input name="system.status.vitality.current"
-                 type="number"
-                 value="{{system.status.vitality.current}}">
-          <span>M:</span>
-          <input name="system.status.vitality.max"
-                 type="number"
-                 value="{{system.status.vitality.max}}">
-          <span>R:</span>
-          <input name="system.status.vitality.regen"
-                 type="number"
-                 value="{{system.status.vitality.regen}}">
+        {{!-- Header row --}}
+        <div class="status-core-grid-row status-core-grid-header">
+          <div class="status-col status-col-name">Resource</div>
+          <div class="status-col">Current</div>
+          <div class="status-col">Max</div>
+          <div class="status-col">Regen</div>
         </div>
-      </div>
 
-      <div class="resource-block">
-        <label>Stamina</label>
-        <div class="pair">
-          <span>C:</span>
-          <input name="system.status.stamina.current"
-                 type="number"
-                 value="{{system.status.stamina.current}}">
-          <span>M:</span>
-          <input name="system.status.stamina.max"
-                 type="number"
-                 value="{{system.status.stamina.max}}">
-          <span>R:</span>
-          <input name="system.status.stamina.regen"
-                 type="number"
-                 value="{{system.status.stamina.regen}}">
+        {{!-- Vitality --}}
+        <div class="status-core-grid-row">
+          <div class="status-col status-col-name">Vitality</div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.vitality.current"
+                   value="{{system.status.vitality.current}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.vitality.max"
+                   value="{{system.status.vitality.max}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.vitality.regen"
+                   value="{{system.status.vitality.regen}}"
+                   data-dtype="Number" />
+          </div>
         </div>
-      </div>
 
-      <div class="resource-block">
-        <label>Mana</label>
-        <div class="pair">
-          <span>C:</span>
-          <input name="system.status.mana.current"
-                 type="number"
-                 value="{{system.status.mana.current}}">
-          <span>M:</span>
-          <input name="system.status.mana.max"
-                 type="number"
-                 value="{{system.status.mana.max}}">
-          <span>R:</span>
-          <input name="system.status.mana.regen"
-                 type="number"
-                 value="{{system.status.mana.regen}}">
+        {{!-- Mana --}}
+        <div class="status-core-grid-row">
+          <div class="status-col status-col-name">Mana</div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.mana.current"
+                   value="{{system.status.mana.current}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.mana.max"
+                   value="{{system.status.mana.max}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.mana.regen"
+                   value="{{system.status.mana.regen}}"
+                   data-dtype="Number" />
+          </div>
         </div>
-      </div>
 
+        {{!-- Stamina --}}
+        <div class="status-core-grid-row">
+          <div class="status-col status-col-name">Stamina</div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.stamina.current"
+                   value="{{system.status.stamina.current}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.stamina.max"
+                   value="{{system.status.stamina.max}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.stamina.regen"
+                   value="{{system.status.stamina.regen}}"
+                   data-dtype="Number" />
+          </div>
+        </div>
+
+        {{!-- Trauma (no Regen field) --}}
+        <div class="status-core-grid-row">
+          <div class="status-col status-col-name">Trauma</div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.trauma.current"
+                   value="{{system.status.trauma.current}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col">
+            <input type="number"
+                   name="system.status.trauma.max"
+                   value="{{system.status.trauma.max}}"
+                   data-dtype="Number" />
+          </div>
+          <div class="status-col status-col-empty">
+            &mdash;
+          </div>
+        </div>
+
+      </div>
     </div>
+  </details>
 
+  {{!-- PROTECTIONS --------------------------------------------------------}}
+  <details class="status-section" open>
+    <summary>Protections</summary>
 
-    {{!-- ========================= --}}
-    {{!--     PROTECTION            --}}
-    {{!-- ========================= --}}
-    <h4>Protection</h4>
+    <div class="status-block">
 
-    <div class="protection-grid">
-
-      <div class="prot-block">
-        <label>Trauma</label>
-        <div class="pair">
-          <span>C:</span>
-          <input name="system.status.trauma.current"
-                 type="number"
-                 value="{{system.status.trauma.current}}">
-          <span>M:</span>
-          <input name="system.status.trauma.max"
-                 type="number"
-                 value="{{system.status.trauma.max}}">
-        </div>
-      </div>
-
-      <div class="prot-block">
+      <div class="field">
         <label>Natural Armor</label>
-        <input name="system.status.naturalArmor"
-               type="number"
-               value="{{system.status.naturalArmor}}">
+        <input type="number"
+               name="system.status.naturalArmor"
+               value="{{system.status.naturalArmor}}"
+               data-dtype="Number" />
       </div>
 
-      <div class="prot-block">
-        <label>Armor Integrity</label>
-        <div class="pair">
-          <span>C:</span>
-          <input name="system.status.armor.current"
-                 type="number"
-                 value="{{system.status.armor.current}}">
-          <span>M:</span>
-          <input name="system.status.armor.max"
-                 type="number"
-                 value="{{system.status.armor.max}}">
+      <div class="field">
+        <label>Armor (Current / Max)</label>
+        <div class="inline-pair">
+          <input type="number"
+                 name="system.status.armor.current"
+                 value="{{system.status.armor.current}}"
+                 data-dtype="Number" />
+          <span>/</span>
+          <input type="number"
+                 name="system.status.armor.max"
+                 value="{{system.status.armor.max}}"
+                 data-dtype="Number" />
         </div>
       </div>
 
-      <div class="prot-block">
+      <div class="field">
         <label>Shielding</label>
-        <input name="system.status.shielding.current"
-               type="number"
-               value="{{system.status.shielding.current}}">
+        <input type="number"
+               name="system.status.shielding.current"
+               value="{{system.status.shielding.current}}"
+               data-dtype="Number" />
+      </div>
+
+      <hr />
+
+      <div class="field">
+        <label>Defense (Touch / Physical / Magical)</label>
+        <div class="inline-triplet">
+          <input type="number"
+                 name="system.status.defense.touch"
+                 value="{{system.status.defense.touch}}"
+                 data-dtype="Number" />
+          <input type="number"
+                 name="system.status.defense.physical"
+                 value="{{system.status.defense.physical}}"
+                 data-dtype="Number" />
+          <input type="number"
+                 name="system.status.defense.magical"
+                 value="{{system.status.defense.magical}}"
+                 data-dtype="Number" />
+        </div>
       </div>
 
     </div>
+  </details>
 
+  {{!-- MISC STATUS --------------------------------------------------------}}
+  <details class="status-section" open>
+    <summary>Misc Status</summary>
 
-    {{!-- ========================= --}}
-    {{!--     DEFENSE VALUES        --}}
-    {{!-- ========================= --}}
-    <h4>Defense</h4>
-
-    <div class="defense-grid">
-
-      <div class="def-block">
-        <label>Touch Defense</label>
-        <input name="system.status.defense.touch"
-               type="number"
-               value="{{system.status.defense.touch}}">
-        <p class="hint">10 + Swiftness Mod</p>
-      </div>
-
-      <div class="def-block">
-        <label>Physical Defense</label>
-        <input name="system.status.defense.physical"
-               type="number"
-               value="{{system.status.defense.physical}}">
-        <p class="hint">Touch Defense + Armor Bonus</p>
-      </div>
-
-      <div class="def-block">
-        <label>Magical Defense</label>
-        <input name="system.status.defense.magical"
-               type="number"
-               value="{{system.status.defense.magical}}">
-        <p class="hint">10 + (Resolve Mod + Willpower Mod) / 2</p>
-      </div>
-
-    </div>
-
-
-    {{!-- ========================= --}}
-    {{!--     COMBAT STATS          --}}
-    {{!-- ========================= --}}
-    <h4>Combat Stats</h4>
-
-    <div class="combat-grid">
-
-      <div class="combat-block">
+    <div class="status-block">
+      <div class="field">
         <label>Reaction</label>
-        <input name="system.status.reaction"
-               type="number"
-               value="{{system.status.reaction}}">
-        <p class="hint">(Swiftness Mod + Focus Mod) / 2</p>
+        <input type="number"
+               name="system.status.reaction"
+               value="{{system.status.reaction}}"
+               data-dtype="Number" />
       </div>
 
-      <div class="combat-block">
+      <div class="field">
         <label>Pace</label>
-        <input name="system.status.pace"
-               type="number"
-               value="{{system.status.pace}}">
-        <p class="hint">Based on Race + Rank</p>
+        <input type="number"
+               name="system.status.pace"
+               value="{{system.status.pace}}"
+               data-dtype="Number" />
       </div>
-
     </div>
+  </details>
 
-  </div>
-</section>
+</div>
