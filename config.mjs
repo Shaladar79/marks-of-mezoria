@@ -20,6 +20,11 @@ MezoriaConfig.raceBonuses = RaceBonuses;
 MezoriaConfig.raceStatus  = RaceStatus;
 
 // -------------------------------------
+// Racial skill bonuses (from RaceSkillData)
+// -------------------------------------
+MezoriaConfig.raceSkillData = RaceSkillData;
+
+// -------------------------------------
 // MYTHRIAN TRIBES (for dropdowns, etc.)
 // -------------------------------------
 MezoriaConfig.mythrianTribes = RaceData.mythrianTribes;
