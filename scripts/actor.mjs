@@ -13,10 +13,16 @@ export class MezoriaActor extends Actor {
     system.attributes = system.attributes || {};
     system.status     = system.status     || {};
 
-    /* ---------------------------------------------------------------------- */
-    /* ATTRIBUTE SETUP                                                        */
-    /* ---------------------------------------------------------------------- */
+    // Ensure status sub-objects exist
+    system.status.vitality = system.status.vitality || {};
+    system.status.mana     = system.status.mana     || {};
+    system.status.stamina  = system.status.stamina  || {};
+    system.status.trauma   = system.status.trauma   || {};
+    system.status.armor    = system.status.armor    || {};
+    system.status.shielding = system.status.shielding || {};
+    system.status.defense  = system.status.defense  || {};
 
+    // ---------- ATTRIBUTE SETUP ----------
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
       body: ["might", "swiftness", "endurance"],
@@ -46,20 +52,16 @@ export class MezoriaActor extends Actor {
       system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* CLEAR RACE BUCKET BEFORE REAPPLYING BONUSES                            */
-    /* ---------------------------------------------------------------------- */
-
+    // -------------------------------
+    // Clear all race-derived bonuses
+    // -------------------------------
     for (const g of groups) {
       for (const key of groupKeys[g]) {
         system.attributes[g][key].race = 0;
       }
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* RACIAL / TRIBAL / CLAN / ASPECT BONUSES                                */
-    /* ---------------------------------------------------------------------- */
-
+    // Map flat subattribute keys -> (group, key)
     const subMap = {
       might:      ["body", "might"],
       swiftness:  ["body", "swiftness"],
@@ -77,11 +79,11 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan;
     const aspectKey = system.details.scionAspect;
 
-    const raceBonuses         = MezoriaConfig.raceBonuses            || {};
-    const tribeBonuses        = MezoriaConfig.mythrianTribeBonuses   || {};
-    const clanBonuses         = MezoriaConfig.draconianClanBonuses   || {};
-    const scionAspectBonuses  = MezoriaConfig.scionAspectBonuses     || {};
-    const raceStatusTable     = MezoriaConfig.raceStatus             || {};
+    const raceBonuses       = MezoriaConfig.raceBonuses || {};
+    const tribeBonuses      = MezoriaConfig.mythrianTribeBonuses || {};
+    const clanBonuses       = MezoriaConfig.draconianClanBonuses || {};
+    const scionAspectBonus  = MezoriaConfig.scionAspectBonuses || {};
+    const raceStatusTable   = MezoriaConfig.raceStatus || {};
 
     // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
@@ -111,20 +113,33 @@ export class MezoriaActor extends Actor {
     }
 
     // 4) Scion aspect bonuses (only if race is Scion)
-    if (raceKey === "scion" && aspectKey && scionAspectBonuses[aspectKey]) {
-      applyToRace(scionAspectBonuses[aspectKey]);
+    if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
+      applyToRace(scionAspectBonus[aspectKey]);
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* RECALCULATE TOTALS & SAVE VALUES                                       */
-    /* ---------------------------------------------------------------------- */
+    // ---------- RACE STATUS (pace, natural armor) ----------
+    // These are the things that visually changed in your screenshots.
+    if (raceKey && raceStatusTable[raceKey]) {
+      const rStatus = raceStatusTable[raceKey];
 
+      // Pace default from race (do not overwrite if you've manually set something later, if you prefer)
+      system.status.pace = Number(rStatus.pace ?? system.status.pace ?? 0);
+
+      // Natural armor from race
+      system.status.naturalArmor = Number(rStatus.naturalArmor ?? 0);
+    } else {
+      // fallback defaults
+      system.status.pace = Number(system.status.pace ?? 0);
+      system.status.naturalArmor = Number(system.status.naturalArmor ?? 0);
+    }
+
+    // ---------- Recalculate totals & saves ----------
     for (const g of groups) {
       let sum = 0;
       let count = 0;
 
       for (const key of groupKeys[g]) {
-        const node = system.attributes[g][key];
+        const node  = system.attributes[g][key];
 
         const base       = Number(node.base       ?? 0);
         const race       = Number(node.race       ?? 0);
@@ -134,8 +149,8 @@ export class MezoriaActor extends Actor {
 
         node.total = base + race + background + mark + misc;
 
-        sum   += node.total;
-        count += 1;
+        sum += node.total;
+        count++;
       }
 
       // Save value = average of the three substats (rounded down)
@@ -143,44 +158,21 @@ export class MezoriaActor extends Actor {
       system.attributes[g].saveValue = avg;
     }
 
-    /* ---------------------------------------------------------------------- */
-    /* STATUS: RACE DEFAULTS (PACE, NATURAL ARMOR, DEFENSES)                  */
-    /* ---------------------------------------------------------------------- */
+    // ---------- DEFENSE CALCULATION ----------
+    const natArmor = Number(system.status.naturalArmor ?? 0);
 
-    const status = system.status;
+    // Base 10 across the board for now
+    const baseTouch    = 10;
+    const basePhysical = 10;
+    const baseMagical  = 10;
 
-    // Ensure core status structure exists
-    status.vitality = status.vitality || { current: 0, max: 0, regen: 0 };
-    status.mana     = status.mana     || { current: 0, max: 0, regen: 0 };
-    status.stamina  = status.stamina  || { current: 0, max: 0, regen: 0 };
-    status.trauma   = status.trauma   || { current: 0, max: 0 };
+    // Touch: ignores natural armor
+    system.status.defense.touch    = baseTouch;
 
-    status.armor    = status.armor    || { current: 0, max: 0 };
-    status.shielding = status.shielding || { current: 0 };
+    // Physical: base + natural armor (ONLY place natural armor applies)
+    system.status.defense.physical = basePhysical + natArmor;
 
-    status.defense  = status.defense  || {
-      touch: 0,
-      physical: 0,
-      magical: 0
-    };
-
-    // Apply race default pace & natural armor, if defined
-    const baseStatus = raceKey ? raceStatusTable[raceKey] : null;
-    if (baseStatus) {
-      status.pace         = Number(baseStatus.pace         ?? 0);
-      status.naturalArmor = Number(baseStatus.naturalArmor ?? 0);
-    } else {
-      status.pace         = Number(status.pace         ?? 0);
-      status.naturalArmor = Number(status.naturalArmor ?? 0);
-    }
-
-    // Simple default defenses based on natural armor (can be changed later)
-    const baseDef = 10 + Number(status.naturalArmor ?? 0);
-    status.defense.touch    = baseDef;
-    status.defense.physical = baseDef;
-    status.defense.magical  = baseDef;
-
-    // Reaction stays manual for now
-    status.reaction = Number(status.reaction ?? 0);
+    // Magical: base only for now
+    system.status.defense.magical  = baseMagical;
   }
 }
