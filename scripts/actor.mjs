@@ -13,14 +13,23 @@ export class MezoriaActor extends Actor {
     system.attributes = system.attributes || {};
     system.status     = system.status     || {};
 
-    // Ensure status sub-objects exist
-    system.status.vitality = system.status.vitality || {};
-    system.status.mana     = system.status.mana     || {};
-    system.status.stamina  = system.status.stamina  || {};
-    system.status.trauma   = system.status.trauma   || {};
-    system.status.armor    = system.status.armor    || {};
+    // ---------- STATUS SETUP ----------
+    const ensureResource = (key, withRegen = true) => {
+      system.status[key] = system.status[key] || {};
+      const r = system.status[key];
+      r.current = Number(r.current ?? 0);
+      r.max     = Number(r.max     ?? 0);
+      if (withRegen) r.regen = Number(r.regen ?? 0);
+      return r;
+    };
+
+    const vit     = ensureResource("vitality", true);
+    const mana    = ensureResource("mana", true);
+    const stam    = ensureResource("stamina", true);
+    const trauma  = ensureResource("trauma", false);
+    system.status.armor     = system.status.armor     || {};
     system.status.shielding = system.status.shielding || {};
-    system.status.defense  = system.status.defense  || {};
+    system.status.defense   = system.status.defense   || {};
 
     // ---------- ATTRIBUTE SETUP ----------
     const groups = ["body", "mind", "soul"];
@@ -30,13 +39,11 @@ export class MezoriaActor extends Actor {
       soul: ["presence", "grace", "resolve"]
     };
 
-    // Ensure each sub-attribute object + numeric fields exist
     for (const g of groups) {
       system.attributes[g] = system.attributes[g] || {};
       for (const key of groupKeys[g]) {
         const node = system.attributes[g][key] || {};
 
-        // Base stays for future scaling, but effectively 0 in this system
         node.base       = Number(node.base       ?? 0);
         node.race       = Number(node.race       ?? 0);
         node.background = Number(node.background ?? 0);
@@ -48,13 +55,11 @@ export class MezoriaActor extends Actor {
         system.attributes[g][key] = node;
       }
 
-      // Container for the main save value (Body/Mind/Soul save)
+      // container for Body/Mind/Soul save value
       system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
-    // -------------------------------
     // Clear all race-derived bonuses
-    // -------------------------------
     for (const g of groups) {
       for (const key of groupKeys[g]) {
         system.attributes[g][key].race = 0;
@@ -79,13 +84,12 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan;
     const aspectKey = system.details.scionAspect;
 
-    const raceBonuses       = MezoriaConfig.raceBonuses || {};
-    const tribeBonuses      = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses       = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus  = MezoriaConfig.scionAspectBonuses || {};
-    const raceStatusTable   = MezoriaConfig.raceStatus || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses || {};
+    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
+    const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
+    const scionAspectBonus = MezoriaConfig.scionAspectBonuses || {};
+    const raceStatusTable  = MezoriaConfig.raceStatus || {};
 
-    // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
       if (!bonusSet) return;
       for (const [subKey, value] of Object.entries(bonusSet)) {
@@ -102,35 +106,45 @@ export class MezoriaActor extends Actor {
       applyToRace(raceBonuses[raceKey]);
     }
 
-    // 2) Mythrian tribe bonuses (only if race is Mythrian)
+    // 2) Mythrian tribe bonuses
     if (raceKey === "mythrian" && tribeKey && tribeBonuses[tribeKey]) {
       applyToRace(tribeBonuses[tribeKey]);
     }
 
-    // 3) Draconian clan bonuses (only if race is Draconian)
+    // 3) Draconian clan bonuses
     if (raceKey === "draconian" && clanKey && clanBonuses[clanKey]) {
       applyToRace(clanBonuses[clanKey]);
     }
 
-    // 4) Scion aspect bonuses (only if race is Scion)
+    // 4) Scion aspect bonuses
     if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
       applyToRace(scionAspectBonus[aspectKey]);
     }
 
-    // ---------- RACE STATUS (pace, natural armor) ----------
-    // These are the things that visually changed in your screenshots.
+    // ---------- RACE STATUS (pace, natural armor, core max) ----------
     if (raceKey && raceStatusTable[raceKey]) {
       const rStatus = raceStatusTable[raceKey];
 
-      // Pace default from race (do not overwrite if you've manually set something later, if you prefer)
-      system.status.pace = Number(rStatus.pace ?? system.status.pace ?? 0);
+      // Pace & natural armor
+      system.status.pace         = Number(rStatus.pace         ?? system.status.pace ?? 0);
+      system.status.naturalArmor = Number(rStatus.naturalArmor ?? system.status.naturalArmor ?? 0);
 
-      // Natural armor from race
-      system.status.naturalArmor = Number(rStatus.naturalArmor ?? 0);
-    } else {
-      // fallback defaults
-      system.status.pace = Number(system.status.pace ?? 0);
-      system.status.naturalArmor = Number(system.status.naturalArmor ?? 0);
+      // Helper: pull max from raceStatus if present
+      const applyMaxFromConfig = (cfgVal, resourceObj) => {
+        if (cfgVal === undefined || cfgVal === null) return;
+        if (typeof cfgVal === "number") {
+          resourceObj.max = Number(cfgVal);
+        } else if (typeof cfgVal === "object") {
+          if (cfgVal.max !== undefined) {
+            resourceObj.max = Number(cfgVal.max);
+          }
+        }
+      };
+
+      applyMaxFromConfig(rStatus.vitality, vit);
+      applyMaxFromConfig(rStatus.mana,     mana);
+      applyMaxFromConfig(rStatus.stamina,  stam);
+      applyMaxFromConfig(rStatus.trauma,   trauma);
     }
 
     // ---------- Recalculate totals & saves ----------
@@ -153,7 +167,6 @@ export class MezoriaActor extends Actor {
         count++;
       }
 
-      // Save value = average of the three substats (rounded down)
       const avg = count > 0 ? Math.floor(sum / count) : 0;
       system.attributes[g].saveValue = avg;
     }
@@ -161,18 +174,12 @@ export class MezoriaActor extends Actor {
     // ---------- DEFENSE CALCULATION ----------
     const natArmor = Number(system.status.naturalArmor ?? 0);
 
-    // Base 10 across the board for now
     const baseTouch    = 10;
     const basePhysical = 10;
     const baseMagical  = 10;
 
-    // Touch: ignores natural armor
     system.status.defense.touch    = baseTouch;
-
-    // Physical: base + natural armor (ONLY place natural armor applies)
-    system.status.defense.physical = basePhysical + natArmor;
-
-    // Magical: base only for now
+    system.status.defense.physical = basePhysical + natArmor; // only here
     system.status.defense.magical  = baseMagical;
   }
 }
