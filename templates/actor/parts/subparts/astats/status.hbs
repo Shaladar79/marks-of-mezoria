@@ -1,21 +1,19 @@
 {{!-- templates/actor/parts/subparts/astats/status.hbs --}}
 
-<div class="status-panel">
+<details class="status-section" open>
+  <summary>Status</summary>
 
-  {{!-- MAIN COLLAPSIBLE STATUS WRAPPER --}}
-  <details class="status-section status-main" open>
-    <summary>Status</summary>
-    <div class="status-block">
+  <div class="status-block">
+    <div class="status-panel">
 
       {{!-- ================= CORE RESOURCES ================= --}}
-      <details class="status-section status-core" open>
+      <details class="status-section" open>
         <summary>Core Resources</summary>
         <div class="status-block">
           <div class="status-core-grid">
 
-            {{!-- Header row --}}
             <div class="status-core-grid-row status-core-grid-header">
-              <div class="status-col status-col-name">Resource</div>
+              <div class="status-col-name">Resource</div>
               <div class="status-col">Current</div>
               <div class="status-col">Max</div>
               <div class="status-col">Regen</div>
@@ -90,7 +88,7 @@
               </div>
             </div>
 
-            {{!-- Trauma (no regen) --}}
+            {{!-- Trauma (no Regen input) --}}
             <div class="status-core-grid-row">
               <div class="status-col-name">Trauma</div>
               <div class="status-col">
@@ -105,9 +103,7 @@
                        value="{{system.status.trauma.max}}"
                        data-dtype="Number" />
               </div>
-              <div class="status-col status-col-empty">
-                &mdash;
-              </div>
+              <div class="status-col status-col-empty">—</div>
             </div>
 
           </div>
@@ -115,104 +111,90 @@
       </details>
 
       {{!-- ================= PROTECTIONS ================= --}}
-      <details class="status-section status-protections" open>
+      <details class="status-section" open>
         <summary>Protections</summary>
         <div class="status-block">
 
-          {{!-- Defense grid: labels on top, values under them --}}
-          <div class="status-core-grid">
-            <div class="status-core-grid-row status-core-grid-header">
-              <div class="status-col status-col-name"></div>
-              <div class="status-col">Touch</div>
-              <div class="status-col">Physical</div>
-              <div class="status-col">Magical</div>
-            </div>
+          {{!-- Defense row: Touch / Physical / Magical --}}
+          <div class="status-core-grid-row status-core-grid-header">
+            <div class="status-col-name"></div>
+            <div class="status-col">Touch</div>
+            <div class="status-col">Physical</div>
+            <div class="status-col">Magical</div>
+          </div>
 
-            <div class="status-core-grid-row">
-              <div class="status-col-name">Defense</div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.defense.touch"
-                       value="{{system.status.defense.touch}}"
-                       data-dtype="Number" />
-              </div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.defense.physical"
-                       value="{{system.status.defense.physical}}"
-                       data-dtype="Number" />
-              </div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.defense.magical"
-                       value="{{system.status.defense.magical}}"
-                       data-dtype="Number" />
-              </div>
+          <div class="status-core-grid-row">
+            <div class="status-col-name">Defense</div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.defense.touch"
+                     value="{{system.status.defense.touch}}"
+                     data-dtype="Number" />
+            </div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.defense.physical"
+                     value="{{system.status.defense.physical}}"
+                     data-dtype="Number" />
+            </div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.defense.magical"
+                     value="{{system.status.defense.magical}}"
+                     data-dtype="Number" />
             </div>
           </div>
 
-          {{!-- Armor grid: Natural / Current / Max --}}
-          <div class="status-core-grid" style="margin-top: 4px;">
-            <div class="status-core-grid-row status-core-grid-header">
-              <div class="status-col status-col-name">Armor</div>
-              <div class="status-col">Natural</div>
-              <div class="status-col">Current</div>
-              <div class="status-col">Max</div>
-            </div>
+          {{!-- Armor row: Natural / Current / Max --}}
+          <div class="status-core-grid-row status-core-grid-header" style="margin-top:4px;">
+            <div class="status-col-name"></div>
+            <div class="status-col">Natural</div>
+            <div class="status-col">Current</div>
+            <div class="status-col">Max</div>
+          </div>
 
-            <div class="status-core-grid-row">
-              <div class="status-col-name"></div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.naturalArmor"
-                       value="{{system.status.naturalArmor}}"
-                       data-dtype="Number" />
-              </div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.armor.current"
-                       value="{{system.status.armor.current}}"
-                       data-dtype="Number" />
-              </div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.armor.max"
-                       value="{{system.status.armor.max}}"
-                       data-dtype="Number" />
-              </div>
+          <div class="status-core-grid-row">
+            <div class="status-col-name">Armor</div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.naturalArmor"
+                     value="{{system.status.naturalArmor}}"
+                     data-dtype="Number" />
+            </div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.armor.current"
+                     value="{{system.status.armor.current}}"
+                     data-dtype="Number" />
+            </div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.armor.max"
+                     value="{{system.status.armor.max}}"
+                     data-dtype="Number" />
             </div>
           </div>
 
-          {{!-- Shielding row (Current only) --}}
-          <div class="status-core-grid" style="margin-top: 4px;">
-            <div class="status-core-grid-row status-core-grid-header">
-              <div class="status-col status-col-name">Shielding</div>
-              <div class="status-col">Current</div>
-              <div class="status-col"></div>
-              <div class="status-col"></div>
+          {{!-- Shielding --}}
+          <div class="status-core-grid-row" style="margin-top:4px;">
+            <div class="status-col-name">Shielding</div>
+            <div class="status-col">
+              <input type="number"
+                     name="system.status.shielding.current"
+                     value="{{system.status.shielding.current}}"
+                     data-dtype="Number" />
             </div>
-
-            <div class="status-core-grid-row">
-              <div class="status-col-name"></div>
-              <div class="status-col">
-                <input type="number"
-                       name="system.status.shielding.current"
-                       value="{{system.status.shielding.current}}"
-                       data-dtype="Number" />
-              </div>
-              <div class="status-col"></div>
-              <div class="status-col"></div>
-            </div>
+            <div class="status-col"></div>
+            <div class="status-col"></div>
           </div>
 
         </div>
       </details>
 
       {{!-- ================= MISC STATUS ================= --}}
-      <details class="status-section status-misc" open>
+      <details class="status-section" open>
         <summary>Misc Status</summary>
         <div class="status-block">
-
           <div class="status-misc-row">
             <div class="field">
               <label>Reaction</label>
@@ -221,7 +203,6 @@
                      value="{{system.status.reaction}}"
                      data-dtype="Number" />
             </div>
-
             <div class="field">
               <label>Pace</label>
               <input type="number"
@@ -230,10 +211,9 @@
                      data-dtype="Number" />
             </div>
           </div>
-
         </div>
       </details>
 
     </div>
-  </details>
-</div>
+  </div>
+</details>
