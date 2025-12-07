@@ -2,26 +2,26 @@
 
 <div class="attr-block attr-body">
 
-  <div class="attr-block-header">
-    <div class="attr-save-row">
-      <span class="attr-save-label">Body Save</span>
-      <input type="number"
-             name="system.attributes.body.save"
-             value="{{system.attributes.body.save}}"
-             data-dtype="Number"
-             readonly />
-      <button type="button"
-              class="attr-save-roll"
-              data-save="body"
-              title="Roll Body Save">
-        <i class="fas fa-dice-d20"></i>
-      </button>
-    </div>
+  <div class="attr-block-header">Body Save</div>
+
+  <div class="attr-save-row">
+    <span class="attr-save-label">Save</span>
+    <input class="attr-save-value"
+           type="number"
+           value="{{system.attributes.body.saveValue}}"
+           readonly />
+    <button type="button"
+            class="save-roll"
+            data-attr="body">
+      <i class="fas fa-dice-d20"></i>
+    </button>
   </div>
 
   <div class="attr-grid">
+
+    {{!-- Header row --}}
     <div class="attr-grid-row attr-grid-header">
-      <div class="attr-col-name">Attribute</div>
+      <div class="attr-col-name">&nbsp;</div>
       <div class="attr-col">Race</div>
       <div class="attr-col">Background</div>
       <div class="attr-col">Mark</div>
@@ -32,75 +32,117 @@
     {{!-- Might --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Might</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.might.race"
-               value="{{system.attributes.body.might.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.might.race"
+               value="{{system.attributes.body.might.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.might.background"
-               value="{{system.attributes.body.might.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.might.background"
+               value="{{system.attributes.body.might.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.might.mark"
-               value="{{system.attributes.body.might.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.might.mark"
+               value="{{system.attributes.body.might.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.might.misc"
-               value="{{system.attributes.body.might.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.might.misc"
+               value="{{system.attributes.body.might.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.might.total"
-               value="{{system.attributes.body.might.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.body.might.total}}"
+               readonly />
       </div>
     </div>
 
     {{!-- Swiftness --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Swiftness</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.swiftness.race"
-               value="{{system.attributes.body.swiftness.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.swiftness.race"
+               value="{{system.attributes.body.swiftness.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.swiftness.background"
-               value="{{system.attributes.body.swiftness.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.swiftness.background"
+               value="{{system.attributes.body.swiftness.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.swiftness.mark"
-               value="{{system.attributes.body.swiftness.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.swiftness.mark"
+               value="{{system.attributes.body.swiftness.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.swiftness.misc"
-               value="{{system.attributes.body.swiftness.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.swiftness.misc"
+               value="{{system.attributes.body.swiftness.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.swiftness.total"
-               value="{{system.attributes.body.swiftness.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.body.swiftness.total}}"
+               readonly />
       </div>
     </div>
 
     {{!-- Endurance --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Endurance</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.endurance.race"
-               value="{{system.attributes.body.endurance.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.endurance.race"
+               value="{{system.attributes.body.endurance.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.endurance.background"
-               value="{{system.attributes.body.endurance.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.endurance.background"
+               value="{{system.attributes.body.endurance.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.endurance.mark"
-               value="{{system.attributes.body.endurance.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.body.endurance.mark"
+               value="{{system.attributes.body.endurance.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.endurance.misc"
-               value="{{system.attributes.body.endurance.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.body.endurance.misc"
+               value="{{system.attributes.body.endurance.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.body.endurance.total"
-               value="{{system.attributes.body.endurance.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.body.endurance.total}}"
+               readonly />
       </div>
     </div>
 
