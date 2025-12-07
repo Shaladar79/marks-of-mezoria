@@ -6,6 +6,8 @@
 import { RaceData } from "./scripts/races.mjs";
 import { RaceBonuses } from "./scripts/races.mjs";
 import { RaceStatus } from "./scripts/races.mjs";
+import { RankData } from "./scripts/rank.mjs";
+
 export const MezoriaConfig = {};
 
 // -------------------------------------
@@ -15,6 +17,7 @@ MezoriaConfig.races = RaceData.labels;
 MezoriaConfig.raceDescriptions = RaceData.descriptions;
 MezoriaConfig.raceBonuses = RaceBonuses;
 MezoriaConfig.raceStatus  = RaceStatus;
+
 // -------------------------------------
 // MYTHRIAN TRIBES (for dropdowns, etc.)
 // -------------------------------------
@@ -27,20 +30,13 @@ MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
 MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
-// RANKS (key → label)
+// RANKS (from RankData)
 // -------------------------------------
-MezoriaConfig.ranks = {
-  normal:    "Normal",
-  quartz:    "Quartz",
-  topaz:     "Topaz",
-  garnet:    "Garnet",
-  emerald:   "Emerald",
-  sapphire:  "Sapphire",
-  ruby:      "Ruby",
-  diamond:   "Diamond",
-  mythrite:  "Mythrite",
-  celestite: "Celestite"
-};
+MezoriaConfig.ranks = RankData.labels;
+
+// Rank-based trained skill bonuses
+// (only trained skills get this bonus)
+MezoriaConfig.rankSkillBonuses = RankData.skillBonuses;
 
 // -------------------------------------
 // BACKGROUND TYPES
@@ -283,4 +279,14 @@ MezoriaConfig.markOfPurposeDescriptions = {
   runesmith:  "Traps, wards, and placed battlefield devices.",
   berserker:  "Burst offense under pain; shock entry.",
   psion:      "Mind-force and perception edge; subtle control."
+};
+
+// -------------------------------------
+// Skill Specialties (placeholder)
+// -------------------------------------
+MezoriaConfig.skillSpecialties = {
+  // For now, every skill uses this same list.
+  default: [
+    "Under Construction"
+  ]
 };
