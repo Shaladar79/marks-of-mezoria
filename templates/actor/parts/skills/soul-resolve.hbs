@@ -1,0 +1,90 @@
+{{!-- SOUL – RESOLVE --}}
+
+<details class="skills-section skills-section-soul-resolve">
+  <summary>Soul – Resolve</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Conviction --}}
+      <tr>
+        <td>Conviction</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.resolve.conviction.trained"
+                 {{checked system.skills.soul.resolve.conviction.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.resolve.conviction.specialty"
+                 value="{{system.skills.soul.resolve.conviction.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.resolve.conviction.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.resolve.conviction">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Composure --}}
+      <tr>
+        <td>Composure</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.resolve.composure.trained"
+                 {{checked system.skills.soul.resolve.composure.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.resolve.composure.specialty"
+                 value="{{system.skills.soul.resolve.composure.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.resolve.composure.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.resolve.composure">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Aura Control --}}
+      <tr>
+        <td>Aura Control</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.soul.resolve.auraControl.trained"
+                 {{checked system.skills.soul.resolve.auraControl.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.soul.resolve.auraControl.specialty"
+                 value="{{system.skills.soul.resolve.auraControl.specialty}}" />
+        </td>
+        <td>{{system.skills.soul.resolve.auraControl.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="soul.resolve.auraControl">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
