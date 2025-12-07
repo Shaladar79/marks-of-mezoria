@@ -2,26 +2,26 @@
 
 <div class="attr-block attr-mind">
 
-  <div class="attr-block-header">
-    <div class="attr-save-row">
-      <span class="attr-save-label">Mind Save</span>
-      <input type="number"
-             name="system.attributes.mind.save"
-             value="{{system.attributes.mind.save}}"
-             data-dtype="Number"
-             readonly />
-      <button type="button"
-              class="attr-save-roll"
-              data-save="mind"
-              title="Roll Mind Save">
-        <i class="fas fa-dice-d20"></i>
-      </button>
-    </div>
+  <div class="attr-block-header">Mind Save</div>
+
+  <div class="attr-save-row">
+    <span class="attr-save-label">Save</span>
+    <input class="attr-save-value"
+           type="number"
+           value="{{system.attributes.mind.saveValue}}"
+           readonly />
+    <button type="button"
+            class="save-roll"
+            data-attr="mind">
+      <i class="fas fa-dice-d20"></i>
+    </button>
   </div>
 
   <div class="attr-grid">
+
+    {{!-- Header row --}}
     <div class="attr-grid-row attr-grid-header">
-      <div class="attr-col-name">Attribute</div>
+      <div class="attr-col-name">&nbsp;</div>
       <div class="attr-col">Race</div>
       <div class="attr-col">Background</div>
       <div class="attr-col">Mark</div>
@@ -32,75 +32,117 @@
     {{!-- Insight --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Insight</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.insight.race"
-               value="{{system.attributes.mind.insight.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.insight.race"
+               value="{{system.attributes.mind.insight.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.insight.background"
-               value="{{system.attributes.mind.insight.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.insight.background"
+               value="{{system.attributes.mind.insight.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.insight.mark"
-               value="{{system.attributes.mind.insight.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.insight.mark"
+               value="{{system.attributes.mind.insight.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.insight.misc"
-               value="{{system.attributes.mind.insight.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.insight.misc"
+               value="{{system.attributes.mind.insight.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.insight.total"
-               value="{{system.attributes.mind.insight.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.mind.insight.total}}"
+               readonly />
       </div>
     </div>
 
     {{!-- Focus --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Focus</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.focus.race"
-               value="{{system.attributes.mind.focus.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.focus.race"
+               value="{{system.attributes.mind.focus.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.focus.background"
-               value="{{system.attributes.mind.focus.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.focus.background"
+               value="{{system.attributes.mind.focus.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.focus.mark"
-               value="{{system.attributes.mind.focus.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.focus.mark"
+               value="{{system.attributes.mind.focus.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.focus.misc"
-               value="{{system.attributes.mind.focus.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.focus.misc"
+               value="{{system.attributes.mind.focus.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.focus.total"
-               value="{{system.attributes.mind.focus.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.mind.focus.total}}"
+               readonly />
       </div>
     </div>
 
     {{!-- Willpower --}}
     <div class="attr-grid-row">
       <div class="attr-col-name">Willpower</div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.willpower.race"
-               value="{{system.attributes.mind.willpower.race}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.willpower.race"
+               value="{{system.attributes.mind.willpower.race}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.willpower.background"
-               value="{{system.attributes.mind.willpower.background}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.willpower.background"
+               value="{{system.attributes.mind.willpower.background}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.willpower.mark"
-               value="{{system.attributes.mind.willpower.mark}}" data-dtype="Number" readonly />
+        <input type="number"
+               name="system.attributes.mind.willpower.mark"
+               value="{{system.attributes.mind.willpower.mark}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.willpower.misc"
-               value="{{system.attributes.mind.willpower.misc}}" data-dtype="Number" />
+        <input type="number"
+               name="system.attributes.mind.willpower.misc"
+               value="{{system.attributes.mind.willpower.misc}}"
+               data-dtype="Number" />
       </div>
+
       <div class="attr-col">
-        <input type="number" name="system.attributes.mind.willpower.total"
-               value="{{system.attributes.mind.willpower.total}}" data-dtype="Number" readonly />
+        <input type="number"
+               value="{{system.attributes.mind.willpower.total}}"
+               readonly />
       </div>
     </div>
 
