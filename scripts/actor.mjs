@@ -12,6 +12,7 @@ export class MezoriaActor extends Actor {
     system.details    = system.details    || {};
     system.attributes = system.attributes || {};
     system.status     = system.status     || {};
+    system.skills     = system.skills     || {};
 
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
@@ -30,7 +31,7 @@ export class MezoriaActor extends Actor {
       for (const key of groupKeys[g]) {
         const node = system.attributes[g][key] || {};
 
-        // Base stays for future scaling, but effectively 0 in this system
+        // Base stays for future scaling
         node.base       = Number(node.base       ?? 0);
         node.race       = Number(node.race       ?? 0);
         node.background = Number(node.background ?? 0);
@@ -73,7 +74,7 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan;
     const aspectKey = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses        || {};
+    const raceBonuses      = MezoriaConfig.raceBonuses          || {};
     const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
     const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
     const scionAspectBonus = MezoriaConfig.scionAspectBonuses   || {};
@@ -152,8 +153,6 @@ export class MezoriaActor extends Actor {
 
       node.current = Number(node.current ?? 0);
 
-      // We expect RaceStatus to maybe have keys like "vitalityMax", "manaMax", etc.
-      // If your keys are different, adjust this mapping.
       const raceMaxKey = `${res}Max`;
       if (rs[raceMaxKey] !== undefined) {
         node.max = Number(rs[raceMaxKey] ?? 0);
@@ -187,7 +186,7 @@ export class MezoriaActor extends Actor {
     // ---- Defenses: natural armor only applies to Physical ----
     const def = system.status.defense;
 
-    const baseDefense = Number(def.touch ?? 10); // you can change this base to 11, etc.
+    const baseDefense = Number(def.touch ?? 10); // changeable base
 
     // Touch is the base
     def.touch = baseDefense;
@@ -199,5 +198,68 @@ export class MezoriaActor extends Actor {
 
     // Magical: currently just uses base (you can add other bonuses later)
     def.magical = Number(def.magical ?? baseDefense);
+
+    /* ====================================================================== */
+    /* SKILLS: ATTRIBUTE + RANK TRAINED BONUS (+ FUTURE RACIAL/BACKGROUND)    */
+    /* ====================================================================== */
+
+    const rankKey = system.details.rank || "normal";
+    const rankBonusMap = MezoriaConfig.rankSkillBonuses || {};
+    const trainedBonus = Number(rankBonusMap[rankKey] ?? 0);
+
+    // Map skill sub-groups to which attribute sub-stat they use
+    // Most sub-keys match directly (might → Might, etc.).
+    // Lore is special: it keys off Insight.
+    const subToAttr = {
+      might:      "might",
+      swiftness:  "swiftness",
+      endurance:  "endurance",
+      insight:    "insight",
+      focus:      "focus",
+      willpower:  "willpower",
+      presence:   "presence",
+      grace:      "grace",
+      resolve:    "resolve",
+      lore:       "insight"   // Lore uses Mind: Insight as its attribute
+    };
+
+    const skillsRoot = system.skills;
+
+    for (const [catKey, catObj] of Object.entries(skillsRoot)) {
+      if (!catObj || typeof catObj !== "object") continue; // body / mind / soul
+
+      for (const [subKey, subObj] of Object.entries(catObj)) {
+        if (!subObj || typeof subObj !== "object") continue; // might, swiftness, etc.
+
+        const attrSub = subToAttr[subKey];
+        if (!attrSub) continue;
+
+        const attrTotal = Number(
+          system.attributes?.[catKey]?.[attrSub]?.total ?? 0
+        );
+
+        for (const [skillKey, skillNode] of Object.entries(subObj)) {
+          if (!skillNode || typeof skillNode !== "object") continue;
+
+          // Skip any non-skill flags such as "expertise"
+          if (skillKey === "expertise") continue;
+
+          // Ensure numeric modifier buckets exist (for future use)
+          skillNode.racialBonus     = Number(skillNode.racialBonus     ?? 0);
+          skillNode.backgroundBonus = Number(skillNode.backgroundBonus ?? 0);
+          skillNode.misc            = Number(skillNode.misc            ?? 0);
+
+          const isTrained = skillNode.trained ? trainedBonus : 0;
+
+          // Final total = attribute + trained bonus (from rank) + other bonuses
+          skillNode.total =
+            attrTotal +
+            isTrained +
+            skillNode.racialBonus +
+            skillNode.backgroundBonus +
+            skillNode.misc;
+        }
+      }
+    }
   }
 }
