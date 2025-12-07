@@ -1,12 +1,23 @@
+/* ========================================================================== */
+/* ROOT SHEET CONTAINER                                                       */
+/* ========================================================================== */
+
 .marks-of-mezoria.sheet.actor {
   padding: 8px;
+  box-sizing: border-box;
+  font-size: 13px;
 }
+
+/* ========================================================================== */
+/* HEADER                                                                     */
+/* ========================================================================== */
 
 .sheet-header {
   margin-bottom: 8px;
 }
 
 .header-top-row {
+  display: flex;
   justify-content: flex-end;
   margin-bottom: 4px;
 }
@@ -19,6 +30,7 @@
 }
 
 .header-main-row {
+  display: flex;
   align-items: flex-start;
   gap: 8px;
 }
@@ -44,7 +56,10 @@
   margin-bottom: 4px;
 }
 
+/* Meta row (Rank / Race / Background / etc.) */
+
 .meta-row {
+  display: flex;
   gap: 8px;
 }
 
@@ -58,16 +73,38 @@
   font-weight: bold;
 }
 
-.meta-row input,
-.meta-row select {
-  width: 100%;
-}
-
 /* Later we'll hide/show Purpose by rank via JS; class is ready for it */
 .purpose-field input[readonly] {
   font-style: italic;
   opacity: 0.9;
 }
+
+/* ========================================================================== */
+/* GENERIC FIELD STYLING                                                      */
+/* ========================================================================== */
+
+.sheet-body .field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
+
+.sheet-body .field label {
+  font-size: 0.75em;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.sheet-body .field input,
+.sheet-body .field select,
+.sheet-body .field textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ========================================================================== */
+/* TABS                                                                       */
+/* ========================================================================== */
 
 /* Tab bar */
 .sheet-tabs {
@@ -86,10 +123,14 @@
   border-bottom: 2px solid #fff;
 }
 
-/* Tab content */
+/* Tab content container */
 .sheet-body {
   padding-top: 4px;
 }
+
+/* ========================================================================== */
+/* CHARACTER INFO TAB                                                         */
+/* ========================================================================== */
 
 .cinfo-section {
   margin-bottom: 6px;
@@ -98,4 +139,73 @@
 .cinfo-section > summary {
   cursor: pointer;
   font-weight: bold;
+}
+
+/* ========================================================================== */
+/* ATTRIBUTES & STATUS TAB                                                    */
+/* ========================================================================== */
+
+/* Whole tab */
+.tab.astats {
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+/* Row that holds Body / Mind / Soul blocks */
+.tab.astats .attr-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin-bottom: 6px;
+}
+
+/* Generic attribute block “card” */
+.attr-block {
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+/* Make each of Body / Mind / Soul flex evenly */
+.tab.astats .attr-row .attr-block {
+  flex: 1 1 0;
+}
+
+/* Optional: small label tweaks just for attribute blocks */
+.attr-block .field {
+  margin-bottom: 3px;
+}
+
+.attr-block .field label {
+  font-size: 0.75em;
+}
+
+/* Divider line between attributes and status */
+.tab.astats .attr-divider {
+  margin: 4px 0;
+}
+
+/* Status area under the three attribute blocks */
+.tab.astats .status-row {
+  margin-top: 2px;
+}
+
+/* If status.hbs uses a grid, this will make it nice and tidy */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 6px;
+}
+
+/* ========================================================================== */
+/* RESPONSIVE TWEAKS                                                          */
+/* ========================================================================== */
+
+/* If the sheet is ever narrowed, stack the three attribute blocks */
+@media (max-width: 640px) {
+  .tab.astats .attr-row {
+    flex-direction: column;
+  }
 }
