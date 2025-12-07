@@ -202,23 +202,53 @@
   border-top: none;
 }
 
-/* Line up fields across attributes */
-.attr-block .field {
-  display: flex;
-  align-items: center;
-  margin-bottom: 3px;
+/* ---------- Attribute table-style layout ---------- */
+
+/* Header text inside the card (Body (Main), Mind (Main), Soul (Main)) */
+.attr-block-header {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: 0.85em;
 }
 
-.attr-block .field label {
-  width: 90px;                  /* fixed label width so they line up */
-  margin: 0 4px 0 0;
+/* Grid container inside each attribute block */
+.attr-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Each row */
+.attr-grid-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+/* First column: attribute name */
+.attr-col-name {
+  flex: 0 0 80px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+/* Other columns share remaining space */
+.attr-grid-row .attr-col:not(.attr-col-name) {
+  flex: 1 1 0;
+}
+
+/* Header row styling (Attribute / Race / Background / Mark / Misc / Total) */
+.attr-grid-header .attr-col {
   font-size: 0.75em;
   font-weight: bold;
 }
 
-.attr-block .field input,
-.attr-block .field select {
-  flex: 1;
+/* Inputs inside the grid */
+.attr-grid-row input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 /* STATUS PANEL (right half) */
