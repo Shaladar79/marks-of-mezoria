@@ -9,8 +9,13 @@ export class MezoriaActor extends Actor {
     super.prepareDerivedData();
 
     const system = this.system || {};
-    system.details = system.details || {};
+    system.details    = system.details    || {};
     system.attributes = system.attributes || {};
+    system.status     = system.status     || {};
+
+    /* ---------------------------------------------------------------------- */
+    /* ATTRIBUTE SETUP                                                        */
+    /* ---------------------------------------------------------------------- */
 
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
@@ -37,20 +42,24 @@ export class MezoriaActor extends Actor {
         system.attributes[g][key] = node;
       }
 
-      // Ensure we have a container for the main save value
+      // Container for the main save value (Body/Mind/Soul save)
       system.attributes[g].saveValue = Number(system.attributes[g].saveValue ?? 0);
     }
 
-    // -------------------------------
-    // Clear all race-derived bonuses
-    // -------------------------------
+    /* ---------------------------------------------------------------------- */
+    /* CLEAR RACE BUCKET BEFORE REAPPLYING BONUSES                            */
+    /* ---------------------------------------------------------------------- */
+
     for (const g of groups) {
       for (const key of groupKeys[g]) {
         system.attributes[g][key].race = 0;
       }
     }
 
-    // Map flat subattribute keys -> (group, key)
+    /* ---------------------------------------------------------------------- */
+    /* RACIAL / TRIBAL / CLAN / ASPECT BONUSES                                */
+    /* ---------------------------------------------------------------------- */
+
     const subMap = {
       might:      ["body", "might"],
       swiftness:  ["body", "swiftness"],
@@ -63,15 +72,16 @@ export class MezoriaActor extends Actor {
       resolve:    ["soul", "resolve"]
     };
 
-    const raceKey    = system.details.race;
-    const tribeKey   = system.details.mythrianTribe;
-    const clanKey    = system.details.draconianClan;
-    const aspectKey  = system.details.scionAspect;
+    const raceKey   = system.details.race;
+    const tribeKey  = system.details.mythrianTribe;
+    const clanKey   = system.details.draconianClan;
+    const aspectKey = system.details.scionAspect;
 
-    const raceBonuses      = MezoriaConfig.raceBonuses || {};
-    const tribeBonuses     = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses      = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonus = MezoriaConfig.scionAspectBonuses || {};
+    const raceBonuses         = MezoriaConfig.raceBonuses            || {};
+    const tribeBonuses        = MezoriaConfig.mythrianTribeBonuses   || {};
+    const clanBonuses         = MezoriaConfig.draconianClanBonuses   || {};
+    const scionAspectBonuses  = MezoriaConfig.scionAspectBonuses     || {};
+    const raceStatusTable     = MezoriaConfig.raceStatus             || {};
 
     // Helper to add a bonus set into the "race" bucket
     const applyToRace = (bonusSet) => {
@@ -101,19 +111,20 @@ export class MezoriaActor extends Actor {
     }
 
     // 4) Scion aspect bonuses (only if race is Scion)
-    if (raceKey === "scion" && aspectKey && scionAspectBonus[aspectKey]) {
-      applyToRace(scionAspectBonus[aspectKey]);
+    if (raceKey === "scion" && aspectKey && scionAspectBonuses[aspectKey]) {
+      applyToRace(scionAspectBonuses[aspectKey]);
     }
 
-    // -------------------------------
-    // Recalculate totals & saves
-    // -------------------------------
+    /* ---------------------------------------------------------------------- */
+    /* RECALCULATE TOTALS & SAVE VALUES                                       */
+    /* ---------------------------------------------------------------------- */
+
     for (const g of groups) {
       let sum = 0;
       let count = 0;
 
       for (const key of groupKeys[g]) {
-        const node  = system.attributes[g][key];
+        const node = system.attributes[g][key];
 
         const base       = Number(node.base       ?? 0);
         const race       = Number(node.race       ?? 0);
@@ -123,13 +134,53 @@ export class MezoriaActor extends Actor {
 
         node.total = base + race + background + mark + misc;
 
-        sum += node.total;
-        count++;
+        sum   += node.total;
+        count += 1;
       }
 
       // Save value = average of the three substats (rounded down)
       const avg = count > 0 ? Math.floor(sum / count) : 0;
       system.attributes[g].saveValue = avg;
     }
+
+    /* ---------------------------------------------------------------------- */
+    /* STATUS: RACE DEFAULTS (PACE, NATURAL ARMOR, DEFENSES)                  */
+    /* ---------------------------------------------------------------------- */
+
+    const status = system.status;
+
+    // Ensure core status structure exists
+    status.vitality = status.vitality || { current: 0, max: 0, regen: 0 };
+    status.mana     = status.mana     || { current: 0, max: 0, regen: 0 };
+    status.stamina  = status.stamina  || { current: 0, max: 0, regen: 0 };
+    status.trauma   = status.trauma   || { current: 0, max: 0 };
+
+    status.armor    = status.armor    || { current: 0, max: 0 };
+    status.shielding = status.shielding || { current: 0 };
+
+    status.defense  = status.defense  || {
+      touch: 0,
+      physical: 0,
+      magical: 0
+    };
+
+    // Apply race default pace & natural armor, if defined
+    const baseStatus = raceKey ? raceStatusTable[raceKey] : null;
+    if (baseStatus) {
+      status.pace         = Number(baseStatus.pace         ?? 0);
+      status.naturalArmor = Number(baseStatus.naturalArmor ?? 0);
+    } else {
+      status.pace         = Number(status.pace         ?? 0);
+      status.naturalArmor = Number(status.naturalArmor ?? 0);
+    }
+
+    // Simple default defenses based on natural armor (can be changed later)
+    const baseDef = 10 + Number(status.naturalArmor ?? 0);
+    status.defense.touch    = baseDef;
+    status.defense.physical = baseDef;
+    status.defense.magical  = baseDef;
+
+    // Reaction stays manual for now
+    status.reaction = Number(status.reaction ?? 0);
   }
 }
