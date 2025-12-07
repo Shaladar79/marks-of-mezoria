@@ -250,6 +250,29 @@
   box-sizing: border-box;
   text-align: center;
 }
+/* Save row under the header (Body Save / Mind Save / Soul Save) */
+.attr-save-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.attr-save-label {
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.attr-save-row input {
+  width: 50px;
+  text-align: center;
+}
+
+.attr-save-row .save-roll {
+  font-size: 0.7em;
+  padding: 2px 6px;
+  cursor: pointer;
+}
 
 /* ========================================================================== */
 /* STATUS PANEL (RIGHT SIDE)                                                  */
