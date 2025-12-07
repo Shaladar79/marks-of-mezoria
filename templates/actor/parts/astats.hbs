@@ -1,20 +1,30 @@
 {{!-- templates/actor/parts/astats.hbs --}}
 
-<section class="tab astats" data-tab="astats">
+<div class="astats-layout">
 
-  {{!-- TOP ROW: Body / Mind / Soul in three columns --}}
-  <div class="attr-row">
-    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs"}}
-    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs"}}
-    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"}}
+  {{!-- LEFT: Attributes (Body / Mind / Soul) --}}
+  <div class="astats-left">
+
+    <details class="attr-section" open>
+      <summary>Body Attributes</summary>
+      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs"}}
+    </details>
+
+    <details class="attr-section" open>
+      <summary>Mind Attributes</summary>
+      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs"}}
+    </details>
+
+    <details class="attr-section" open>
+      <summary>Soul Attributes</summary>
+      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs"}}
+    </details>
+
   </div>
 
-  {{!-- Divider --}}
-  <hr class="attr-divider" />
-
-  {{!-- BOTTOM: Status, full width --}}
-  <div class="status-row">
+  {{!-- RIGHT: Status --}}
+  <div class="astats-right">
     {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs"}}
   </div>
 
-</section>
+</div>
