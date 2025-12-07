@@ -1,0 +1,210 @@
+{{!-- MIND – INSIGHT --}}
+
+<details class="skills-section skills-section-mind-insight">
+  <summary>Mind – Insight</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Trained</th>
+        <th>Specialty</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Perception --}}
+      <tr>
+        <td>Perception</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.perception.trained"
+                 {{checked system.skills.mind.insight.perception.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.perception.specialty"
+                 value="{{system.skills.mind.insight.perception.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.perception.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.perception">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Investigation --}}
+      <tr>
+        <td>Investigation</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.investigation.trained"
+                 {{checked system.skills.mind.insight.investigation.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.investigation.specialty"
+                 value="{{system.skills.mind.insight.investigation.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.investigation.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.investigation">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Tracking --}}
+      <tr>
+        <td>Tracking</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.tracking.trained"
+                 {{checked system.skills.mind.insight.tracking.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.tracking.specialty"
+                 value="{{system.skills.mind.insight.tracking.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.tracking.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.tracking">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore --}}
+      <tr>
+        <td>Lore</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.lore.trained"
+                 {{checked system.skills.mind.insight.lore.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.lore.specialty"
+                 value="{{system.skills.mind.insight.lore.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.lore.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.lore">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Intuition --}}
+      <tr>
+        <td>Intuition</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.intuition.trained"
+                 {{checked system.skills.mind.insight.intuition.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.intuition.specialty"
+                 value="{{system.skills.mind.insight.intuition.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.intuition.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.intuition">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Awareness --}}
+      <tr>
+        <td>Awareness</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.awareness.trained"
+                 {{checked system.skills.mind.insight.awareness.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.awareness.specialty"
+                 value="{{system.skills.mind.insight.awareness.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.awareness.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.awareness">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Ritual Casting --}}
+      <tr>
+        <td>Ritual Casting</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.ritualCasting.trained"
+                 {{checked system.skills.mind.insight.ritualCasting.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.ritualCasting.specialty"
+                 value="{{system.skills.mind.insight.ritualCasting.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.ritualCasting.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.ritualCasting">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Spellcasting --}}
+      <tr>
+        <td>Combat: Spellcasting</td>
+        <td>
+          <input type="checkbox"
+                 name="system.skills.mind.insight.combatSpellcasting.trained"
+                 {{checked system.skills.mind.insight.combatSpellcasting.trained}} />
+        </td>
+        <td>
+          <input type="text"
+                 name="system.skills.mind.insight.combatSpellcasting.specialty"
+                 value="{{system.skills.mind.insight.combatSpellcasting.specialty}}" />
+        </td>
+        <td>{{system.skills.mind.insight.combatSpellcasting.total}}</td>
+        <td>
+          <button type="button"
+                  class="roll-any"
+                  data-rolltype="skill"
+                  data-path="mind.insight.combatSpellcasting">
+            🎲
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</details>
