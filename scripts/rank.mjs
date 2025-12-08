@@ -3,6 +3,23 @@
 
 export const RankData = {
   /**
+   * Labels used for dropdowns and UI.
+   * Keys must match the rank IDs used elsewhere (order, bonuses, etc.).
+   */
+  ranks: {
+    normal:    "Normal",
+    quartz:    "Quartz",
+    topaz:     "Topaz",
+    garnet:    "Garnet",
+    emerald:   "Emerald",
+    sapphire:  "Sapphire",
+    ruby:      "Ruby",
+    diamond:   "Diamond",
+    mythrite:  "Mythrite",
+    celestite: "Celestite"
+  },
+
+  /**
    * Order of ranks from lowest to highest.
    * (Handy later for comparisons / advancement logic.)
    */
