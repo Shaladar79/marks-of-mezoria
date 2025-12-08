@@ -13,16 +13,32 @@ export class MezoriaActor extends Actor {
     system.attributes = system.attributes || {};
     system.status     = system.status     || {};
 
+    /* ====================================================================== */
+    /* MARK OF PURPOSE -> LABEL + DESCRIPTION                                 */
+    /* ====================================================================== */
+
+    const markKey    = system.details.markOfPurpose || "none";
+    const markLabels = MezoriaConfig.markOfPurpose || {};
+    const markDescs  = MezoriaConfig.markOfPurposeDescriptions || {};
+
+    const markLabel = markLabels[markKey] ?? "";
+    const markDesc  = markDescs[markKey]  ?? "";
+
+    // These are what the header and info panels should use
+    system.details.purpose                  = markLabel;
+    system.details.markOfPurposeLabel       = markLabel;
+    system.details.markOfPurposeDescription = markDesc;
+
+    /* ====================================================================== */
+    /* ATTRIBUTES + SAVES                                                     */
+    /* ====================================================================== */
+
     const groups = ["body", "mind", "soul"];
     const groupKeys = {
       body: ["might", "swiftness", "endurance"],
       mind: ["insight", "focus", "willpower"],
       soul: ["presence", "grace", "resolve"]
     };
-
-    /* ====================================================================== */
-    /* ATTRIBUTES + SAVES                                                     */
-    /* ====================================================================== */
 
     // Ensure each sub-attribute object + numeric fields exist
     for (const g of groups) {
@@ -114,7 +130,7 @@ export class MezoriaActor extends Actor {
     // Recalculate totals & saves
     // -------------------------------
     for (const g of groups) {
-      let sum = 0;
+      let sum   = 0;
       let count = 0;
 
       for (const key of groupKeys[g]) {
@@ -179,14 +195,14 @@ export class MezoriaActor extends Actor {
     system.status.shielding = system.status.shielding || {};
     system.status.defense   = system.status.defense   || {};
 
-    system.status.armor.current = Number(system.status.armor.current ?? 0);
-    system.status.armor.max     = Number(system.status.armor.max     ?? 0);
+    system.status.armor.current     = Number(system.status.armor.current ?? 0);
+    system.status.armor.max         = Number(system.status.armor.max     ?? 0);
     system.status.shielding.current = Number(system.status.shielding.current ?? 0);
 
     // ---- Defenses: natural armor only applies to Physical ----
     const def = system.status.defense;
 
-    const baseDefense = Number(def.touch ?? 10); // you can change this base if desired
+    const baseDefense = Number(def.touch ?? 10); // base Touch; change if desired
 
     // Touch is the base
     def.touch = baseDefense;
@@ -196,7 +212,7 @@ export class MezoriaActor extends Actor {
     const wornArmor = system.status.armor.current || 0;
     def.physical = baseDefense + natArmor + wornArmor;
 
-    // Magical: currently just uses base (you can add other bonuses later)
+    // Magical: currently just uses base (extend later if needed)
     def.magical = Number(def.magical ?? baseDefense);
   }
 }
