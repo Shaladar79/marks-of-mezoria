@@ -1,7 +1,10 @@
-<div class="field">
+<div class="field clan-field">
   <label>Draconian Clan</label>
   <select name="system.details.draconianClan" data-dtype="String">
-    <option value="">— None —</option>
-    {{selectOptions config.draconianClans selected=system.details.draconianClan}}
+    {{#if config.draconianClans}}
+      {{selectOptions config.draconianClans selected=system.details.draconianClan}}
+    {{else}}
+      <option value="">No Clans Defined</option>
+    {{/if}}
   </select>
 </div>
