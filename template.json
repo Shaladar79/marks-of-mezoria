@@ -18,37 +18,139 @@
         "attributes": {
           "body": {
             "value": 0,
-            "might":      { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "swiftness":  { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "endurance":  { "base": 0, "race": 0, "misc": 0, "total": 0 }
+
+            "might": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "swiftness": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "endurance": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           },
 
           "mind": {
             "value": 0,
-            "insight":    { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "focus":      { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "willpower":  { "base": 0, "race": 0, "misc": 0, "total": 0 }
+
+            "insight": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "focus": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "willpower": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           },
 
           "soul": {
             "value": 0,
-            "presence": { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "grace":    { "base": 0, "race": 0, "misc": 0, "total": 0 },
-            "resolve":  { "base": 0, "race": 0, "misc": 0, "total": 0 }
+
+            "presence": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "grace": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+
+            "resolve": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           }
         },
 
         "status": {
-          "vitality": { "current": 0, "max": 0, "regen": 0 },
-          "stamina":  { "current": 0, "max": 0, "regen": 0 },
-          "mana":     { "current": 0, "max": 0, "regen": 0 },
+          "vitality": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
+          "stamina": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
+          "mana": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
 
-          "trauma": { "current": 0, "max": 0 },
+          "trauma": {
+            "current": 0,
+            "max": 0
+          },
 
           "naturalArmor": 0,
 
-          "armor":     { "current": 0, "max": 0 },
-          "shielding": { "current": 0 },
+          "armor": {
+            "current": 0,
+            "max": 0
+          },
+
+          "shielding": {
+            "current": 0
+          },
 
           "defense": {
             "touch": 0,
@@ -64,94 +166,420 @@
           "body": {
             "might": {
               "expertise": false,
-              "athletics":      { "label": "Athletics",              "trained": false, "specialty": "", "total": 0 },
-              "bruteForce":     { "label": "Brute Force",            "trained": false, "specialty": "", "total": 0 },
-              "heft":           { "label": "Heft",                   "trained": false, "specialty": "", "total": 0 },
-              "intimidation":   { "label": "Intimidation",           "trained": false, "specialty": "", "total": 0 },
-              "combatHeavy":    { "label": "Combat: Heavy Weapons",  "trained": false, "specialty": "", "total": 0 },
-              "combatGrappling":{ "label": "Combat: Grappling",      "trained": false, "specialty": "", "total": 0 },
-              "combatMedium":   { "label": "Combat: Medium Weapons", "trained": false, "specialty": "", "total": 0 }
+
+              "athletics": {
+                "label": "Athletics",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "bruteForce": {
+                "label": "Brute Force",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "heft": {
+                "label": "Heft",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "intimidation": {
+                "label": "Intimidation",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatHeavy": {
+                "label": "Combat: Heavy Weapons",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatGrappling": {
+                "label": "Combat: Grappling",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatMedium": {
+                "label": "Combat: Medium Weapons",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             },
 
             "swiftness": {
               "expertise": false,
-              "acrobatics":     { "label": "Acrobatics",                "trained": false, "specialty": "", "total": 0 },
-              "stealth":        { "label": "Stealth",                   "trained": false, "specialty": "", "total": 0 },
-              "sleightOfHand":  { "label": "Sleight of Hand",           "trained": false, "specialty": "", "total": 0 },
-              "disarm":         { "label": "Disarm",                    "trained": false, "specialty": "", "total": 0 },
-              "combatRanged":   { "label": "Combat: Ranged Weapons",    "trained": false, "specialty": "", "total": 0 },
-              "combatThrowing": { "label": "Combat: Throwing Weapons",  "trained": false, "specialty": "", "total": 0 }
+
+              "acrobatics": {
+                "label": "Acrobatics",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "stealth": {
+                "label": "Stealth",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "sleightOfHand": {
+                "label": "Sleight of Hand",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "disarm": {
+                "label": "Disarm",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatRanged": {
+                "label": "Combat: Ranged Weapons",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatThrowing": {
+                "label": "Combat: Throwing Weapons",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             },
 
             "endurance": {
               "expertise": false,
-              "fortitude":      { "label": "Fortitude",        "trained": false, "specialty": "", "total": 0 },
-              "painTolerance":  { "label": "Pain Tolerance",   "trained": false, "specialty": "", "total": 0 }
+
+              "fortitude": {
+                "label": "Fortitude",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "painTolerance": {
+                "label": "Pain Tolerance",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             }
           },
 
-         "mind": {
-  "insight": {
-    "expertise": false,
-    "perception":       { "label": "Perception",          "trained": false, "specialty": "", "total": 0 },
-    "investigation":    { "label": "Investigation",       "trained": false, "specialty": "", "total": 0 },
-    "tracking":         { "label": "Tracking",            "trained": false, "specialty": "", "total": 0 },
-    "intuition":        { "label": "Intuition",           "trained": false, "specialty": "", "total": 0 },
-    "awareness":        { "label": "Awareness",           "trained": false, "specialty": "", "total": 0 },
-    "ritualCasting":    { "label": "Ritual Casting",      "trained": false, "specialty": "", "total": 0 },
-    "combatSpellcasting": { "label": "Combat: Spellcasting", "trained": false, "specialty": "", "total": 0 }
-  },
+          "mind": {
+            "insight": {
+              "expertise": false,
 
-  "focus": {
-    "expertise": false,
-    "tactics":        { "label": "Tactics",           "trained": false, "specialty": "", "total": 0 },
-    "research":       { "label": "Research",          "trained": false, "specialty": "", "total": 0 },
-    "logic":          { "label": "Logic",             "trained": false, "specialty": "", "total": 0 },
-    "useMagicDevice": { "label": "Use Magic Device",  "trained": false, "specialty": "", "total": 0 },
-    "combatWands":    { "label": "Combat: Wands",     "trained": false, "specialty": "", "total": 0 }
-  },
+              "perception": {
+                "label": "Perception",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "investigation": {
+                "label": "Investigation",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "tracking": {
+                "label": "Tracking",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "intuition": {
+                "label": "Intuition",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "awareness": {
+                "label": "Awareness",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "ritualCasting": {
+                "label": "Ritual Casting",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatSpellcasting": {
+                "label": "Combat: Spellcasting",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
 
-  "willpower": {
-    "expertise": false,
-    "concentration":   { "label": "Concentration",    "trained": false, "specialty": "", "total": 0 },
-    "mentalFortitude": { "label": "Mental Fortitude", "trained": false, "specialty": "", "total": 0 }
-  },
+            "focus": {
+              "expertise": false,
 
-  "lore": {
-    "expertise": false,
-    "lore": {
-      "label": "Lore",
-      "trained": false,
-      "specialty": "",
-      "total": 0
-    }
-  }
-}
+              "tactics": {
+                "label": "Tactics",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "research": {
+                "label": "Research",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "logic": {
+                "label": "Logic",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "useMagicDevice": {
+                "label": "Use Magic Device",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatWands": {
+                "label": "Combat: Wands",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
 
+            "willpower": {
+              "expertise": false,
+
+              "concentration": {
+                "label": "Concentration",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "mentalFortitude": {
+                "label": "Mental Fortitude",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            }
+          },
 
           "soul": {
             "presence": {
               "expertise": false,
-              "persuasion": { "label": "Persuasion", "trained": false, "specialty": "", "total": 0 },
-              "deception":  { "label": "Deception",  "trained": false, "specialty": "", "total": 0 },
-              "oratory":    { "label": "Oratory",    "trained": false, "specialty": "", "total": 0 },
-              "etiquette":  { "label": "Etiquette",  "trained": false, "specialty": "", "total": 0 },
-              "streetwise": { "label": "Streetwise", "trained": false, "specialty": "", "total": 0 }
+
+              "persuasion": {
+                "label": "Persuasion",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "deception": {
+                "label": "Deception",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "oratory": {
+                "label": "Oratory",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "etiquette": {
+                "label": "Etiquette",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "streetwise": {
+                "label": "Streetwise",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             },
 
             "grace": {
               "expertise": false,
-              "performance":   { "label": "Performance",   "trained": false, "specialty": "", "total": 0 },
-              "poise":         { "label": "Poise",         "trained": false, "specialty": "", "total": 0 },
-              "mimicry":       { "label": "Mimicry",       "trained": false, "specialty": "", "total": 0 },
-              "improvisation": { "label": "Improvisation", "trained": false, "specialty": "", "total": 0 }
+
+              "performance": {
+                "label": "Performance",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "poise": {
+                "label": "Poise",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "mimicry": {
+                "label": "Mimicry",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "improvisation": {
+                "label": "Improvisation",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             },
 
             "resolve": {
               "expertise": false,
-              "conviction":   { "label": "Conviction",   "trained": false, "specialty": "", "total": 0 },
-              "composure":    { "label": "Composure",    "trained": false, "specialty": "", "total": 0 },
-              "auraControl":  { "label": "Aura Control", "trained": false, "specialty": "", "total": 0 }
+
+              "conviction": {
+                "label": "Conviction",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "composure": {
+                "label": "Composure",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "auraControl": {
+                "label": "Aura Control",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
             }
           }
         }
