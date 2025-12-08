@@ -1,8 +1,12 @@
-{{!-- templates/actor/parts/subparts/backtype.hbs --}}
+{{!-- templates/actor/parts/drops/backtype.hbs --}}
 
 <div class="field background-type-field">
   <label>Background Type</label>
   <select name="system.details.backgroundType" data-dtype="String">
-    {{selectOptions config.backgroundTypes selected=system.details.backgroundType}}
+    {{#if config.backgroundTypes}}
+      {{selectOptions config.backgroundTypes selected=system.details.backgroundType}}
+    {{else}}
+      <option value="">No Background Types Defined</option>
+    {{/if}}
   </select>
 </div>
