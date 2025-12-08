@@ -1,0 +1,472 @@
+1. Goals
+
+For every skill, we want:
+
+A single canonical roll formula:
+
+1d20 + skill.total
+
+skill.total to be fully auto-calculated from:
+
+The relevant sub-attribute total (e.g., Athletics → Body.Might)
+
+Rank-based trained bonus (only if the skill is trained)
+
+Racial skill bonuses
+
+Background skill bonuses
+
+A misc adjustment
+
+Sheets should only edit:
+
+trained (checkbox)
+
+misc (numeric)
+
+optional specialty/notes later
+Everything else is derived.
+
+2. Data Paths & Node Structure
+2.1 Skill path convention
+
+We will standardize on this system path for each skill:
+
+system.skills.<attributeGroup>.<subAttribute>.<skillKey>
+
+
+Examples:
+
+system.skills.body.might.athletics
+
+system.skills.body.swiftness.acrobatics
+
+system.skills.mind.insight.perception
+
+system.skills.soul.presence.deception
+
+Each skill node will be an object.
+
+2.2 Skill node shape
+
+Each node should look like:
+
+{
+  label: "Athletics",      // display name for the sheet + chat
+  trained: false,          // checkbox: does this skill get rank-based bonus?
+  misc: 0,                 // manual misc modifier (user-editable)
+  attrTotal: 0,            // derived: controlling sub-attribute total
+  rankBonus: 0,            // derived: from RankData.trainedSkillBonus if trained
+  raceBonus: 0,            // derived: from RaceSkillData by race & path
+  backgroundBonus: 0,      // derived: from BackgroundBonuses
+  total: 0                 // derived: final modifier used for rolls
+}
+
+
+We will actually persist only:
+
+label (either static or set in templates, but can be stored)
+
+trained
+
+misc
+
+The rest (attrTotal, rankBonus, raceBonus, backgroundBonus, total) are computed in prepareDerivedData() and not directly editable in the sheet.
+
+3. Formula Specification
+
+For a skill S at path:
+
+skills.<group>.<sub>.<skillKey>
+
+
+Where:
+
+<group> ∈ { "body", "mind", "soul" }
+
+<sub> depends on group:
+
+body: might, swiftness, endurance
+
+mind: insight, focus, willpower
+
+soul: presence, grace, resolve
+
+3.1 Controlling attribute
+
+The controlling sub-attribute is directly given by the path:
+
+attrTotal = system.attributes[group][sub].total
+
+Example:
+skills.body.might.athletics → attributes.body.might.total.
+
+3.2 Rank-based trained bonus
+
+We already have:
+
+MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
+// e.g. { normal: 1, quartz: 2, ... }
+
+
+Let:
+
+rankKey = system.details.rank || "normal"
+
+trained = node.trained (boolean)
+
+Then:
+
+const rankMap   = MezoriaConfig.rankSkillBonuses || {};
+const baseRank  = rankMap[rankKey] ?? 0;
+const rankBonus = trained ? baseRank : 0;
+
+3.3 Racial skill bonus
+
+From MezoriaConfig.raceSkillData, we use this convention:
+
+// RaceSkillData (example shape)
+RaceSkillData = {
+  embergiest: {
+    "body.might.athletics": 1,
+    "body.swiftness.acrobatics": 1,
+    // ...
+  },
+  mythrain: {
+    "mind.insight.perception": 2
+  }
+};
+
+
+Given:
+
+raceKey = system.details.race || ""
+
+pathKey = "<group>.<sub>.<skillKey>" (no skills. prefix)
+
+Then:
+
+const raceSkillsAll = MezoriaConfig.raceSkillData || {};
+const raceSkills    = raceSkillsAll[raceKey] || {};
+const raceBonus     = Number(raceSkills[pathKey] ?? 0);
+
+
+Note: This is multiplexed by race. If a race has no entry for that skill, the bonus is 0.
+
+3.4 Background skill bonus
+
+We’ll standardize background skill bonuses under:
+
+// In BackgroundBonuses (backgrounds.mjs)
+BackgroundBonuses = {
+  farmer: {
+    skills: {
+      "body.endurance.survival": 1
+    }
+  },
+  hunter: {
+    skills: {
+      "body.might.athletics": 1,
+      "mind.insight.perception": 1
+    }
+  },
+  // ...
+};
+
+
+Then, in the actor:
+
+backgroundKey = system.details.background || ""
+
+pathKey = "<group>.<sub>.<skillKey>"
+
+const bgAll  = MezoriaConfig.backgroundBonuses || {};
+const bgData = bgAll[backgroundKey] || {};
+const bgSkills = bgData.skills || {};
+const backgroundBonus = Number(bgSkills[pathKey] ?? 0);
+
+3.5 Misc bonus
+
+Directly from the skill node:
+
+const misc = Number(node.misc ?? 0);
+
+3.6 Final total
+
+Put it all together:
+
+node.attrTotal        = attrTotal;
+node.rankBonus        = rankBonus;
+node.raceBonus        = raceBonus;
+node.backgroundBonus  = backgroundBonus;
+
+node.total =
+  attrTotal +
+  rankBonus +
+  raceBonus +
+  backgroundBonus +
+  misc;
+
+
+This node.total is what .roll-any uses for rolls.
+
+4. Implementation Plan in actor.mjs
+
+We’ll add a skills calculation block to prepareDerivedData(), after attributes and status are done.
+
+4.1 Define a skill registry (one place)
+
+Either inside actor.mjs or in a new scripts/skills.mjs, define:
+
+// Pseudo-structure
+const SkillRegistry = {
+  body: {
+    might: {
+      athletics: "Athletics",
+      brawl:     "Brawl",
+      // ...
+    },
+    swiftness: {
+      acrobatics: "Acrobatics",
+      stealth:    "Stealth",
+      // ...
+    },
+    endurance: {
+      toughness: "Toughness",
+      survival:  "Survival",
+      // ...
+    }
+  },
+  mind: {
+    insight: {
+      perception: "Perception",
+      investigation: "Investigation",
+      // ...
+    },
+    focus: {
+      concentration: "Concentration",
+      // ...
+    },
+    willpower: {
+      discipline: "Discipline",
+      // ...
+    }
+  },
+  soul: {
+    presence: {
+      persuasion: "Persuasion",
+      intimidation: "Suppress",
+      // ...
+    },
+    grace: {
+      performance: "Performance",
+      // ...
+    },
+    resolve: {
+      auraControl: "Aura Control",
+      // ...
+    }
+  }
+};
+
+
+This gives us:
+
+The group
+
+The sub-attribute
+
+The skillKey
+
+A label to show on the sheet and in chat.
+
+4.2 Skills derivation loop
+
+Inside prepareDerivedData():
+
+Ensure system.skills exists:
+
+system.skills = system.skills || {};
+
+
+Loop SkillRegistry:
+
+Pseudocode:
+
+for (const [group, subs] of Object.entries(SkillRegistry)) {
+  system.skills[group] = system.skills[group] || {};
+
+  for (const [sub, skills] of Object.entries(subs)) {
+    system.skills[group][sub] = system.skills[group][sub] || {};
+
+    for (const [skillKey, skillLabel] of Object.entries(skills)) {
+
+      const nodePath = `skills.${group}.${sub}.${skillKey}`;
+      let node = foundry.utils.getProperty(system, nodePath) || {};
+
+      // Initialize editable fields
+      node.label   = node.label   || skillLabel;
+      node.trained = Boolean(node.trained);
+      node.misc    = Number(node.misc ?? 0);
+
+      // --- Compute controlling attribute ---
+      const attrNode = system.attributes[group]?.[sub] || {};
+      const attrTotal = Number(attrNode.total ?? 0);
+
+      // --- Rank bonus if trained ---
+      const rankKey = system.details.rank || "normal";
+      const rankMap = MezoriaConfig.rankSkillBonuses || {};
+      const baseRank = rankMap[rankKey] ?? 0;
+      const rankBonus = node.trained ? baseRank : 0;
+
+      // --- Race bonus ---
+      const raceKey = system.details.race || "";
+      const raceSkillsAll = MezoriaConfig.raceSkillData || {};
+      const raceSkills = raceSkillsAll[raceKey] || {};
+      const pathKey = `${group}.${sub}.${skillKey}`;
+      const raceBonus = Number(raceSkills[pathKey] ?? 0);
+
+      // --- Background bonus ---
+      const bgKey = system.details.background || "";
+      const bgAll = MezoriaConfig.backgroundBonuses || {};
+      const bgData = bgAll[bgKey] || {};
+      const bgSkills = bgData.skills || {};
+      const backgroundBonus = Number(bgSkills[pathKey] ?? 0);
+
+      // --- Final total ---
+      node.attrTotal       = attrTotal;
+      node.rankBonus       = rankBonus;
+      node.raceBonus       = raceBonus;
+      node.backgroundBonus = backgroundBonus;
+      node.total =
+        attrTotal +
+        rankBonus +
+        raceBonus +
+        backgroundBonus +
+        node.misc;
+
+      // Write back
+      foundry.utils.setProperty(system, nodePath, node);
+    }
+  }
+}
+
+
+This gives you a single source of truth for all skill totals.
+
+5. Sheet & Roll Integration
+5.1 Sheet fields per skill
+
+In a skill row (e.g., body-might.hbs), you should use:
+
+Label (read-only or text):
+
+{{skill.label}}
+
+
+Trained checkbox:
+
+<input type="checkbox"
+       name="system.skills.body.might.athletics.trained"
+       {{checked skill.trained}} />
+
+
+Misc (editable):
+
+<input type="number"
+       name="system.skills.body.might.athletics.misc"
+       value="{{skill.misc}}" />
+
+
+Total (read-only):
+
+<input type="number"
+       value="{{skill.total}}"
+       readonly />
+
+
+Where skill is the context when you iterate through system.skills.body.might.
+
+5.2 Roll button
+
+For each skill row:
+
+<button type="button"
+        class="roll-any"
+        data-path="body.might.athletics"
+        title="Roll Athletics">
+  🎲
+</button>
+
+
+system.mjs already has:
+
+html.find(".roll-any").on("click", async (event) => {
+  const path = btn.dataset.path; // e.g. "body.might.athletics"
+  const basePath = `skills.${path}`;
+  const total =
+    foundry.utils.getProperty(this.actor.system, `${basePath}.total`) ?? 0;
+  const label =
+    foundry.utils.getProperty(this.actor.system, `${basePath}.label`) || "Skill Check";
+
+  const roll = new Roll("1d20 + @mod", { mod: total });
+  await roll.evaluate({ async: true });
+
+  roll.toMessage({
+    speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+    flavor: label
+  });
+});
+
+
+So once actor.mjs computes node.total correctly, rolls will be ready.
+
+6. Example: Athletics for an Embergiest Farmer at Quartz
+
+Assume:
+
+Race: embergiest
+
+Background: farmer
+
+Rank: quartz
+
+Skill: body.might.athletics
+
+attributes.body.might.total = 3
+
+Rank bonuses: MezoriaConfig.rankSkillBonuses.quartz = 2
+
+RaceSkillData:
+
+RaceSkillData.embergiest["body.might.athletics"] = 1;
+
+
+BackgroundBonuses:
+
+BackgroundBonuses.farmer.skills["body.might.athletics"] = 1;
+
+
+Player checks trained = true
+
+misc = 0
+
+Then:
+
+attrTotal = 3
+
+rankBonus = 2 (trained)
+
+raceBonus = 1
+
+backgroundBonus = 1
+
+misc = 0
+
+So:
+
+total = 3 + 2 + 1 + 1 + 0 = 7
+Roll = 1d20 + 7
+
+
+That’s exactly what will show in the total cell and be used for the .roll-any button.
