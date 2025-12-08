@@ -1,0 +1,505 @@
+1. High-Level Dependency Graph
+
+Top-down view:
+
+Foundry VTT
+   ↓
+system.mjs
+   ↓
+MezoriaConfig (config.mjs)
+   ↙        ↓            ↘
+races.mjs  rank.mjs   backgrounds.mjs
+   ↓          ↓           ↓
+raceSkills.mjs  (skill bonuses)
+
+
+Templates and styles:
+
+system.mjs
+   ↓
+templates/actor/actor-sheet.hbs
+   ↓
+  parts/*
+   ↓
+  subparts/* (astats, skills, drops, charinfo)
+   ↓
+styles.css
+
+
+Actor logic:
+
+Foundry VTT
+   ↓
+MezoriaActor (scripts/actor.mjs)
+   ↑
+CONFIG["marks-of-mezoria"]  ←  MezoriaConfig (config.mjs)
+
+2. Core Code Files
+2.1 system.mjs (ENTRY POINT)
+
+Imports:
+
+MezoriaConfig from ./config.mjs
+
+RaceData from ./scripts/races.mjs
+
+MezoriaActor from ./scripts/actor.mjs
+
+Responsibilities:
+
+Registers the custom Actor class:
+
+CONFIG.Actor.documentClass = MezoriaActor;
+
+
+Registers the Actor sheet (MinimalActorSheet) and makes it default for types: ["pc"].
+
+Sets:
+
+CONFIG["marks-of-mezoria"] = MezoriaConfig;
+
+
+Preloads all templates:
+
+actor-sheet.hbs
+
+parts/header.hbs
+
+parts/cinfo.hbs + charinfo subparts
+
+parts/astats.hbs + astats subparts
+
+parts/skills.hbs + all skills partials
+
+all dropdown partials (racedrop, rankdrop, backtype, backdrop, markpurpose, tribedrop, clandrop, aspectdrop)
+
+getData:
+
+Exposes data.system = this.actor.system
+
+Exposes data.config = CONFIG["marks-of-mezoria"]
+
+Exposes data.raceData = RaceData || {}
+
+Builds data.availableBackgrounds from MezoriaConfig.backgroundsByType + system.details.backgroundType
+
+activateListeners:
+
+Binds save roll buttons (.save-roll) → 1d20 + attributes.<group>.saveValue
+
+Binds generic skill roll buttons (.roll-any) → 1d20 + skills.<path>.total
+
+Depends on:
+
+config.mjs for rules & labels.
+
+races.mjs for RaceData.
+
+actor.mjs for derived data.
+
+Used by:
+
+Foundry engine during system init and rendering.
+
+2.2 config.mjs (GLOBAL RULES & LABELS)
+
+Imports:
+
+RaceData, RaceBonuses, RaceStatus from ./scripts/races.mjs
+
+RankData from ./scripts/rank.mjs
+
+RaceSkillData from ./scripts/raceSkills.mjs
+
+BackgroundTypeBonuses, BackgroundBonuses from ./scripts/backgrounds.mjs
+
+(optionally later) MarkPurposeData from ./scripts/mark-purpose.mjs
+
+Exports:
+
+export const MezoriaConfig = {}; with properties:
+
+Key properties and their origins:
+
+Race-related
+
+MezoriaConfig.races            = RaceData.labels;
+MezoriaConfig.raceDescriptions = RaceData.descriptions;
+MezoriaConfig.raceBonuses      = RaceBonuses;
+MezoriaConfig.raceStatus       = RaceStatus;
+
+MezoriaConfig.mythrianTribes       = RaceData.mythrianTribes;
+MezoriaConfig.draconianClans       = RaceData.draconianClans;
+MezoriaConfig.scionAspects         = RaceData.scionAspects;
+MezoriaConfig.mythrianTribeBonuses = RaceData.mythrianTribeBonuses;
+MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
+MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
+
+
+Rank-related
+
+MezoriaConfig.ranks            = RankData.ranks;
+MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
+
+
+Race skill data
+
+MezoriaConfig.raceSkillData = RaceSkillData;
+
+
+Background labels & descriptions
+
+MezoriaConfig.backgroundTypes      = { ... };
+MezoriaConfig.backgroundsByType    = { ... };
+MezoriaConfig.backgroundDescriptions = { ... };
+MezoriaConfig.backgrounds = {
+  ...backgroundsByType.common,
+  ...backgroundsByType.skilled,
+  ...backgroundsByType.street,
+  ...backgroundsByType.social
+};
+MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
+MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
+
+
+Marks of Purpose
+
+MezoriaConfig.markOfPurpose = { ... };
+MezoriaConfig.markOfPurposeDescriptions = { ... };
+
+
+Skill specialties (placeholder)
+
+MezoriaConfig.skillSpecialties = { default: ["Under Construction"] };
+
+
+Depends on:
+
+Races module, Rank module, RaceSkillData, Backgrounds modules.
+
+Used by:
+
+system.mjs via CONFIG["marks-of-mezoria"]
+
+actor.mjs for calculations
+
+Templates (rankdrop, racedrop, backtype, backdrop, markpurpose, header, status, skills, etc.)
+
+2.3 scripts/actor.mjs (DERIVED DATA ENGINE)
+
+Imports:
+
+MezoriaConfig from "../config.mjs"
+
+Exports:
+
+export class MezoriaActor extends Actor
+
+Responsibilities:
+
+In prepareDerivedData():
+
+Initialize system.details, system.attributes, system.status
+
+Normalize all sub-attribute numeric fields (base, race, background, mark, misc, total, mod)
+
+Reset race components before re-applying race bonuses
+
+Apply:
+
+MezoriaConfig.raceBonuses
+
+MezoriaConfig.mythrianTribeBonuses
+
+MezoriaConfig.draconianClanBonuses
+
+MezoriaConfig.scionAspectBonuses
+
+Recalculate totals for:
+
+body.might/swiftness/endurance
+
+mind.insight/focus/willpower
+
+soul.presence/grace/resolve
+
+Compute saveValue for each of body, mind, soul as average of the three substats.
+
+Status handling:
+
+Pull raceStatus via MezoriaConfig.raceStatus[raceKey]
+
+Fill vitality, mana, stamina, trauma with .current and .max
+
+Set pace and naturalArmor
+
+Ensure armor, shielding, defense objects exist
+
+Calculate:
+
+def.touch (base)
+
+def.physical = base + naturalArmor + current armor
+
+def.magical (currently base or future bonuses)
+
+Depends on:
+
+MezoriaConfig (which itself depends on races, backgrounds, rank, etc.)
+
+Used by:
+
+system.mjs via CONFIG.Actor.documentClass = MezoriaActor
+
+2.4 scripts/races.mjs
+
+Exports (conceptually):
+
+RaceData:
+
+.labels
+
+.descriptions
+
+.mythrianTribes
+
+.draconianClans
+
+.scionAspects
+
+.mythrianTribeBonuses
+
+.draconianClanBonuses
+
+.scionAspectBonuses
+
+RaceBonuses (sub-attribute bonuses)
+
+RaceStatus (pace, naturalArmor, vitalityMax, manaMax, staminaMax, traumaMax, etc.)
+
+Used by:
+
+config.mjs (for labels, bonus maps, status)
+
+system.mjs (RaceData for dropdowns)
+
+Indirectly by actor.mjs via MezoriaConfig.
+
+2.5 scripts/raceSkills.mjs
+
+Exports:
+
+RaceSkillData
+
+Contains:
+
+Race → skill bonus maps (for automatic racial skill mods).
+
+Used by:
+
+config.mjs → MezoriaConfig.raceSkillData
+
+Future skill calc logic (either in actor.mjs or a dedicated skills.mjs).
+
+2.6 scripts/rank.mjs
+
+Exports:
+
+RankData, e.g.:
+
+export const RankData = {
+  order: [...],
+  trainedSkillBonus: {
+    normal: 1,
+    quartz: 2,
+    ...
+  },
+  // placeholder: saves, status, defenses
+};
+
+
+Used by:
+
+config.mjs:
+
+MezoriaConfig.ranks = RankData.ranks (we may need to derive labels if not present)
+
+MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus
+
+Future use:
+
+Additional scaling rules for resources, defenses, etc.
+
+2.7 scripts/backgrounds.mjs
+
+Exports:
+
+BackgroundTypeBonuses
+
+BackgroundBonuses
+
+Type-level and individual background bonus definitions.
+
+Used by:
+
+config.mjs:
+
+MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
+MezoriaConfig.backgroundBonuses     = BackgroundBonuses;
+
+
+Future derived data logic in actor.mjs or skill builder.
+
+2.8 scripts/mark-purpose.mjs (planned / optional)
+
+Intended to contain:
+
+export const MarkPurposeData = {
+  labels: { ... },
+  descriptions: { ... }
+};
+
+
+Then config.mjs would consume that instead of hardcoding marks. At the moment, marks are hardcoded directly in config.mjs.
+
+3. Template Dependencies
+3.1 templates/actor/actor-sheet.hbs
+
+Uses:
+
+{{> "parts/header.hbs"}}
+
+{{> "parts/cinfo.hbs"}}
+
+{{> "parts/astats.hbs"}}
+
+{{> "parts/skills.hbs"}}
+
+Depends on:
+
+Data from MinimalActorSheet.getData():
+
+system
+
+config
+
+raceData
+
+availableBackgrounds
+
+3.2 header.hbs
+
+Depends on:
+
+system.details.rank
+
+system.details.race
+
+system.details.purpose
+
+system.details.background
+
+config.ranks
+
+config.races
+
+config.markOfPurpose
+
+config.backgrounds
+
+Uses {{lookup ...}} to display labels.
+
+3.3 Dropdowns (parts/drops/*.hbs)
+
+racedrop.hbs → config.races
+
+rankdrop.hbs → config.ranks
+
+backtype.hbs → config.backgroundTypes
+
+backdrop.hbs → availableBackgrounds (from system.mjs) or config.backgroundsByType
+
+markpurpose.hbs → config.markOfPurpose
+
+tribedrop.hbs → config.mythrianTribes
+
+clandrop.hbs → config.draconianClans
+
+aspectdrop.hbs → config.scionAspects
+
+All of these bind to system.details.* keys.
+
+3.4 Attributes & Status Templates
+
+astats.hbs → layout only, pulls:
+
+subparts/astats/body.hbs
+
+subparts/astats/mind.hbs
+
+subparts/astats/soul.hbs
+
+subparts/astats/status.hbs
+
+Subparts depend on:
+
+system.attributes.* (including .saveValue)
+
+system.status.* (core, pace, armor, defenses)
+
+Roll buttons in attributes:
+
+.save-roll with data-attr="body|mind|soul" → handled by system.mjs.
+
+3.5 Skills Templates
+
+skills.hbs:
+
+Provides tab UI for Body/Mind/Soul skills.
+
+Includes all skills partials.
+
+Each skills partial (e.g. body-might.hbs) depends on:
+
+system.skills.body.might.<skillKey>.* (label, trained, total, etc.)
+
+config.skillSpecialties (if used)
+
+.roll-any buttons with data-path="body.might.athletics" etc.
+
+Roll buttons:
+
+Handled by .roll-any listener in system.mjs.
+
+4. Stylesheet
+styles.css
+
+Pure presentation.
+Used by all templates; no logical dependencies.
+Primarily referenced in system.json (not shown here) to load into Foundry.
+
+5. Practical Use
+
+If you want to work on the skills tab wiring with race/background/rank bonuses, the relevant files are:
+
+Logic:
+
+scripts/actor.mjs ← will eventually compute system.skills.*.*.*.total
+
+scripts/raceSkills.mjs ← race skill adjustments
+
+scripts/backgrounds.mjs ← background skill adjustments
+
+scripts/rank.mjs ← rank-based trained bonus
+
+Config:
+
+config.mjs → ensures all of the above are exposed as MezoriaConfig.* if needed.
+
+UI:
+
+templates/actor/parts/skills.hbs
+
+templates/actor/parts/skills/*.hbs
+
+system.mjs → roll handling (.roll-any)
