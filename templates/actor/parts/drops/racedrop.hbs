@@ -1,7 +1,10 @@
-{{!-- Race dropdown partial --}}
 <div class="field race-field">
   <label>Race</label>
   <select name="system.details.race" data-dtype="String">
-    {{selectOptions config.races selected=system.details.race}}
+    {{#if config.races}}
+      {{selectOptions config.races selected=system.details.race}}
+    {{else}}
+      <option value="">No Races Defined</option>
+    {{/if}}
   </select>
 </div>
