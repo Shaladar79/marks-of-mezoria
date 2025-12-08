@@ -1,12 +1,6 @@
 <div class="field background-field">
   <label>Background</label>
   <select name="system.details.background" data-dtype="String">
-    {{#if system.details.backgroundType}}
-      {{selectOptions (lookup config.backgroundsByType system.details.backgroundType)
-                      selected=system.details.background}}
-    {{else}}
-      <option value="">-- Select Background Type First --</option>
-    {{/if}}
+    {{selectOptions availableBackgrounds selected=system.details.background}}
   </select>
 </div>
-
