@@ -238,6 +238,12 @@ MezoriaConfig.backgrounds = {
 };
 
 // -------------------------------------
+// Background bonuses (type + individual)
+// -------------------------------------
+MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
+MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
+
+// -------------------------------------
 // Marks of Purpose
 // -------------------------------------
 MezoriaConfig.markOfPurpose = {
