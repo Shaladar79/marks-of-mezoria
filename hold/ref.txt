@@ -1,0 +1,344 @@
+MASTER PROJECT REFERENCE — Marks of Mezoria (Full Foundry VTT System Development)
+Version 1.0 — Comprehensive Development Overview
+SYSTEM OVERVIEW
+
+You are building a fully custom Foundry VTT v13 game system titled:
+
+Marks of Mezoria
+
+The system includes:
+
+Custom actor data model
+
+Custom actor sheet (multi-tab, collapsible sections, grid-based layout)
+
+Auto-calculated attributes, defenses, status, resources, and skills
+
+Integration of Race, Tribe/Clan/Aspect, Backgrounds, Rank, and Marks
+
+Automated saving throws and skill rolls
+
+A modular, scalable config-based rule system
+
+The development is currently active and ongoing, with code in a highly fluid state.
+
+CORE DATA STRUCTURE
+Actor System Structure
+system: {
+  details: {
+    name
+    race
+    mythrianTribe
+    draconianClan
+    scionAspect
+    backgroundType
+    background
+    rank
+    purpose    // Mark of Purpose
+  },
+
+  attributes: {
+    body: {
+      might, swiftness, endurance,
+      saveValue
+    },
+    mind: {
+      insight, focus, willpower,
+      saveValue
+    },
+    soul: {
+      presence, grace, resolve,
+      saveValue
+    }
+  },
+
+  skills: {
+    body: { ... },
+    mind: { ... },
+    soul: { ... }
+  },
+
+  status: {
+    vitality, mana, stamina, trauma,
+    pace,
+    naturalArmor,
+    armor: { current, max },
+    shielding: { current },
+    defense: { touch, physical, magical }
+  }
+}
+
+MODULES & FILES (Active Components)
+1. system.mjs
+
+Registers the ActorSheet
+
+Loads templates
+
+Handles sheet tab behavior
+
+Activates roll listeners for saves and skills
+
+Passes config and race data to templates
+
+2. actor.mjs
+
+Responsible for all system math, including:
+
+Race bonuses
+
+Background bonuses
+
+Clan/Tribe/Aspect bonuses
+
+Rank skill bonuses
+
+Attribute totals
+
+Save averages
+
+Core resource max values
+
+Defenses including natural armor
+
+Armor & shielding integration
+
+This is the heart of all auto-calculation.
+
+CONFIGURATION SOURCES
+config.mjs
+
+Defines systemwide rules & labels:
+
+races, raceDescriptions
+
+raceBonuses, raceStatus
+
+mythrianTribes, draconianClans, scionAspects
+
+backgroundTypes, backgroundsByType, backgroundDescriptions
+
+backgroundTypeBonuses, backgroundBonuses
+
+markOfPurpose, markOfPurposeDescriptions
+
+rankSkillBonuses
+
+raceSkillData
+
+This file must remain consistent with your data imports.
+
+RACE SYSTEM
+Race data originates from:
+
+/scripts/races.mjs
+
+Includes:
+
+Labels & descriptions
+
+Flat attribute bonuses
+
+Natural armor
+
+Pace
+
+Core resource maximums
+
+Optional tribe/clan/aspect modifiers
+
+BACKGROUND SYSTEM
+Background rules include:
+
+Type (common, skilled, street, social)
+
+Background name
+
+Background-specific attribute or skill bonuses
+
+Type-based bonuses (e.g., all skilled backgrounds grant +1 to certain skills)
+
+Sourced from:
+
+/scripts/backgrounds.mjs
+
+RANK SYSTEM
+RankData file defines:
+
+Rank order
+
+Trained skill bonus per rank
+
+Future expansion for saves, status scaling, etc.
+
+Located in:
+
+/scripts/rank.mjs
+
+Ranks currently used:
+
+normal → quartz → topaz → garnet → emerald → sapphire → ruby → diamond → mythrite → celestite
+
+MARK OF PURPOSE SYSTEM
+
+Stored in:
+
+config.mjs OR
+
+Intended move to a new module mark-purpose.mjs
+
+Each mark includes:
+
+Label (for dropdown)
+
+Description (for character panel)
+
+A character can have only one Mark of Purpose.
+
+ACTOR SHEET TEMPLATE SYSTEM
+Main Template:
+templates/actor/actor-sheet.hbs
+
+Subtemplates:
+Header
+parts/header.hbs
+
+Dropdowns
+parts/drops/*.hbs
+
+Character Info (CINFO)
+parts/cinfo.hbs
+  /subparts/charinfo/*.hbs
+
+Attributes & Status
+parts/astats.hbs
+  /subparts/astats/body.hbs
+  /subparts/astats/mind.hbs
+  /subparts/astats/soul.hbs
+  /subparts/astats/status.hbs
+
+Skills
+parts/skills.hbs
+  /skills/body-*.hbs
+  /skills/mind-*.hbs
+  /skills/soul-*.hbs
+
+SHEET FUNCTIONALITY
+Attributes
+
+Three collapsible sections: Body, Mind, Soul
+
+Sub-attribute rows in grid format
+
+Save rows with roll buttons
+
+Save = average of three substats
+
+Status Panel
+
+Three collapsible subsections:
+
+Core Resources
+
+Vitality
+
+Mana
+
+Stamina
+
+Trauma
+
+Auto-filled from race.
+
+Protections
+
+Touch Defense
+
+Physical Defense
+
+Magical Defense
+
+Armor (natural + worn)
+
+Misc
+
+Reaction (future)
+
+Pace (from race)
+
+Skills Tab
+
+Each substat has its own skill group.
+
+Skills include:
+
+Trained checkbox
+
+Rank-based trained bonus
+
+Race bonus
+
+Background bonus
+
+Attribute mod
+
+Total
+
+Roll button
+
+ROLLING SYSTEM
+Saves
+1d20 + attributes.<group>.saveValue
+
+Skills
+1d20 + system.skills.<group>.<substat>.<skill>.total
+
+
+Roll listeners already exist in system.mjs.
+
+STYLE & UI FRAMEWORK
+Using:
+
+Two-column layout for Attributes/Status
+
+Collapsible sections using <details> / <summary>
+
+Grid alignment for input fields
+
+White background blocks
+
+Minimal borders and labels for clarity
+
+Styles maintained in:
+
+styles.css
+
+CURRENT KNOWN INTEGRATION POINTS
+Must match:
+
+system.details.purpose
+
+config.markOfPurpose hash
+
+markpurpose.hbs dropdown
+
+Header uses lookup:
+
+{{lookup config.markOfPurpose system.details.purpose}}
+
+Current issues (for ongoing reference):
+
+Mark of Purpose header display not updating
+
+Need full skills system implementation
+
+Need auto-calculation integration for skill totals
+
+Need future Confluence/Essence system (later phase)
+
+INSTRUCTIONS FOR NEW CHAT INITIALIZATION
+
+Paste this at the beginning of any new chat:
+
+Load MASTER PROJECT REFERENCE — Marks of Mezoria (Full Foundry System).
+Continue work from where last left off.
