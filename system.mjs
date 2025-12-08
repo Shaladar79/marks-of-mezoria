@@ -46,18 +46,16 @@ class MinimalActorSheet extends ActorSheet {
     // -------------------------------
     // Backgrounds for dropdown
     // -------------------------------
-    const bgType =
-      data.system?.details?.backgroundType ?? "";
+    const bgType = data.system?.details?.backgroundType ?? "";
 
-    const allBackgrounds =
-      MezoriaConfig.backgroundsByType || {};
+    const allBackgrounds = MezoriaConfig.backgroundsByType || {};
 
     let availableBackgrounds = {};
     if (bgType && allBackgrounds[bgType]) {
       availableBackgrounds = allBackgrounds[bgType];
     }
 
-    // This is what backdrop.hbs reads
+    // Used by backdrop.hbs
     data.availableBackgrounds = availableBackgrounds;
 
     return data;
@@ -89,6 +87,10 @@ class MinimalActorSheet extends ActorSheet {
 
     // -----------------------------
     // Generic skill roll buttons: 1d20 + skill.total
+    // data-path examples:
+    //   "body.might.athletics"
+    //   "mind.insight.perception"
+    //   "soul.resolve.auraControl"
     // -----------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
@@ -180,10 +182,6 @@ Hooks.once("init", async () => {
   // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
-    makeDefault: true
-  });
-});
-
     makeDefault: true
   });
 });
