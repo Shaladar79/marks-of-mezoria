@@ -1,6 +1,12 @@
+{{!-- templates/actor/parts/drops/backdrop.hbs --}}
+
 <div class="field background-field">
   <label>Background</label>
   <select name="system.details.background" data-dtype="String">
-    {{selectOptions availableBackgrounds selected=system.details.background}}
+    {{#if availableBackgrounds}}
+      {{selectOptions availableBackgrounds selected=system.details.background}}
+    {{else}}
+      <option value="">-- Select Background Type First --</option>
+    {{/if}}
   </select>
 </div>
