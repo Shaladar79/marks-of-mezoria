@@ -245,7 +245,7 @@ MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
 MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
 
 // -------------------------------------
-// Marks of Purpose (from MarkPurposeData)
+// Marks of Purpose
 // -------------------------------------
 MezoriaConfig.markOfPurpose             = MarkPurposeData.labels;
 MezoriaConfig.markOfPurposeDescriptions = MarkPurposeData.descriptions;
