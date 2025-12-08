@@ -1,10 +1,13 @@
-<div class="field purpose-field">
+{{!-- templates/actor/parts/drops/markpurpose.hbs --}}
+
+<div class="field mark-purpose-field">
   <label>Mark of Purpose</label>
-  <select name="system.details.purpose" data-dtype="String">
-    {{#if config.marksOfPurpose}}
-      {{selectOptions config.marksOfPurpose selected=system.details.purpose}}
+
+  <select name="system.details.markOfPurpose" data-dtype="String">
+    {{#if config.markOfPurpose}}
+      {{selectOptions config.markOfPurpose selected=system.details.markOfPurpose}}
     {{else}}
-      <option value="">No Marks of Purpose Defined</option>
+      <option value="">-- Marks of Purpose not loaded --</option>
     {{/if}}
   </select>
 </div>
