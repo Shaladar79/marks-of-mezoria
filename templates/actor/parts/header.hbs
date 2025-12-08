@@ -33,45 +33,46 @@
                placeholder="Name" />
       </div>
 
-    <div class="meta-row flexrow">
+      <div class="meta-row flexrow">
 
-  {{!-- RANK (read-only) --}}
-  <div class="field rank-display-field">
-    <label>Rank</label>
-    <input type="text"
-           value="{{lookup config.ranks system.details.rank}}"
-           placeholder="Unranked"
-           readonly />
+        {{!-- RANK (read-only) --}}
+        <div class="field rank-display-field">
+          <label>Rank</label>
+          <input type="text"
+                 value="{{lookup config.ranks system.details.rank}}"
+                 placeholder="Unranked"
+                 readonly />
+        </div>
+
+        {{!-- RACE (read-only) --}}
+        <div class="field race-display-field">
+          <label>Race</label>
+          <input type="text"
+                 value="{{lookup config.races system.details.race}}"
+                 placeholder="Unchosen"
+                 readonly />
+        </div>
+
+        {{!-- PURPOSE (read-only, uses derived label) --}}
+        <div class="field purpose-field">
+          <label>Purpose</label>
+          <input type="text"
+                 value="{{system.details.markOfPurposeLabel}}"
+                 placeholder="(No Mark)"
+                 readonly />
+        </div>
+
+        {{!-- BACKGROUND (read-only) --}}
+        <div class="field background-display-field">
+          <label>Background</label>
+          <input type="text"
+                 value="{{lookup config.backgrounds system.details.background}}"
+                 placeholder="Unchosen"
+                 readonly />
+        </div>
+
+      </div>
+
+    </div>
   </div>
-
-  {{!-- RACE (read-only) --}}
-  <div class="field race-display-field">
-    <label>Race</label>
-    <input type="text"
-           value="{{lookup config.races system.details.race}}"
-           placeholder="Unchosen"
-           readonly />
-  </div>
-
-  {{!-- PURPOSE (read-only, auto later) --}}
- <div class="field purpose-field">
-  <label>Purpose</label>
-  <input type="text"
-         value="{{lookup config.markOfPurpose system.details.purpose}}"
-         placeholder="(No Mark)"
-         readonly />
-</div>
-
-
-  {{!-- BACKGROUND (read-only) --}}
-  <div class="field background-display-field">
-    <label>Background</label>
-    <input type="text"
-           value="{{lookup config.backgrounds system.details.background}}"
-           placeholder="Unchosen"
-           readonly />
-  </div>
-
-</div>
-
 </header>
