@@ -41,13 +41,24 @@ class MinimalActorSheet extends ActorSheet {
     data.config = CONFIG["marks-of-mezoria"];
 
     // RaceData (labels, descriptions, tribes, etc.)
-    data.raceData = RaceData;
+    data.raceData = RaceData || {};
 
-    // Safe background options for the Background dropdown
-    const sys = this.actor.system ?? {};
-    const bgTypeKey = sys.details?.backgroundType ?? "";
-    const allBgByType = MezoriaConfig.backgroundsByType ?? {};
-    data.availableBackgrounds = allBgByType[bgTypeKey] || {};
+    // -------------------------------
+    // Backgrounds for dropdown
+    // -------------------------------
+    const bgType =
+      data.system?.details?.backgroundType ?? "";
+
+    const allBackgrounds =
+      MezoriaConfig.backgroundsByType || {};
+
+    let availableBackgrounds = {};
+    if (bgType && allBackgrounds[bgType]) {
+      availableBackgrounds = allBackgrounds[bgType];
+    }
+
+    // This is what backdrop.hbs reads
+    data.availableBackgrounds = availableBackgrounds;
 
     return data;
   }
@@ -58,7 +69,7 @@ class MinimalActorSheet extends ActorSheet {
     // -----------------------------
     // Save roll buttons: 1d20 + saveValue
     // -----------------------------
-    html.find(".save-roll").on("click", (event) => {
+    html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
       const attr = btn.dataset.attr;  // "body" | "mind" | "soul"
@@ -68,7 +79,7 @@ class MinimalActorSheet extends ActorSheet {
         foundry.utils.getProperty(this.actor.system, `attributes.${attr}.saveValue`) ?? 0;
 
       const roll = new Roll("1d20 + @save", { save: saveValue });
-      roll.evaluateSync(); // synchronous evaluation
+      await roll.evaluate({ async: true });
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -78,12 +89,8 @@ class MinimalActorSheet extends ActorSheet {
 
     // -----------------------------
     // Generic skill roll buttons: 1d20 + skill.total
-    // data-path examples:
-    //   "body.might.athletics"
-    //   "mind.insight.perception"
-    //   "soul.resolve.auraControl"
     // -----------------------------
-    html.find(".roll-any").on("click", (event) => {
+    html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
       const path = btn.dataset.path; // e.g. "body.might.athletics"
@@ -93,11 +100,10 @@ class MinimalActorSheet extends ActorSheet {
       const total =
         foundry.utils.getProperty(this.actor.system, `${basePath}.total`) ?? 0;
       const label =
-        foundry.utils.getProperty(this.actor.system, `${basePath}.label`) ||
-        "Skill Check";
+        foundry.utils.getProperty(this.actor.system, `${basePath}.label`) || "Skill Check";
 
       const roll = new Roll("1d20 + @mod", { mod: total });
-      roll.evaluateSync();
+      await roll.evaluate({ async: true });
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -174,6 +180,10 @@ Hooks.once("init", async () => {
   // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
+    makeDefault: true
+  });
+});
+
     makeDefault: true
   });
 });
