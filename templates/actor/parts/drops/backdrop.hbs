@@ -1,30 +1,24 @@
 {{!-- templates/actor/parts/drops/backdrop.hbs --}}
 
-<div class="field background-field">
+<div class="field">
   <label>Background</label>
+  <select name="system.details.background" data-dtype="String">
 
-  {{#if system.details.backgroundType}}
+    {{!-- If a background type is selected, show its options --}}
+    {{#if system.details.backgroundType}}
 
-    {{!-- Try to find the map for the chosen type --}}
-    {{#with (lookup config.backgroundsByType system.details.backgroundType) as |bgMap|}}
+      {{#with (lookup config.backgroundsByType system.details.backgroundType) as |bgOptions|}}
+        {{#if bgOptions}}
+          {{selectOptions bgOptions selected=system.details.background}}
+        {{else}}
+          <option value="">-- No backgrounds defined --</option>
+        {{/if}}
+      {{/with}}
 
-      {{#if bgMap}}
-        <select name="system.details.background" data-dtype="String">
-          {{selectOptions bgMap selected=system.details.background}}
-        </select>
-      {{else}}
-        <select name="system.details.background" data-dtype="String" disabled>
-          <option value="">No backgrounds defined for this type</option>
-        </select>
-      {{/if}}
+    {{!-- No type yet: show a placeholder option --}}
+    {{else}}
+      <option value="">-- Select Background Type First --</option>
+    {{/if}}
 
-    {{/with}}
-
-  {{else}}
-
-    <select name="system.details.background" data-dtype="String" disabled>
-      <option value="">Select a background type first</option>
-    </select>
-
-  {{/if}}
+  </select>
 </div>
