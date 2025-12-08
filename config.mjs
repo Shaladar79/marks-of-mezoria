@@ -8,6 +8,7 @@ import { RaceBonuses } from "./scripts/races.mjs";
 import { RaceStatus } from "./scripts/races.mjs";
 import { RankData } from "./scripts/rank.mjs";
 import { RaceSkillData } from "./scripts/raceSkills.mjs";
+import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 
 export const MezoriaConfig = {};
 
