@@ -1,7 +1,10 @@
-<div class="field">
+<div class="field aspect-field">
   <label>Scion Aspect</label>
   <select name="system.details.scionAspect" data-dtype="String">
-    <option value="">— None —</option>
-    {{selectOptions config.scionAspects selected=system.details.scionAspect}}
+    {{#if config.scionAspects}}
+      {{selectOptions config.scionAspects selected=system.details.scionAspect}}
+    {{else}}
+      <option value="">No Aspects Defined</option>
+    {{/if}}
   </select>
 </div>
