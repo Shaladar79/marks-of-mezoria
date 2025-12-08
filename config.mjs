@@ -38,24 +38,9 @@ MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
 MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
-// RANKS (labels + order from RankData)
+// RANKS (from RankData)
 // -------------------------------------
-// UI labels for the rank dropdown
-MezoriaConfig.ranks = {
-  normal:    "Normal",
-  quartz:    "Quartz",
-  topaz:     "Topaz",
-  garnet:    "Garnet",
-  emerald:   "Emerald",
-  sapphire:  "Sapphire",
-  ruby:      "Ruby",
-  diamond:   "Diamond",
-  mythrite:  "Mythrite",
-  celestite: "Celestite"
-};
-
-// If you ever need the strict ordering for logic:
-MezoriaConfig.rankOrder = RankData.order;
+MezoriaConfig.ranks = RankData.order;
 
 // Rank-based trained skill bonuses
 // (only trained skills get this bonus)
