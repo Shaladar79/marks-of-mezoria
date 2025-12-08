@@ -2,7 +2,6 @@
 // Custom Actor class for Marks of Mezoria
 
 import { MezoriaConfig } from "../config.mjs";
-import { RankData } from "./rank.mjs";
 
 export class MezoriaActor extends Actor {
 
@@ -187,65 +186,17 @@ export class MezoriaActor extends Actor {
     // ---- Defenses: natural armor only applies to Physical ----
     const def = system.status.defense;
 
-    const baseDefense = Number(def.touch ?? 10); // base Touch defense
+    const baseDefense = Number(def.touch ?? 10); // you can change this base if desired
 
     // Touch is the base
     def.touch = baseDefense;
 
     // Physical gets natural armor + worn armor
-    const natArmor = system.status.naturalArmor || 0;
+    const natArmor  = system.status.naturalArmor || 0;
     const wornArmor = system.status.armor.current || 0;
     def.physical = baseDefense + natArmor + wornArmor;
 
     // Magical: currently just uses base (you can add other bonuses later)
     def.magical = Number(def.magical ?? baseDefense);
-
-    /* ====================================================================== */
-    /* SKILLS: TRAINED / BONUSES / TOTALS                                     */
-    /* ====================================================================== */
-
-    const skills = system.skills || {};
-    const skillGroups = ["body", "mind", "soul"];
-
-    // Rank-based trained bonus from RankData
-    const rankKey  = system.details?.rank || "normal";
-    const trainedBase =
-      RankData.trainedSkillBonus?.[rankKey] ?? 0;
-
-    for (const group of skillGroups) {
-      if (!skills[group]) continue;
-
-      for (const [subKey, subData] of Object.entries(skills[group])) {
-        if (!subData || typeof subData !== "object") continue;
-
-        // Ensure expertise flag exists, even though it currently has no effect
-        subData.expertise = !!subData.expertise;
-
-        for (const [skillKey, rawSkill] of Object.entries(subData)) {
-          if (skillKey === "expertise") continue; // skip the flag
-
-          const sk = rawSkill || {};
-
-          sk.label      = sk.label ?? "";
-          sk.trained    = !!sk.trained;
-          sk.specialty  = sk.specialty ?? "";
-
-          // Normalise bonus fields
-          sk.racialBonus     = Number(sk.racialBonus ?? 0);
-          sk.backgroundBonus = Number(sk.backgroundBonus ?? 0);
-          sk.misc            = Number(sk.misc ?? 0);
-
-          // Rank-based trained bonus
-          const trainedBonus = sk.trained ? trainedBase : 0;
-
-          // Final total for the sheet
-          sk.total = trainedBonus + sk.racialBonus + sk.backgroundBonus + sk.misc;
-
-          subData[skillKey] = sk;
-        }
-      }
-    }
-
-    system.skills = skills;
   }
 }
