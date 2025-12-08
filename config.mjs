@@ -15,10 +15,10 @@ export const MezoriaConfig = {};
 // -------------------------------------
 // RACES (labels + descriptions imported)
 // -------------------------------------
-MezoriaConfig.races = RaceData.labels;
+MezoriaConfig.races            = RaceData.labels;
 MezoriaConfig.raceDescriptions = RaceData.descriptions;
-MezoriaConfig.raceBonuses = RaceBonuses;
-MezoriaConfig.raceStatus  = RaceStatus;
+MezoriaConfig.raceBonuses      = RaceBonuses;
+MezoriaConfig.raceStatus       = RaceStatus;
 
 // -------------------------------------
 // Racial skill bonuses (from RaceSkillData)
@@ -28,22 +28,22 @@ MezoriaConfig.raceSkillData = RaceSkillData;
 // -------------------------------------
 // MYTHRIAN TRIBES (for dropdowns, etc.)
 // -------------------------------------
-MezoriaConfig.mythrianTribes = RaceData.mythrianTribes;
-MezoriaConfig.draconianClans  = RaceData.draconianClans;
-MezoriaConfig.scionAspects = RaceData.scionAspects;
+MezoriaConfig.mythrianTribes        = RaceData.mythrianTribes;
+MezoriaConfig.draconianClans        = RaceData.draconianClans;
+MezoriaConfig.scionAspects          = RaceData.scionAspects;
 
-MezoriaConfig.mythrianTribeBonuses = RaceData.mythrianTribeBonuses;
-MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
-MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
+MezoriaConfig.mythrianTribeBonuses  = RaceData.mythrianTribeBonuses;
+MezoriaConfig.draconianClanBonuses  = RaceData.draconianClanBonuses;
+MezoriaConfig.scionAspectBonuses    = RaceData.scionAspectBonuses;
 
 // -------------------------------------
 // RANKS (from RankData)
 // -------------------------------------
-MezoriaConfig.ranks = RankData.labels;
+MezoriaConfig.ranks = RankData.ranks;
 
 // Rank-based trained skill bonuses
 // (only trained skills get this bonus)
-MezoriaConfig.rankSkillBonuses = RankData.skillBonuses;
+MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
 
 // -------------------------------------
 // BACKGROUND TYPES
