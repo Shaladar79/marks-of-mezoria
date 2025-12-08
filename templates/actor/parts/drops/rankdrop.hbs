@@ -1,8 +1,10 @@
-{{!-- Rank dropdown partial --}}
-
 <div class="field rank-field">
   <label>Rank</label>
   <select name="system.details.rank" data-dtype="String">
-    {{selectOptions config.ranks selected=system.details.rank}}
+    {{#if config.ranks}}
+      {{selectOptions config.ranks selected=system.details.rank}}
+    {{else}}
+      <option value="">No Ranks Defined</option>
+    {{/if}}
   </select>
 </div>
