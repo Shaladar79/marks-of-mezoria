@@ -43,6 +43,12 @@ class MinimalActorSheet extends ActorSheet {
     // RaceData (labels, descriptions, tribes, etc.)
     data.raceData = RaceData;
 
+    // Safe background options for the Background dropdown
+    const sys = this.actor.system ?? {};
+    const bgTypeKey = sys.details?.backgroundType ?? "";
+    const allBgByType = MezoriaConfig.backgroundsByType ?? {};
+    data.availableBackgrounds = allBgByType[bgTypeKey] || {};
+
     return data;
   }
 
@@ -52,7 +58,7 @@ class MinimalActorSheet extends ActorSheet {
     // -----------------------------
     // Save roll buttons: 1d20 + saveValue
     // -----------------------------
-    html.find(".save-roll").on("click", async (event) => {
+    html.find(".save-roll").on("click", (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
       const attr = btn.dataset.attr;  // "body" | "mind" | "soul"
@@ -62,7 +68,7 @@ class MinimalActorSheet extends ActorSheet {
         foundry.utils.getProperty(this.actor.system, `attributes.${attr}.saveValue`) ?? 0;
 
       const roll = new Roll("1d20 + @save", { save: saveValue });
-      await roll.evaluate({ async: true });
+      roll.evaluateSync(); // synchronous evaluation
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
@@ -77,19 +83,21 @@ class MinimalActorSheet extends ActorSheet {
     //   "mind.insight.perception"
     //   "soul.resolve.auraControl"
     // -----------------------------
-    html.find(".roll-any").on("click", async (event) => {
+    html.find(".roll-any").on("click", (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
       const path = btn.dataset.path; // e.g. "body.might.athletics"
       if (!path) return;
 
-      // Look up the skill total and label from system
       const basePath = `skills.${path}`;
-      const total = foundry.utils.getProperty(this.actor.system, `${basePath}.total`) ?? 0;
-      const label = foundry.utils.getProperty(this.actor.system, `${basePath}.label`) || "Skill Check";
+      const total =
+        foundry.utils.getProperty(this.actor.system, `${basePath}.total`) ?? 0;
+      const label =
+        foundry.utils.getProperty(this.actor.system, `${basePath}.label`) ||
+        "Skill Check";
 
       const roll = new Roll("1d20 + @mod", { mod: total });
-      await roll.evaluate({ async: true });
+      roll.evaluateSync();
 
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
