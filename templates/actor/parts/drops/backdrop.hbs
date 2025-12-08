@@ -1,24 +1,12 @@
-{{!-- templates/actor/parts/drops/backdrop.hbs --}}
-
-<div class="field">
+<div class="field background-field">
   <label>Background</label>
   <select name="system.details.background" data-dtype="String">
-
-    {{!-- If a background type is selected, show its options --}}
     {{#if system.details.backgroundType}}
-
-      {{#with (lookup config.backgroundsByType system.details.backgroundType) as |bgOptions|}}
-        {{#if bgOptions}}
-          {{selectOptions bgOptions selected=system.details.background}}
-        {{else}}
-          <option value="">-- No backgrounds defined --</option>
-        {{/if}}
-      {{/with}}
-
-    {{!-- No type yet: show a placeholder option --}}
+      {{selectOptions (lookup config.backgroundsByType system.details.backgroundType)
+                      selected=system.details.background}}
     {{else}}
       <option value="">-- Select Background Type First --</option>
     {{/if}}
-
   </select>
 </div>
+
