@@ -1,8 +1,10 @@
-{{!-- templates/actor/parts/drops/tribedrop.hbs --}}
-
 <div class="field tribe-field">
   <label>Mythrian Tribe</label>
   <select name="system.details.mythrianTribe" data-dtype="String">
-    {{selectOptions raceData.mythrianTribes selected=system.details.mythrianTribe}}
+    {{#if config.mythrianTribes}}
+      {{selectOptions config.mythrianTribes selected=system.details.mythrianTribe}}
+    {{else}}
+      <option value="">No Tribes Defined</option>
+    {{/if}}
   </select>
 </div>
