@@ -9,6 +9,7 @@ import { RaceStatus } from "./scripts/races.mjs";
 import { RankData } from "./scripts/rank.mjs";
 import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
+import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
 
 export const MezoriaConfig = {};
 
@@ -28,18 +29,33 @@ MezoriaConfig.raceSkillData = RaceSkillData;
 // -------------------------------------
 // MYTHRIAN TRIBES (for dropdowns, etc.)
 // -------------------------------------
-MezoriaConfig.mythrianTribes        = RaceData.mythrianTribes;
-MezoriaConfig.draconianClans        = RaceData.draconianClans;
-MezoriaConfig.scionAspects          = RaceData.scionAspects;
+MezoriaConfig.mythrianTribes       = RaceData.mythrianTribes;
+MezoriaConfig.draconianClans       = RaceData.draconianClans;
+MezoriaConfig.scionAspects         = RaceData.scionAspects;
 
-MezoriaConfig.mythrianTribeBonuses  = RaceData.mythrianTribeBonuses;
-MezoriaConfig.draconianClanBonuses  = RaceData.draconianClanBonuses;
-MezoriaConfig.scionAspectBonuses    = RaceData.scionAspectBonuses;
+MezoriaConfig.mythrianTribeBonuses = RaceData.mythrianTribeBonuses;
+MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
+MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
-// RANKS (from RankData)
+// RANKS (labels + order from RankData)
 // -------------------------------------
-MezoriaConfig.ranks = RankData.ranks;
+// UI labels for the rank dropdown
+MezoriaConfig.ranks = {
+  normal:    "Normal",
+  quartz:    "Quartz",
+  topaz:     "Topaz",
+  garnet:    "Garnet",
+  emerald:   "Emerald",
+  sapphire:  "Sapphire",
+  ruby:      "Ruby",
+  diamond:   "Diamond",
+  mythrite:  "Mythrite",
+  celestite: "Celestite"
+};
+
+// If you ever need the strict ordering for logic:
+MezoriaConfig.rankOrder = RankData.order;
 
 // Rank-based trained skill bonuses
 // (only trained skills get this bonus)
@@ -244,55 +260,10 @@ MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
 MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
 
 // -------------------------------------
-// Marks of Purpose
+// Marks of Purpose (from MarkPurposeData)
 // -------------------------------------
-MezoriaConfig.markOfPurpose = {
-  none:       "No Mark",
-  alchemist:  "Alchemist",
-  arcanist:   "Arcanist",
-  berserker:  "Berserker",
-  charlatan:  "Charlatan",
-  defender:   "Defender",
-  duelist:    "Duelist",
-  enchanter:  "Enchanter",
-  guardian:   "Guardian",
-  hexer:      "Hexer",
-  inquisitor: "Inquisitor",
-  marksman:   "Marksman",
-  mender:     "Mender",
-  oracle:     "Oracle",
-  pathfinder: "Pathfinder",
-  psion:      "Psion",
-  runesmith:  "Runesmith",
-  skirmisher: "Skirmisher",
-  spellblade: "Spellblade",
-  striker:    "Striker",
-  warden:     "Warden"
-};
-
-MezoriaConfig.markOfPurposeDescriptions = {
-  none:       "This character has not yet received a Mark of Purpose.",
-  striker:    "Front-line damage dealer; decisive finishers.",
-  defender:   "Line-holder; blocks lanes and peels pressure.",
-  charlatan:  "Deception and ambush; trick-play specialist.",
-  marksman:   "Ranged control and precision pickoffs.",
-  skirmisher: "Mobile flanker; hit-and-run harassment.",
-  enchanter:  "Buffs, wards, and battlefield shaping.",
-  guardian:   "Wards and shielding; magical bodyguard.",
-  mender:     "Field medicine, cleansing, stabilization.",
-  arcanist:   "Direct spellcraft and measured counterspells.",
-  spellblade: "Melee–magic hybrid imbuing steel.",
-  pathfinder: "Scout/tracker; terrain and route control.",
-  alchemist:  "Bombs, tonics, counters, and prep.",
-  oracle:     "Foresight, omen-reading, protective wards.",
-  warden:     "Nature sentinel; terrain control and protection.",
-  inquisitor: "Witch-hunter; exposes and pressures casters.",
-  hexer:      "Ailments, binds, and weakening curses.",
-  duelist:    "Single-combat control; ripostes and tempo theft.",
-  runesmith:  "Traps, wards, and placed battlefield devices.",
-  berserker:  "Burst offense under pain; shock entry.",
-  psion:      "Mind-force and perception edge; subtle control."
-};
+MezoriaConfig.markOfPurpose             = MarkPurposeData.labels;
+MezoriaConfig.markOfPurposeDescriptions = MarkPurposeData.descriptions;
 
 // -------------------------------------
 // Skill Specialties (placeholder)
