@@ -346,3 +346,238 @@
                 "specialty": "",
                 "racialBonus": 0,
                 "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "awareness": {
+                "label": "Awareness",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "ritualCasting": {
+                "label": "Ritual Casting",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatSpellcasting": {
+                "label": "Combat: Spellcasting",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
+
+            "focus": {
+              "expertise": false,
+
+              "tactics": {
+                "label": "Tactics",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "research": {
+                "label": "Research",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "logic": {
+                "label": "Logic",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "useMagicDevice": {
+                "label": "Use Magic Device",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "combatWands": {
+                "label": "Combat: Wands",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
+
+            "willpower": {
+              "expertise": false,
+
+              "concentration": {
+                "label": "Concentration",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "mentalFortitude": {
+                "label": "Mental Fortitude",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            }
+          },
+
+          "soul": {
+            "presence": {
+              "expertise": false,
+
+              "persuasion": {
+                "label": "Persuasion",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "deception": {
+                "label": "Deception",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "oratory": {
+                "label": "Oratory",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "etiquette": {
+                "label": "Etiquette",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "streetwise": {
+                "label": "Streetwise",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
+
+            "grace": {
+              "expertise": false,
+
+              "performance": {
+                "label": "Performance",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "poise": {
+                "label": "Poise",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "mimicry": {
+                "label": "Mimicry",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "improvisation": {
+                "label": "Improvisation",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            },
+
+            "resolve": {
+              "expertise": false,
+
+              "conviction": {
+                "label": "Conviction",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "composure": {
+                "label": "Composure",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              },
+              "auraControl": {
+                "label": "Aura Control",
+                "trained": false,
+                "specialty": "",
+                "racialBonus": 0,
+                "backgroundBonus": 0,
+                "misc": 0,
+                "total": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
