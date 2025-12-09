@@ -7,9 +7,10 @@
     <thead>
       <tr>
         <th>Skill</th>
+        <th>Att</th>
         <th>Trained</th>
         <th>Race</th>
-        <th>Background</th>
+        <th>BG</th>
         <th>Rank</th>
         <th>Misc</th>
         <th>Total</th>
@@ -21,6 +22,7 @@
       {{!-- Tactics --}}
       <tr>
         <td>Tactics</td>
+        <td>{{system.attributes.mind.focus.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.focus.tactics.trained"
@@ -48,6 +50,7 @@
       {{!-- Research --}}
       <tr>
         <td>Research</td>
+        <td>{{system.attributes.mind.focus.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.focus.research.trained"
@@ -75,6 +78,7 @@
       {{!-- Logic --}}
       <tr>
         <td>Logic</td>
+        <td>{{system.attributes.mind.focus.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.focus.logic.trained"
@@ -102,6 +106,7 @@
       {{!-- Use Magic Device --}}
       <tr>
         <td>Use Magic Device</td>
+        <td>{{system.attributes.mind.focus.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.focus.useMagicDevice.trained"
