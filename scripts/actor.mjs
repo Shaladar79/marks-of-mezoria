@@ -83,15 +83,15 @@ export class MezoriaActor extends Actor {
       resolve:    ["soul", "resolve"]
     };
 
-    const raceKey   = system.details.race         || "";
-    const tribeKey  = system.details.mythrianTribe || "";
-    const clanKey   = system.details.draconianClan || "";
-    const aspectKey = system.details.scionAspect   || "";
+    const raceKey   = system.details.race           || "";
+    const tribeKey  = system.details.mythrianTribe  || "";
+    const clanKey   = system.details.draconianClan  || "";
+    const aspectKey = system.details.scionAspect    || "";
 
-    const raceBonuses          = MezoriaConfig.raceBonuses          || {};
-    const tribeBonuses         = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses          = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonuses   = MezoriaConfig.scionAspectBonuses   || {};
+    const raceBonuses           = MezoriaConfig.raceBonuses          || {};
+    const tribeBonuses          = MezoriaConfig.mythrianTribeBonuses || {};
+    const clanBonuses           = MezoriaConfig.draconianClanBonuses || {};
+    const scionAspectBonuses    = MezoriaConfig.scionAspectBonuses   || {};
     const backgroundTypeBonuses = MezoriaConfig.backgroundTypeBonuses || {};
     const backgroundBonuses     = MezoriaConfig.backgroundBonuses      || {};
 
@@ -173,6 +173,7 @@ export class MezoriaActor extends Actor {
     /* SKILLS: ATTRIBUTES + RACE + BACKGROUND + RANK + MISC                   */
     /* ====================================================================== */
 
+    system.skills = system.skills || {};
     const skills = system.skills;
 
     const skillGroups = {
@@ -181,10 +182,11 @@ export class MezoriaActor extends Actor {
       soul: ["presence", "grace", "resolve"]
     };
 
-    // Normalize skills and reset racial/background (misc stays)
+    // Normalize skills & reset racial/background/rank (misc stays)
     for (const group in skillGroups) {
       if (!Object.prototype.hasOwnProperty.call(skillGroups, group)) continue;
       const subs = skillGroups[group];
+
       skills[group] = skills[group] || {};
       const groupSkills = skills[group];
 
@@ -194,14 +196,19 @@ export class MezoriaActor extends Actor {
 
         for (const [skillKey, rawNode] of Object.entries(subSkills)) {
           if (skillKey === "expertise") continue;
+
           const node = rawNode || {};
-          node.label           = node.label ?? "";
-          node.trained         = !!node.trained;
+          node.label   = node.label ?? "";
+          node.trained = !!node.trained;
+
+          // Persist misc, wipe derived parts
           node.racialBonus     = 0;
           node.backgroundBonus = 0;
-          node.misc            = Number(node.misc ?? 0);  // manual / future items
-          node.total           = Number(node.total ?? 0); // will be overwritten
-          subSkills[skillKey]  = node;
+          node.rankBonus       = 0;
+          node.misc            = Number(node.misc ?? 0);
+          node.total           = Number(node.total ?? 0);
+
+          subSkills[skillKey] = node;
         }
       }
     }
@@ -212,13 +219,14 @@ export class MezoriaActor extends Actor {
     const bgTypeForSkills  = MezoriaConfig.backgroundTypeBonuses || {};
     const bgForSkills      = MezoriaConfig.backgroundBonuses     || {};
 
-    // Rank-based trained skill bonus
-    const rankKeySkill = system.details.rank || "";
-    const rankBonus    = Number(
+    // Rank-based trained skill bonus (full) and half for untrained
+    const rankKeySkill  = system.details.rank || "";
+    const fullRankBonus = Number(
       (rankKeySkill && rankSkillBonuses[rankKeySkill])
         ? rankSkillBonuses[rankKeySkill]
         : 0
     );
+    const halfRankBonus = Math.floor(fullRankBonus / 2);
 
     // Race keys for skill bonuses
     const raceKeySkill   = system.details.race          || "";
@@ -299,7 +307,9 @@ export class MezoriaActor extends Actor {
       applySkillArray([bgForSkills[backKeySkill].skill], "backgroundBonus");
     }
 
-    // Final skill totals (rank only if trained)
+    // Final skill totals
+    //  - Trained: full rank bonus
+    //  - Untrained: half rank bonus (rounded down)
     for (const group in skillGroups) {
       if (!Object.prototype.hasOwnProperty.call(skillGroups, group)) continue;
       const subs = skillGroups[group];
@@ -314,12 +324,14 @@ export class MezoriaActor extends Actor {
         for (const [skillKey, node] of Object.entries(subSkills)) {
           if (skillKey === "expertise") continue;
 
-          const trainedBonus = node.trained ? rankBonus : 0; // <<< KEY LINE
-          const racial       = Number(node.racialBonus     ?? 0);
-          const background   = Number(node.backgroundBonus ?? 0);
-          const misc         = Number(node.misc            ?? 0);
+          const racial     = Number(node.racialBonus     ?? 0);
+          const background = Number(node.backgroundBonus ?? 0);
+          const misc       = Number(node.misc            ?? 0);
 
-          node.total = attrTotal + trainedBonus + racial + background + misc;
+          const rankComponent = node.trained ? fullRankBonus : halfRankBonus;
+          node.rankBonus = rankComponent;
+
+          node.total = attrTotal + racial + background + rankComponent + misc;
         }
       }
     }
