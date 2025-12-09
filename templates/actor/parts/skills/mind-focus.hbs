@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Tactics --}}
       <tr>
         <td>Tactics</td>
@@ -22,10 +26,13 @@
                  name="system.skills.mind.focus.tactics.trained"
                  {{checked system.skills.mind.focus.tactics.trained}} />
         </td>
+        <td>{{system.skills.mind.focus.tactics.racialBonus}}</td>
+        <td>{{system.skills.mind.focus.tactics.backgroundBonus}}</td>
+        <td>{{system.skills.mind.focus.tactics.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.focus.tactics.specialty"
-                 value="{{system.skills.mind.focus.tactics.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.focus.tactics.misc"
+                 value="{{system.skills.mind.focus.tactics.misc}}" />
         </td>
         <td>{{system.skills.mind.focus.tactics.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.mind.focus.research.trained"
                  {{checked system.skills.mind.focus.research.trained}} />
         </td>
+        <td>{{system.skills.mind.focus.research.racialBonus}}</td>
+        <td>{{system.skills.mind.focus.research.backgroundBonus}}</td>
+        <td>{{system.skills.mind.focus.research.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.focus.research.specialty"
-                 value="{{system.skills.mind.focus.research.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.focus.research.misc"
+                 value="{{system.skills.mind.focus.research.misc}}" />
         </td>
         <td>{{system.skills.mind.focus.research.total}}</td>
         <td>
@@ -70,10 +80,13 @@
                  name="system.skills.mind.focus.logic.trained"
                  {{checked system.skills.mind.focus.logic.trained}} />
         </td>
+        <td>{{system.skills.mind.focus.logic.racialBonus}}</td>
+        <td>{{system.skills.mind.focus.logic.backgroundBonus}}</td>
+        <td>{{system.skills.mind.focus.logic.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.focus.logic.specialty"
-                 value="{{system.skills.mind.focus.logic.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.focus.logic.misc"
+                 value="{{system.skills.mind.focus.logic.misc}}" />
         </td>
         <td>{{system.skills.mind.focus.logic.total}}</td>
         <td>
@@ -94,10 +107,13 @@
                  name="system.skills.mind.focus.useMagicDevice.trained"
                  {{checked system.skills.mind.focus.useMagicDevice.trained}} />
         </td>
+        <td>{{system.skills.mind.focus.useMagicDevice.racialBonus}}</td>
+        <td>{{system.skills.mind.focus.useMagicDevice.backgroundBonus}}</td>
+        <td>{{system.skills.mind.focus.useMagicDevice.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.focus.useMagicDevice.specialty"
-                 value="{{system.skills.mind.focus.useMagicDevice.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.focus.useMagicDevice.misc"
+                 value="{{system.skills.mind.focus.useMagicDevice.misc}}" />
         </td>
         <td>{{system.skills.mind.focus.useMagicDevice.total}}</td>
         <td>
@@ -110,29 +126,6 @@
         </td>
       </tr>
 
-      {{!-- Combat: Wands --}}
-      <tr>
-        <td>Combat: Wands</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.mind.focus.combatWands.trained"
-                 {{checked system.skills.mind.focus.combatWands.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.mind.focus.combatWands.specialty"
-                 value="{{system.skills.mind.focus.combatWands.specialty}}" />
-        </td>
-        <td>{{system.skills.mind.focus.combatWands.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="mind.focus.combatWands">
-            🎲
-          </button>
-        </td>
-      </tr>
     </tbody>
   </table>
 </details>
