@@ -1,7 +1,7 @@
-{{!-- LORE SKILL (Mind – Lore) --}}
+{{!-- LORE (Mind – Insight) --}}
 
 <details class="skills-section skills-section-mind-lore">
-  <summary>Mind – Lore</summary>
+  <summary>Lore (Mind – Insight)</summary>
 
   <table class="skills-table">
     <thead>
@@ -18,35 +18,28 @@
     </thead>
     <tbody>
 
-      {{!-- Lore (root skill; specialties via dropdown) --}}
+      {{!-- Lore --}}
       <tr>
-        <td>
-          Lore
-          <br />
-          <select name="system.skills.mind.lore.lore.specialty" data-dtype="String">
-            {{selectOptions config.skillSpecialties.default
-                            selected=system.skills.mind.lore.lore.specialty}}
-          </select>
-        </td>
+        <td>Lore</td>
         <td>
           <input type="checkbox"
-                 name="system.skills.mind.lore.lore.trained"
-                 {{checked system.skills.mind.lore.lore.trained}} />
+                 name="system.skills.mind.insight.lore.trained"
+                 {{checked system.skills.mind.insight.lore.trained}} />
         </td>
-        <td>{{system.skills.mind.lore.lore.racialBonus}}</td>
-        <td>{{system.skills.mind.lore.lore.backgroundBonus}}</td>
-        <td>{{system.skills.mind.lore.lore.rankBonus}}</td>
+        <td>{{system.skills.mind.insight.lore.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.lore.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.lore.rankBonus}}</td>
         <td>
           <input type="number"
-                 name="system.skills.mind.lore.lore.misc"
-                 value="{{system.skills.mind.lore.lore.misc}}" />
+                 name="system.skills.mind.insight.lore.misc"
+                 value="{{system.skills.mind.insight.lore.misc}}" />
         </td>
-        <td>{{system.skills.mind.lore.lore.total}}</td>
+        <td>{{system.skills.mind.insight.lore.total}}</td>
         <td>
           <button type="button"
                   class="roll-any"
                   data-rolltype="skill"
-                  data-path="mind.lore.lore">
+                  data-path="mind.insight.lore">
             🎲
           </button>
         </td>
