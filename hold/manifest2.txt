@@ -1,0 +1,466 @@
+1. Project Manifest – “Marks of Mezoria: Abilities & Marks Phase”
+
+Project Name:
+Marks of Mezoria – Abilities, Marks, and Rank Features (up to Topaz)
+
+Scope (this phase):
+
+Abilities Framework
+
+Define an Ability item type (system schema, item sheet, display on actor).
+
+Standard fields: name, rank requirement, mark type, action type, cost (mana/stamina/etc.), scaling, tags, description.
+
+Wire a basic Abilities tab on the actor sheet that:
+
+Lists abilities owned by the actor.
+
+Allows adding/removing abilities (drag-and-drop from Items).
+
+Shows key stats (rank requirement, mark, cost, action type).
+
+Mark System Expansion
+
+Expand Mark types beyond current “Mark of Purpose” list:
+
+Add additional Mark categories (e.g., Elemental Marks, Path Marks, etc., as you decide).
+
+For each mark type, define:
+
+ID key
+
+Label
+
+Short description
+
+Typical themes (for ability tagging)
+
+Ensure marks are represented in a central data structure (likely scripts/marks.mjs or config.mjs).
+
+Rank Features & Rank-gated Abilities (up to Topaz)
+
+Flesh out rank mechanical features for:
+
+Normal
+
+Quartz
+
+Topaz
+
+Define which abilities unlock or become available at each rank.
+
+Add rank gating logic:
+
+Actor can only learn abilities whose minRank ≤ actor rank.
+
+Some abilities improve/upgrade when rank increases.
+
+Racial & Background Abilities
+
+For each race and background:
+
+Define 1+ Racial Abilities and Background Abilities as items.
+
+Tie them to character creation:
+
+On race/background selection, grant appropriate abilities automatically (or at least show them as suggestions).
+
+Ability Library (Content)
+
+Create a first wave of system-provided abilities (Normal → Topaz power band):
+
+Mark abilities (per Mark type).
+
+Racial abilities.
+
+Background abilities.
+
+Organize them into one or more compendia (e.g., mom.abilities).
+
+Out-of-scope for this phase (but future work):
+
+High-rank abilities (Garnet and above).
+
+Full action economy integration (Reaction/Action Cost system).
+
+Advanced automation (auto damage, templates, etc.).
+
+Full effect system and status conditions.
+
+High-level sequence:
+
+Lock data model for Ability items (schema).
+
+Build Ability item sheet.
+
+Add Abilities tab on actor sheet + drag/drop.
+
+Implement Mark / Rank / Race / Background linkage at the data level.
+
+Create initial ability sets through Topaz.
+
+2. Dependency Map (Current System + Abilities Phase)
+
+This is a conceptual map of how the relevant files relate, with emphasis on what will matter for abilities.
+
+Core System Files
+
+system.mjs
+
+Registers:
+
+MezoriaActor as CONFIG.Actor.documentClass.
+
+MinimalActorSheet as the actor sheet for PCs.
+
+Preloads all actor templates (templates/actor/parts/...).
+
+Hooks Foundry’s init to set up CONFIG["marks-of-mezoria"] = MezoriaConfig.
+
+config.mjs
+
+Exports MezoriaConfig object, including:
+
+races, backgroundsByType
+
+raceBonuses, mythrianTribeBonuses, draconianClanBonuses, scionAspectBonuses
+
+backgroundTypeBonuses, backgroundBonuses
+
+raceSkillData
+
+raceStatus
+
+ranks (from RankData.order)
+
+rankSkillBonuses (from RankData.trainedSkillBonus)
+
+Future abilities work:
+
+Will likely host global ability config and mark tables OR import them from a dedicated marks.mjs/abilities.mjs.
+
+scripts/actor.mjs (MezoriaActor)
+
+Central derived data engine:
+
+Attributes: base + race + background + mark + misc ⇒ total.
+
+Saves: average of sub-attributes per group.
+
+Skills:
+
+Structure: system.skills.[body|mind|soul].[sub].[skillKey].
+
+Adds racial, background, rank, misc; pulls governing attribute total.
+
+Status:
+
+Vitality, Mana, Stamina, Trauma, Pace, Natural Armor, Defense, Armor, Shielding.
+
+Directly depends on:
+
+MezoriaConfig (raceBonuses, raceSkillData, rankSkillBonuses, raceStatus, background configs, etc.).
+
+In abilities phase:
+
+Might compute derived ability-related stats (e.g., number of mark slots, scaling values) based on rank/race/mark.
+
+scripts/races.mjs
+
+Exports RaceData (labels, descriptions, extended race metadata).
+
+Used by MinimalActorSheet.getData() to populate race info and dropdowns.
+
+scripts/rank.mjs
+
+Exports RankData:
+
+order (rank IDs in order: ["normal","quartz","topaz",...]).
+
+trainedSkillBonus (map of rank → trained skill bonus).
+
+Likely additional rank metadata (descriptions, etc.).
+
+config.mjs imports RankData to build ranks and rankSkillBonuses.
+
+Will be extended with more rank features and ability gating rules.
+
+Actor Sheet Templates (relevant groups)
+
+templates/actor/actor-sheet.hbs
+
+Main layout, tab structure.
+
+References partials such as:
+
+parts/header.hbs
+
+parts/cinfo.hbs
+
+parts/astats.hbs
+
+parts/skills.hbs
+
+(Future) parts/abilities.hbs
+
+Dropdown partials (templates/actor/parts/drops/*.hbs)
+
+racedrop.hbs, rankdrop.hbs, backtype.hbs, backdrop.hbs, markpurpose.hbs, etc.
+
+All rely on data.config and data.raceData from MinimalActorSheet.getData().
+
+Attributes & Status partials:
+
+parts/astats.hbs and subparts: body.hbs, mind.hbs, soul.hbs, status.hbs.
+
+Display system.attributes and system.status that MezoriaActor computes.
+
+Skills partials:
+
+parts/skills.hbs – container with Skills sub-tabs (Body, Mind, Soul, Combat, Lore).
+
+Subparts:
+
+body-might.hbs, body-swiftness.hbs, body-endurance.hbs
+
+mind-insight.hbs, mind-focus.hbs, mind-willpower.hbs, mind-lore.hbs
+
+soul-presence.hbs, soul-grace.hbs, soul-resolve.hbs
+
+skills-combat.hbs, skills-lore.hbs (lore skills separated visually)
+
+Each row assumes the data structure in system.skills and uses:
+
+system.attributes.[group].[sub].total for Att column.
+
+racialBonus, backgroundBonus, rankBonus, misc, total.
+
+New / Planned Abilities Files
+
+To be created in this phase:
+
+scripts/abilities.mjs (or marks.mjs / combined module)
+
+Data definitions for:
+
+Mark types and their categories.
+
+Ability “templates” or configuration if we want non-item definitions.
+
+May provide helper functions to resolve mark/rank prerequisites.
+
+Item type definition (in system JSON templates – you already have a template.json or equivalent):
+
+Add Item type "ability" with system fields you define.
+
+scripts/item/AbilitySheet.mjs
+
+Custom ItemSheet class for Ability items.
+
+Registered in system.mjs or a dedicated items.mjs.
+
+Ability sheet template:
+
+templates/items/ability-sheet.hbs.
+
+Actor Abilities Tab:
+
+templates/actor/parts/abilities.hbs:
+
+Lists abilities (owned Items of type "ability").
+
+Provides minimal display + open sheet + remove buttons.
+
+Compendia:
+
+Add to system.json:
+
+packs: [ { name: "abilities", label: "MoM Abilities", path: "packs/abilities.db", type: "Item" }, ... ]
+
+3. Skills Recap (Current Design Spec)
+
+This recap is what we’ll reference later if we need to adjust skills again.
+
+3.1 Data Structure
+
+All skills live under:
+
+system.skills.[group].[sub].[skillKey]
+
+
+Where:
+
+group ∈ { "body", "mind", "soul" }
+
+sub:
+
+Body: "might", "swiftness", "endurance"
+
+Mind: "insight", "focus", "willpower"
+
+Soul: "presence", "grace", "resolve"
+
+skillKey = a specific skill, e.g.:
+
+athletics, bruteForce, heft, intimidation
+
+perception, investigation, tracking, intuition, awareness, ritualCasting
+
+Lore skills (currently under Mind → Insight):
+
+loreRealms, loreHistory, loreLegends, loreAvatars, loreMonsters, loreNature
+
+Combat skills (various groups/subs):
+
+combatHeavy, combatGrappling, combatMedium (Body–Might)
+
+combatRanged, combatThrowing (Body–Swiftness)
+
+combatSpellcasting (Mind–Insight)
+
+combatWands (Mind–Focus)
+
+And so on for the Soul skills.
+
+Each skill node has fields:
+
+{
+  label: string,
+  trained: boolean,
+  racialBonus: number,
+  backgroundBonus: number,
+  rankBonus: number,
+  misc: number,
+  total: number
+}
+
+
+misc is manually edited on the sheet (for now). Others are derived.
+
+3.2 Governing Attribute (ATT Column)
+
+For each skill row, the Att column is the total of the governing sub-attribute:
+
+Example:
+
+system.skills.body.might.athletics → system.attributes.body.might.total
+
+system.skills.mind.insight.loreHistory → system.attributes.mind.insight.total
+
+system.skills.soul.presence.persuasion → system.attributes.soul.presence.total
+
+system.skills.body.swiftness.combatRanged → system.attributes.body.swiftness.total
+
+These sub-attributes are themselves:
+
+system.attributes[group][sub] = {
+  base,
+  race,
+  background,
+  mark,
+  misc,
+  total,
+  mod
+}
+
+
+Where:
+
+total = base + race + background + mark + misc
+
+3.3 Racial & Background Skill Bonuses
+
+Source: MezoriaConfig.raceSkillData, MezoriaConfig.backgroundTypeBonuses, MezoriaConfig.backgroundBonuses.
+
+Race skill bonuses:
+
+raceSkillData.base[raceKey].skills – base race skills.
+
+raceSkillData.mythrianTribes[tribeKey].skills – Mythrian tribe bonuses.
+
+raceSkillData.draconianClans[clanKey].skills – Draconian clan bonuses.
+
+raceSkillData.scionAspects[aspectKey].skills – Scion aspect bonuses.
+
+Each entry is { path: "group.sub.skillKey", value: N }.
+
+These are applied to skill.racialBonus.
+
+Background skill bonuses:
+
+backgroundTypeBonuses[backgroundType].skill – 1 skill per background type.
+
+backgroundBonuses[backgroundKey].skill – 1 skill per specific background.
+
+Applied to skill.backgroundBonus.
+
+3.4 Rank-Based Skill Bonuses
+
+Source: RankData.trainedSkillBonus → MezoriaConfig.rankSkillBonuses.
+
+Example (from your screenshot):
+
+trainedSkillBonus: {
+  normal:    1,
+  quartz:    2,
+  topaz:     3,
+  garnet:    5,
+  emerald:   6,
+  sapphire:  7,
+  ruby:      9,
+  diamond:   10,
+  mythrite:  11,
+  celestite: 15,
+}
+
+
+In actor.mjs:
+
+Determine rank key:
+
+Raw value from sheet: system.details.rank.
+
+If it’s numeric (e.g., "2"), use it as an index into MezoriaConfig.ranks (e.g., ["normal","quartz","topaz",...]).
+
+Else treat it directly as a rank ID.
+
+Normalize to lowercase: e.g., "Topaz" → "topaz".
+
+Lookup bonus:
+
+const fullRankBonus = rankSkillBonuses[rankKeySkill] || 0;
+const halfRankBonus = Math.floor(fullRankBonus / 2);
+
+
+Apply per skill:
+
+const rankComponent = node.trained ? fullRankBonus : halfRankBonus;
+node.rankBonus = rankComponent;
+
+3.5 Final Skill Total Formula
+
+For each skill:
+
+skill.total =
+  attrTotal  // governing attribute total
+  + skill.racialBonus
+  + skill.backgroundBonus
+  + skill.rankBonus
+  + skill.misc;
+
+
+Where:
+
+attrTotal = system.attributes[group][sub].total
+
+skill.racialBonus – from race/tribe/clan/aspect configs
+
+skill.backgroundBonus – from background configs
+
+skill.rankBonus – from rank (full vs half based on trained)
+
+skill.misc – manual adjustments (items, temporary effects, etc.)
+
+This is exactly what’s shown on the sheet columns:
+
+Att | Race | BG | Rank | Misc | Total
