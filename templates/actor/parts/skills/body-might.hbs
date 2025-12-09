@@ -8,31 +8,41 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Athletics --}}
       <tr>
         <td>Athletics</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.athletics.trained"
-                 {{checked system.skills.body.might.athletics.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.body.might.athletics.trained"
+            {{checked system.skills.body.might.athletics.trained}} />
         </td>
+        <td>{{system.skills.body.might.athletics.racialBonus}}</td>
+        <td>{{system.skills.body.might.athletics.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.athletics.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.might.athletics.specialty"
-                 value="{{system.skills.body.might.athletics.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.body.might.athletics.misc"
+            value="{{system.skills.body.might.athletics.misc}}" />
         </td>
         <td>{{system.skills.body.might.athletics.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.athletics">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.athletics">
             🎲
           </button>
         </td>
@@ -42,21 +52,27 @@
       <tr>
         <td>Brute Force</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.bruteForce.trained"
-                 {{checked system.skills.body.might.bruteForce.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.body.might.bruteForce.trained"
+            {{checked system.skills.body.might.bruteForce.trained}} />
         </td>
+        <td>{{system.skills.body.might.bruteForce.racialBonus}}</td>
+        <td>{{system.skills.body.might.bruteForce.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.bruteForce.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.might.bruteForce.specialty"
-                 value="{{system.skills.body.might.bruteForce.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.body.might.bruteForce.misc"
+            value="{{system.skills.body.might.bruteForce.misc}}" />
         </td>
         <td>{{system.skills.body.might.bruteForce.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.bruteForce">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.bruteForce">
             🎲
           </button>
         </td>
@@ -66,21 +82,27 @@
       <tr>
         <td>Heft</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.heft.trained"
-                 {{checked system.skills.body.might.heft.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.body.might.heft.trained"
+            {{checked system.skills.body.might.heft.trained}} />
         </td>
+        <td>{{system.skills.body.might.heft.racialBonus}}</td>
+        <td>{{system.skills.body.might.heft.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.heft.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.might.heft.specialty"
-                 value="{{system.skills.body.might.heft.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.body.might.heft.misc"
+            value="{{system.skills.body.might.heft.misc}}" />
         </td>
         <td>{{system.skills.body.might.heft.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.heft">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.heft">
             🎲
           </button>
         </td>
@@ -90,97 +112,32 @@
       <tr>
         <td>Intimidation</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.intimidation.trained"
-                 {{checked system.skills.body.might.intimidation.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.body.might.intimidation.trained"
+            {{checked system.skills.body.might.intimidation.trained}} />
         </td>
+        <td>{{system.skills.body.might.intimidation.racialBonus}}</td>
+        <td>{{system.skills.body.might.intimidation.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.intimidation.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.might.intimidation.specialty"
-                 value="{{system.skills.body.might.intimidation.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.body.might.intimidation.misc"
+            value="{{system.skills.body.might.intimidation.misc}}" />
         </td>
         <td>{{system.skills.body.might.intimidation.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.intimidation">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.intimidation">
             🎲
           </button>
         </td>
       </tr>
 
-      {{!-- Combat: Heavy Weapons --}}
-      <tr>
-        <td>Combat: Heavy Weapons</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.combatHeavy.trained"
-                 {{checked system.skills.body.might.combatHeavy.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.body.might.combatHeavy.specialty"
-                 value="{{system.skills.body.might.combatHeavy.specialty}}" />
-        </td>
-        <td>{{system.skills.body.might.combatHeavy.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.combatHeavy">
-            🎲
-          </button>
-        </td>
-      </tr>
-
-      {{!-- Combat: Grappling --}}
-      <tr>
-        <td>Combat: Grappling</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.combatGrappling.trained"
-                 {{checked system.skills.body.might.combatGrappling.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.body.might.combatGrappling.specialty"
-                 value="{{system.skills.body.might.combatGrappling.specialty}}" />
-        </td>
-        <td>{{system.skills.body.might.combatGrappling.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.combatGrappling">
-            🎲
-          </button>
-        </td>
-      </tr>
-
-      {{!-- Combat: Medium Weapons --}}
-      <tr>
-        <td>Combat: Medium Weapons</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.body.might.combatMedium.trained"
-                 {{checked system.skills.body.might.combatMedium.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.body.might.combatMedium.specialty"
-                 value="{{system.skills.body.might.combatMedium.specialty}}" />
-        </td>
-        <td>{{system.skills.body.might.combatMedium.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="body.might.combatMedium">
-            🎲
-          </button>
-        </td>
-      </tr>
     </tbody>
   </table>
 </details>
