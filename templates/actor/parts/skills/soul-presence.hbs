@@ -8,31 +8,41 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Persuasion --}}
       <tr>
         <td>Persuasion</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.soul.presence.persuasion.trained"
-                 {{checked system.skills.soul.presence.persuasion.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.soul.presence.persuasion.trained"
+            {{checked system.skills.soul.presence.persuasion.trained}} />
         </td>
+        <td>{{system.skills.soul.presence.persuasion.racialBonus}}</td>
+        <td>{{system.skills.soul.presence.persuasion.backgroundBonus}}</td>
+        <td>{{system.skills.soul.presence.persuasion.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.presence.persuasion.specialty"
-                 value="{{system.skills.soul.presence.persuasion.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.soul.presence.persuasion.misc"
+            value="{{system.skills.soul.presence.persuasion.misc}}" />
         </td>
         <td>{{system.skills.soul.presence.persuasion.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="soul.presence.persuasion">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="soul.presence.persuasion">
             🎲
           </button>
         </td>
@@ -42,21 +52,27 @@
       <tr>
         <td>Deception</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.soul.presence.deception.trained"
-                 {{checked system.skills.soul.presence.deception.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.soul.presence.deception.trained"
+            {{checked system.skills.soul.presence.deception.trained}} />
         </td>
+        <td>{{system.skills.soul.presence.deception.racialBonus}}</td>
+        <td>{{system.skills.soul.presence.deception.backgroundBonus}}</td>
+        <td>{{system.skills.soul.presence.deception.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.presence.deception.specialty"
-                 value="{{system.skills.soul.presence.deception.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.soul.presence.deception.misc"
+            value="{{system.skills.soul.presence.deception.misc}}" />
         </td>
         <td>{{system.skills.soul.presence.deception.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="soul.presence.deception">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="soul.presence.deception">
             🎲
           </button>
         </td>
@@ -66,21 +82,27 @@
       <tr>
         <td>Oratory</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.soul.presence.oratory.trained"
-                 {{checked system.skills.soul.presence.oratory.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.soul.presence.oratory.trained"
+            {{checked system.skills.soul.presence.oratory.trained}} />
         </td>
+        <td>{{system.skills.soul.presence.oratory.racialBonus}}</td>
+        <td>{{system.skills.soul.presence.oratory.backgroundBonus}}</td>
+        <td>{{system.skills.soul.presence.oratory.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.presence.oratory.specialty"
-                 value="{{system.skills.soul.presence.oratory.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.soul.presence.oratory.misc"
+            value="{{system.skills.soul.presence.oratory.misc}}" />
         </td>
         <td>{{system.skills.soul.presence.oratory.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="soul.presence.oratory">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="soul.presence.oratory">
             🎲
           </button>
         </td>
@@ -90,21 +112,27 @@
       <tr>
         <td>Etiquette</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.soul.presence.etiquette.trained"
-                 {{checked system.skills.soul.presence.etiquette.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.soul.presence.etiquette.trained"
+            {{checked system.skills.soul.presence.etiquette.trained}} />
         </td>
+        <td>{{system.skills.soul.presence.etiquette.racialBonus}}</td>
+        <td>{{system.skills.soul.presence.etiquette.backgroundBonus}}</td>
+        <td>{{system.skills.soul.presence.etiquette.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.presence.etiquette.specialty"
-                 value="{{system.skills.soul.presence.etiquette.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.soul.presence.etiquette.misc"
+            value="{{system.skills.soul.presence.etiquette.misc}}" />
         </td>
         <td>{{system.skills.soul.presence.etiquette.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="soul.presence.etiquette">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="soul.presence.etiquette">
             🎲
           </button>
         </td>
@@ -114,25 +142,32 @@
       <tr>
         <td>Streetwise</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.soul.presence.streetwise.trained"
-                 {{checked system.skills.soul.presence.streetwise.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.soul.presence.streetwise.trained"
+            {{checked system.skills.soul.presence.streetwise.trained}} />
         </td>
+        <td>{{system.skills.soul.presence.streetwise.racialBonus}}</td>
+        <td>{{system.skills.soul.presence.streetwise.backgroundBonus}}</td>
+        <td>{{system.skills.soul.presence.streetwise.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.presence.streetwise.specialty"
-                 value="{{system.skills.soul.presence.streetwise.specialty}}" />
+          <input
+            type="number"
+            name="system.skills.soul.presence.streetwise.misc"
+            value="{{system.skills.soul.presence.streetwise.misc}}" />
         </td>
         <td>{{system.skills.soul.presence.streetwise.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="soul.presence.streetwise">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="soul.presence.streetwise">
             🎲
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
