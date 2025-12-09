@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Conviction --}}
       <tr>
         <td>Conviction</td>
@@ -22,10 +26,13 @@
                  name="system.skills.soul.resolve.conviction.trained"
                  {{checked system.skills.soul.resolve.conviction.trained}} />
         </td>
+        <td>{{system.skills.soul.resolve.conviction.racialBonus}}</td>
+        <td>{{system.skills.soul.resolve.conviction.backgroundBonus}}</td>
+        <td>{{system.skills.soul.resolve.conviction.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.resolve.conviction.specialty"
-                 value="{{system.skills.soul.resolve.conviction.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.resolve.conviction.misc"
+                 value="{{system.skills.soul.resolve.conviction.misc}}" />
         </td>
         <td>{{system.skills.soul.resolve.conviction.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.soul.resolve.composure.trained"
                  {{checked system.skills.soul.resolve.composure.trained}} />
         </td>
+        <td>{{system.skills.soul.resolve.composure.racialBonus}}</td>
+        <td>{{system.skills.soul.resolve.composure.backgroundBonus}}</td>
+        <td>{{system.skills.soul.resolve.composure.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.resolve.composure.specialty"
-                 value="{{system.skills.soul.resolve.composure.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.resolve.composure.misc"
+                 value="{{system.skills.soul.resolve.composure.misc}}" />
         </td>
         <td>{{system.skills.soul.resolve.composure.total}}</td>
         <td>
@@ -70,10 +80,13 @@
                  name="system.skills.soul.resolve.auraControl.trained"
                  {{checked system.skills.soul.resolve.auraControl.trained}} />
         </td>
+        <td>{{system.skills.soul.resolve.auraControl.racialBonus}}</td>
+        <td>{{system.skills.soul.resolve.auraControl.backgroundBonus}}</td>
+        <td>{{system.skills.soul.resolve.auraControl.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.resolve.auraControl.specialty"
-                 value="{{system.skills.soul.resolve.auraControl.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.resolve.auraControl.misc"
+                 value="{{system.skills.soul.resolve.auraControl.misc}}" />
         </td>
         <td>{{system.skills.soul.resolve.auraControl.total}}</td>
         <td>
@@ -85,6 +98,7 @@
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
