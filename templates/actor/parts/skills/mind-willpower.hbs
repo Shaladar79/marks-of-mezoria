@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Concentration --}}
       <tr>
         <td>Concentration</td>
@@ -22,10 +26,13 @@
                  name="system.skills.mind.willpower.concentration.trained"
                  {{checked system.skills.mind.willpower.concentration.trained}} />
         </td>
+        <td>{{system.skills.mind.willpower.concentration.racialBonus}}</td>
+        <td>{{system.skills.mind.willpower.concentration.backgroundBonus}}</td>
+        <td>{{system.skills.mind.willpower.concentration.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.willpower.concentration.specialty"
-                 value="{{system.skills.mind.willpower.concentration.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.willpower.concentration.misc"
+                 value="{{system.skills.mind.willpower.concentration.misc}}" />
         </td>
         <td>{{system.skills.mind.willpower.concentration.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.mind.willpower.mentalFortitude.trained"
                  {{checked system.skills.mind.willpower.mentalFortitude.trained}} />
         </td>
+        <td>{{system.skills.mind.willpower.mentalFortitude.racialBonus}}</td>
+        <td>{{system.skills.mind.willpower.mentalFortitude.backgroundBonus}}</td>
+        <td>{{system.skills.mind.willpower.mentalFortitude.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.willpower.mentalFortitude.specialty"
-                 value="{{system.skills.mind.willpower.mentalFortitude.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.willpower.mentalFortitude.misc"
+                 value="{{system.skills.mind.willpower.mentalFortitude.misc}}" />
         </td>
         <td>{{system.skills.mind.willpower.mentalFortitude.total}}</td>
         <td>
@@ -61,6 +71,7 @@
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
