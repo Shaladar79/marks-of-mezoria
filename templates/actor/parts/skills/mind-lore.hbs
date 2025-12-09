@@ -1,4 +1,4 @@
-{{!-- LORE (Mind – Insight) --}}
+{{!-- LORE SKILLS (Mind – Insight) --}}
 
 <details class="skills-section skills-section-mind-lore">
   <summary>Lore (Mind – Insight)</summary>
@@ -18,28 +18,181 @@
     </thead>
     <tbody>
 
-      {{!-- Lore --}}
+      {{!-- Lore: Realms of Mezoria --}}
       <tr>
-        <td>Lore</td>
+        <td>Lore: Realms of Mezoria</td>
         <td>
-          <input type="checkbox"
-                 name="system.skills.mind.insight.lore.trained"
-                 {{checked system.skills.mind.insight.lore.trained}} />
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreRealms.trained"
+            {{checked system.skills.mind.insight.loreRealms.trained}} />
         </td>
-        <td>{{system.skills.mind.insight.lore.racialBonus}}</td>
-        <td>{{system.skills.mind.insight.lore.backgroundBonus}}</td>
-        <td>{{system.skills.mind.insight.lore.rankBonus}}</td>
+        <td>{{system.skills.mind.insight.loreRealms.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreRealms.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreRealms.rankBonus}}</td>
         <td>
-          <input type="number"
-                 name="system.skills.mind.insight.lore.misc"
-                 value="{{system.skills.mind.insight.lore.misc}}" />
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreRealms.misc"
+            value="{{system.skills.mind.insight.loreRealms.misc}}" />
         </td>
-        <td>{{system.skills.mind.insight.lore.total}}</td>
+        <td>{{system.skills.mind.insight.loreRealms.total}}</td>
         <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="mind.insight.lore">
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreRealms">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore: History --}}
+      <tr>
+        <td>Lore: History</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreHistory.trained"
+            {{checked system.skills.mind.insight.loreHistory.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.loreHistory.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreHistory.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreHistory.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreHistory.misc"
+            value="{{system.skills.mind.insight.loreHistory.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.loreHistory.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreHistory">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore: Legends --}}
+      <tr>
+        <td>Lore: Legends</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreLegends.trained"
+            {{checked system.skills.mind.insight.loreLegends.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.loreLegends.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreLegends.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreLegends.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreLegends.misc"
+            value="{{system.skills.mind.insight.loreLegends.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.loreLegends.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreLegends">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore: Avatars --}}
+      <tr>
+        <td>Lore: Avatars</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreAvatars.trained"
+            {{checked system.skills.mind.insight.loreAvatars.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.loreAvatars.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreAvatars.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreAvatars.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreAvatars.misc"
+            value="{{system.skills.mind.insight.loreAvatars.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.loreAvatars.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreAvatars">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore: Monsters --}}
+      <tr>
+        <td>Lore: Monsters</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreMonsters.trained"
+            {{checked system.skills.mind.insight.loreMonsters.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.loreMonsters.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreMonsters.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreMonsters.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreMonsters.misc"
+            value="{{system.skills.mind.insight.loreMonsters.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.loreMonsters.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreMonsters">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Lore: Nature --}}
+      <tr>
+        <td>Lore: Nature</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.loreNature.trained"
+            {{checked system.skills.mind.insight.loreNature.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.loreNature.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.loreNature.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.loreNature.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.loreNature.misc"
+            value="{{system.skills.mind.insight.loreNature.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.loreNature.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.loreNature">
             🎲
           </button>
         </td>
