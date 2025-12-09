@@ -3,6 +3,9 @@ import { MezoriaConfig } from "./config.mjs";
 import { RaceData } from "./scripts/races.mjs";
 import { MezoriaActor } from "./scripts/actor.mjs";
 
+/* ------------------------------------
+ * Actor Sheet
+ * ----------------------------------*/
 class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
@@ -53,6 +56,7 @@ class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
+    // Save rolls
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn = event.currentTarget;
@@ -71,6 +75,7 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
+    // Generic skill rolls
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn = event.currentTarget;
@@ -92,15 +97,19 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
+    // Edit Ability items from the Abilities tab
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
       if (!li) return;
       const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
       const item = actor.items.get(itemId);
       if (item) item.sheet.render(true);
     });
 
+    // Ability effect rolls
     html.find(".ability-roll").on("click", async (event) => {
       event.preventDefault();
 
@@ -134,7 +143,34 @@ class MinimalActorSheet extends ActorSheet {
   }
 }
 
+/* ------------------------------------
+ * Ability Item Sheet
+ * ----------------------------------*/
+class MezoriaAbilitySheet extends ItemSheet {
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      classes: ["marks-of-mezoria", "sheet", "item", "ability"],
+      template: "systems/marks-of-mezoria/templates/items/ability-sheet.hbs",
+      width: 600,
+      height: 500,
+      tabs: []
+    });
+  }
+
+  async getData(options) {
+    const data = await super.getData(options);
+    data.config = CONFIG["marks-of-mezoria"];
+    return data;
+  }
+}
+
+/* ------------------------------------
+ * Init hook
+ * ----------------------------------*/
 Hooks.once("init", async () => {
+  console.log("Marks of Mezoria | Initializing system");
+
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
   CONFIG.Actor.documentClass = MezoriaActor;
 
@@ -178,11 +214,18 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs",
 
-    "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs"
+    "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs",
+
+    "systems/marks-of-mezoria/templates/items/ability-sheet.hbs"
   ]);
 
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("marks-of-mezoria", MezoriaAbilitySheet, {
+    types: ["ability"],
     makeDefault: true
   });
 });
