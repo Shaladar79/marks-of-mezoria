@@ -220,7 +220,8 @@ export class MezoriaActor extends Actor {
     const bgForSkills      = MezoriaConfig.backgroundBonuses     || {};
 
     // Rank-based trained skill bonus (full) and half for untrained
-    const rankKeySkill  = system.details.rank || "";
+    const rankKeyRaw   = system.details.rank || "";
+    const rankKeySkill = rankKeyRaw ? String(rankKeyRaw).trim().toLowerCase() : "";
     const fullRankBonus = Number(
       (rankKeySkill && rankSkillBonuses[rankKeySkill])
         ? rankSkillBonuses[rankKeySkill]
