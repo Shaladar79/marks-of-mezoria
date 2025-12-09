@@ -216,6 +216,7 @@ export class MezoriaActor extends Actor {
     // Config data for skills & ranks
     const raceSkillData        = MezoriaConfig.raceSkillData         || {};
     const rawRankSkillBonusMap = MezoriaConfig.rankSkillBonuses      || {};
+    const rankOrder            = MezoriaConfig.ranks                 || [];
     const bgTypeForSkills      = MezoriaConfig.backgroundTypeBonuses || {};
     const bgForSkills          = MezoriaConfig.backgroundBonuses     || {};
 
@@ -227,8 +228,25 @@ export class MezoriaActor extends Actor {
     }
 
     // Rank-based trained skill bonus (full) and half for untrained
-    const rankKeyRaw   = system.details.rank || "";
-    const rankKeySkill = rankKeyRaw ? String(rankKeyRaw).trim().toLowerCase() : "";
+    const rawRankValue = system.details.rank ?? "";
+    let rankKeySkill = "";
+
+    if (rawRankValue !== "" && rawRankValue !== null && rawRankValue !== undefined) {
+      const rawStr = String(rawRankValue).trim();
+
+      // If it's purely numeric (e.g. "2"), treat it as an index into rankOrder
+      if (/^[0-9]+$/.test(rawStr)) {
+        const idx = parseInt(rawStr, 10);
+        const orderKey = rankOrder[idx];
+        if (orderKey !== undefined) {
+          rankKeySkill = String(orderKey).trim().toLowerCase();
+        }
+      } else {
+        // Otherwise treat it as a rank ID directly
+        rankKeySkill = rawStr.toLowerCase();
+      }
+    }
+
     const fullRankBonus = Number(
       (rankKeySkill && rankSkillBonuses[rankKeySkill] !== undefined)
         ? rankSkillBonuses[rankKeySkill]
@@ -397,3 +415,4 @@ export class MezoriaActor extends Actor {
     def.magical = Number(def.magical ?? baseDefense);
   }
 }
+
