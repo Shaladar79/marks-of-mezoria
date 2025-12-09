@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Perception --}}
       <tr>
         <td>Perception</td>
@@ -22,10 +26,13 @@
                  name="system.skills.mind.insight.perception.trained"
                  {{checked system.skills.mind.insight.perception.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.perception.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.perception.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.perception.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.perception.specialty"
-                 value="{{system.skills.mind.insight.perception.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.perception.misc"
+                 value="{{system.skills.mind.insight.perception.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.perception.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.mind.insight.investigation.trained"
                  {{checked system.skills.mind.insight.investigation.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.investigation.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.investigation.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.investigation.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.investigation.specialty"
-                 value="{{system.skills.mind.insight.investigation.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.investigation.misc"
+                 value="{{system.skills.mind.insight.investigation.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.investigation.total}}</td>
         <td>
@@ -70,10 +80,13 @@
                  name="system.skills.mind.insight.tracking.trained"
                  {{checked system.skills.mind.insight.tracking.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.tracking.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.tracking.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.tracking.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.tracking.specialty"
-                 value="{{system.skills.mind.insight.tracking.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.tracking.misc"
+                 value="{{system.skills.mind.insight.tracking.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.tracking.total}}</td>
         <td>
@@ -81,30 +94,6 @@
                   class="roll-any"
                   data-rolltype="skill"
                   data-path="mind.insight.tracking">
-            🎲
-          </button>
-        </td>
-      </tr>
-
-      {{!-- Lore --}}
-      <tr>
-        <td>Lore</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.mind.insight.lore.trained"
-                 {{checked system.skills.mind.insight.lore.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.mind.insight.lore.specialty"
-                 value="{{system.skills.mind.insight.lore.specialty}}" />
-        </td>
-        <td>{{system.skills.mind.insight.lore.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="mind.insight.lore">
             🎲
           </button>
         </td>
@@ -118,10 +107,13 @@
                  name="system.skills.mind.insight.intuition.trained"
                  {{checked system.skills.mind.insight.intuition.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.intuition.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.intuition.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.intuition.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.intuition.specialty"
-                 value="{{system.skills.mind.insight.intuition.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.intuition.misc"
+                 value="{{system.skills.mind.insight.intuition.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.intuition.total}}</td>
         <td>
@@ -142,10 +134,13 @@
                  name="system.skills.mind.insight.awareness.trained"
                  {{checked system.skills.mind.insight.awareness.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.awareness.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.awareness.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.awareness.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.awareness.specialty"
-                 value="{{system.skills.mind.insight.awareness.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.awareness.misc"
+                 value="{{system.skills.mind.insight.awareness.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.awareness.total}}</td>
         <td>
@@ -166,10 +161,13 @@
                  name="system.skills.mind.insight.ritualCasting.trained"
                  {{checked system.skills.mind.insight.ritualCasting.trained}} />
         </td>
+        <td>{{system.skills.mind.insight.ritualCasting.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.ritualCasting.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.ritualCasting.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.mind.insight.ritualCasting.specialty"
-                 value="{{system.skills.mind.insight.ritualCasting.specialty}}" />
+          <input type="number"
+                 name="system.skills.mind.insight.ritualCasting.misc"
+                 value="{{system.skills.mind.insight.ritualCasting.misc}}" />
         </td>
         <td>{{system.skills.mind.insight.ritualCasting.total}}</td>
         <td>
@@ -182,29 +180,6 @@
         </td>
       </tr>
 
-      {{!-- Combat: Spellcasting --}}
-      <tr>
-        <td>Combat: Spellcasting</td>
-        <td>
-          <input type="checkbox"
-                 name="system.skills.mind.insight.combatSpellcasting.trained"
-                 {{checked system.skills.mind.insight.combatSpellcasting.trained}} />
-        </td>
-        <td>
-          <input type="text"
-                 name="system.skills.mind.insight.combatSpellcasting.specialty"
-                 value="{{system.skills.mind.insight.combatSpellcasting.specialty}}" />
-        </td>
-        <td>{{system.skills.mind.insight.combatSpellcasting.total}}</td>
-        <td>
-          <button type="button"
-                  class="roll-any"
-                  data-rolltype="skill"
-                  data-path="mind.insight.combatSpellcasting">
-            🎲
-          </button>
-        </td>
-      </tr>
     </tbody>
   </table>
 </details>
