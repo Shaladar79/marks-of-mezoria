@@ -1,0 +1,187 @@
+<form class="marks-of-mezoria sheet item ability" autocomplete="off">
+
+  <header class="sheet-header flexrow">
+    <div class="item-image">
+      <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    </div>
+
+    <div class="item-header-fields">
+      <div class="field">
+        <label>Name</label>
+        <input type="text" name="name" value="{{item.name}}" />
+      </div>
+
+      <div class="field-group flexrow">
+        <div class="field small">
+          <label>Ability Rank</label>
+          <input type="text" name="system.details.rank" value="{{system.details.rank}}" placeholder="Quartz / Topaz / etc." />
+        </div>
+
+        <div class="field small">
+          <label>Min Char Rank</label>
+          <input type="text" name="system.details.rankReq" value="{{system.details.rankReq}}" placeholder="Topaz / Garnet" />
+        </div>
+
+        <div class="field small">
+          <label>Mark Req</label>
+          <input type="text" name="system.details.markReq" value="{{system.details.markReq}}" placeholder="Guardian / Striker / etc." />
+        </div>
+      </div>
+
+      <div class="field-group flexrow">
+        <div class="field small">
+          <label>Action Type</label>
+          <input type="text" name="system.details.actionType" value="{{system.details.actionType}}" placeholder="Action / Reaction / Passive" />
+        </div>
+
+        <div class="field small">
+          <label>Action Cost</label>
+          <input type="number" name="system.details.actionCost" value="{{system.details.actionCost}}" />
+        </div>
+
+        <div class="field small">
+          <label>Range</label>
+          <input type="text" name="system.details.range" value="{{system.details.range}}" placeholder="Self / Melee / 30 ft, etc." />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="sheet-body">
+
+    <div class="flexrow">
+
+      {{!-- LEFT COLUMN: Costs + Effect --}}
+      <div class="column left">
+
+        <fieldset class="ability-section">
+          <legend>Cost</legend>
+
+          <div class="field-group flexrow">
+            <div class="field small">
+              <label>Mana</label>
+              <input type="number" name="system.details.cost.mana" value="{{system.details.cost.mana}}" />
+            </div>
+
+            <div class="field small">
+              <label>Stamina</label>
+              <input type="number" name="system.details.cost.stamina" value="{{system.details.cost.stamina}}" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="ability-section">
+          <legend>Effect</legend>
+
+          <div class="field-group flexrow">
+            <div class="field small">
+              <label>Type</label>
+              <input type="text" name="system.details.effect.type" value="{{system.details.effect.type}}" placeholder="damage / healing / shielding / drain" />
+            </div>
+
+            <div class="field small">
+              <label>Resource</label>
+              <input type="text" name="system.details.effect.resource" value="{{system.details.effect.resource}}" placeholder="vitality / mana / stamina / shielding" />
+            </div>
+          </div>
+
+          <div class="field-group flexrow">
+            <div class="field small">
+              <label>Amount</label>
+              <input type="number" name="system.details.effect.amount" value="{{system.details.effect.amount}}" />
+            </div>
+
+            <div class="field small">
+              <label>Dmg Type</label>
+              <input type="text" name="system.details.effect.damageType" value="{{system.details.effect.damageType}}" placeholder="physical / fire / etc." />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Roll Formula</label>
+            <input type="text" name="system.details.effect.roll" value="{{system.details.effect.roll}}" placeholder="2d6+3, 1d8+Body.might.mod, etc." />
+          </div>
+
+          <div class="field">
+            <label>Effect Notes</label>
+            <textarea name="system.details.effect.notes" rows="3">{{system.details.effect.notes}}</textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="ability-section">
+          <legend>Scaling</legend>
+
+          <div class="field-group flexrow">
+            <div class="field small checkbox-field">
+              <label>Enabled</label>
+              <input type="checkbox" name="system.details.scaling.enabled" {{checked system.details.scaling.enabled}} />
+            </div>
+
+            <div class="field small">
+              <label>Mode</label>
+              <input type="text" name="system.details.scaling.mode" value="{{system.details.scaling.mode}}" placeholder="rank / attribute / custom" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Value / Formula</label>
+            <input type="text" name="system.details.scaling.value" value="{{system.details.scaling.value}}" placeholder="+1 per rank, etc." />
+          </div>
+        </fieldset>
+
+      </div>
+
+      {{!-- RIGHT COLUMN: Source + Tags + Text --}}
+      <div class="column right">
+
+        <fieldset class="ability-section">
+          <legend>Source</legend>
+
+          <div class="field-group flexrow">
+            <div class="field small">
+              <label>Source Type</label>
+              <input type="text" name="system.details.sourceType" value="{{system.details.sourceType}}" placeholder="racial / background / rank / mark / generic" />
+            </div>
+
+            <div class="field small">
+              <label>Source Key</label>
+              <input type="text" name="system.details.sourceKey" value="{{system.details.sourceKey}}" placeholder="mythrian-bear / topaz / guardian" />
+            </div>
+          </div>
+
+          <div class="field checkbox-field">
+            <label>Auto Granted</label>
+            <input type="checkbox" name="system.details.autoGranted" {{checked system.details.autoGranted}} />
+          </div>
+        </fieldset>
+
+        <fieldset class="ability-section">
+          <legend>Tags &amp; Summary</legend>
+
+          <div class="field">
+            <label>Tags</label>
+            <input type="text" name="system.details.tags" value="{{system.details.tags}}" placeholder="combat, mark, healing, etc." />
+          </div>
+
+          <div class="field">
+            <label>Short Summary</label>
+            <input type="text" name="system.details.short" value="{{system.details.short}}" />
+          </div>
+        </fieldset>
+
+        <fieldset class="ability-section">
+          <legend>Description</legend>
+
+          <div class="field">
+            <textarea name="system.details.description" rows="12">{{system.details.description}}</textarea>
+          </div>
+        </fieldset>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</form>
+
