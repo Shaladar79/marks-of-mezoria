@@ -58,11 +58,18 @@ class MinimalActorSheet extends ActorSheet {
     // Used by backdrop.hbs
     data.availableBackgrounds = availableBackgrounds;
 
+    // -------------------------------
+    // Abilities list (all items of type "ability")
+    // -------------------------------
+    data.abilities = (data.items || []).filter(i => i.type === "ability");
+
     return data;
   }
 
   activateListeners(html) {
     super.activateListeners(html);
+
+    const actor = this.actor;
 
     // -----------------------------
     // Save roll buttons: 1d20 + saveValue
@@ -111,6 +118,20 @@ class MinimalActorSheet extends ActorSheet {
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: label
       });
+    });
+
+    // -----------------------------
+    // Edit Ability items from the Abilities tab
+    // -----------------------------
+    html.find(".item-edit").on("click", (event) => {
+      event.preventDefault();
+      const li = event.currentTarget.closest(".ability-item");
+      if (!li) return;
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      const item = actor.items.get(itemId);
+      if (item) item.sheet.render(true);
     });
   }
 
@@ -178,7 +199,10 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/skills/soul-grace.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/soul-resolve.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs"
+    "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs",
+
+    // Abilities tab
+    "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs"
   ]);
 
   // Register our custom sheet for PCs
