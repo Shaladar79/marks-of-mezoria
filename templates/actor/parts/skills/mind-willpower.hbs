@@ -7,9 +7,10 @@
     <thead>
       <tr>
         <th>Skill</th>
+        <th>Att</th>
         <th>Trained</th>
         <th>Race</th>
-        <th>Background</th>
+        <th>BG</th>
         <th>Rank</th>
         <th>Misc</th>
         <th>Total</th>
@@ -21,6 +22,7 @@
       {{!-- Concentration --}}
       <tr>
         <td>Concentration</td>
+        <td>{{system.attributes.mind.willpower.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.willpower.concentration.trained"
@@ -48,6 +50,7 @@
       {{!-- Mental Fortitude --}}
       <tr>
         <td>Mental Fortitude</td>
+        <td>{{system.attributes.mind.willpower.total}}</td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.willpower.mentalFortitude.trained"
