@@ -579,5 +579,87 @@
         }
       }
     }
+  },
+
+  "Item": {
+    "types": ["ability"],
+
+    "templates": {
+      "base": {
+        "details": {
+          "rankReq": "",
+          "rank": "",
+          "markReq": "",
+          "actionType": "",
+          "actionCost": 0,
+          "range": "",
+
+          "cost": {
+            "mana": 0,
+            "stamina": 0
+          },
+
+          "effect": {
+            "type": "",
+            "resource": "",
+            "amount": 0,
+            "damageType": "",
+            "notes": ""
+          },
+
+          "scaling": {
+            "enabled": false,
+            "mode": "",
+            "value": ""
+          },
+
+          "sourceType": "",
+          "sourceKey": "",
+          "autoGranted": false,
+
+          "tags": "",
+          "short": "",
+          "description": ""
+        }
+      }
+    },
+
+    "ability": {
+      "details": {
+        "rankReq": "",
+        "rank": "",
+        "markReq": "",
+        "actionType": "",
+        "actionCost": 0,
+        "range": "",
+
+        "cost": {
+          "mana": 0,
+          "stamina": 0
+        },
+
+        "effect": {
+          "type": "",
+          "resource": "",
+          "amount": 0,
+          "damageType": "",
+          "notes": ""
+        },
+
+        "scaling": {
+          "enabled": false,
+          "mode": "",
+          "value": ""
+        },
+
+        "sourceType": "",
+        "sourceKey": "",
+        "autoGranted": false,
+
+        "tags": "",
+        "short": "",
+        "description": ""
+      }
+    }
   }
 }
