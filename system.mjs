@@ -176,7 +176,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/skills/mind-lore.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/soul-presence.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/soul-grace.hbs",
-    "systems/marks-of-mezoria/templates/actor/parts/skills/soul-resolve.hbs"
+    "systems/marks-of-mezoria/templates/actor/parts/skills/soul-resolve.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs"
   ]);
