@@ -1,10 +1,8 @@
 <select name="system.details.rank" data-dtype="String">
   <option value="">-- Ability Rank --</option>
-  {{#each config.abilityRanks.order as |rankId|}}
-    <option value="{{rankId}}"
-            {{#if (eq ../system.details.rank rankId)}}selected{{/if}}>
-      {{lookup ../config.abilityRanks.labels rankId}}
-    </option>
-  {{/each}}
+  {{#if config.abilityRanks}}
+    {{selectOptions config.abilityRanks selected=system.details.rank}}
+  {{else}}
+    <option value="">No Ability Ranks Defined</option>
+  {{/if}}
 </select>
-
