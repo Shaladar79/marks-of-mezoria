@@ -1,0 +1,241 @@
+{{!-- COMBAT SKILLS TAB --}}
+
+<details open class="skills-section skills-section-combat">
+  <summary>Combat Skills</summary>
+
+  <table class="skills-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Attribute</th>
+        <th>Trained</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
+        <th>Total</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {{!-- Combat: Heavy Weapons --}}
+      <tr>
+        <td>Combat: Heavy Weapons</td>
+        <td>Body – Might</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.body.might.combatHeavy.trained"
+            {{checked system.skills.body.might.combatHeavy.trained}} />
+        </td>
+        <td>{{system.skills.body.might.combatHeavy.racialBonus}}</td>
+        <td>{{system.skills.body.might.combatHeavy.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.combatHeavy.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.body.might.combatHeavy.misc"
+            value="{{system.skills.body.might.combatHeavy.misc}}" />
+        </td>
+        <td>{{system.skills.body.might.combatHeavy.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.combatHeavy">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Grappling --}}
+      <tr>
+        <td>Combat: Grappling</td>
+        <td>Body – Might</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.body.might.combatGrappling.trained"
+            {{checked system.skills.body.might.combatGrappling.trained}} />
+        </td>
+        <td>{{system.skills.body.might.combatGrappling.racialBonus}}</td>
+        <td>{{system.skills.body.might.combatGrappling.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.combatGrappling.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.body.might.combatGrappling.misc"
+            value="{{system.skills.body.might.combatGrappling.misc}}" />
+        </td>
+        <td>{{system.skills.body.might.combatGrappling.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.combatGrappling">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Medium Weapons --}}
+      <tr>
+        <td>Combat: Medium Weapons</td>
+        <td>Body – Might</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.body.might.combatMedium.trained"
+            {{checked system.skills.body.might.combatMedium.trained}} />
+        </td>
+        <td>{{system.skills.body.might.combatMedium.racialBonus}}</td>
+        <td>{{system.skills.body.might.combatMedium.backgroundBonus}}</td>
+        <td>{{system.skills.body.might.combatMedium.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.body.might.combatMedium.misc"
+            value="{{system.skills.body.might.combatMedium.misc}}" />
+        </td>
+        <td>{{system.skills.body.might.combatMedium.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.might.combatMedium">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Ranged Weapons --}}
+      <tr>
+        <td>Combat: Ranged Weapons</td>
+        <td>Body – Swiftness</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.body.swiftness.combatRanged.trained"
+            {{checked system.skills.body.swiftness.combatRanged.trained}} />
+        </td>
+        <td>{{system.skills.body.swiftness.combatRanged.racialBonus}}</td>
+        <td>{{system.skills.body.swiftness.combatRanged.backgroundBonus}}</td>
+        <td>{{system.skills.body.swiftness.combatRanged.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.body.swiftness.combatRanged.misc"
+            value="{{system.skills.body.swiftness.combatRanged.misc}}" />
+        </td>
+        <td>{{system.skills.body.swiftness.combatRanged.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.swiftness.combatRanged">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Throwing Weapons --}}
+      <tr>
+        <td>Combat: Throwing Weapons</td>
+        <td>Body – Swiftness</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.body.swiftness.combatThrowing.trained"
+            {{checked system.skills.body.swiftness.combatThrowing.trained}} />
+        </td>
+        <td>{{system.skills.body.swiftness.combatThrowing.racialBonus}}</td>
+        <td>{{system.skills.body.swiftness.combatThrowing.backgroundBonus}}</td>
+        <td>{{system.skills.body.swiftness.combatThrowing.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.body.swiftness.combatThrowing.misc"
+            value="{{system.skills.body.swiftness.combatThrowing.misc}}" />
+        </td>
+        <td>{{system.skills.body.swiftness.combatThrowing.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="body.swiftness.combatThrowing">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Spellcasting --}}
+      <tr>
+        <td>Combat: Spellcasting</td>
+        <td>Mind – Insight</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.insight.combatSpellcasting.trained"
+            {{checked system.skills.mind.insight.combatSpellcasting.trained}} />
+        </td>
+        <td>{{system.skills.mind.insight.combatSpellcasting.racialBonus}}</td>
+        <td>{{system.skills.mind.insight.combatSpellcasting.backgroundBonus}}</td>
+        <td>{{system.skills.mind.insight.combatSpellcasting.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.insight.combatSpellcasting.misc"
+            value="{{system.skills.mind.insight.combatSpellcasting.misc}}" />
+        </td>
+        <td>{{system.skills.mind.insight.combatSpellcasting.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.insight.combatSpellcasting">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+      {{!-- Combat: Wands --}}
+      <tr>
+        <td>Combat: Wands</td>
+        <td>Mind – Focus</td>
+        <td>
+          <input
+            type="checkbox"
+            name="system.skills.mind.focus.combatWands.trained"
+            {{checked system.skills.mind.focus.combatWands.trained}} />
+        </td>
+        <td>{{system.skills.mind.focus.combatWands.racialBonus}}</td>
+        <td>{{system.skills.mind.focus.combatWands.backgroundBonus}}</td>
+        <td>{{system.skills.mind.focus.combatWands.rankBonus}}</td>
+        <td>
+          <input
+            type="number"
+            name="system.skills.mind.focus.combatWands.misc"
+            value="{{system.skills.mind.focus.combatWands.misc}}" />
+        </td>
+        <td>{{system.skills.mind.focus.combatWands.total}}</td>
+        <td>
+          <button
+            type="button"
+            class="roll-any"
+            data-rolltype="skill"
+            data-path="mind.focus.combatWands">
+            🎲
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</details>
