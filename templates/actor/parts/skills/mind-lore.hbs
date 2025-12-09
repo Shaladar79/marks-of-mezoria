@@ -1,4 +1,4 @@
-{{!-- MIND – LORE (its own subsection) --}}
+{{!-- LORE SKILL (Mind – Lore) --}}
 
 <details class="skills-section skills-section-mind-lore">
   <summary>Mind – Lore</summary>
@@ -8,25 +8,38 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
-      {{!-- Lore (root skill; specialties will do the heavy lifting) --}}
+
+      {{!-- Lore (root skill; specialties via dropdown) --}}
       <tr>
-        <td>Lore</td>
+        <td>
+          Lore
+          <br />
+          <select name="system.skills.mind.lore.lore.specialty" data-dtype="String">
+            {{selectOptions config.skillSpecialties.default
+                            selected=system.skills.mind.lore.lore.specialty}}
+          </select>
+        </td>
         <td>
           <input type="checkbox"
                  name="system.skills.mind.lore.lore.trained"
                  {{checked system.skills.mind.lore.lore.trained}} />
         </td>
+        <td>{{system.skills.mind.lore.lore.racialBonus}}</td>
+        <td>{{system.skills.mind.lore.lore.backgroundBonus}}</td>
+        <td>{{system.skills.mind.lore.lore.rankBonus}}</td>
         <td>
-          <select name="system.skills.mind.lore.lore.specialty" data-dtype="String">
-            {{selectOptions config.skillSpecialties.default
-                            selected=system.skills.mind.lore.lore.specialty}}
-          </select>
+          <input type="number"
+                 name="system.skills.mind.lore.lore.misc"
+                 value="{{system.skills.mind.lore.lore.misc}}" />
         </td>
         <td>{{system.skills.mind.lore.lore.total}}</td>
         <td>
@@ -38,6 +51,7 @@
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
