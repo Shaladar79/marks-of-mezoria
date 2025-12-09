@@ -1,10 +1,9 @@
 <select name="system.details.rankReq" data-dtype="String">
   <option value="">-- Min Character Rank --</option>
-  {{#each config.abilityRanks.order as |rankId|}}
-    <option value="{{rankId}}"
-            {{#if (eq ../system.details.rankReq rankId)}}selected{{/if}}>
-      {{lookup ../config.abilityRanks.labels rankId}}
-    </option>
-  {{/each}}
+  {{#if config.abilityRanks}}
+    {{selectOptions config.abilityRanks selected=system.details.rankReq}}
+  {{else}}
+    <option value="">No Ability Ranks Defined</option>
+  {{/if}}
 </select>
 
