@@ -28,7 +28,7 @@ MezoriaConfig.raceStatus       = RaceStatus;
 MezoriaConfig.raceSkillData = RaceSkillData;
 
 // -------------------------------------
-// MYTHRIAN TRIBES (for dropdowns, etc.)
+// MYTHRIAN TRIBES / CLANS / ASPECTS
 // -------------------------------------
 MezoriaConfig.mythrianTribes       = RaceData.mythrianTribes;
 MezoriaConfig.draconianClans       = RaceData.draconianClans;
@@ -44,7 +44,6 @@ MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 MezoriaConfig.ranks = RankData.order;
 
 // Rank-based trained skill bonuses
-// (only trained skills get this bonus)
 MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
 
 // -------------------------------------
@@ -252,35 +251,35 @@ MezoriaConfig.markOfPurpose             = MarkPurposeData.labels;
 MezoriaConfig.markOfPurposeDescriptions = MarkPurposeData.descriptions;
 
 // -------------------------------------
-// Abilities – dropdown/config data
+// Ability System Configuration (NEW)
 // -------------------------------------
 
-// Rank ladder for abilities (and min character rank)
-MezoriaConfig.abilityRanks = AbilityData.ranks;
+// Ranks (flat map) and order
+MezoriaConfig.abilityRanks      = AbilityData.ranks.labels;
+MezoriaConfig.abilityRankOrder  = AbilityData.ranks.order;
 
-// Action types (Action, Bonus, Reaction, etc.)
+// Action types (Action, Bonus, Reaction, Passive, etc.)
 MezoriaConfig.abilityActionTypes = AbilityData.actionTypes;
 
-// Source types (Racial, Background, Rank, Mark, Generic)
+// Ability sources (Racial, Background, Rank, Mark...)
 MezoriaConfig.abilitySourceTypes = AbilityData.sourceTypes;
 
-// Effect types (Damage, Healing, Shielding, Aura, Summon, etc.)
+// Effect types (Damage, Healing, Shielding...)
 MezoriaConfig.abilityEffectTypes = AbilityData.effectTypes;
 
-// Effect resources (Vitality, Mana, Stamina, Shielding, etc.)
+// Effect target resource (Vitality, Mana, Shielding...)
 MezoriaConfig.abilityEffectResources = AbilityData.effectResources;
 
-// Scaling modes (None, Rank-Based, Attribute-Based, Custom)
+// Scaling modes (None, Rank-based, Attribute-based...)
 MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
 
-// Damage / element types (Physical, Fire, Cold, Eldritch, etc.)
+// Damage types (Fire, Cold, Slashing, Eldritch...)
 MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 
 // -------------------------------------
 // Skill Specialties (placeholder)
 // -------------------------------------
 MezoriaConfig.skillSpecialties = {
-  // For now, every skill uses this same list.
   default: [
     "Under Construction"
   ]
