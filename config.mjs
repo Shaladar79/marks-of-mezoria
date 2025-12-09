@@ -10,6 +10,7 @@ import { RankData } from "./scripts/rank.mjs";
 import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
+import { AbilityData } from "./scripts/abilities.mjs";
 
 export const MezoriaConfig = {};
 
@@ -249,6 +250,31 @@ MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
 // -------------------------------------
 MezoriaConfig.markOfPurpose             = MarkPurposeData.labels;
 MezoriaConfig.markOfPurposeDescriptions = MarkPurposeData.descriptions;
+
+// -------------------------------------
+// Abilities – dropdown/config data
+// -------------------------------------
+
+// Rank ladder for abilities (and min character rank)
+MezoriaConfig.abilityRanks = AbilityData.ranks;
+
+// Action types (Action, Bonus, Reaction, etc.)
+MezoriaConfig.abilityActionTypes = AbilityData.actionTypes;
+
+// Source types (Racial, Background, Rank, Mark, Generic)
+MezoriaConfig.abilitySourceTypes = AbilityData.sourceTypes;
+
+// Effect types (Damage, Healing, Shielding, Aura, Summon, etc.)
+MezoriaConfig.abilityEffectTypes = AbilityData.effectTypes;
+
+// Effect resources (Vitality, Mana, Stamina, Shielding, etc.)
+MezoriaConfig.abilityEffectResources = AbilityData.effectResources;
+
+// Scaling modes (None, Rank-Based, Attribute-Based, Custom)
+MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
+
+// Damage / element types (Physical, Fire, Cold, Eldritch, etc.)
+MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 
 // -------------------------------------
 // Skill Specialties (placeholder)
