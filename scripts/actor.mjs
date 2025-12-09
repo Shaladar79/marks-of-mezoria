@@ -88,12 +88,12 @@ export class MezoriaActor extends Actor {
     const clanKey   = system.details.draconianClan  || "";
     const aspectKey = system.details.scionAspect    || "";
 
-    const raceBonuses           = MezoriaConfig.raceBonuses          || {};
-    const tribeBonuses          = MezoriaConfig.mythrianTribeBonuses || {};
-    const clanBonuses           = MezoriaConfig.draconianClanBonuses || {};
-    const scionAspectBonuses    = MezoriaConfig.scionAspectBonuses   || {};
+    const raceBonuses           = MezoriaConfig.raceBonuses           || {};
+    const tribeBonuses          = MezoriaConfig.mythrianTribeBonuses  || {};
+    const clanBonuses           = MezoriaConfig.draconianClanBonuses  || {};
+    const scionAspectBonuses    = MezoriaConfig.scionAspectBonuses    || {};
     const backgroundTypeBonuses = MezoriaConfig.backgroundTypeBonuses || {};
-    const backgroundBonuses     = MezoriaConfig.backgroundBonuses      || {};
+    const backgroundBonuses     = MezoriaConfig.backgroundBonuses     || {};
 
     // Helper: apply an attribute bonus set into .race
     const applyToRace = (bonusSet) => {
@@ -119,7 +119,7 @@ export class MezoriaActor extends Actor {
       attrGroup[sub].background = (attrGroup[sub].background ?? 0) + val;
     };
 
-    // Race / tribe / clan / aspect
+    // Race / tribe / clan / aspect bonuses
     if (raceKey && raceBonuses[raceKey]) {
       applyToRace(raceBonuses[raceKey]);
     }
@@ -213,17 +213,24 @@ export class MezoriaActor extends Actor {
       }
     }
 
-    // Config data for skills
-    const raceSkillData    = MezoriaConfig.raceSkillData         || {};
-    const rankSkillBonuses = MezoriaConfig.rankSkillBonuses      || {};
-    const bgTypeForSkills  = MezoriaConfig.backgroundTypeBonuses || {};
-    const bgForSkills      = MezoriaConfig.backgroundBonuses     || {};
+    // Config data for skills & ranks
+    const raceSkillData        = MezoriaConfig.raceSkillData         || {};
+    const rawRankSkillBonusMap = MezoriaConfig.rankSkillBonuses      || {};
+    const bgTypeForSkills      = MezoriaConfig.backgroundTypeBonuses || {};
+    const bgForSkills          = MezoriaConfig.backgroundBonuses     || {};
+
+    // Normalize rankSkillBonuses keys (e.g., "Topaz" → "topaz")
+    const rankSkillBonuses = {};
+    for (const [key, value] of Object.entries(rawRankSkillBonusMap)) {
+      const normKey = String(key).trim().toLowerCase();
+      rankSkillBonuses[normKey] = Number(value ?? 0);
+    }
 
     // Rank-based trained skill bonus (full) and half for untrained
     const rankKeyRaw   = system.details.rank || "";
     const rankKeySkill = rankKeyRaw ? String(rankKeyRaw).trim().toLowerCase() : "";
     const fullRankBonus = Number(
-      (rankKeySkill && rankSkillBonuses[rankKeySkill])
+      (rankKeySkill && rankSkillBonuses[rankKeySkill] !== undefined)
         ? rankSkillBonuses[rankKeySkill]
         : 0
     );
@@ -308,7 +315,7 @@ export class MezoriaActor extends Actor {
       applySkillArray([bgForSkills[backKeySkill].skill], "backgroundBonus");
     }
 
-    // Final skill totals
+    // Final skill totals:
     //  - Trained: full rank bonus
     //  - Untrained: half rank bonus (rounded down)
     for (const group in skillGroups) {
