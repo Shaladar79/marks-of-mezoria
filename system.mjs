@@ -3,9 +3,6 @@ import { MezoriaConfig } from "./config.mjs";
 import { RaceData } from "./scripts/races.mjs";
 import { MezoriaActor } from "./scripts/actor.mjs";
 
-/* ------------------------------------
- * Actor Sheet
- * ----------------------------------*/
 class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
@@ -21,7 +18,6 @@ class MinimalActorSheet extends ActorSheet {
           initial: "cinfo"
         },
         {
-          // Skills sub-tabs (Body / Mind / Soul)
           navSelector: ".skills-tabs",
           contentSelector: ".skills-panels",
           initial: "skills-body"
@@ -34,33 +30,19 @@ class MinimalActorSheet extends ActorSheet {
   async getData(options) {
     const data = await super.getData(options);
 
-    // Actor system data
     data.system = this.actor.system;
-
-    // Global config
     data.config = CONFIG["marks-of-mezoria"];
-
-    // RaceData (labels, descriptions, tribes, etc.)
     data.raceData = RaceData || {};
 
-    // -------------------------------
-    // Backgrounds for dropdown
-    // -------------------------------
     const bgType = data.system?.details?.backgroundType ?? "";
-
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
 
     let availableBackgrounds = {};
     if (bgType && allBackgrounds[bgType]) {
       availableBackgrounds = allBackgrounds[bgType];
     }
-
-    // Used by backdrop.hbs
     data.availableBackgrounds = availableBackgrounds;
 
-    // -------------------------------
-    // Abilities list (all items of type "ability")
-    // -------------------------------
     data.abilities = (data.items || []).filter(i => i.type === "ability");
 
     return data;
@@ -71,98 +53,96 @@ class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
-    // -----------------------------
-    // Save roll buttons: 1d20 + saveValue
-    // -----------------------------
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
-      const btn  = event.currentTarget;
-      const attr = btn.dataset.attr;  // "body" | "mind" | "soul"
+      const btn = event.currentTarget;
+      const attr = btn.dataset.attr;
       if (!attr) return;
 
       const saveValue =
-        foundry.utils.getProperty(this.actor.system, `attributes.${attr}.saveValue`) ?? 0;
+        foundry.utils.getProperty(actor.system, `attributes.${attr}.saveValue`) ?? 0;
 
       const roll = new Roll("1d20 + @save", { save: saveValue });
       await roll.evaluate({ async: true });
 
       roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        speaker: ChatMessage.getSpeaker({ actor }),
         flavor: `${attr.charAt(0).toUpperCase() + attr.slice(1)} Save`
       });
     });
 
-    // -----------------------------
-    // Generic skill roll buttons: 1d20 + skill.total
-    // data-path examples:
-    //   "body.might.athletics"
-    //   "mind.insight.perception"
-    //   "soul.resolve.auraControl"
-    // -----------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
-      const btn  = event.currentTarget;
-      const path = btn.dataset.path; // e.g. "body.might.athletics"
+      const btn = event.currentTarget;
+      const path = btn.dataset.path;
       if (!path) return;
 
       const basePath = `skills.${path}`;
       const total =
-        foundry.utils.getProperty(this.actor.system, `${basePath}.total`) ?? 0;
+        foundry.utils.getProperty(actor.system, `${basePath}.total`) ?? 0;
       const label =
-        foundry.utils.getProperty(this.actor.system, `${basePath}.label`) || "Skill Check";
+        foundry.utils.getProperty(actor.system, `${basePath}.label`) ?? "Skill Check";
 
       const roll = new Roll("1d20 + @mod", { mod: total });
       await roll.evaluate({ async: true });
 
       roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        speaker: ChatMessage.getSpeaker({ actor }),
         flavor: label
       });
     });
 
-    // -----------------------------
-    // Edit Ability items from the Abilities tab
-    // -----------------------------
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
       if (!li) return;
       const itemId = li.dataset.itemId;
+      const item = actor.items.get(itemId);
+      if (item) item.sheet.render(true);
+    });
+
+    html.find(".ability-roll").on("click", async (event) => {
+      event.preventDefault();
+
+      const btn = event.currentTarget;
+      const itemId = btn.dataset.itemId;
       if (!itemId) return;
 
       const item = actor.items.get(itemId);
-      if (item) item.sheet.render(true);
+      if (!item) return;
+
+      const formula = item.system?.details?.effect?.roll || "";
+
+      if (!formula) {
+        ui.notifications?.warn("This ability has no roll formula.");
+        return;
+      }
+
+      const roll = new Roll(formula);
+      await roll.evaluate({ async: true });
+
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: `${item.name} Effect`
+      });
     });
   }
 
   async _updateObject(event, formData) {
-    console.log("Marks of Mezoria | _updateObject called with:", formData);
     const expanded = foundry.utils.expandObject(formData);
-    console.log("Marks of Mezoria | Expanded formData:", expanded);
     await this.object.update(expanded);
   }
 }
 
-/* ------------------------------------
- * Init hook
- * ----------------------------------*/
 Hooks.once("init", async () => {
-  console.log("Marks of Mezoria | Initializing system");
-
-  // Make our config globally available
   CONFIG["marks-of-mezoria"] = MezoriaConfig;
-
-  // Use our custom Actor class
   CONFIG.Actor.documentClass = MezoriaActor;
 
-  // Preload templates used by the sheet
   await loadTemplates([
     "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
 
-    // Header
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
-    // Dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
@@ -172,21 +152,18 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/clandrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/aspectdrop.hbs",
 
-    // Character Info tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
 
-    // Attributes & Status tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs",
 
-    // Skills tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/skills.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/body-might.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/body-swiftness.hbs",
@@ -201,11 +178,9 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs",
 
-    // Abilities tab
     "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs"
   ]);
 
-  // Register our custom sheet for PCs
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
     makeDefault: true
