@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Performance --}}
       <tr>
         <td>Performance</td>
@@ -22,10 +26,13 @@
                  name="system.skills.soul.grace.performance.trained"
                  {{checked system.skills.soul.grace.performance.trained}} />
         </td>
+        <td>{{system.skills.soul.grace.performance.racialBonus}}</td>
+        <td>{{system.skills.soul.grace.performance.backgroundBonus}}</td>
+        <td>{{system.skills.soul.grace.performance.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.grace.performance.specialty"
-                 value="{{system.skills.soul.grace.performance.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.grace.performance.misc"
+                 value="{{system.skills.soul.grace.performance.misc}}" />
         </td>
         <td>{{system.skills.soul.grace.performance.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.soul.grace.poise.trained"
                  {{checked system.skills.soul.grace.poise.trained}} />
         </td>
+        <td>{{system.skills.soul.grace.poise.racialBonus}}</td>
+        <td>{{system.skills.soul.grace.poise.backgroundBonus}}</td>
+        <td>{{system.skills.soul.grace.poise.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.grace.poise.specialty"
-                 value="{{system.skills.soul.grace.poise.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.grace.poise.misc"
+                 value="{{system.skills.soul.grace.poise.misc}}" />
         </td>
         <td>{{system.skills.soul.grace.poise.total}}</td>
         <td>
@@ -70,10 +80,13 @@
                  name="system.skills.soul.grace.mimicry.trained"
                  {{checked system.skills.soul.grace.mimicry.trained}} />
         </td>
+        <td>{{system.skills.soul.grace.mimicry.racialBonus}}</td>
+        <td>{{system.skills.soul.grace.mimicry.backgroundBonus}}</td>
+        <td>{{system.skills.soul.grace.mimicry.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.grace.mimicry.specialty"
-                 value="{{system.skills.soul.grace.mimicry.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.grace.mimicry.misc"
+                 value="{{system.skills.soul.grace.mimicry.misc}}" />
         </td>
         <td>{{system.skills.soul.grace.mimicry.total}}</td>
         <td>
@@ -94,10 +107,13 @@
                  name="system.skills.soul.grace.improvisation.trained"
                  {{checked system.skills.soul.grace.improvisation.trained}} />
         </td>
+        <td>{{system.skills.soul.grace.improvisation.racialBonus}}</td>
+        <td>{{system.skills.soul.grace.improvisation.backgroundBonus}}</td>
+        <td>{{system.skills.soul.grace.improvisation.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.soul.grace.improvisation.specialty"
-                 value="{{system.skills.soul.grace.improvisation.specialty}}" />
+          <input type="number"
+                 name="system.skills.soul.grace.improvisation.misc"
+                 value="{{system.skills.soul.grace.improvisation.misc}}" />
         </td>
         <td>{{system.skills.soul.grace.improvisation.total}}</td>
         <td>
@@ -109,6 +125,7 @@
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
