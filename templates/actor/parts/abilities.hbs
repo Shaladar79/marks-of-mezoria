@@ -8,6 +8,7 @@
     <div class="col-range">Range</div>
     <div class="col-cost">Cost</div>
     <div class="col-effect">Effect</div>
+    <div class="col-roll">Roll</div>
   </header>
 
   <ol class="ability-list item-list">
@@ -53,6 +54,17 @@
           {{/if}}
           {{#if ability.system.details.effect.resource}}
             {{ability.system.details.effect.resource}}
+          {{/if}}
+        </div>
+
+        <div class="col-roll">
+          {{#if ability.system.details.effect.roll}}
+            <button type="button"
+                    class="ability-roll"
+                    data-item-id="{{ability._id}}"
+                    title="{{ability.system.details.effect.roll}}">
+              Roll
+            </button>
           {{/if}}
         </div>
       </li>
