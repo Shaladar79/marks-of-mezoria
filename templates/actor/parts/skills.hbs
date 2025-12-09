@@ -1,11 +1,13 @@
 {{!-- ================================
-      SKILLS TAB (Body / Mind / Soul)
+      SKILLS TAB (Body / Mind / Soul / Combat / Lore)
 ================================ --}}
 
 <nav class="skills-tabs tabs" data-group="skills-subtabs">
   <a class="item" data-tab="skills-body">Body</a>
   <a class="item" data-tab="skills-mind">Mind</a>
   <a class="item" data-tab="skills-soul">Soul</a>
+  <a class="item" data-tab="skills-combat">Combat</a>
+  <a class="item" data-tab="skills-lore">Lore</a>
 </nav>
 
 <section class="skills-panels">
@@ -29,7 +31,6 @@
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-insight.hbs"}}
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-focus.hbs"}}
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-willpower.hbs"}}
-      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/mind-lore.hbs"}}
     </div>
   </div>
 
@@ -41,6 +42,24 @@
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-presence.hbs"}}
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-grace.hbs"}}
       {{> "systems/marks-of-mezoria/templates/actor/parts/skills/soul-resolve.hbs"}}
+    </div>
+  </div>
+
+  {{!-- ===============================
+        COMBAT SKILLS SUB-TAB
+  ================================ --}}
+  <div class="tab" data-group="skills-subtabs" data-tab="skills-combat">
+    <div class="combat-skills">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs"}}
+    </div>
+  </div>
+
+  {{!-- ===============================
+        LORE SKILLS SUB-TAB
+  ================================ --}}
+  <div class="tab" data-group="skills-subtabs" data-tab="skills-lore">
+    <div class="lore-skills">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs"}}
     </div>
   </div>
 
