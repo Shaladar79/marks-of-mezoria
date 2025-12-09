@@ -8,12 +8,16 @@
       <tr>
         <th>Skill</th>
         <th>Trained</th>
-        <th>Specialty</th>
+        <th>Race</th>
+        <th>Background</th>
+        <th>Rank</th>
+        <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
       </tr>
     </thead>
     <tbody>
+
       {{!-- Fortitude --}}
       <tr>
         <td>Fortitude</td>
@@ -22,10 +26,13 @@
                  name="system.skills.body.endurance.fortitude.trained"
                  {{checked system.skills.body.endurance.fortitude.trained}} />
         </td>
+        <td>{{system.skills.body.endurance.fortitude.racialBonus}}</td>
+        <td>{{system.skills.body.endurance.fortitude.backgroundBonus}}</td>
+        <td>{{system.skills.body.endurance.fortitude.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.endurance.fortitude.specialty"
-                 value="{{system.skills.body.endurance.fortitude.specialty}}" />
+          <input type="number"
+                 name="system.skills.body.endurance.fortitude.misc"
+                 value="{{system.skills.body.endurance.fortitude.misc}}" />
         </td>
         <td>{{system.skills.body.endurance.fortitude.total}}</td>
         <td>
@@ -46,10 +53,13 @@
                  name="system.skills.body.endurance.painTolerance.trained"
                  {{checked system.skills.body.endurance.painTolerance.trained}} />
         </td>
+        <td>{{system.skills.body.endurance.painTolerance.racialBonus}}</td>
+        <td>{{system.skills.body.endurance.painTolerance.backgroundBonus}}</td>
+        <td>{{system.skills.body.endurance.painTolerance.rankBonus}}</td>
         <td>
-          <input type="text"
-                 name="system.skills.body.endurance.painTolerance.specialty"
-                 value="{{system.skills.body.endurance.painTolerance.specialty}}" />
+          <input type="number"
+                 name="system.skills.body.endurance.painTolerance.misc"
+                 value="{{system.skills.body.endurance.painTolerance.misc}}" />
         </td>
         <td>{{system.skills.body.endurance.painTolerance.total}}</td>
         <td>
@@ -61,6 +71,7 @@
           </button>
         </td>
       </tr>
+
     </tbody>
   </table>
 </details>
