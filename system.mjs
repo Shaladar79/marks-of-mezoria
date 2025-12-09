@@ -177,8 +177,10 @@ Hooks.once("init", async () => {
   await loadTemplates([
     "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
 
+    // Header
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
+    // Dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
@@ -188,18 +190,32 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/clandrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/aspectdrop.hbs",
 
+    // Ability dropdowns
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effectresource.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-damagetype.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-scalingmode.hbs",
+
+    // Character Info tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/backinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/markinfo.hbs",
 
+    // Attributes & Status tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/astats.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/body.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/mind.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/soul.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/astats/status.hbs",
 
+    // Skills tab + subparts
     "systems/marks-of-mezoria/templates/actor/parts/skills.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/body-might.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/body-swiftness.hbs",
@@ -214,8 +230,10 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-combat.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/skills/skills-lore.hbs",
 
+    // Abilities tab for the actor
     "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs",
 
+    // Ability item sheet
     "systems/marks-of-mezoria/templates/items/ability-sheet.hbs"
   ]);
 
