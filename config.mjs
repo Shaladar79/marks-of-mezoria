@@ -10,7 +10,7 @@ import { RankData } from "./scripts/rank.mjs";
 import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
-import { AbilityData } from "./scripts/abilities.mjs";
+import { AbilityData } from "./scripts/abilities.mjs";   // NEW IMPORT
 
 export const MezoriaConfig = {};
 
@@ -23,7 +23,7 @@ MezoriaConfig.raceBonuses      = RaceBonuses;
 MezoriaConfig.raceStatus       = RaceStatus;
 
 // -------------------------------------
-// Racial skill bonuses (from RaceSkillData)
+// Racial skill bonuses
 // -------------------------------------
 MezoriaConfig.raceSkillData = RaceSkillData;
 
@@ -39,7 +39,7 @@ MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
 MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
-// RANKS (from RankData)
+// RANKS (character rank system)
 // -------------------------------------
 MezoriaConfig.ranks = RankData.order;
 
@@ -60,227 +60,89 @@ MezoriaConfig.backgroundTypes = {
 // BACKGROUNDS BY TYPE
 // -------------------------------------
 MezoriaConfig.backgroundsByType = {
-  common: {
-    farmer:      "Farmer",
-    hunter:      "Hunter",
-    fisher:      "Fisher",
-    laborer:     "Laborer",
-    merchant:    "Merchant",
-    shepherd:    "Shepherd",
-    gravedigger: "Gravedigger",
-    stable_hand: "Stable Hand",
-    messenger:   "Messenger",
-    woodcutter:  "Woodcutter",
-    milkmaid:    "Milkmaid / Dairyman",
-    field_hand:  "Field Hand",
-    field_guide: "Field Guide",
-    cook:        "Cook"
-  },
-
-  skilled: {
-    blacksmith_app:  "Blacksmith’s Apprentice",
-    herbalist:       "Herbalist",
-    scribe:          "Scribe",
-    tanner:          "Tanner",
-    glassblower:     "Glassblower",
-    weaver:          "Weaver",
-    potter:          "Potter",
-    chandler:        "Chandler (Candle Maker)",
-    mason:           "Mason",
-    bowyer_fletcher: "Bowyer/Fletcher",
-    brewer:          "Brewer",
-    tailor:          "Tailor",
-    shipwright:      "Shipwright",
-    jeweler:         "Jeweler",
-    carpenter:       "Carpenter",
-    calligrapher:    "Calligrapher",
-    miner:           "Miner",
-    tinker:          "Tinker",
-    butcher:         "Butcher",
-    cobbler:         "Cobbler",
-    bookbinder:      "Bookbinder",
-    painter:         "Painter",
-    ropemaker:       "Ropemaker",
-    armorer:         "Armorer",
-    perfumer:        "Perfumer",
-    cook_skilled:    "Cook (Skilled)"
-  },
-
-  street: {
-    urchin:          "Urchin",
-    beggar:          "Beggar",
-    street_perf:     "Street Performer",
-    drudge:          "Drudge",
-    pickpocket:      "Pickpocket",
-    lookout:         "Lookout",
-    runner:          "Runner",
-    fence:           "Fence",
-    rat_catcher:     "Rat Catcher",
-    dockhand:        "Dockhand",
-    scavenger:       "Scavenger",
-    alley_healer:    "Alley Healer",
-    street_preacher: "Street Preacher"
-  },
-
-  social: {
-    noble_courtier:      "Noble Courtier",
-    temple_acolyte:      "Temple Acolyte",
-    clan_heir:           "Clan Heir",
-    diplomatic_envoy:    "Diplomatic Envoy",
-    wandering_pilgrim:   "Wandering Pilgrim",
-    tribal_nomad:        "Tribal Nomad",
-    scholars_ward:       "Scholar’s Ward",
-    exiled_bloodline:    "Exiled Bloodline",
-    cultural_artisan:    "Cultural Artisan",
-    temple_foundling:    "Temple Foundling",
-    guildborn:           "Guildborn",
-    cult_survivor:       "Cult Survivor",
-    diplomatic_hostage:  "Diplomatic Hostage",
-    festival_child:      "Festival Child",
-    marked_prophecy:     "Marked by Prophecy",
-    monastic_disciple:   "Monastic Disciple",
-    political_dissident: "Political Dissident",
-    archivists_kin:      "Archivist’s Kin",
-    hearth_storykeeper:  "Hearth-Bound Storykeeper",
-    oath_retainer:       "Oath-Bound Retainer"
-  }
+  common:      BackgroundBonuses.commonNames,
+  skilled:     BackgroundBonuses.skilledNames,
+  street:      BackgroundBonuses.streetNames,
+  social:      BackgroundBonuses.socialNames
 };
 
 // -------------------------------------
 // BACKGROUND DESCRIPTIONS
 // -------------------------------------
-MezoriaConfig.backgroundDescriptions = {
-  farmer:      "Grew up working the land with patience and endurance.",
-  hunter:      "Learned to track, stalk, and strike in the wilds.",
-  fisher:      "Spent days by water, mastering rhythm and patience.",
-  laborer:     "Built strength through long, grueling physical work.",
-  merchant:    "Assisted with trade, haggling, and handling goods.",
-  shepherd:    "Watched over herds in solitude and open terrain.",
-  gravedigger: "Performed the quiet labor of burying the dead.",
-  stable_hand: "Cared for mounts and beasts with steady hands.",
-  messenger:   "Ran routes across dangerous roads without fail.",
-  woodcutter:  "Harvested timber with strength and precision.",
-  milkmaid:    "Handled livestock and crafted dairy goods.",
-  field_hand:  "Worked another’s land for food or coin.",
-  field_guide: "Led travelers through forests, hills, and hazards.",
-  cook:        "Fed others with skill, speed, and simple magic.",
-
-  blacksmith_app:  "Forged tools and weapons with fire and muscle.",
-  herbalist:       "Knew which plants healed, poisoned, or soothed.",
-  scribe:          "Copied and recorded with a practiced, steady hand.",
-  tanner:          "Prepared hides through pungent, methodical work.",
-  glassblower:     "Shaped molten art with breath and precision.",
-  weaver:          "Spun thread and patterns with care and patience.",
-  potter:          "Shaped clay into vessels, both fine and common.",
-  chandler:        "Crafted candles and learned their chemistry.",
-  mason:           "Carved stone and raised structures with grit.",
-  bowyer_fletcher: "Built bows and arrows with balanced skill.",
-  brewer:          "Brewed spirits and ales with craft and care.",
-  tailor:          "Stitched garments and shaped fashions.",
-  shipwright:      "Built and repaired vessels strong enough for the sea.",
-  jeweler:         "Cut stones and crafted delicate ornamentation.",
-  carpenter:       "Shaped wood into homes, carts, and keepsakes.",
-  calligrapher:    "Wrote beautifully and knew the weight of ink.",
-  miner:           "Delved deep for ore, stone, and risk.",
-  tinker:          "Fixed, built, and modified with curious hands.",
-  butcher:         "Cleanly carved flesh and knew meat well.",
-  cobbler:         "Made and repaired shoes for every step of life.",
-  bookbinder:      "Bound words and paper into lasting volumes.",
-  painter:         "Captured life and memory in color and canvas.",
-  ropemaker:       "Twisted fibers into life-saving cords and knots.",
-  armorer:         "Crafted defense from metal, leather, and will.",
-  perfumer:        "Blended oils and scents into memory and mood.",
-  cook_skilled:    "Fed bellies and souls with crafted meals.",
-
-  noble_courtier:      "Raised in privilege, trained in etiquette and subtlety.",
-  temple_acolyte:      "Served in sacred spaces, learning faith and ritual.",
-  clan_heir:           "Born to leadership with duties, pride, and expectation.",
-  diplomatic_envoy:    "Traveled as a speaker of peace, trade, or threat.",
-  wandering_pilgrim:   "Walked the land in devotion, reflection, or penance.",
-  tribal_nomad:        "Grew up with the wind, fire, and path underfoot.",
-  scholars_ward:       "Raised among scrolls, scholars, and quiet discipline.",
-  exiled_bloodline:    "Cast out from legacy, but not from destiny.",
-  cultural_artisan:    "Preserved traditions through craft and performance.",
-  temple_foundling:    "Orphaned and raised in the care of divine orders.",
-  guildborn:           "Raised in a powerful trade guild with deep loyalties.",
-  cult_survivor:       "Escaped from dangerous dogma, but not its scars.",
-  diplomatic_hostage:  "Lived among strangers, taught to survive by grace.",
-  festival_child:      "Born during sacred rites, raised in joy and spectacle.",
-  marked_prophecy:     "Branded by fate—celebrated or feared.",
-  monastic_disciple:   "Trained in discipline, meditation, and martial forms.",
-  political_dissident: "Raised to speak truth against power—at a cost.",
-  archivists_kin:      "Lived in halls of memory, trained in preservation.",
-  hearth_storykeeper:  "Held your people’s legends and history.",
-  oath_retainer:       "Swore to serve one house or cause without fail.",
-
-  urchin:          "Survived alone in alleys and rooftops with sharp instincts.",
-  beggar:          "Lived off scraps and people’s pity with street-smarts.",
-  street_perf:     "Entertained for coin with charm and flair.",
-  drudge:          "Did thankless, dirty work while staying invisible.",
-  pickpocket:      "Took what you needed without being caught.",
-  lookout:         "Kept watch for trouble, escape, or opportunity.",
-  runner:          "Delivered messages or goods quickly—legal or not.",
-  fence:           "Traded in stolen goods and quiet connections.",
-  rat_catcher:     "Hunted vermin in sewers and dark places.",
-  dockhand:        "Hauled crates, tied lines, and learned who to avoid.",
-  scavenger:       "Found value in others’ trash or misfortune.",
-  alley_healer:    "Tended wounds with scraps, skill, and hope.",
-  street_preacher: "Shouted truth or madness to anyone who’d listen."
-};
+MezoriaConfig.backgroundDescriptions = BackgroundBonuses.descriptions;
 
 // -------------------------------------
-// Optional flat background map
+// Flat background map (optional)
 // -------------------------------------
 MezoriaConfig.backgrounds = {
-  ...MezoriaConfig.backgroundsByType.common,
-  ...MezoriaConfig.backgroundsByType.skilled,
-  ...MezoriaConfig.backgroundsByType.street,
-  ...MezoriaConfig.backgroundsByType.social
+  ...BackgroundBonuses.commonNames,
+  ...BackgroundBonuses.skilledNames,
+  ...BackgroundBonuses.streetNames,
+  ...BackgroundBonuses.socialNames
 };
 
 // -------------------------------------
-// Background bonuses (type + individual)
+// BACKGROUND BONUSES
 // -------------------------------------
 MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
-MezoriaConfig.backgroundBonuses      = BackgroundBonuses;
+MezoriaConfig.backgroundBonuses      = BackgroundBonuses.values;
 
 // -------------------------------------
-// Marks of Purpose
+// MARKS OF PURPOSE
 // -------------------------------------
 MezoriaConfig.markOfPurpose             = MarkPurposeData.labels;
 MezoriaConfig.markOfPurposeDescriptions = MarkPurposeData.descriptions;
 
 // -------------------------------------
-// Ability System Configuration (NEW)
+// Skill Specialties placeholder
 // -------------------------------------
+MezoriaConfig.skillSpecialties = {
+  default: ["Under Construction"]
+};
 
-// Ranks (flat map) and order
-MezoriaConfig.abilityRanks      = AbilityData.ranks.labels;
-MezoriaConfig.abilityRankOrder  = AbilityData.ranks.order;
+// ============================================================================
+//                            ABILITY SYSTEM CONFIG
+// ============================================================================
 
-// Action types (Action, Bonus, Reaction, Passive, etc.)
+// -------------------------------------
+// Ability Rank ladder
+// -------------------------------------
+MezoriaConfig.abilityRanks     = AbilityData.ranks.labels;
+MezoriaConfig.abilityRankOrder = AbilityData.ranks.order;
+
+// -------------------------------------
+// Ability Action Types
+// -------------------------------------
 MezoriaConfig.abilityActionTypes = AbilityData.actionTypes;
 
-// Ability sources (Racial, Background, Rank, Mark...)
+// -------------------------------------
+// Ability Source Types
+// -------------------------------------
 MezoriaConfig.abilitySourceTypes = AbilityData.sourceTypes;
 
-// Effect types (Damage, Healing, Shielding...)
+// -------------------------------------
+// Ability Effect Types
+// -------------------------------------
 MezoriaConfig.abilityEffectTypes = AbilityData.effectTypes;
 
-// Effect target resource (Vitality, Mana, Shielding...)
+// -------------------------------------
+// Ability Effect Resources
+// -------------------------------------
 MezoriaConfig.abilityEffectResources = AbilityData.effectResources;
 
-// Scaling modes (None, Rank-based, Attribute-based...)
-MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
-
-// Damage types (Fire, Cold, Slashing, Eldritch...)
+// -------------------------------------
+// Ability Damage Types
+// -------------------------------------
 MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 
 // -------------------------------------
-// Skill Specialties (placeholder)
+// Scaling Modes
 // -------------------------------------
-MezoriaConfig.skillSpecialties = {
-  default: [
-    "Under Construction"
-  ]
-};
+MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
+
+// -------------------------------------
+// Roll-builder config
+// -------------------------------------
+MezoriaConfig.abilityDieTypes      = AbilityData.roll.dieTypes;
+MezoriaConfig.abilityDiceBase      = AbilityData.roll.diceBase;
+MezoriaConfig.abilityModAttributes = AbilityData.roll.modAttributes;
