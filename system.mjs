@@ -34,27 +34,48 @@ class MinimalActorSheet extends ActorSheet {
   async getData(options) {
     const data = await super.getData(options);
 
-    // Actor system data
+    // Core actor data
     data.system = this.actor.system;
-
-    // Global config
     data.config = CONFIG["marks-of-mezoria"];
-
-    // RaceData (labels, descriptions, tribes, etc.)
     data.raceData = RaceData || {};
+    data.user = game.user; // used in templates (e.g., GM-only controls)
 
+    // -------------------------------
     // Backgrounds for dropdown
+    // -------------------------------
     const bgType = data.system?.details?.backgroundType ?? "";
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
-
     let availableBackgrounds = {};
     if (bgType && allBackgrounds[bgType]) {
       availableBackgrounds = allBackgrounds[bgType];
     }
     data.availableBackgrounds = availableBackgrounds;
 
-    // All ability items on this actor, for the Abilities tab
-    data.abilities = (data.items || []).filter(i => i.type === "ability");
+    // -------------------------------
+    // Abilities grouped by sourceType
+    // -------------------------------
+    const allAbilities = (data.items || []).filter(i => i.type === "ability");
+
+    const grouped = {
+      racial:     [],
+      rank:       [],
+      background: [],
+      mark:       [],
+      generic:    [],
+      other:      []
+    };
+
+    for (const ab of allAbilities) {
+      const src = ab.system?.details?.sourceType || "generic";
+      if (grouped[src]) {
+        grouped[src].push(ab);
+      } else {
+        grouped.other.push(ab);
+      }
+    }
+
+    data.abilities = allAbilities;          // raw list if needed
+    data.abilitiesBySource = grouped;       // used by abilities.hbs
 
     return data;
   }
@@ -64,7 +85,9 @@ class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
+    // -----------------------------
     // Save roll buttons: 1d20 + saveValue
+    // -----------------------------
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -83,7 +106,13 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // Generic skill rolls: 1d20 + skill.total
+    // -----------------------------
+    // Generic skill roll buttons: 1d20 + skill.total
+    // data-path examples:
+    //   "body.might.athletics"
+    //   "mind.insight.perception"
+    //   "soul.resolve.auraControl"
+    // -----------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -105,7 +134,9 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // Edit Ability items from the Abilities tab
+    // -----------------------------
+    // Ability editing from Abilities tab
+    // -----------------------------
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -117,7 +148,9 @@ class MinimalActorSheet extends ActorSheet {
       if (item) item.sheet.render(true);
     });
 
-    // Ability effect rolls from the Abilities tab
+    // -----------------------------
+    // Ability effect rolls from Abilities tab
+    // -----------------------------
     html.find(".ability-roll").on("click", async (event) => {
       event.preventDefault();
 
@@ -142,6 +175,19 @@ class MinimalActorSheet extends ActorSheet {
         flavor: `${item.name} Effect`
       });
     });
+
+    // -----------------------------
+    // Ability removal (GM/owner only)
+    // -----------------------------
+    html.find(".item-delete").on("click", async (event) => {
+      event.preventDefault();
+      const li = event.currentTarget.closest(".ability-item");
+      if (!li) return;
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      await actor.deleteEmbeddedDocuments("Item", [itemId]);
+    });
   }
 
   async _updateObject(event, formData) {
@@ -162,7 +208,7 @@ class MezoriaAbilitySheet extends ItemSheet {
       width: 600,
       height: 500,
       tabs: [],
-      submitOnChange: true   // behave like actor sheet (auto-save on change)
+      submitOnChange: true
     });
   }
 
@@ -172,15 +218,14 @@ class MezoriaAbilitySheet extends ItemSheet {
     // Global config for dropdowns
     data.config = CONFIG["marks-of-mezoria"];
 
-    // Mirror actor pattern: expose system directly
-    // so templates can use {{system.*}} and name="system.*"
+    // Expose system directly for templates ({{system.*}})
     data.system = data.item.system;
 
     return data;
   }
 
   async _updateObject(event, formData) {
-    // Match actor sheet behavior: expand "system.details.rank" etc.
+    // Expand "system.details.rank" etc. into nested structure
     const expanded = foundry.utils.expandObject(formData);
     await this.object.update(expanded);
   }
@@ -198,14 +243,14 @@ Hooks.once("init", async () => {
   // Use our custom Actor class
   CONFIG.Actor.documentClass = MezoriaActor;
 
-  // Preload templates used by the sheet
+  // Preload templates used by the sheets
   await loadTemplates([
     "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
 
     // Header
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
-    // Dropdowns
+    // Dropdowns (actor)
     "systems/marks-of-mezoria/templates/actor/parts/drops/racedrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/rankdrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/backtype.hbs",
@@ -215,7 +260,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/clandrop.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/aspectdrop.hbs",
 
-    // Ability dropdowns
+    // Ability dropdowns (item sheet)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
