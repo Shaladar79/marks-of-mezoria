@@ -1,204 +1,239 @@
-<form class="marks-of-mezoria sheet item ability" autocomplete="off">
+<form class="{{cssClass}}" autocomplete="off">
 
+  {{!-- HEADER --}}
   <header class="sheet-header flexrow">
     <div class="item-image">
       <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
     </div>
 
-    <div class="item-header-fields">
-      <div class="field">
-        <label>Name</label>
-        <input type="text" name="name" value="{{item.name}}" />
+    <div class="header-fields flexcol">
+      <div class="item-name-row">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Ability Name" />
       </div>
 
-      <div class="field-group flexrow">
-        <div class="field small">
+      <div class="header-row flexrow">
+        <div class="field">
           <label>Ability Rank</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs"}}
         </div>
 
-        <div class="field small">
-          <label>Min Char Rank</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs"}}
+        <div class="field">
+          <label>Source Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
         </div>
 
-        <div class="field small">
-          <label>Mark Req</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs"}}
-        </div>
-      </div>
-
-      <div class="field-group flexrow">
-        <div class="field small">
+        <div class="field">
           <label>Action Type</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
-        </div>
-
-        <div class="field small">
-          <label>Action Cost</label>
-          <input type="number" name="system.details.actionCost" value="{{system.details.actionCost}}" data-dtype="Number" />
-        </div>
-
-        <div class="field small">
-          <label>Range</label>
-          <input type="text" name="system.details.range" value="{{system.details.range}}" placeholder="Self / Melee / 30 ft, etc." />
         </div>
       </div>
     </div>
   </header>
 
+  {{!-- BODY --}}
   <section class="sheet-body">
 
-    <div class="flexrow">
+    {{!-- GENERAL INFORMATION --}}
+    <section class="ability-section ability-general">
+      <h3>General</h3>
 
-      {{!-- LEFT COLUMN: Costs + Effect --}}
-      <div class="column left">
+      <div class="flexrow">
+        <div class="field">
+          <label>Tags</label>
+          <input type="text"
+                 name="system.details.tags"
+                 value="{{system.details.tags}}"
+                 placeholder="racial, passive, defensive" />
+        </div>
 
-        <fieldset class="ability-section">
-          <legend>Cost</legend>
-
-          <div class="field-group flexrow">
-            <div class="field small">
-              <label>Mana</label>
-              <input type="number" name="system.details.cost.mana" value="{{system.details.cost.mana}}" data-dtype="Number" />
-            </div>
-
-            <div class="field small">
-              <label>Stamina</label>
-              <input type="number" name="system.details.cost.stamina" value="{{system.details.cost.stamina}}" data-dtype="Number" />
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset class="ability-section">
-          <legend>Effect</legend>
-
-          <div class="field-group flexrow">
-            <div class="field small">
-              <label>Type</label>
-              {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs"}}
-            </div>
-
-            <div class="field small">
-              <label>Resource</label>
-              {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effectresource.hbs"}}
-            </div>
-          </div>
-
-          <div class="field-group flexrow">
-            <div class="field small">
-              <label>Amount</label>
-              <input type="number" name="system.details.effect.amount" value="{{system.details.effect.amount}}" data-dtype="Number" />
-            </div>
-
-            <div class="field small">
-              <label>Dmg Type</label>
-              {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-damagetype.hbs"}}
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Roll Formula</label>
-            <input type="text"
-                   name="system.details.effect.roll"
-                   value="{{system.details.effect.roll}}"
-                   placeholder="2d6+3, 1d8+Body.might.mod, etc." />
-          </div>
-
-          <div class="field">
-            <label>Effect Notes</label>
-            <textarea name="system.details.effect.notes" rows="3">{{system.details.effect.notes}}</textarea>
-          </div>
-        </fieldset>
-
-        <fieldset class="ability-section">
-          <legend>Scaling</legend>
-
-          <div class="field-group flexrow">
-            <div class="field small checkbox-field">
-              <label>Enabled</label>
-              <input type="checkbox"
-                     name="system.details.scaling.enabled"
-                     {{checked system.details.scaling.enabled}} />
-            </div>
-
-            <div class="field small">
-              <label>Mode</label>
-              {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-scalingmode.hbs"}}
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Value / Formula</label>
-            <input type="text"
-                   name="system.details.scaling.value"
-                   value="{{system.details.scaling.value}}"
-                   placeholder="+1 per rank, Body.might.mod, etc." />
-          </div>
-        </fieldset>
-
+        <div class="field">
+          <label>Source Key</label>
+          <input type="text"
+                 name="system.details.sourceKey"
+                 value="{{system.details.sourceKey}}"
+                 placeholder="e.g. mythrian-bear, embergiest" />
+        </div>
       </div>
 
-      {{!-- RIGHT COLUMN: Source + Tags + Text --}}
-      <div class="column right">
+      <div class="field">
+        <label>Short Summary</label>
+        <input type="text"
+               name="system.details.short"
+               value="{{system.details.short}}"
+               placeholder="One-line summary of what this ability does" />
+      </div>
 
-        <fieldset class="ability-section">
-          <legend>Source</legend>
+      <div class="field">
+        <label>Description</label>
+        <textarea name="system.details.description"
+                  rows="4"
+                  placeholder="Full rules and narrative description">{{system.details.description}}</textarea>
+      </div>
+    </section>
 
-          <div class="field-group flexrow">
-            <div class="field small">
-              <label>Source Type</label>
-              {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
-            </div>
+    <hr />
 
-            <div class="field small">
-              <label>Source Key</label>
-              <input type="text"
-                     name="system.details.sourceKey"
-                     value="{{system.details.sourceKey}}"
-                     placeholder="mythrian-bear / topaz / guardian" />
-            </div>
-          </div>
+    {{!-- REQUIREMENTS --}}
+    <section class="ability-section ability-requirements">
+      <h3>Requirements</h3>
 
-          <div class="field checkbox-field">
-            <label>Auto Granted</label>
+      <div class="flexrow">
+        <div class="field">
+          <label>Min Character Rank</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Mark of Purpose Required</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs"}}
+        </div>
+      </div>
+
+      <div class="flexrow">
+        <div class="field checkbox-field">
+          <label>
             <input type="checkbox"
                    name="system.details.autoGranted"
                    {{checked system.details.autoGranted}} />
-          </div>
-        </fieldset>
+            Auto-granted (e.g. by race or rank)
+          </label>
+        </div>
+      </div>
+    </section>
 
-        <fieldset class="ability-section">
-          <legend>Tags &amp; Summary</legend>
+    <hr />
 
-          <div class="field">
-            <label>Tags</label>
-            <input type="text"
-                   name="system.details.tags"
-                   value="{{system.details.tags}}"
-                   placeholder="combat, mark, healing, etc." />
-          </div>
+    {{!-- ACTIVATION --}}
+    <section class="ability-section ability-activation">
+      <h3>Activation</h3>
 
-          <div class="field">
-            <label>Short Summary</label>
-            <input type="text"
-                   name="system.details.short"
-                   value="{{system.details.short}}" />
-          </div>
-        </fieldset>
+      <div class="flexrow">
+        <div class="field">
+          <label>Action Cost</label>
+          <input type="number"
+                 name="system.details.actionCost"
+                 value="{{system.details.actionCost}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
 
-        <fieldset class="ability-section">
-          <legend>Description</legend>
+        <div class="field">
+          <label>Range</label>
+          <input type="text"
+                 name="system.details.range"
+                 value="{{system.details.range}}"
+                 placeholder="Self, Melee, 30 ft, 10 ft aura, etc." />
+        </div>
+      </div>
+    </section>
 
-          <div class="field">
-            <textarea name="system.details.description" rows="12">{{system.details.description}}</textarea>
-          </div>
-        </fieldset>
+    <hr />
 
+    {{!-- COSTS --}}
+    <section class="ability-section ability-costs">
+      <h3>Costs</h3>
+
+      <div class="flexrow">
+        <div class="field">
+          <label>Mana Cost</label>
+          <input type="number"
+                 name="system.details.cost.mana"
+                 value="{{system.details.cost.mana}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
+
+        <div class="field">
+          <label>Stamina Cost</label>
+          <input type="number"
+                 name="system.details.cost.stamina"
+                 value="{{system.details.cost.stamina}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    {{!-- EFFECT --}}
+    <section class="ability-section ability-effect">
+      <h3>Effect</h3>
+
+      <div class="flexrow">
+        <div class="field">
+          <label>Effect Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Target Resource</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effectresource.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Base Amount</label>
+          <input type="number"
+                 name="system.details.effect.amount"
+                 value="{{system.details.effect.amount}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
       </div>
 
-    </div>
+      <div class="flexrow">
+        <div class="field">
+          <label>Damage Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-damagetype.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Roll Formula</label>
+          <input type="text"
+                 name="system.details.effect.roll"
+                 value="{{system.details.effect.roll}}"
+                 placeholder="e.g. 2d6+3, 1d8+@bodyMightMod" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Effect Notes</label>
+        <textarea name="system.details.effect.notes"
+                  rows="3"
+                  placeholder="Conditions, riders, or rules not captured by numbers.">{{system.details.effect.notes}}</textarea>
+      </div>
+    </section>
+
+    <hr />
+
+    {{!-- SCALING --}}
+    <section class="ability-section ability-scaling">
+      <h3>Scaling</h3>
+
+      <div class="flexrow">
+        <div class="field checkbox-field">
+          <label>
+            <input type="checkbox"
+                   name="system.details.scaling.enabled"
+                   {{checked system.details.scaling.enabled}} />
+            Scaling Enabled
+          </label>
+        </div>
+
+        <div class="field">
+          <label>Scaling Mode</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-scalingmode.hbs"}}
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Scaling Value / Formula</label>
+        <textarea name="system.details.scaling.value"
+                  rows="2"
+                  placeholder="+1 damage per rank, +Body.might.mod to DC, etc.">{{system.details.scaling.value}}</textarea>
+      </div>
+    </section>
 
   </section>
-
 </form>
+
