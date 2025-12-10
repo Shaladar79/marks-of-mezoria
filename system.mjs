@@ -33,12 +33,14 @@ class MinimalActorSheet extends ActorSheet {
   async getData(options) {
     const data = await super.getData(options);
 
-    data.system = this.actor.system;
-    data.config = CONFIG["marks-of-mezoria"];
+    data.system  = this.actor.system;
+    data.config  = CONFIG["marks-of-mezoria"];
     data.raceData = RaceData || {};
-    data.user = game.user;
+    data.user    = game.user;
 
-    // Backgrounds
+    // ---------------------------------
+    // Backgrounds (for backdrop.hbs)
+    // ---------------------------------
     const bgType = data.system?.details?.backgroundType ?? "";
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
     let availableBackgrounds = {};
@@ -47,7 +49,9 @@ class MinimalActorSheet extends ActorSheet {
     }
     data.availableBackgrounds = availableBackgrounds;
 
+    // ---------------------------------
     // Abilities grouped by sourceType
+    // ---------------------------------
     const allAbilities = (data.items || []).filter(i => i.type === "ability");
     const grouped = {
       racial:     [],
@@ -64,7 +68,7 @@ class MinimalActorSheet extends ActorSheet {
       else grouped.other.push(ab);
     }
 
-    data.abilities = allAbilities;
+    data.abilities         = allAbilities;
     data.abilitiesBySource = grouped;
 
     return data;
@@ -75,7 +79,9 @@ class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
-    // Save rolls
+    // ---------------------------------
+    // Save rolls (Body/Mind/Soul saves)
+    // ---------------------------------
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -94,7 +100,10 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
+    // ---------------------------------
     // Generic skill rolls
+    // data-path like: "body.might.athletics"
+    // ---------------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -116,7 +125,9 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // Ability editing
+    // ---------------------------------
+    // Ability editing (open item sheet)
+    // ---------------------------------
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -128,7 +139,9 @@ class MinimalActorSheet extends ActorSheet {
       if (item) item.sheet.render(true);
     });
 
+    // ---------------------------------
     // Ability effect rolls
+    // ---------------------------------
     html.find(".ability-roll").on("click", async (event) => {
       event.preventDefault();
 
@@ -154,7 +167,9 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // Ability removal
+    // ---------------------------------
+    // Ability removal from actor
+    // ---------------------------------
     html.find(".item-delete").on("click", async (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -189,16 +204,17 @@ class MezoriaAbilitySheet extends ItemSheet {
   }
 
   async getData(options) {
-    const data = await super.getData(options);
-    data.config = CONFIG["marks-of-mezoria"];
+    const data   = await super.getData(options);
+    const config = CONFIG["marks-of-mezoria"];
+
+    data.config = config;
 
     const system = data.item.system || {};
-    data.system = system;
+    data.system  = system;
 
-    // ----- Phase 2: filtered mod-attribute options based on Effect Type -----
-    const cfg = data.config || {};
-    const allModAttrs = cfg.abilityModAttributes || {};
-    const effectType = system?.details?.effect?.type ?? "";
+    // ----- Filtered mod-attribute options based on Effect Type -----
+    const allModAttrs = config.abilityModAttributes || {};
+    const effectType  = system?.details?.effect?.type ?? "";
 
     let filtered = allModAttrs;
 
@@ -223,7 +239,7 @@ class MezoriaAbilitySheet extends ItemSheet {
     data.rollPreview = "";
     try {
       // data.item.parent is the actor when editing from an actor sheet; null in Items directory
-      const actor = data.item.parent ?? null;
+      const actor   = data.item.parent ?? null;
       const formula = buildAbilityRollFormula(actor, data.item);
       if (formula) data.rollPreview = formula;
     } catch (err) {
@@ -279,8 +295,8 @@ function buildAbilityRollFormula(actor, item) {
   if (totalDice <= 0) return "";
 
   // ---------- Effect Type -> allowed modifier attribute ----------
-  const effectType = effect.type || details.effectType || "";
-  let selectedAttr = rollCfg.modAttribute || "";
+  const effectType  = effect.type || details.effectType || "";
+  let selectedAttr  = rollCfg.modAttribute || "";
 
   function normalizeModAttr(effectType, selected) {
     switch (effectType) {
