@@ -1,4 +1,10 @@
-<select name="system.details.effect.roll.modAttribute" data-dtype="String">
-  <option value="">-- Attribute Mod --</option>
-  {{selectOptions config.abilityModAttributes selected=system.details.effect.roll.modAttribute}}
-</select>
+<div class="field">
+  <label>Effect Mod Attribute</label>
+  <select name="system.details.effect.roll.modAttribute" data-dtype="String">
+    {{#if modAttributeOptions}}
+      {{selectOptions modAttributeOptions selected=system.details.effect.roll.modAttribute}}
+    {{else}}
+      {{selectOptions config.abilityModAttributes selected=system.details.effect.roll.modAttribute}}
+    {{/if}}
+  </select>
+</div>
