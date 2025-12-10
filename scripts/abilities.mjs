@@ -123,11 +123,11 @@ export const AbilityData = {
   },
 
   // --------------------------------------------------------
-  // Roll-builder config: dice + attribute mods for effects
+  // Roll builder settings (die types, base dice, mod attributes)
   // --------------------------------------------------------
-  roll: {
+  rollBuilder: {
 
-    // Die types for abilities (for damage / heal / shield / drain)
+    // Die types for abilities (for damage/heal/shield/drain, etc.)
     dieTypes: {
       d4:  "d4",
       d6:  "d6",
@@ -150,9 +150,8 @@ export const AbilityData = {
       10: "10"
     },
 
-    // Sub-attributes used as modifiers
-    // (we’ll enforce which ones are allowed per effect type in sheet/logic)
-       modAttributes: {
+    // Sub-attributes used as modifiers (ALL 9)
+    modAttributes: {
       // BODY
       might:      "Might",
       swiftness:  "Swiftness",
@@ -168,5 +167,5 @@ export const AbilityData = {
       grace:      "Grace",
       resolve:    "Resolve"
     }
- }
+  }
 };
