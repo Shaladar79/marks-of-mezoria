@@ -13,8 +13,13 @@
 
       <div class="header-row flexrow">
         <div class="field">
-          <label>Ability Rank</label>
+          <label>Base Ability Rank</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Current Ability Rank</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs"}}
         </div>
 
         <div class="field">
@@ -186,14 +191,32 @@
           <label>Damage Type</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-damagetype.hbs"}}
         </div>
+      </div>
 
-        <div class="field">
-          <label>Roll Formula</label>
-          <input type="text"
-                 name="system.details.effect.roll"
-                 value="{{system.details.effect.roll}}"
-                 placeholder="e.g. 2d6+3, 1d8+@bodyMightMod" />
+      {{!-- ROLL BUILDER --}}
+      <div class="ability-roll-builder">
+        <h4>Effect Roll</h4>
+
+        <div class="flexrow">
+          <div class="field">
+            <label>Die Type</label>
+            {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-dietype.hbs"}}
+          </div>
+
+          <div class="field">
+            <label>Base # of Dice</label>
+            {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-dicebase.hbs"}}
+          </div>
+
+          <div class="field">
+            <label>Attribute Modifier</label>
+            {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-modattribute.hbs"}}
+          </div>
         </div>
+
+        <p class="hint">
+          Total dice rolled = Base Dice + (Current Ability Rank - Base Ability Rank).
+        </p>
       </div>
 
       <div class="field">
@@ -236,4 +259,3 @@
 
   </section>
 </form>
-
