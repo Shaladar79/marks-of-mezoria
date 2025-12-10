@@ -191,7 +191,46 @@ class MezoriaAbilitySheet extends ItemSheet {
   async getData(options) {
     const data = await super.getData(options);
     data.config = CONFIG["marks-of-mezoria"];
-    data.system = data.item.system;
+
+    const system = data.item.system || {};
+    data.system = system;
+
+    // ----- Phase 2: filtered mod-attribute options based on Effect Type -----
+    const cfg = data.config || {};
+    const allModAttrs = cfg.abilityModAttributes || {};
+    const effectType = system?.details?.effect?.type ?? "";
+
+    let filtered = allModAttrs;
+
+    if (effectType === "healing") {
+      filtered = {};
+      if (allModAttrs.grace) filtered.grace = allModAttrs.grace;
+    }
+    else if (effectType === "shielding") {
+      filtered = {};
+      if (allModAttrs.presence) filtered.presence = allModAttrs.presence;
+    }
+    else if (effectType === "damage" || effectType === "drain") {
+      filtered = {};
+      if (allModAttrs.might)   filtered.might   = allModAttrs.might;
+      if (allModAttrs.insight) filtered.insight = allModAttrs.insight;
+    }
+    // else buff/debuff/aura/summon/utility/other → full list
+
+    data.modAttributeOptions = filtered;
+
+    // ----- Roll Preview -----
+    data.rollPreview = "";
+    try {
+      // data.item.parent is the actor when editing from an actor sheet; null in Items directory
+      const actor = data.item.parent ?? null;
+      const formula = buildAbilityRollFormula(actor, data.item);
+      if (formula) data.rollPreview = formula;
+    } catch (err) {
+      console.error("Marks of Mezoria | Roll Preview Error:", err);
+      data.rollPreview = "";
+    }
+
     return data;
   }
 
@@ -205,6 +244,8 @@ class MezoriaAbilitySheet extends ItemSheet {
  * Helper: build ability roll formula
  * ----------------------------------*/
 function buildAbilityRollFormula(actor, item) {
+  const hasActor = !!actor;
+
   const cfg     = CONFIG["marks-of-mezoria"] || {};
   const system  = item.system || {};
   const details = system.details || {};
@@ -214,13 +255,13 @@ function buildAbilityRollFormula(actor, item) {
   const dieType  = rollCfg.dieType || "";
   const diceBase = Number(rollCfg.diceBase) || 0;
 
-  // If no roll-builder is configured, fallback to legacy fields
+  // If no roll-builder is configured, fall back to legacy string fields
   if (!dieType || !diceBase) {
     const legacy = effect.rollFormula || effect.roll || details.effectRoll;
     return legacy || "";
   }
 
-  // ---------- Rank scaling ----------
+  // ---------- Rank scaling: Base vs Current Ability Rank ----------
   const baseRankKey    = details.rank || "";
   const currentRankKey = details.currentRank || baseRankKey || "";
   const rankOrder      = cfg.abilityRankOrder || [];
@@ -237,7 +278,7 @@ function buildAbilityRollFormula(actor, item) {
   const totalDice = diceBase + extraDice;
   if (totalDice <= 0) return "";
 
-  // ---------- EFFECT TYPE RULES ----------
+  // ---------- Effect Type -> allowed modifier attribute ----------
   const effectType = effect.type || details.effectType || "";
   let selectedAttr = rollCfg.modAttribute || "";
 
@@ -258,15 +299,18 @@ function buildAbilityRollFormula(actor, item) {
 
   const modAttr = normalizeModAttr(effectType, selectedAttr);
 
-  // ---------- Attribute modifier ----------
-  function getAttrMod(path) {
-    const obj = foundry.utils.getProperty(actor.system, path) || {};
-    let mod = Number(obj.mod ?? 0);
-    if (!mod) mod = Number(obj.total ?? 0);
+  // ---------- Attribute modifier: prefer .mod, fall back to .total ----------
+  function getAttrMod(attrRoot) {
+    if (!hasActor) return 0; // preview in Items directory
+    const attr = foundry.utils.getProperty(actor.system, attrRoot) || {};
+    let mod = Number(attr.mod ?? 0);
+    if (!mod) {
+      mod = Number(attr.total ?? 0);
+    }
     return mod || 0;
   }
 
-   let modValue = 0;
+  let modValue = 0;
 
   switch (modAttr) {
     // BODY
@@ -306,13 +350,15 @@ function buildAbilityRollFormula(actor, item) {
       modValue = 0;
   }
 
-
-  // ---------- Build formula ----------
+  // ---------- Build final formula ----------
   let formula = `${totalDice}${dieType}`;
 
   if (modAttr) {
-    if (modValue >= 0) formula += ` + ${modValue}`;
-    else               formula += ` - ${Math.abs(modValue)}`;
+    if (modValue >= 0) {
+      formula += ` + ${modValue}`;
+    } else {
+      formula += ` - ${Math.abs(modValue)}`;
+    }
   }
 
   return formula;
@@ -357,7 +403,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-modattribute.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs",
 
-    // Character info
+    // Cinfo
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
