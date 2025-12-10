@@ -1,80 +1,300 @@
-<section class="abilities-tab">
+<section class="tab-abilities">
 
-  <header class="abilities-header flexrow">
-    <div class="col-name">Name</div>
-    <div class="col-source">Source</div>
-    <div class="col-rank">Rank</div>
-    <div class="col-action">Action</div>
-    <div class="col-range">Range</div>
-    <div class="col-cost">Cost</div>
-    <div class="col-effect">Effect</div>
-    <div class="col-roll">Roll</div>
+  <header class="abilities-header">
+    <h2>Abilities</h2>
+    <p class="hint">
+      Drag ability items onto this sheet to grant them. GMs can remove abilities using the trash icon.
+    </p>
   </header>
 
-  <ol class="ability-list item-list">
-    {{#each abilities as |ability|}}
-      <li class="ability-item item flexrow" data-item-id="{{ability._id}}">
-        <div class="col-name">
-          <a class="item-edit" title="Edit Ability">{{ability.name}}</a>
+  {{!-- Helper: a small reusable row template via #each --}}
+
+  {{!-- Racial Abilities --}}
+  {{#if abilitiesBySource.racial.length}}
+  <section class="ability-group">
+    <h3>Racial Abilities</h3>
+    <ol class="ability-list" data-source="racial">
+      {{#each abilitiesBySource.racial as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
         </div>
 
-        <div class="col-source">
-          {{ability.system.details.sourceType}}
-        </div>
-
-        <div class="col-rank">
-          {{ability.system.details.rank}}
-        </div>
-
-        <div class="col-action">
-          {{ability.system.details.actionType}}
-          {{#if ability.system.details.actionCost}}
-            ({{ability.system.details.actionCost}})
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
           {{/if}}
         </div>
 
-        <div class="col-range">
-          {{ability.system.details.range}}
-        </div>
-
-        <div class="col-cost">
-          {{#if ability.system.details.cost.mana}}
-            M: {{ability.system.details.cost.mana}}
-          {{/if}}
-          {{#if ability.system.details.cost.stamina}}
-            {{#if ability.system.details.cost.mana}} / {{/if}}
-            S: {{ability.system.details.cost.stamina}}
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
           {{/if}}
         </div>
 
-        <div class="col-effect">
-          {{ability.system.details.effect.type}}
-          {{#if ability.system.details.effect.amount}}
-            {{ability.system.details.effect.amount}}
-          {{/if}}
-          {{#if ability.system.details.effect.resource}}
-            {{ability.system.details.effect.resource}}
-          {{/if}}
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
         </div>
 
-        <div class="col-roll">
-          {{#if ability.system.details.effect.roll}}
-            <button type="button"
-                    class="ability-roll"
-                    data-item-id="{{ability._id}}"
-                    title="{{ability.system.details.effect.roll}}">
-              Roll
-            </button>
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
           {{/if}}
         </div>
       </li>
-    {{/each}}
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
 
-    {{#unless abilities.length}}
-      <li class="empty-note">
-        No abilities yet. Drag ability items onto this actor or add them from a compendium.
+  {{!-- Rank Abilities --}}
+  {{#if abilitiesBySource.rank.length}}
+  <section class="ability-group">
+    <h3>Rank Abilities</h3>
+    <ol class="ability-list" data-source="rank">
+      {{#each abilitiesBySource.rank as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
+        </div>
+
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
+          {{/if}}
+        </div>
+
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
+          {{/if}}
+        </div>
+
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
+        </div>
+
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
+          {{/if}}
+        </div>
       </li>
-    {{/unless}}
-  </ol>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{!-- Background Abilities --}}
+  {{#if abilitiesBySource.background.length}}
+  <section class="ability-group">
+    <h3>Background Abilities</h3>
+    <ol class="ability-list" data-source="background">
+      {{#each abilitiesBySource.background as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
+        </div>
+
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
+          {{/if}}
+        </div>
+
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
+          {{/if}}
+        </div>
+
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
+        </div>
+
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{!-- Mark Abilities --}}
+  {{#if abilitiesBySource.mark.length}}
+  <section class="ability-group">
+    <h3>Mark Abilities</h3>
+    <ol class="ability-list" data-source="mark">
+      {{#each abilitiesBySource.mark as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
+        </div>
+
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
+          {{/if}}
+        </div>
+
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
+          {{/if}}
+        </div>
+
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
+        </div>
+
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{!-- Generic Abilities --}}
+  {{#if abilitiesBySource.generic.length}}
+  <section class="ability-group">
+    <h3>Generic Abilities</h3>
+    <ol class="ability-list" data-source="generic">
+      {{#each abilitiesBySource.generic as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
+        </div>
+
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
+          {{/if}}
+        </div>
+
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
+          {{/if}}
+        </div>
+
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
+        </div>
+
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
+
+  {{!-- Other / Unknown source abilities --}}
+  {{#if abilitiesBySource.other.length}}
+  <section class="ability-group">
+    <h3>Other Abilities</h3>
+    <ol class="ability-list" data-source="other">
+      {{#each abilitiesBySource.other as |ab|}}
+      <li class="ability-item flexrow" data-item-id="{{ab._id}}">
+        <div class="ability-name">
+          <strong>{{ab.name}}</strong>
+        </div>
+
+        <div class="ability-rank">
+          {{#if ab.system.details.rank}}
+            {{lookup ../config.abilityRanks ab.system.details.rank}}
+          {{/if}}
+        </div>
+
+        <div class="ability-action">
+          {{#if ab.system.details.actionType}}
+            {{lookup ../config.abilityActionTypes ab.system.details.actionType}}
+          {{/if}}
+        </div>
+
+        <div class="ability-tags">
+          {{ab.system.details.tags}}
+        </div>
+
+        <div class="ability-controls">
+          {{#if ab.system.details.effect.roll}}
+            <a class="ability-roll" data-item-id="{{ab._id}}" title="Roll Effect">
+              <i class="fas fa-dice-d20"></i>
+            </a>
+          {{/if}}
+          <a class="item-edit" data-item-id="{{ab._id}}" title="Edit Ability">
+            <i class="fas fa-edit"></i>
+          </a>
+          {{#if @root.user.isGM}}
+            <a class="item-delete" data-item-id="{{ab._id}}" title="Remove Ability">
+              <i class="fas fa-trash"></i>
+            </a>
+          {{/if}}
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </section>
+  {{/if}}
 
 </section>
