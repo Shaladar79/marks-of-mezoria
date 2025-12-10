@@ -436,5 +436,17 @@
   flex: 0 0 90px;
   text-align: right;
 }
+.roll-preview {
+  margin-top: 6px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 13px;
+  font-style: italic;
+}
+.roll-preview label {
+  font-weight: bold;
+  margin-right: 6px;
+}
 
 }
