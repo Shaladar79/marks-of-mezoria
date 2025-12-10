@@ -59,29 +59,29 @@ export const AbilityData = {
   // Effect types: mechanical "shape" of the ability
   // --------------------------------------------------------
   effectTypes: {
-    damage:   "Damage",
-    healing:  "Healing",
-    shielding:"Shielding",
-    drain:    "Drain",
-    buff:     "Buff",
-    debuff:   "Debuff",
-    aura:     "Aura",
-    summon:   "Summon",
-    utility:  "Utility",
-    other:    "Other"
+    damage:    "Damage",
+    healing:   "Healing",
+    shielding: "Shielding",
+    drain:     "Drain",
+    buff:      "Buff",
+    debuff:    "Debuff",
+    aura:      "Aura",
+    summon:    "Summon",
+    utility:   "Utility",
+    other:     "Other"
   },
 
   // --------------------------------------------------------
   // Effect resources: what the effect is targeting/modifying
   // --------------------------------------------------------
   effectResources: {
-    vitality: "Vitality",
-    mana:     "Mana",
-    stamina:  "Stamina",
-    shielding:"Shielding",
-    trauma:   "Trauma",
-    defense:  "Defense",
-    other:    "Other"
+    vitality:  "Vitality",
+    mana:      "Mana",
+    stamina:   "Stamina",
+    shielding: "Shielding",
+    trauma:    "Trauma",
+    defense:   "Defense",
+    other:     "Other"
   },
 
   // --------------------------------------------------------
@@ -120,5 +120,43 @@ export const AbilityData = {
     astral:      "Astral",
 
     other:       "Other"
+  },
+
+  // --------------------------------------------------------
+  // Roll-builder config: dice + attribute mods for effects
+  // --------------------------------------------------------
+  roll: {
+
+    // Die types for abilities (for damage / heal / shield / drain)
+    dieTypes: {
+      d4:  "d4",
+      d6:  "d6",
+      d8:  "d8",
+      d10: "d10",
+      d12: "d12"
+    },
+
+    // Base number of dice (1–10)
+    diceBase: {
+      1:  "1",
+      2:  "2",
+      3:  "3",
+      4:  "4",
+      5:  "5",
+      6:  "6",
+      7:  "7",
+      8:  "8",
+      9:  "9",
+      10: "10"
+    },
+
+    // Sub-attributes used as modifiers
+    // (we’ll enforce which ones are allowed per effect type in sheet/logic)
+    modAttributes: {
+      might:    "Might",
+      insight:  "Insight",
+      grace:    "Grace",
+      presence: "Presence"
+    }
   }
 };
