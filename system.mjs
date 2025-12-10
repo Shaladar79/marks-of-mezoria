@@ -266,15 +266,46 @@ function buildAbilityRollFormula(actor, item) {
     return mod || 0;
   }
 
-  let modValue = 0;
+   let modValue = 0;
 
   switch (modAttr) {
-    case "might":    modValue = getAttrMod("attributes.body.might"); break;
-    case "insight":  modValue = getAttrMod("attributes.mind.insight"); break;
-    case "grace":    modValue = getAttrMod("attributes.soul.grace"); break;
-    case "presence": modValue = getAttrMod("attributes.soul.presence"); break;
-    default:         modValue = 0;
+    // BODY
+    case "might":
+      modValue = getAttrMod("attributes.body.might");
+      break;
+    case "swiftness":
+      modValue = getAttrMod("attributes.body.swiftness");
+      break;
+    case "endurance":
+      modValue = getAttrMod("attributes.body.endurance");
+      break;
+
+    // MIND
+    case "insight":
+      modValue = getAttrMod("attributes.mind.insight");
+      break;
+    case "focus":
+      modValue = getAttrMod("attributes.mind.focus");
+      break;
+    case "willpower":
+      modValue = getAttrMod("attributes.mind.willpower");
+      break;
+
+    // SOUL
+    case "presence":
+      modValue = getAttrMod("attributes.soul.presence");
+      break;
+    case "grace":
+      modValue = getAttrMod("attributes.soul.grace");
+      break;
+    case "resolve":
+      modValue = getAttrMod("attributes.soul.resolve");
+      break;
+
+    default:
+      modValue = 0;
   }
+
 
   // ---------- Build formula ----------
   let formula = `${totalDice}${dieType}`;
