@@ -205,20 +205,22 @@ class MezoriaAbilitySheet extends ItemSheet {
  * Helper: build ability roll formula
  * ----------------------------------*/
 function buildAbilityRollFormula(actor, item) {
-  const cfg = CONFIG["marks-of-mezoria"] || {};
-  const system = item.system || {};
+  const cfg     = CONFIG["marks-of-mezoria"] || {};
+  const system  = item.system || {};
   const details = system.details || {};
-  const effect = details.effect || {};
+  const effect  = details.effect || {};
   const rollCfg = effect.roll || {};
 
   const dieType  = rollCfg.dieType || "";
   const diceBase = Number(rollCfg.diceBase) || 0;
 
+  // If no roll-builder is configured, fall back to legacy string fields
   if (!dieType || !diceBase) {
     const legacy = effect.rollFormula || effect.roll || details.effectRoll;
     return legacy || "";
   }
 
+  // ---------- Rank scaling: Base vs Current Ability Rank ----------
   const baseRankKey    = details.rank || "";
   const currentRankKey = details.currentRank || baseRankKey || "";
   const rankOrder      = cfg.abilityRankOrder || [];
@@ -235,29 +237,47 @@ function buildAbilityRollFormula(actor, item) {
   const totalDice = diceBase + extraDice;
   if (totalDice <= 0) return "";
 
+  // ---------- Attribute modifier: prefer .mod, fall back to .total ----------
   const modAttr = rollCfg.modAttribute || "";
-  let modValue  = 0;
+
+  function getAttrMod(attrRoot) {
+    const attr = foundry.utils.getProperty(actor.system, attrRoot) || {};
+    let mod = Number(attr.mod ?? 0);
+    if (!mod) {
+      mod = Number(attr.total ?? 0);
+    }
+    return mod || 0;
+  }
+
+  let modValue = 0;
 
   switch (modAttr) {
     case "might":
-      modValue = foundry.utils.getProperty(actor.system, "attributes.body.might.mod") ?? 0;
+      modValue = getAttrMod("attributes.body.might");
       break;
     case "insight":
-      modValue = foundry.utils.getProperty(actor.system, "attributes.mind.insight.mod") ?? 0;
+      modValue = getAttrMod("attributes.mind.insight");
       break;
     case "grace":
-      modValue = foundry.utils.getProperty(actor.system, "attributes.soul.grace.mod") ?? 0;
+      modValue = getAttrMod("attributes.soul.grace");
       break;
     case "presence":
-      modValue = foundry.utils.getProperty(actor.system, "attributes.soul.presence.mod") ?? 0;
+      modValue = getAttrMod("attributes.soul.presence");
       break;
     default:
       modValue = 0;
   }
 
+  // ---------- Build final formula ----------
   let formula = `${totalDice}${dieType}`;
-  if (modValue !== 0) {
-    formula += (modValue > 0) ? ` + ${modValue}` : ` - ${Math.abs(modValue)}`;
+
+  // If an attribute was selected, always show the modifier (even if 0)
+  if (modAttr) {
+    if (modValue >= 0) {
+      formula += ` + ${modValue}`;
+    } else {
+      formula += ` - ${Math.abs(modValue)}`;
+    }
   }
 
   return formula;
