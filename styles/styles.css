@@ -426,4 +426,15 @@
     flex: 1 1 auto;
     padding: 0;
   }
+  .tab-abilities .ability-columns > div,
+.tab-abilities .ability-item > div {
+  flex: 1;
+}
+
+.tab-abilities .col-controls,
+.tab-abilities .ability-controls {
+  flex: 0 0 90px;
+  text-align: right;
+}
+
 }
