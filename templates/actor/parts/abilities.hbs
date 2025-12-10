@@ -7,7 +7,14 @@
     </p>
   </header>
 
-  {{!-- Helper: a small reusable row template via #each --}}
+  {{!-- Column headers --}}
+  <div class="ability-columns flexrow">
+    <div class="ability-name col-name"><strong>Ability</strong></div>
+    <div class="ability-rank col-rank"><strong>Rank</strong></div>
+    <div class="ability-action col-action"><strong>Action</strong></div>
+    <div class="ability-tags col-tags"><strong>Tags</strong></div>
+    <div class="ability-controls col-controls"><strong>Controls</strong></div>
+  </div>
 
   {{!-- Racial Abilities --}}
   {{#if abilitiesBySource.racial.length}}
