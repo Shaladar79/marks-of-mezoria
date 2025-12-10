@@ -12,14 +12,28 @@
       </div>
 
       <div class="header-row flexrow">
-        <div class="field">
-          <label>Base Ability Rank</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs"}}
+
+        {{!-- Rank summary uses Requirements + Scaling data --}}
+        <div class="field rank-display">
+          <label>Rank base:</label>
+          <span class="value">
+            {{#if system.details.rankReq}}
+              {{lookup config.abilityRanks system.details.rankReq}}
+            {{else}}
+              —
+            {{/if}}
+          </span>
         </div>
 
-        <div class="field">
-          <label>Current Ability Rank</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs"}}
+        <div class="field rank-display">
+          <label>Rank current:</label>
+          <span class="value">
+            {{#if system.details.currentRank}}
+              {{lookup config.abilityRanks system.details.currentRank}}
+            {{else}}
+              —
+            {{/if}}
+          </span>
         </div>
 
         <div class="field">
@@ -234,6 +248,11 @@
       <h3>Scaling</h3>
 
       <div class="flexrow">
+        <div class="field">
+          <label>Current Ability Rank</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs"}}
+        </div>
+
         <div class="field checkbox-field">
           <label>
             <input type="checkbox"
