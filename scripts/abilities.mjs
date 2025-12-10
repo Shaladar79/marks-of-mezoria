@@ -152,11 +152,21 @@ export const AbilityData = {
 
     // Sub-attributes used as modifiers
     // (we’ll enforce which ones are allowed per effect type in sheet/logic)
-    modAttributes: {
-      might:    "Might",
-      insight:  "Insight",
-      grace:    "Grace",
-      presence: "Presence"
+       modAttributes: {
+      // BODY
+      might:      "Might",
+      swiftness:  "Swiftness",
+      endurance:  "Endurance",
+
+      // MIND
+      insight:    "Insight",
+      focus:      "Focus",
+      willpower:  "Willpower",
+
+      // SOUL
+      presence:   "Presence",
+      grace:      "Grace",
+      resolve:    "Resolve"
     }
-  }
+ }
 };
