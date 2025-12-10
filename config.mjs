@@ -10,12 +10,12 @@ import { RankData } from "./scripts/rank.mjs";
 import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
-import { AbilityData } from "./scripts/abilities.mjs";   // NEW IMPORT
+import { AbilityData } from "./scripts/abilities.mjs";
 
 export const MezoriaConfig = {};
 
 // -------------------------------------
-// RACES (labels + descriptions imported)
+// RACES
 // -------------------------------------
 MezoriaConfig.races            = RaceData.labels;
 MezoriaConfig.raceDescriptions = RaceData.descriptions;
@@ -39,11 +39,9 @@ MezoriaConfig.draconianClanBonuses = RaceData.draconianClanBonuses;
 MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 
 // -------------------------------------
-// RANKS (character rank system)
+// RANKS
 // -------------------------------------
 MezoriaConfig.ranks = RankData.order;
-
-// Rank-based trained skill bonuses
 MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
 
 // -------------------------------------
@@ -60,10 +58,10 @@ MezoriaConfig.backgroundTypes = {
 // BACKGROUNDS BY TYPE
 // -------------------------------------
 MezoriaConfig.backgroundsByType = {
-  common:      BackgroundBonuses.commonNames,
-  skilled:     BackgroundBonuses.skilledNames,
-  street:      BackgroundBonuses.streetNames,
-  social:      BackgroundBonuses.socialNames
+  common:  BackgroundBonuses.commonNames,
+  skilled: BackgroundBonuses.skilledNames,
+  street:  BackgroundBonuses.streetNames,
+  social:  BackgroundBonuses.socialNames
 };
 
 // -------------------------------------
@@ -72,7 +70,7 @@ MezoriaConfig.backgroundsByType = {
 MezoriaConfig.backgroundDescriptions = BackgroundBonuses.descriptions;
 
 // -------------------------------------
-// Flat background map (optional)
+// Optional flat background map
 // -------------------------------------
 MezoriaConfig.backgrounds = {
   ...BackgroundBonuses.commonNames,
@@ -85,7 +83,7 @@ MezoriaConfig.backgrounds = {
 // BACKGROUND BONUSES
 // -------------------------------------
 MezoriaConfig.backgroundTypeBonuses = BackgroundTypeBonuses;
-MezoriaConfig.backgroundBonuses      = BackgroundBonuses.values;
+MezoriaConfig.backgroundBonuses     = BackgroundBonuses.values;
 
 // -------------------------------------
 // MARKS OF PURPOSE
@@ -101,7 +99,7 @@ MezoriaConfig.skillSpecialties = {
 };
 
 // ============================================================================
-//                            ABILITY SYSTEM CONFIG
+//                         ABILITY SYSTEM CONFIG
 // ============================================================================
 
 // -------------------------------------
@@ -141,8 +139,8 @@ MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
 
 // -------------------------------------
-// Roll-builder config
+// Roll-builder config  (THE FIXED PART)
 // -------------------------------------
-MezoriaConfig.abilityDieTypes      = AbilityData.roll.dieTypes;
-MezoriaConfig.abilityDiceBase      = AbilityData.roll.diceBase;
-MezoriaConfig.abilityModAttributes = AbilityData.roll.modAttributes;
+MezoriaConfig.abilityDieTypes      = AbilityData.rollBuilder.dieTypes;
+MezoriaConfig.abilityDiceBase      = AbilityData.rollBuilder.diceBase;
+MezoriaConfig.abilityModAttributes = AbilityData.rollBuilder.modAttributes;
