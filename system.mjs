@@ -214,13 +214,13 @@ function buildAbilityRollFormula(actor, item) {
   const dieType  = rollCfg.dieType || "";
   const diceBase = Number(rollCfg.diceBase) || 0;
 
-  // If no roll-builder is configured, fall back to legacy string fields
+  // If no roll-builder is configured, fallback to legacy fields
   if (!dieType || !diceBase) {
     const legacy = effect.rollFormula || effect.roll || details.effectRoll;
     return legacy || "";
   }
 
-  // ---------- Rank scaling: Base vs Current Ability Rank ----------
+  // ---------- Rank scaling ----------
   const baseRankKey    = details.rank || "";
   const currentRankKey = details.currentRank || baseRankKey || "";
   const rankOrder      = cfg.abilityRankOrder || [];
@@ -237,47 +237,51 @@ function buildAbilityRollFormula(actor, item) {
   const totalDice = diceBase + extraDice;
   if (totalDice <= 0) return "";
 
-  // ---------- Attribute modifier: prefer .mod, fall back to .total ----------
-  const modAttr = rollCfg.modAttribute || "";
+  // ---------- EFFECT TYPE RULES ----------
+  const effectType = effect.type || details.effectType || "";
+  let selectedAttr = rollCfg.modAttribute || "";
 
-  function getAttrMod(attrRoot) {
-    const attr = foundry.utils.getProperty(actor.system, attrRoot) || {};
-    let mod = Number(attr.mod ?? 0);
-    if (!mod) {
-      mod = Number(attr.total ?? 0);
+  function normalizeModAttr(effectType, selected) {
+    switch (effectType) {
+      case "healing":
+        return "grace";
+      case "shielding":
+        return "presence";
+      case "damage":
+      case "drain":
+        if (selected === "might" || selected === "insight") return selected;
+        return "might";
+      default:
+        return selected || "";
     }
+  }
+
+  const modAttr = normalizeModAttr(effectType, selectedAttr);
+
+  // ---------- Attribute modifier ----------
+  function getAttrMod(path) {
+    const obj = foundry.utils.getProperty(actor.system, path) || {};
+    let mod = Number(obj.mod ?? 0);
+    if (!mod) mod = Number(obj.total ?? 0);
     return mod || 0;
   }
 
   let modValue = 0;
 
   switch (modAttr) {
-    case "might":
-      modValue = getAttrMod("attributes.body.might");
-      break;
-    case "insight":
-      modValue = getAttrMod("attributes.mind.insight");
-      break;
-    case "grace":
-      modValue = getAttrMod("attributes.soul.grace");
-      break;
-    case "presence":
-      modValue = getAttrMod("attributes.soul.presence");
-      break;
-    default:
-      modValue = 0;
+    case "might":    modValue = getAttrMod("attributes.body.might"); break;
+    case "insight":  modValue = getAttrMod("attributes.mind.insight"); break;
+    case "grace":    modValue = getAttrMod("attributes.soul.grace"); break;
+    case "presence": modValue = getAttrMod("attributes.soul.presence"); break;
+    default:         modValue = 0;
   }
 
-  // ---------- Build final formula ----------
+  // ---------- Build formula ----------
   let formula = `${totalDice}${dieType}`;
 
-  // If an attribute was selected, always show the modifier (even if 0)
   if (modAttr) {
-    if (modValue >= 0) {
-      formula += ` + ${modValue}`;
-    } else {
-      formula += ` - ${Math.abs(modValue)}`;
-    }
+    if (modValue >= 0) formula += ` + ${modValue}`;
+    else               formula += ` - ${Math.abs(modValue)}`;
   }
 
   return formula;
@@ -322,7 +326,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-modattribute.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs",
 
-    // Cinfo
+    // Character info
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
