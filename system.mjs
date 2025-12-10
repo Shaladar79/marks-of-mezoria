@@ -38,9 +38,7 @@ class MinimalActorSheet extends ActorSheet {
     data.raceData = RaceData || {};
     data.user    = game.user;
 
-    // ---------------------------------
-    // Backgrounds (for backdrop.hbs)
-    // ---------------------------------
+    // Backgrounds
     const bgType = data.system?.details?.backgroundType ?? "";
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
     let availableBackgrounds = {};
@@ -49,9 +47,7 @@ class MinimalActorSheet extends ActorSheet {
     }
     data.availableBackgrounds = availableBackgrounds;
 
-    // ---------------------------------
     // Abilities grouped by sourceType
-    // ---------------------------------
     const allAbilities = (data.items || []).filter(i => i.type === "ability");
     const grouped = {
       racial:     [],
@@ -79,9 +75,7 @@ class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
-    // ---------------------------------
-    // Save rolls (Body/Mind/Soul saves)
-    // ---------------------------------
+    // Save rolls
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -100,10 +94,7 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // ---------------------------------
     // Generic skill rolls
-    // data-path like: "body.might.athletics"
-    // ---------------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -125,9 +116,7 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // ---------------------------------
-    // Ability editing (open item sheet)
-    // ---------------------------------
+    // Ability editing
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -139,9 +128,7 @@ class MinimalActorSheet extends ActorSheet {
       if (item) item.sheet.render(true);
     });
 
-    // ---------------------------------
     // Ability effect rolls
-    // ---------------------------------
     html.find(".ability-roll").on("click", async (event) => {
       event.preventDefault();
 
@@ -167,9 +154,7 @@ class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // ---------------------------------
-    // Ability removal from actor
-    // ---------------------------------
+    // Ability removal
     html.find(".item-delete").on("click", async (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -212,7 +197,7 @@ class MezoriaAbilitySheet extends ItemSheet {
     const system = data.item.system || {};
     data.system  = system;
 
-    // ----- Filtered mod-attribute options based on Effect Type -----
+    // Filtered mod-attribute options based on Effect Type
     const allModAttrs = config.abilityModAttributes || {};
     const effectType  = system?.details?.effect?.type ?? "";
 
@@ -231,14 +216,12 @@ class MezoriaAbilitySheet extends ItemSheet {
       if (allModAttrs.might)   filtered.might   = allModAttrs.might;
       if (allModAttrs.insight) filtered.insight = allModAttrs.insight;
     }
-    // else buff/debuff/aura/summon/utility/other → full list
 
     data.modAttributeOptions = filtered;
 
-    // ----- Roll Preview -----
+    // Roll Preview
     data.rollPreview = "";
     try {
-      // data.item.parent is the actor when editing from an actor sheet; null in Items directory
       const actor   = data.item.parent ?? null;
       const formula = buildAbilityRollFormula(actor, data.item);
       if (formula) data.rollPreview = formula;
@@ -278,7 +261,7 @@ function buildAbilityRollFormula(actor, item) {
   }
 
   // ---------- Rank scaling: Base vs Current Ability Rank ----------
-  const baseRankKey    = details.rank || "";
+  const baseRankKey    = details.rankReq || "";          // <-- Min Character Rank as base
   const currentRankKey = details.currentRank || baseRankKey || "";
   const rankOrder      = cfg.abilityRankOrder || [];
 
@@ -317,7 +300,7 @@ function buildAbilityRollFormula(actor, item) {
 
   // ---------- Attribute modifier: prefer .mod, fall back to .total ----------
   function getAttrMod(attrRoot) {
-    if (!hasActor) return 0; // preview in Items directory
+    if (!hasActor) return 0;
     const attr = foundry.utils.getProperty(actor.system, attrRoot) || {};
     let mod = Number(attr.mod ?? 0);
     if (!mod) {
