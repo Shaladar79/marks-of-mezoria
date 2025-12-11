@@ -267,32 +267,17 @@ class MezoriaAbilitySheet extends ItemSheet {
     // ---------------------------------
     // Consolidation / Upgrade Cost
     // ---------------------------------
-    const baseCost = 100;
+    const rankCostsCfg = config.abilityRankCosts || {};
+    const baseCost     = Number(rankCostsCfg.baseCost ?? 100);
+    const costByRank   = rankCostsCfg.costByRank || {};
+    const multipliers  = rankCostsCfg.multipliers || {};
 
-    // Fallback rank->multiplier map using your sequence:
-    // normal, quartz, topaz, garnet, emerald,
-    // sapphire, ruby, diamond, mythrite, celestite
-    const fallbackRankMultipliers = {
-      normal:    1,
-      quartz:    2,
-      topaz:     3,
-      garnet:    5,
-      emerald:   7,
-      sapphire:  9,
-      ruby:      12,
-      diamond:   15,
-      mythrite:  18,
-      celestite: 25
-    };
+    const details        = system.details || {};
+    const rankOrderAb    = config.abilityRankOrder || [];
+    const baseRankKey    = details.rankReq || "";                 // treat min char rank as base
+    const currentRankKey = details.currentRank || baseRankKey;    // default to base if not set
 
-    const rankMultipliers = config.abilityRankMultipliers || fallbackRankMultipliers;
-
-    const details       = system.details || {};
-    const rankOrderAb   = config.abilityRankOrder || [];
-    const baseRankKey   = details.rankReq || "";                 // treat min char rank as base
-    const currentRankKey = details.currentRank || baseRankKey;   // default to base if not set
-
-    let upgradeCost = null;
+    let upgradeCost    = null;
     let canConsolidate = false;
 
     if (rankOrderAb.length && currentRankKey) {
@@ -301,8 +286,15 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       if (curIdx !== -1 && nextIdx < rankOrderAb.length) {
         const nextRankKey = rankOrderAb[nextIdx];
-        const mult = Number(rankMultipliers[nextRankKey] ?? 1);
-        upgradeCost = baseCost * mult;
+
+        // Prefer explicit costByRank; fall back to baseCost * multiplier
+        let cost = Number(costByRank[nextRankKey]);
+        if (!cost || isNaN(cost)) {
+          const mult = Number(multipliers[nextRankKey] ?? 1);
+          cost = baseCost * (mult || 1);
+        }
+
+        upgradeCost = cost;
       }
     }
 
@@ -371,25 +363,19 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       const nextRankKey = rankOrder[nextIdx];
 
-      // Same base cost + multipliers as getData
-      const baseCost = 100;
-      const fallbackRankMultipliers = {
-        normal:    1,
-        quartz:    2,
-        topaz:     3,
-        garnet:    5,
-        emerald:   7,
-        sapphire:  9,
-        ruby:      12,
-        diamond:   15,
-        mythrite:  18,
-        celestite: 25
-      };
-      const rankMultipliers = cfg.abilityRankMultipliers || fallbackRankMultipliers;
-      const mult = Number(rankMultipliers[nextRankKey] ?? 1);
-      const cost = baseCost * mult;
+      // Same cost logic as in getData, but using config.abilityRankCosts
+      const rankCostsCfg = cfg.abilityRankCosts || {};
+      const baseCost     = Number(rankCostsCfg.baseCost ?? 100);
+      const costByRank   = rankCostsCfg.costByRank || {};
+      const multipliers  = rankCostsCfg.multipliers || {};
 
-      const spiritNode = actor.system.spirit || {};
+      let cost = Number(costByRank[nextRankKey]);
+      if (!cost || isNaN(cost)) {
+        const mult = Number(multipliers[nextRankKey] ?? 1);
+        cost = baseCost * (mult || 1);
+      }
+
+      const spiritNode    = actor.system.spirit || {};
       const currentSpirit = Number(spiritNode.current ?? 0);
 
       if (currentSpirit < cost) {
