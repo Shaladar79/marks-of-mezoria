@@ -274,8 +274,8 @@ class MezoriaAbilitySheet extends ItemSheet {
 
     const details        = system.details || {};
     const rankOrderAb    = config.abilityRankOrder || [];
-    const baseRankKey    = details.rankReq || "";                 // treat min char rank as base
-    const currentRankKey = details.currentRank || baseRankKey;    // default to base if not set
+    const baseRankKey    = details.rankReq || "";              // treat min char rank as base
+    const currentRankKey = details.currentRank || baseRankKey; // default to base if not set
 
     let upgradeCost    = null;
     let canConsolidate = false;
@@ -375,8 +375,9 @@ class MezoriaAbilitySheet extends ItemSheet {
         cost = baseCost * (mult || 1);
       }
 
-      const spiritNode    = actor.system.spirit || {};
-      const currentSpirit = Number(spiritNode.current ?? 0);
+      const spiritNode     = actor.system.spirit || {};
+      const currentSpirit  = Number(spiritNode.current ?? 0);
+      const spentSpirit    = Number(spiritNode.spent ?? 0);
 
       if (currentSpirit < cost) {
         ui.notifications?.warn("Not enough Spirit to consolidate this ability.");
@@ -385,9 +386,11 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       // Spend Spirit and advance the ability rank
       const newSpiritCurrent = currentSpirit - cost;
+      const newSpiritSpent   = spentSpirit + cost;
 
       await actor.update({
-        "system.spirit.current": newSpiritCurrent
+        "system.spirit.current": newSpiritCurrent,
+        "system.spirit.spent":   newSpiritSpent
       });
 
       await item.update({
@@ -618,3 +621,4 @@ Hooks.once("init", async () => {
     makeDefault: true
   });
 });
+
