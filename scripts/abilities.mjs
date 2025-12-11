@@ -33,6 +33,41 @@ export const AbilityData = {
   },
 
   // --------------------------------------------------------
+  // Rank upgrade costs (Spirit consolidation)
+  // --------------------------------------------------------
+  rankCosts: {
+    baseCost: 100,   // base Spirit cost
+
+    // Multipliers per rank
+    multipliers: {
+      normal:    1,
+      quartz:    2,
+      topaz:     3,
+      garnet:    5,
+      emerald:   7,
+      sapphire:  9,
+      ruby:      12,
+      diamond:   15,
+      mythrite:  18,
+      celestite: 25
+    },
+
+    // Precomputed total cost per rank (baseCost * multiplier)
+    costByRank: {
+      normal:    100,   // 100 * 1
+      quartz:    200,   // 100 * 2
+      topaz:     300,   // 100 * 3
+      garnet:    500,   // 100 * 5
+      emerald:   700,   // 100 * 7
+      sapphire:  900,   // 100 * 9
+      ruby:      1200,  // 100 * 12
+      diamond:   1500,  // 100 * 15
+      mythrite:  1800,  // 100 * 18
+      celestite: 2500   // 100 * 25
+    }
+  },
+
+  // --------------------------------------------------------
   // Action types: how the ability fits into the action economy
   // --------------------------------------------------------
   actionTypes: {
@@ -122,7 +157,7 @@ export const AbilityData = {
     other:       "Other"
   },
 
-    // --------------------------------------------------------
+  // --------------------------------------------------------
   // Cost Types (for Activation cost)
   // --------------------------------------------------------
   costTypes: {
