@@ -41,8 +41,8 @@ MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 // -------------------------------------
 // RANKS
 // -------------------------------------
-MezoriaConfig.ranks             = RankData.order;
-MezoriaConfig.rankSkillBonuses  = RankData.trainedSkillBonus;
+MezoriaConfig.ranks            = RankData.order;
+MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
 
 // -------------------------------------
 // BACKGROUND TYPES
@@ -151,10 +151,11 @@ MezoriaConfig.abilityModAttributes = AbilityData.rollBuilder.modAttributes;
 MezoriaConfig.abilityCostTypes = AbilityData.costTypes;
 
 // -------------------------------------
-// Ability Rank Upgrade Costs  (NEW)
+// Ability Rank Upgrade Costs (Spirit consolidation)
 // -------------------------------------
 MezoriaConfig.abilityRankCosts = {
-  baseCost: AbilityData.rankCosts.baseCost,           // 100
-  multipliers: AbilityData.rankCosts.multipliers,     // rank → multiplier
-  costByRank: AbilityData.rankCosts.costByRank        // rank → total cost
+  baseCost:   AbilityData.rankCosts.baseCost,      // 100
+  multipliers: AbilityData.rankCosts.multipliers,  // rank -> multiplier
+  costByRank: AbilityData.rankCosts.costByRank     // rank -> total cost
 };
+
