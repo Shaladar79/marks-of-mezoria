@@ -743,9 +743,14 @@ Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
   try {
-    // Helper to create or find a folder
+    // Helper: create or get a folder for Items
     async function ensureFolder(name, parent = null) {
-      let folder = game.folders.find(f => f.name === name && f.type === "Item" && f.parent === parent);
+      let folder = game.folders.find(f =>
+        f.name === name &&
+        f.type === "Item" &&
+        f.parent === parent
+      );
+
       if (!folder) {
         folder = await Folder.create({
           name,
@@ -753,31 +758,29 @@ Hooks.once("ready", async () => {
           parent
         });
       }
+
       return folder;
     }
 
-    // ---- Create folder tree: PC / Abilities / Racial / Human ----
-    const pcFolder       = await ensureFolder("PC");
-    const abilitiesFolder = await ensureFolder("Abilities", pcFolder.id);
-    const racialFolder   = await ensureFolder("Racial", abilitiesFolder.id);
-    const humanFolder    = await ensureFolder("Human", racialFolder.id);
+    // Folder structure: Actor / Abilities / Racial / <Race>
+    const actorFolder     = await ensureFolder("Actor");
+    const abilitiesFolder = await ensureFolder("Abilities", actorFolder.id);
+    const racialFolder    = await ensureFolder("Racial", abilitiesFolder.id);
 
-    // ---- Seed racial abilities for all races ----
     const racialData = RaceAbilityPack.racialAbilityData || {};
     const worldItems = game.items.contents;
 
     for (const [raceKey, defs] of Object.entries(racialData)) {
-      let parentFolder = racialFolder.id;
+      if (!defs.length) continue;
 
-      // Create a race folder only if it has abilities
-      if (defs.length > 0) {
-        parentFolder = (await ensureFolder(raceKey.charAt(0).toUpperCase() + raceKey.slice(1), racialFolder.id)).id;
-      }
+      // e.g. "human" -> "Human"
+      const raceFolderName = raceKey.charAt(0).toUpperCase() + raceKey.slice(1);
+      const raceFolder = await ensureFolder(raceFolderName, racialFolder.id);
 
       for (const def of defs) {
-        if (!def.key) continue;
+        if (!def || !def.key) continue;
 
-        // Skip if already exists
+        // Skip if already exists (identified by racialKey)
         const exists = worldItems.find(i =>
           i.type === "ability" &&
           i.system?.details?.racialKey === def.key
@@ -785,21 +788,22 @@ Hooks.once("ready", async () => {
         if (exists) continue;
 
         const data = foundry.utils.deepClone(def);
-
-        data.type = "ability";
-        data.folder = parentFolder;
+        data.type   = "ability";
+        data.folder = raceFolder.id;
 
         data.system ??= {};
         data.system.details ??= {};
         data.system.details.racialKey = def.key;
 
+        // Template version: not autoGranted
+        data.system.details.sourceType  ??= "racial";
+        data.system.details.sourceKey   ??= raceKey;
+        data.system.details.autoGranted ??= false;
+
         await Item.create(data, { renderSheet: false });
       }
     }
-
   } catch (err) {
     console.error("Marks of Mezoria | Folder/Ability seeding error:", err);
   }
 });
-
-
