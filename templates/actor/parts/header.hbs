@@ -26,6 +26,7 @@
     {{!-- RIGHT SIDE fields --}}
     <div class="header-fields">
 
+      {{!-- NAME --}}
       <div class="name-row">
         <input name="name"
                type="text"
@@ -33,6 +34,7 @@
                placeholder="Name" />
       </div>
 
+      {{!-- META ROW --}}
       <div class="meta-row flexrow">
 
         {{!-- RANK (read-only) --}}
@@ -53,7 +55,7 @@
                  readonly />
         </div>
 
-        {{!-- PURPOSE (read-only, uses derived label) --}}
+        {{!-- PURPOSE (read-only) --}}
         <div class="field purpose-field">
           <label>Purpose</label>
           <input type="text"
@@ -73,7 +75,34 @@
 
       </div>
 
+      {{!-- SPIRIT ADVANCEMENT BLOCK --}}
+      <div class="spirit-row flexrow">
+
+        <div class="field spirit-field">
+          <label>Spirit (Current)</label>
+          <input type="number"
+                 name="system.spirit.current"
+                 value="{{system.spirit.current}}"
+                 data-dtype="Number" />
+        </div>
+
+        <div class="field spirit-field">
+          <label>Spirit (Spent)</label>
+          <input type="number"
+                 name="system.spirit.spent"
+                 value="{{system.spirit.spent}}"
+                 data-dtype="Number" />
+        </div>
+
+        <div class="field spirit-field">
+          <label>Spirit (Total)</label>
+          <input type="number"
+                 value="{{system.spirit.total}}"
+                 readonly />
+        </div>
+
+      </div>
+
     </div>
   </div>
 </header>
-
