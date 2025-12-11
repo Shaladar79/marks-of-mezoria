@@ -197,6 +197,10 @@ class MezoriaAbilitySheet extends ItemSheet {
     const system = data.item.system || {};
     data.system  = system;
 
+    // Parent actor (if this ability is on a character)
+    const actor = data.item.parent ?? null;
+    data.actor  = actor || null;
+
     // ---------------------------------
     // Source Key options based on Source Type
     // ---------------------------------
@@ -261,11 +265,60 @@ class MezoriaAbilitySheet extends ItemSheet {
     data.modAttributeOptions = filtered;
 
     // ---------------------------------
+    // Consolidation / Upgrade Cost
+    // ---------------------------------
+    const baseCost = 100;
+
+    // Fallback rank->multiplier map using your sequence:
+    // normal, quartz, topaz, garnet, emerald,
+    // sapphire, ruby, diamond, mythrite, celestite
+    const fallbackRankMultipliers = {
+      normal:    1,
+      quartz:    2,
+      topaz:     3,
+      garnet:    5,
+      emerald:   7,
+      sapphire:  9,
+      ruby:      12,
+      diamond:   15,
+      mythrite:  18,
+      celestite: 25
+    };
+
+    const rankMultipliers = config.abilityRankMultipliers || fallbackRankMultipliers;
+
+    const details       = system.details || {};
+    const rankOrderAb   = config.abilityRankOrder || [];
+    const baseRankKey   = details.rankReq || "";                 // treat min char rank as base
+    const currentRankKey = details.currentRank || baseRankKey;   // default to base if not set
+
+    let upgradeCost = null;
+    let canConsolidate = false;
+
+    if (rankOrderAb.length && currentRankKey) {
+      const curIdx  = rankOrderAb.indexOf(currentRankKey);
+      const nextIdx = curIdx + 1;
+
+      if (curIdx !== -1 && nextIdx < rankOrderAb.length) {
+        const nextRankKey = rankOrderAb[nextIdx];
+        const mult = Number(rankMultipliers[nextRankKey] ?? 1);
+        upgradeCost = baseCost * mult;
+      }
+    }
+
+    if (upgradeCost != null && actor && actor.system && actor.system.spirit) {
+      const currentSpirit = Number(actor.system.spirit.current ?? 0);
+      canConsolidate = currentSpirit >= upgradeCost;
+    }
+
+    data.upgradeCost    = upgradeCost;
+    data.canConsolidate = canConsolidate;
+
+    // ---------------------------------
     // Roll Preview
     // ---------------------------------
     data.rollPreview = "";
     try {
-      const actor   = data.item.parent ?? null;
       const formula = buildAbilityRollFormula(actor, data.item);
       if (formula) data.rollPreview = formula;
     } catch (err) {
@@ -274,6 +327,92 @@ class MezoriaAbilitySheet extends ItemSheet {
     }
 
     return data;
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Consolidation button on Ability sheet
+    html.find(".consolidate-ability").on("click", async (event) => {
+      event.preventDefault();
+
+      const button = event.currentTarget;
+      const itemId = button.dataset.itemId || this.item.id;
+      const actor  = this.item.parent;
+
+      if (!actor) {
+        ui.notifications?.warn("Consolidation requires this ability to be on a character.");
+        return;
+      }
+
+      const item = actor.items.get(itemId);
+      if (!item) return;
+
+      const cfg = CONFIG["marks-of-mezoria"] || {};
+
+      const rankOrder = cfg.abilityRankOrder || [];
+      const sys       = item.system || {};
+      const details   = sys.details || {};
+      const baseRankKey    = details.rankReq || "";
+      const currentRankKey = details.currentRank || baseRankKey;
+
+      if (!currentRankKey || !rankOrder.length) {
+        ui.notifications?.warn("This ability does not have a valid rank configuration.");
+        return;
+      }
+
+      const curIdx  = rankOrder.indexOf(currentRankKey);
+      const nextIdx = curIdx + 1;
+
+      if (curIdx === -1 || nextIdx >= rankOrder.length) {
+        ui.notifications?.warn("This ability is already at maximum rank.");
+        return;
+      }
+
+      const nextRankKey = rankOrder[nextIdx];
+
+      // Same base cost + multipliers as getData
+      const baseCost = 100;
+      const fallbackRankMultipliers = {
+        normal:    1,
+        quartz:    2,
+        topaz:     3,
+        garnet:    5,
+        emerald:   7,
+        sapphire:  9,
+        ruby:      12,
+        diamond:   15,
+        mythrite:  18,
+        celestite: 25
+      };
+      const rankMultipliers = cfg.abilityRankMultipliers || fallbackRankMultipliers;
+      const mult = Number(rankMultipliers[nextRankKey] ?? 1);
+      const cost = baseCost * mult;
+
+      const spiritNode = actor.system.spirit || {};
+      const currentSpirit = Number(spiritNode.current ?? 0);
+
+      if (currentSpirit < cost) {
+        ui.notifications?.warn("Not enough Spirit to consolidate this ability.");
+        return;
+      }
+
+      // Spend Spirit and advance the ability rank
+      const newSpiritCurrent = currentSpirit - cost;
+
+      await actor.update({
+        "system.spirit.current": newSpiritCurrent
+      });
+
+      await item.update({
+        "system.details.currentRank": nextRankKey
+      });
+
+      const rankLabels = cfg.abilityRanks || {};
+      const rankLabel  = rankLabels[nextRankKey] || nextRankKey;
+
+      ui.notifications?.info(`Consolidated ${item.name} to ${rankLabel}.`);
+    });
   }
 
   async _updateObject(event, formData) {
