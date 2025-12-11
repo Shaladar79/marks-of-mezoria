@@ -636,3 +636,70 @@ Hooks.on("updateActor", async (actor, changed, options, userId) => {
   await MezoriaActor.applyRacialAbilities(actor);
 });
 
+/* ------------------------------------
+ * Ensure racial ability folders + items
+ * ------------------------------------*/
+Hooks.once("ready", async () => {
+  if (!game.user.isGM) return;
+
+  try {
+    // Helper to create or find a folder
+    async function ensureFolder(name, parent = null) {
+      let folder = game.folders.find(f => f.name === name && f.type === "Item" && f.parent === parent);
+      if (!folder) {
+        folder = await Folder.create({
+          name,
+          type: "Item",
+          parent
+        });
+      }
+      return folder;
+    }
+
+    // ---- Create folder tree: PC / Abilities / Racial / Human ----
+    const pcFolder       = await ensureFolder("PC");
+    const abilitiesFolder = await ensureFolder("Abilities", pcFolder.id);
+    const racialFolder   = await ensureFolder("Racial", abilitiesFolder.id);
+    const humanFolder    = await ensureFolder("Human", racialFolder.id);
+
+    // ---- Seed racial abilities for all races ----
+    const racialData = RaceAbilityPack.racialAbilityData || {};
+    const worldItems = game.items.contents;
+
+    for (const [raceKey, defs] of Object.entries(racialData)) {
+      let parentFolder = racialFolder.id;
+
+      // Create a race folder only if it has abilities
+      if (defs.length > 0) {
+        parentFolder = (await ensureFolder(raceKey.charAt(0).toUpperCase() + raceKey.slice(1), racialFolder.id)).id;
+      }
+
+      for (const def of defs) {
+        if (!def.key) continue;
+
+        // Skip if already exists
+        const exists = worldItems.find(i =>
+          i.type === "ability" &&
+          i.system?.details?.racialKey === def.key
+        );
+        if (exists) continue;
+
+        const data = foundry.utils.deepClone(def);
+
+        data.type = "ability";
+        data.folder = parentFolder;
+
+        data.system ??= {};
+        data.system.details ??= {};
+        data.system.details.racialKey = def.key;
+
+        await Item.create(data, { renderSheet: false });
+      }
+    }
+
+  } catch (err) {
+    console.error("Marks of Mezoria | Folder/Ability seeding error:", err);
+  }
+});
+
+
