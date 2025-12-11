@@ -28,11 +28,11 @@
   ],
 
   "packs": [ {
-    "name": "abilities-racial",                 // filesystem + ID
-    "label": "Abilities - Racial",              // what Foundry shows in UI
-    "system": "marks-of-mezoria",               // MUST match your system id
-    "path": "packs/abilities-racial",           // folder under your system root
-    "type": "Item",                             // these are Item documents
+    "name": "abilities-racial",                
+    "label": "Abilities - Racial",             
+    "system": "marks-of-mezoria",               
+    "path": "packs/abilities-racial",          
+    "type": "Item",                            
     "private": false
   }
 ],
