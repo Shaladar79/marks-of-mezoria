@@ -2,6 +2,7 @@
 import { MezoriaConfig } from "./config.mjs";
 import { RaceData } from "./scripts/races.mjs";
 import { MezoriaActor } from "./scripts/actor.mjs";
+import { RaceAbilityPack } from "./scripts/packs/raceabilitypack.mjs";
 
 /* ------------------------------------
  * PC Actor Sheet
