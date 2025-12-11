@@ -36,9 +36,19 @@
           </span>
         </div>
 
-        <div class="field">
-          <label>Action Type</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
+        {{!-- Action summary label driven by actionType + actionCost --}}
+        <div class="field rank-display">
+          <label>Action:</label>
+          <span class="value">
+            {{#if system.details.actionType}}
+              {{lookup config.abilityActionTypes system.details.actionType}}
+            {{else}}
+              —
+            {{/if}}
+            {{#if system.details.actionCost}}
+              (Cost {{system.details.actionCost}})
+            {{/if}}
+          </span>
         </div>
       </div>
     </div>
@@ -61,17 +71,12 @@
         </div>
 
         <div class="field">
-          <label>Source Key</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs"}}
+          <label>Short Summary</label>
+          <input type="text"
+                 name="system.details.short"
+                 value="{{system.details.short}}"
+                 placeholder="One-line summary of what this ability does" />
         </div>
-      </div>
-
-      <div class="field">
-        <label>Short Summary</label>
-        <input type="text"
-               name="system.details.short"
-               value="{{system.details.short}}"
-               placeholder="One-line summary of what this ability does" />
       </div>
 
       <div class="field">
@@ -95,11 +100,6 @@
         </div>
 
         <div class="field">
-          <label>Source Type</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
-        </div>
-
-        <div class="field">
           <label>Mark of Purpose Required</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs"}}
         </div>
@@ -119,11 +119,28 @@
 
     <hr />
 
-    {{!-- ACTIVATION --}}
-    <section class="ability-section ability-activation">
-      <h3>Activation</h3>
+    {{!-- SYSTEM (Source & Action wiring) --}}
+    <section class="ability-section ability-system">
+      <h3>System</h3>
 
       <div class="flexrow">
+        <div class="field">
+          <label>Source Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Source Key</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs"}}
+        </div>
+      </div>
+
+      <div class="flexrow">
+        <div class="field">
+          <label>Action Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
+        </div>
+
         <div class="field">
           <label>Action Cost</label>
           <input type="number"
@@ -132,7 +149,16 @@
                  data-dtype="Number"
                  placeholder="0" />
         </div>
+      </div>
+    </section>
 
+    <hr />
+
+    {{!-- ACTIVATION --}}
+    <section class="ability-section ability-activation">
+      <h3>Activation</h3>
+
+      <div class="flexrow">
         <div class="field">
           <label>Range</label>
           <input type="text"
