@@ -41,8 +41,8 @@ MezoriaConfig.scionAspectBonuses   = RaceData.scionAspectBonuses;
 // -------------------------------------
 // RANKS
 // -------------------------------------
-MezoriaConfig.ranks = RankData.order;
-MezoriaConfig.rankSkillBonuses = RankData.trainedSkillBonus;
+MezoriaConfig.ranks             = RankData.order;
+MezoriaConfig.rankSkillBonuses  = RankData.trainedSkillBonus;
 
 // -------------------------------------
 // BACKGROUND TYPES
@@ -139,7 +139,7 @@ MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
 
 // -------------------------------------
-// Roll-builder config  
+// Roll-builder config
 // -------------------------------------
 MezoriaConfig.abilityDieTypes      = AbilityData.rollBuilder.dieTypes;
 MezoriaConfig.abilityDiceBase      = AbilityData.rollBuilder.diceBase;
@@ -149,3 +149,12 @@ MezoriaConfig.abilityModAttributes = AbilityData.rollBuilder.modAttributes;
 // Cost Types (for Activation cost)
 // -------------------------------------
 MezoriaConfig.abilityCostTypes = AbilityData.costTypes;
+
+// -------------------------------------
+// Ability Rank Upgrade Costs  (NEW)
+// -------------------------------------
+MezoriaConfig.abilityRankCosts = {
+  baseCost: AbilityData.rankCosts.baseCost,           // 100
+  multipliers: AbilityData.rankCosts.multipliers,     // rank → multiplier
+  costByRank: AbilityData.rankCosts.costByRank        // rank → total cost
+};
