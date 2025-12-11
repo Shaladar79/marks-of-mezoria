@@ -36,9 +36,9 @@
           </span>
         </div>
 
-        {{!-- Action summary label driven by actionType + actionCost --}}
+        {{!-- Action summary: just the value (type + optional cost) --}}
         <div class="field rank-display">
-          <label>Action:</label>
+          <label>&nbsp;</label>
           <span class="value">
             {{#if system.details.actionType}}
               {{lookup config.abilityActionTypes system.details.actionType}}
@@ -61,22 +61,12 @@
     <section class="ability-section ability-general">
       <h3>General</h3>
 
-      <div class="flexrow">
-        <div class="field">
-          <label>Tags</label>
-          <input type="text"
-                 name="system.details.tags"
-                 value="{{system.details.tags}}"
-                 placeholder="racial, passive, defensive" />
-        </div>
-
-        <div class="field">
-          <label>Short Summary</label>
-          <input type="text"
-                 name="system.details.short"
-                 value="{{system.details.short}}"
-                 placeholder="One-line summary of what this ability does" />
-        </div>
+      <div class="field">
+        <label>Short Summary</label>
+        <input type="text"
+               name="system.details.short"
+               value="{{system.details.short}}"
+               placeholder="One-line summary of what this ability does" />
       </div>
 
       <div class="field">
@@ -98,11 +88,6 @@
           <label>Min Character Rank</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs"}}
         </div>
-
-        <div class="field">
-          <label>Mark of Purpose Required</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs"}}
-        </div>
       </div>
 
       <div class="flexrow">
@@ -113,41 +98,6 @@
                    {{checked system.details.autoGranted}} />
             Auto-granted (e.g. by race or rank)
           </label>
-        </div>
-      </div>
-    </section>
-
-    <hr />
-
-    {{!-- SYSTEM (Source & Action wiring) --}}
-    <section class="ability-section ability-system">
-      <h3>System</h3>
-
-      <div class="flexrow">
-        <div class="field">
-          <label>Source Type</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
-        </div>
-
-        <div class="field">
-          <label>Source Key</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs"}}
-        </div>
-      </div>
-
-      <div class="flexrow">
-        <div class="field">
-          <label>Action Type</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
-        </div>
-
-        <div class="field">
-          <label>Action Cost</label>
-          <input type="number"
-                 name="system.details.actionCost"
-                 value="{{system.details.actionCost}}"
-                 data-dtype="Number"
-                 placeholder="0" />
         </div>
       </div>
     </section>
@@ -296,6 +246,49 @@
         <textarea name="system.details.scaling.value"
                   rows="2"
                   placeholder="+1 damage per rank, +Body.might.mod to DC, etc.">{{system.details.scaling.value}}</textarea>
+      </div>
+    </section>
+
+    <hr />
+
+    {{!-- SYSTEM (LAST SECTION) --}}
+    <section class="ability-section ability-system">
+      <h3>System</h3>
+
+      <div class="flexrow">
+        <div class="field">
+          <label>Source Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Source Key</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs"}}
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Tags</label>
+        <input type="text"
+               name="system.details.tags"
+               value="{{system.details.tags}}"
+               placeholder="racial, passive, defensive" />
+      </div>
+
+      <div class="flexrow">
+        <div class="field">
+          <label>Action Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Action Cost</label>
+          <input type="number"
+                 name="system.details.actionCost"
+                 value="{{system.details.actionCost}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
       </div>
     </section>
 
