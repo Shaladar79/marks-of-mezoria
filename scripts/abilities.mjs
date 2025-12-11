@@ -122,6 +122,14 @@ export const AbilityData = {
     other:       "Other"
   },
 
+    // --------------------------------------------------------
+  // Cost Types (for Activation cost)
+  // --------------------------------------------------------
+  costTypes: {
+    mana:    "Mana",
+    stamina: "Stamina"
+  },
+  
   // --------------------------------------------------------
   // Roll builder settings (die types, base dice, mod attributes)
   // --------------------------------------------------------
