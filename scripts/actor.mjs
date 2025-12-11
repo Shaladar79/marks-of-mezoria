@@ -431,25 +431,23 @@ export class MezoriaActor extends Actor {
     system.spirit.spent   = safeSpent;
     system.spirit.total   = safeCurrent + safeSpent;
   }
-  /**
+   /**
    * Auto-manage racial abilities based on the actor's current race.
    *
    * This:
    *  - Removes all auto-granted racial abilities on the actor.
-   *  - Imports the correct racial abilities from the abilities-racial pack.
-   *
-   * This method is async and is called from the updateActor hook in system.mjs.
+   *  - Creates new racial abilities from RaceAbilityPack definitions.
    */
   static async applyRacialAbilities(actor) {
     try {
       const raceKey = actor.system?.details?.race;
       if (!raceKey) return;
 
-      // Get configured racial ability UUIDs for this race
-      const racialUuids = RaceAbilityPack.getRacialAbilityUUIDs(raceKey);
+      // Get configured racial ability definitions for this race
+      const defs = RaceAbilityPack.getRacialAbilityDefinitions(raceKey);
       const items = actor.items ?? [];
 
-      // Always remove existing auto-granted racial abilities first
+      // 1) Remove existing auto-granted racial abilities from this actor
       const toDelete = items
         .filter(item =>
           item.type === "ability" &&
@@ -462,29 +460,34 @@ export class MezoriaActor extends Actor {
         await actor.deleteEmbeddedDocuments("Item", toDelete);
       }
 
-      // If no racial abilities configured for this race, we're done
-      if (!racialUuids.length) return;
+      // If no racial definitions, nothing more to do
+      if (!defs.length) return;
 
-      // Import new racial abilities from the compendium (or world) by UUID
+      // 2) Create new embedded racial abilities from definitions
       const createdData = [];
 
-      for (const uuid of racialUuids) {
-        if (!uuid) continue;
+      for (const def of defs) {
+        if (!def) continue;
 
-        const sourceDoc = await fromUuid(uuid);
-        if (!sourceDoc) continue;
+        // Deep clone the definition
+        const data = foundry.utils.deepClone(def);
 
-        const data = sourceDoc.toObject();
+        data.type = "ability";
+        data.name = def.name || "Racial Ability";
+        data.img  = def.img  || "icons/svg/item-bag.svg";
 
-        // Enforce racial metadata in case source data changes
         data.system ??= {};
         data.system.details ??= {};
 
+        // Enforce racial metadata for the embedded copy
         data.system.details.sourceType  = "racial";
         data.system.details.autoGranted = true;
         data.system.details.sourceKey   = raceKey;
 
-        // Ensure a fresh embedded document is created
+        // Keep a key for debugging/identification
+        data.system.details.racialKey ??= def.key ?? null;
+
+        // Ensure this will be a brand new embedded document
         delete data._id;
 
         createdData.push(data);
