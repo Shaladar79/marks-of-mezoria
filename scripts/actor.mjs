@@ -431,5 +431,72 @@ export class MezoriaActor extends Actor {
     system.spirit.spent   = safeSpent;
     system.spirit.total   = safeCurrent + safeSpent;
   }
+ /**
+   * Auto-manage racial abilities based on the actor's current race.
+   *
+   * This:
+   *  - Removes all auto-granted racial abilities on the actor.
+   *  - Imports the correct racial abilities from the abilities-racial pack.
+   *
+   * This method is async and is called from the updateActor hook in system.mjs.
+   */
+  static async applyRacialAbilities(actor) {
+    try {
+      const raceKey = actor.system?.details?.race;
+      if (!raceKey) return;
+
+      // Get configured racial ability UUIDs for this race
+      const racialUuids = RaceAbilityPack.getRacialAbilityUUIDs(raceKey);
+      const items = actor.items ?? [];
+
+      // Always remove existing auto-granted racial abilities first
+      const toDelete = items
+        .filter(item =>
+          item.type === "ability" &&
+          item.system?.details?.sourceType === "racial" &&
+          item.system?.details?.autoGranted
+        )
+        .map(item => item.id);
+
+      if (toDelete.length > 0) {
+        await actor.deleteEmbeddedDocuments("Item", toDelete);
+      }
+
+      // If no racial abilities configured for this race, we're done
+      if (!racialUuids.length) return;
+
+      // Import new racial abilities from the compendium
+      const createdData = [];
+
+      for (const uuid of racialUuids) {
+        if (!uuid) continue;
+
+        const sourceDoc = await fromUuid(uuid);
+        if (!sourceDoc) continue;
+
+        const data = sourceDoc.toObject();
+
+        // Enforce racial metadata in case compendium data changes
+        data.system ??= {};
+        data.system.details ??= {};
+
+        data.system.details.sourceType  = "racial";
+        data.system.details.autoGranted = true;
+        data.system.details.sourceKey   = raceKey;
+
+        // Ensure a fresh embedded document is created
+        delete data._id;
+
+        createdData.push(data);
+      }
+
+      if (createdData.length > 0) {
+        await actor.createEmbeddedDocuments("Item", createdData);
+      }
+
+    } catch (err) {
+      console.error("Marks of Mezoria | Error in MezoriaActor.applyRacialAbilities:", err);
+    }
+  }
 }
 
