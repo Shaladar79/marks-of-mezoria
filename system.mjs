@@ -622,3 +622,17 @@ Hooks.once("init", async () => {
   });
 });
 
+/* ------------------------------------
+ * Auto-grant racial abilities when race changes
+ * ----------------------------------*/
+Hooks.on("updateActor", async (actor, changed, options, userId) => {
+  // Only PCs (adjust if NPCs also use races/abilities later)
+  if (actor.type !== "pc") return;
+
+  // Did system.details.race change in this update?
+  const raceChanged = foundry.utils.getProperty(changed, "system.details.race") !== undefined;
+  if (!raceChanged) return;
+
+  await MezoriaActor.applyRacialAbilities(actor);
+});
+
