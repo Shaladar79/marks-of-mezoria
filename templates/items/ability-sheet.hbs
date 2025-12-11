@@ -37,11 +37,6 @@
         </div>
 
         <div class="field">
-          <label>Source Type</label>
-          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
-        </div>
-
-        <div class="field">
           <label>Action Type</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
         </div>
@@ -67,10 +62,7 @@
 
         <div class="field">
           <label>Source Key</label>
-          <input type="text"
-                 name="system.details.sourceKey"
-                 value="{{system.details.sourceKey}}"
-                 placeholder="e.g. mythrian-bear, embergiest" />
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs"}}
         </div>
       </div>
 
@@ -100,6 +92,11 @@
         <div class="field">
           <label>Min Character Rank</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs"}}
+        </div>
+
+        <div class="field">
+          <label>Source Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs"}}
         </div>
 
         <div class="field">
