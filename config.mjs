@@ -139,8 +139,13 @@ MezoriaConfig.abilityDamageTypes = AbilityData.damageTypes;
 MezoriaConfig.abilityScalingModes = AbilityData.scalingModes;
 
 // -------------------------------------
-// Roll-builder config  (THE FIXED PART)
+// Roll-builder config  
 // -------------------------------------
 MezoriaConfig.abilityDieTypes      = AbilityData.rollBuilder.dieTypes;
 MezoriaConfig.abilityDiceBase      = AbilityData.rollBuilder.diceBase;
 MezoriaConfig.abilityModAttributes = AbilityData.rollBuilder.modAttributes;
+
+// -------------------------------------
+// Cost Types (for Activation cost)
+// -------------------------------------
+MezoriaConfig.abilityCostTypes = AbilityData.costTypes;
