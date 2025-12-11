@@ -431,7 +431,8 @@ export class MezoriaActor extends Actor {
     system.spirit.spent   = safeSpent;
     system.spirit.total   = safeCurrent + safeSpent;
   }
-   /**
+
+  /**
    * Auto-manage racial abilities based on the actor's current race.
    *
    * This:
