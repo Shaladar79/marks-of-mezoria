@@ -56,6 +56,29 @@
             </div>
           {{/if}}
         </div>
+
+        {{!-- Consolidation: Upgrade cost + button (conditional) --}}
+        <div class="field rank-display">
+          <label>Consolidation</label>
+          <div class="value">
+            {{#if upgradeCost}}
+              Upgrade Cost: {{upgradeCost}} Spirit
+            {{else}}
+              Upgrade Cost: —
+            {{/if}}
+          </div>
+
+          {{#if canConsolidate}}
+            <div class="value">
+              <button type="button"
+                      class="consolidate-ability"
+                      data-item-id="{{item.id}}">
+                Consolidate
+              </button>
+            </div>
+          {{/if}}
+        </div>
+
       </div>
     </div>
   </header>
