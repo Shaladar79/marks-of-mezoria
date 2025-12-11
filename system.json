@@ -31,7 +31,7 @@
     "name": "abilities-racial",                
     "label": "Abilities - Racial",             
     "system": "marks-of-mezoria",               
-    "path": "packs/abilities-racial",          
+    "path": "packs/abilities-racial/abilities-racial.db",          
     "type": "Item",                            
     "private": false
   }
