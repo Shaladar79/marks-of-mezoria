@@ -102,12 +102,27 @@ class MinimalActorSheet extends ActorSheet {
       if (!path) return;
 
       const basePath = `skills.${path}`;
-      const total =
-        foundry.utils.getProperty(actor.system, `${basePath}.total`) ?? 0;
-      const label =
-        foundry.utils.getProperty(actor.system, `${basePath}.label`) || "Skill Check";
+     const total =
+     foundry.utils.getProperty(actor.system, `${basePath}.total`) ?? 0;
+     const label =
+     foundry.utils.getProperty(actor.system, `${basePath}.label`) || "Skill Check";
 
-      const roll = new Roll("1d20 + @mod", { mod: total });
+let mod = total;
+
+// Versatility bonus (Human racial ability)
+let versatilityBonus = await actor.getFlag("marks-of-mezoria", "versatilityBonus");
+const isTrained =
+  !!foundry.utils.getProperty(actor.system, `${basePath}.trained`);
+
+if (versatilityBonus && isTrained) {
+  versatilityBonus = Number(versatilityBonus) || 0;
+  mod += versatilityBonus;
+
+  await actor.unsetFlag("marks-of-mezoria", "versatilityBonus");
+  ui.notifications?.info(`Versatility bonus (+${versatilityBonus}) applied to ${label}.`);
+}
+
+const roll = new Roll("1d20 + @mod", { mod });
       await roll.evaluate({ async: true });
 
       roll.toMessage({
@@ -139,6 +154,76 @@ class MinimalActorSheet extends ActorSheet {
       const item = actor.items.get(itemId);
       if (!item) return;
 
+      const sys     = item.system || {};
+      const details = sys.details || {};
+      const effect  = details.effect || {};
+      const costCfg = details.cost || {};
+
+      // -------------------------------
+      // 1) Compute effective resource cost
+      // -------------------------------
+      const costType  = costCfg.type || "";    // "stamina" or "mana"
+      const baseCost  = Number(costCfg.value ?? 0) || 0;
+      const perRank   = !!costCfg.perRank;
+
+      let effectiveCost = baseCost;
+
+      if (perRank) {
+        const cfg       = CONFIG["marks-of-mezoria"] || {};
+        const rankOrder = cfg.ranks || [];
+        const charRank  = actor.system?.details?.rank || "";
+        let rankIndex   = rankOrder.indexOf(charRank);
+        if (rankIndex < 0) rankIndex = 0;
+        // Normal = index 0 => 1×base, Quartz = index 1 => 2×base, etc.
+        effectiveCost = baseCost * (rankIndex + 1);
+      }
+
+      // -------------------------------
+      // 2) Deduct resource (stamina/mana)
+      // -------------------------------
+      if (costType && effectiveCost > 0) {
+        let pathCurrent = "";
+        if (costType === "stamina") pathCurrent = "status.stamina.current";
+        else if (costType === "mana") pathCurrent = "status.mana.current";
+
+        if (pathCurrent) {
+          const current = Number(foundry.utils.getProperty(actor.system, pathCurrent) ?? 0);
+          if (current < effectiveCost) {
+            ui.notifications?.warn(`Not enough ${costType} to use ${item.name}.`);
+            return;
+          }
+
+          const updateData = {};
+          updateData[`system.${pathCurrent}`] = current - effectiveCost;
+          await actor.update(updateData);
+        }
+      }
+
+      // -------------------------------
+      // 3) Versatility special activation
+      // -------------------------------
+      const racialKey = details.racialKey || null;
+      if (effect.type === "buff" && effect.appliesTo === "nextTrainedSkill" && racialKey === "human-versatility") {
+        const cfg       = CONFIG["marks-of-mezoria"] || {};
+        const rankOrder = cfg.ranks || [];
+        const charRank  = actor.system?.details?.rank || "";
+        let rankIndex   = rankOrder.indexOf(charRank);
+        if (rankIndex < 0) rankIndex = 0;
+
+        const baseBonus    = Number(effect.skillBonusBase ?? 2) || 2;
+        const perRankBonus = Number(effect.skillBonusPerRank ?? 1) || 1;
+
+        const bonus = baseBonus + perRankBonus * rankIndex;
+
+        await actor.setFlag("marks-of-mezoria", "versatilityBonus", bonus);
+        ui.notifications?.info(`Versatility activated: +${bonus} to your next trained skill roll.`);
+
+        return; // No dice roll for Versatility
+      }
+
+      // -------------------------------
+      // 4) Normal ability roll
+      // -------------------------------
       const formula = buildAbilityRollFormula(actor, item);
       if (!formula) {
         ui.notifications?.warn("This ability does not have a valid roll configuration.");
@@ -306,6 +391,14 @@ class MezoriaAbilitySheet extends ItemSheet {
     data.upgradeCost    = upgradeCost;
     data.canConsolidate = canConsolidate;
 
+     // Disable consolidation for abilities which explicitly forbid it
+    const details = system.details || {};
+    const noConsolidate = !!details.noConsolidate;
+    if (noConsolidate) {
+      data.upgradeCost = null;
+      data.canConsolidate = false;
+    }
+    
     // ---------------------------------
     // Roll Preview
     // ---------------------------------
@@ -339,11 +432,14 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       const item = actor.items.get(itemId);
       if (!item) return;
-
+      const sys = item.system || {};
+      if (sys.details?.noConsolidate) {
+       ui.notifications?.warn("This ability ranks up automatically and cannot be consolidated.");
+       return;
+  }
       const cfg = CONFIG["marks-of-mezoria"] || {};
 
       const rankOrder = cfg.abilityRankOrder || [];
-      const sys       = item.system || {};
       const details   = sys.details || {};
       const baseRankKey    = details.rankReq || "";
       const currentRankKey = details.currentRank || baseRankKey;
