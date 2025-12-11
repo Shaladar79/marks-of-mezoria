@@ -2,6 +2,7 @@
 // Custom Actor class for Marks of Mezoria
 
 import { MezoriaConfig } from "../config.mjs";
+import { RaceAbilityPack } from "./packs/raceabilitypack.mjs";
 
 export class MezoriaActor extends Actor {
 
