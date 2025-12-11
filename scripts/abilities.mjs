@@ -164,7 +164,7 @@ export const AbilityData = {
     mana:    "Mana",
     stamina: "Stamina"
   },
-  
+
   // --------------------------------------------------------
   // Roll builder settings (die types, base dice, mod attributes)
   // --------------------------------------------------------
