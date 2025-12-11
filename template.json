@@ -155,6 +155,12 @@
           "reaction": 0,
           "pace": 0
         },
+        
+        "spirit": {
+          "current": 0,
+          "spent": 0,
+          "total": 0
+        }
 
         "skills": {
           "body": {
