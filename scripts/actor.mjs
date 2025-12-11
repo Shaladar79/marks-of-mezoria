@@ -413,16 +413,16 @@ export class MezoriaActor extends Actor {
     def.physical = baseDefense + natArmor + wornArmor;
 
     def.magical = Number(def.magical ?? baseDefense);
-  }
-    // --------------------------------------------------------------------
-    // Spirit advancement pool
-    // --------------------------------------------------------------------
+
+    /* ====================================================================== */
+    /* SPIRIT ADVANCEMENT POOL                                                */
+    /* ====================================================================== */
+
     system.spirit = system.spirit || {};
 
     const current = Number(system.spirit.current ?? 0);
     const spent   = Number(system.spirit.spent   ?? 0);
 
-    // Clamp to non-negative if you want to be strict
     const safeCurrent = isNaN(current) ? 0 : Math.max(0, current);
     const safeSpent   = isNaN(spent)   ? 0 : Math.max(0, spent);
 
