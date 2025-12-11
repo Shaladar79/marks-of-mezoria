@@ -719,17 +719,21 @@ Hooks.once("init", async () => {
 });
 
 /* ------------------------------------
- * Auto-grant racial abilities when race changes
+ * Auto-grant racial abilities & sync rank-tied abilities
  * ----------------------------------*/
 Hooks.on("updateActor", async (actor, changed, options, userId) => {
-  // Only PCs (adjust if NPCs also use races/abilities later)
   if (actor.type !== "pc") return;
 
-  // Did system.details.race change in this update?
   const raceChanged = foundry.utils.getProperty(changed, "system.details.race") !== undefined;
-  if (!raceChanged) return;
+  const rankChanged = foundry.utils.getProperty(changed, "system.details.rank") !== undefined;
 
-  await MezoriaActor.applyRacialAbilities(actor);
+  if (raceChanged) {
+    await MezoriaActor.applyRacialAbilities(actor);
+  }
+
+  if (rankChanged) {
+    await MezoriaActor.syncAbilityRanksToActor(actor);
+  }
 });
 
 /* ------------------------------------
