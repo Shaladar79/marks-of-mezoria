@@ -33,10 +33,10 @@ class MinimalActorSheet extends ActorSheet {
   async getData(options) {
     const data = await super.getData(options);
 
-    data.system  = this.actor.system;
-    data.config  = CONFIG["marks-of-mezoria"];
+    data.system   = this.actor.system;
+    data.config   = CONFIG["marks-of-mezoria"];
     data.raceData = RaceData || {};
-    data.user    = game.user;
+    data.user     = game.user;
 
     // Backgrounds
     const bgType = data.system?.details?.backgroundType ?? "";
@@ -197,7 +197,48 @@ class MezoriaAbilitySheet extends ItemSheet {
     const system = data.item.system || {};
     data.system  = system;
 
+    // ---------------------------------
+    // Source Key options based on Source Type
+    // ---------------------------------
+    const sourceType = system?.details?.sourceType ?? "";
+    let sourceKeyOptions = {};
+
+    const races        = (config && config.races)            || {};
+    const backgrounds  = (config && config.backgrounds)      || {};
+    const markPurposes = (config && config.markOfPurpose)    || {};
+    const rankLabels   = (config && config.abilityRanks)     || {};
+    const rankOrder    = (config && config.abilityRankOrder) || [];
+
+    if (sourceType === "racial") {
+      // Use race labels as source keys
+      sourceKeyOptions = races;
+    }
+    else if (sourceType === "background") {
+      // Use flat background map
+      sourceKeyOptions = backgrounds;
+    }
+    else if (sourceType === "mark") {
+      // Use Mark of Purpose names
+      sourceKeyOptions = markPurposes;
+    }
+    else if (sourceType === "rank") {
+      // Build a map from ability rank order/labels
+      const out = {};
+      for (const key of rankOrder) {
+        out[key] = rankLabels[key] || (key.charAt(0).toUpperCase() + key.slice(1));
+      }
+      sourceKeyOptions = out;
+    }
+    else {
+      // generic / other → leave empty or add a placeholder if you want
+      sourceKeyOptions = {};
+    }
+
+    data.sourceKeyOptions = sourceKeyOptions;
+
+    // ---------------------------------
     // Filtered mod-attribute options based on Effect Type
+    // ---------------------------------
     const allModAttrs = config.abilityModAttributes || {};
     const effectType  = system?.details?.effect?.type ?? "";
 
@@ -219,7 +260,9 @@ class MezoriaAbilitySheet extends ItemSheet {
 
     data.modAttributeOptions = filtered;
 
+    // ---------------------------------
     // Roll Preview
+    // ---------------------------------
     data.rollPreview = "";
     try {
       const actor   = data.item.parent ?? null;
@@ -261,7 +304,7 @@ function buildAbilityRollFormula(actor, item) {
   }
 
   // ---------- Rank scaling: Base vs Current Ability Rank ----------
-  const baseRankKey    = details.rankReq || "";          // <-- Min Character Rank as base
+  const baseRankKey    = details.rankReq || "";          // Min Character Rank as base
   const currentRankKey = details.currentRank || baseRankKey || "";
   const rankOrder      = cfg.abilityRankOrder || [];
 
@@ -401,6 +444,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-dicebase.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-modattribute.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs",
 
     // Cinfo
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
