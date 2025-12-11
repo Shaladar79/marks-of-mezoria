@@ -36,19 +36,25 @@
           </span>
         </div>
 
-        {{!-- Action summary: just the value (type + optional cost) --}}
+        {{!-- Action summary: Action type + Cost below it --}}
         <div class="field rank-display">
-          <label>&nbsp;</label>
-          <span class="value">
+          <label>Action</label>
+          <div class="value">
             {{#if system.details.actionType}}
               {{lookup config.abilityActionTypes system.details.actionType}}
             {{else}}
               —
             {{/if}}
-            {{#if system.details.actionCost}}
-              (Cost {{system.details.actionCost}})
-            {{/if}}
-          </span>
+          </div>
+
+          {{#if system.details.cost.value}}
+            <div class="value">
+              Cost: {{system.details.cost.value}}
+              {{#if system.details.cost.type}}
+                {{lookup config.abilityCostTypes system.details.cost.type}}
+              {{/if}}
+            </div>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -117,29 +123,18 @@
                  placeholder="Self, Melee, 30 ft, 10 ft aura, etc." />
         </div>
       </div>
-    </section>
-
-    <hr />
-
-    {{!-- COSTS --}}
-    <section class="ability-section ability-costs">
-      <h3>Costs</h3>
 
       <div class="flexrow">
         <div class="field">
-          <label>Mana Cost</label>
-          <input type="number"
-                 name="system.details.cost.mana"
-                 value="{{system.details.cost.mana}}"
-                 data-dtype="Number"
-                 placeholder="0" />
+          <label>Cost Type</label>
+          {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-costtype.hbs"}}
         </div>
 
         <div class="field">
-          <label>Stamina Cost</label>
+          <label>Cost Value</label>
           <input type="number"
-                 name="system.details.cost.stamina"
-                 value="{{system.details.cost.stamina}}"
+                 name="system.details.cost.value"
+                 value="{{system.details.cost.value}}"
                  data-dtype="Number"
                  placeholder="0" />
         </div>
@@ -279,15 +274,6 @@
         <div class="field">
           <label>Action Type</label>
           {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs"}}
-        </div>
-
-        <div class="field">
-          <label>Action Cost</label>
-          <input type="number"
-                 name="system.details.actionCost"
-                 value="{{system.details.actionCost}}"
-                 data-dtype="Number"
-                 placeholder="0" />
         </div>
       </div>
     </section>
