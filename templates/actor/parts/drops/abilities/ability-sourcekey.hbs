@@ -1,0 +1,8 @@
+<select name="system.details.sourceKey" data-dtype="String">
+  <option value="">— Select Source Key —</option>
+  {{#each sourceKeyOptions as |label key|}}
+    <option value="{{key}}" {{#if (eq ../system.details.sourceKey key)}}selected{{/if}}>
+      {{label}}
+    </option>
+  {{/each}}
+</select>
