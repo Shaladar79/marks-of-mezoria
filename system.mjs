@@ -445,6 +445,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-roll-modattribute.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank-current.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-costtype.hbs",
 
     // Cinfo
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
