@@ -73,6 +73,39 @@
 
       </div>
 
+      {{!-- SPIRIT ADVANCEMENT POOL --}}
+      <div class="meta-row flexrow spirit-row">
+        <div class="field">
+          <label>Spirit (Current)</label>
+          <input type="number"
+                 name="system.spirit.current"
+                 value="{{system.spirit.current}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
+
+        <div class="field">
+          <label>Spirit (Spent)</label>
+          <input type="number"
+                 name="system.spirit.spent"
+                 value="{{system.spirit.spent}}"
+                 data-dtype="Number"
+                 placeholder="0" />
+        </div>
+
+        <div class="field">
+          <label>Spirit (Total)</label>
+          <span class="value">
+            {{#if system.spirit.total}}
+              {{system.spirit.total}}
+            {{else}}
+              0
+            {{/if}}
+          </span>
+        </div>
+      </div>
+
     </div>
   </div>
 </header>
+
