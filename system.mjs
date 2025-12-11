@@ -349,7 +349,7 @@ class MezoriaAbilitySheet extends ItemSheet {
 
     data.modAttributeOptions = filtered;
 
-    // ---------------------------------
+      // ---------------------------------
     // Consolidation / Upgrade Cost
     // ---------------------------------
     const rankCostsCfg = config.abilityRankCosts || {};
@@ -391,14 +391,13 @@ class MezoriaAbilitySheet extends ItemSheet {
     data.upgradeCost    = upgradeCost;
     data.canConsolidate = canConsolidate;
 
-     // Disable consolidation for abilities which explicitly forbid it
-    const details = system.details || {};
+    // If this ability is flagged as non-consolidatable, force-disable
     const noConsolidate = !!details.noConsolidate;
     if (noConsolidate) {
       data.upgradeCost = null;
       data.canConsolidate = false;
     }
-    
+
     // ---------------------------------
     // Roll Preview
     // ---------------------------------
@@ -432,13 +431,13 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       const item = actor.items.get(itemId);
       if (!item) return;
+      
       const sys = item.system || {};
       if (sys.details?.noConsolidate) {
        ui.notifications?.warn("This ability ranks up automatically and cannot be consolidated.");
        return;
   }
       const cfg = CONFIG["marks-of-mezoria"] || {};
-
       const rankOrder = cfg.abilityRankOrder || [];
       const details   = sys.details || {};
       const baseRankKey    = details.rankReq || "";
