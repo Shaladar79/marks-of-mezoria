@@ -431,7 +431,7 @@ export class MezoriaActor extends Actor {
     system.spirit.spent   = safeSpent;
     system.spirit.total   = safeCurrent + safeSpent;
   }
- /**
+  /**
    * Auto-manage racial abilities based on the actor's current race.
    *
    * This:
@@ -465,7 +465,7 @@ export class MezoriaActor extends Actor {
       // If no racial abilities configured for this race, we're done
       if (!racialUuids.length) return;
 
-      // Import new racial abilities from the compendium
+      // Import new racial abilities from the compendium (or world) by UUID
       const createdData = [];
 
       for (const uuid of racialUuids) {
@@ -476,7 +476,7 @@ export class MezoriaActor extends Actor {
 
         const data = sourceDoc.toObject();
 
-        // Enforce racial metadata in case compendium data changes
+        // Enforce racial metadata in case source data changes
         data.system ??= {};
         data.system.details ??= {};
 
@@ -498,5 +498,34 @@ export class MezoriaActor extends Actor {
       console.error("Marks of Mezoria | Error in MezoriaActor.applyRacialAbilities:", err);
     }
   }
-}
 
+  /**
+   * Sync abilities flagged with syncWithRank to match the actor's current rank.
+   */
+  static async syncAbilityRanksToActor(actor) {
+    const system = actor.system || {};
+    const charRank = system.details?.rank || "";
+    if (!charRank) return;
+
+    const updates = [];
+
+    for (const item of actor.items) {
+      if (item.type !== "ability") continue;
+
+      const sys = item.system || {};
+      const det = sys.details || {};
+      if (!det.syncWithRank) continue;
+
+      if (det.currentRank !== charRank) {
+        updates.push({
+          _id: item.id,
+          "system.details.currentRank": charRank
+        });
+      }
+    }
+
+    if (updates.length) {
+      await actor.updateEmbeddedDocuments("Item", updates);
+    }
+  }
+}
