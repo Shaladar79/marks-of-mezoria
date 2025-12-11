@@ -3,21 +3,22 @@
 /**
  * RaceAbilityPack
  *
- * Central place to define which racial abilities are auto-granted
- * for each race, using UUIDs that point into the "abilities-racial"
- * compendium pack.
- *
- * Usage:
- *  - Create racial abilities in the "Abilities - Racial" compendium.
- *  - Right-click each → Copy Document UUID.
- *  - Paste those UUID strings into racialAbilityMap below.
+ * System-side definitions of racial abilities.
+ * These are plain data objects; we use them to:
+ *  - Seed world-level Items on first load (so GMs see them in the Items sidebar).
+ *  - Create embedded racial abilities on actors when their race is set/changed.
  */
 export const RaceAbilityPack = {
-  PACK_COLLECTION: "abilities-racial",
-  FULL_PACK_ID: "marks-of-mezoria.abilities-racial",
-
-  racialAbilityMap: {
-   human: [
+  /**
+   * Racial ability definitions by race key.
+   *
+   * raceKey must match actor.system.details.race.
+   */
+  racialAbilityData: {
+    // --------------------
+    // HUMAN: Versatility
+    // --------------------
+    human: [
       {
         key: "human-versatility",
         name: "Human – Versatility",
@@ -34,44 +35,44 @@ export const RaceAbilityPack = {
             // Rank + scaling
             rankReq: "normal",
             currentRank: "normal",
-            // This flag tells our code to sync currentRank with the character's rank, not consolidation
+
+            // This ability’s rank follows the character’s rank, not consolidation
             syncWithRank: true,
-            // This flag disables consolidation UI/logic
+            // Cannot be consolidated
             noConsolidate: true,
 
             // Action usage
             actionType: "action",
             actionCost: 2,
+            range: "Self",
 
             // Cost: 3 stamina per character rank
             cost: {
-              type: "stamina",  // "stamina" or "mana"
+              type: "stamina",  // resource to pay from status
               value: 3,         // base cost per rank
-              perRank: true     // interpret value as "per rank"
+              perRank: true     // treat value as "per rank"
             },
 
-            range: "Self",
-
+            // Effect: buff to next trained skill
             effect: {
               type: "buff",
-              resource: "",         // not directly impacting a resource
+              resource: "",
               amount: 0,
               damageType: "",
               notes: "Applies to the next trained skill check only.",
               roll: {
-                dieType: "",        // no roll; this is a buff effect
+                dieType: "",
                 diceBase: 0,
                 modAttribute: ""
               },
-              // For convenience, encode the buff pattern here:
-              skillBonusBase: 2,       // +2 at Normal
-              skillBonusPerRank: 1,    // +1 for each rank above Normal
+              skillBonusBase: 2,     // +2 at Normal
+              skillBonusPerRank: 1,  // +1 per rank above Normal
               appliesTo: "nextTrainedSkill"
             },
 
             scaling: {
               enabled: true,
-              mode: "rank",   // we treat this as “character rank” scaling via syncWithRank
+              mode: "rank",
               value: ""
             },
 
@@ -84,6 +85,7 @@ export const RaceAbilityPack = {
       }
     ],
 
+    // other races: fill later
     aetherian: [],
     sylvan: [],
     sprite: [],
@@ -95,9 +97,14 @@ export const RaceAbilityPack = {
     auramine: []
   },
 
-  getRacialAbilityUUIDs(raceKey) {
+  /**
+   * Get all racial ability definitions for a given race.
+   * @param {string} raceKey
+   * @returns {Array<object>}
+   */
+  getRacialAbilityDefinitions(raceKey) {
     if (!raceKey) return [];
-    const map = this.racialAbilityMap || {};
+    const map = this.racialAbilityData || {};
     return map[raceKey] || [];
   }
 };
