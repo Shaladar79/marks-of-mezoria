@@ -11,6 +11,8 @@ import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
 import { AbilityData } from "./scripts/abilities.mjs";
+import { MarksOfPower } from "./scripts/marks-of-power.mjs";
+import { MarksOfConcept } from "./scripts/marks-of-concept.mjs";
 
 export const MezoriaConfig = {};
 
