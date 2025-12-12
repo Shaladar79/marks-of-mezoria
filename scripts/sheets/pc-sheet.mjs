@@ -413,6 +413,72 @@ const targetAttr = categoryToSubAttr[tribeCategory] ?? categoryToSubAttr.lupine;
 }
 
       // -------------------------------
+// Elemental Bolt (Scion)
+// -------------------------------
+if (effect.type === "damage" &&
+    effect.appliesTo === "singleTarget" &&
+    racialKey === "scion-elemental-bolt") {
+
+  const cfg       = CONFIG["marks-of-mezoria"] || {};
+  const rankOrder = cfg.ranks || [];
+  const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
+  let rankIndex   = rankOrder.indexOf(charRank);
+  if (rankIndex < 0) rankIndex = 0;
+
+  // Targeting: exactly one target
+  const targets = Array.from(game.user?.targets ?? []);
+  if (targets.length !== 1) {
+    ui.notifications?.warn("Elemental Bolt requires exactly 1 targeted token.");
+    return;
+  }
+
+  const targetToken = targets[0];
+  const targetActor = targetToken?.actor;
+  if (!targetActor) {
+    ui.notifications?.warn("Target has no actor.");
+    return;
+  }
+
+  // Range check
+  const baseRange = Number(effect.rangeBase ?? 20) || 20;
+  const perRank   = Number(effect.rangePerRank ?? 5) || 5;
+  const rangeFt   = baseRange + (perRank * rankIndex);
+
+  const sourceToken = actor.getActiveTokens()?.[0];
+  if (!sourceToken) {
+    ui.notifications?.warn("You must have an active token to use Elemental Bolt.");
+    return;
+  }
+
+  const dist = canvas.grid.measureDistance(sourceToken, targetToken);
+  if (dist > rangeFt) {
+    ui.notifications?.warn(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
+    return;
+  }
+
+  // Damage scaling
+  const dicePerRank = Number(effect.dicePerRank ?? 1) || 1;
+  const dieType     = effect.dieType || "d6";
+  const diceCount   = Math.max(1, dicePerRank * (rankIndex + 1));
+
+  // Resolve damage type from Scion aspect
+  const aspectKey = String(actor.system?.details?.scionAspect ?? "").toLowerCase();
+  const damageType = aspectKey || "elemental";
+
+  const formula = `${diceCount}${dieType}`;
+
+  const roll = new Roll(formula);
+  await roll.evaluate({ async: true });
+
+  roll.toMessage({
+    speaker: ChatMessage.getSpeaker({ actor }),
+    flavor: `Elemental Bolt (${damageType}) → ${targetActor.name}`
+  });
+
+  return;
+}
+
+      // -------------------------------
 // Reflection Cloak (Prismatic)
 // -------------------------------
 if (effect.type === "buff" &&
