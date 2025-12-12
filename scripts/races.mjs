@@ -13,10 +13,9 @@ export const RaceData = {
     human:      "Human",
     etherean:   "Etherean",
     mythrian:   "Mythrian",
-    anthozoan:  "Anthozoan",
+    anthazoan:  "Anthazoan",
     sylvan:     "Sylvan",
     sprite:     "Sprite",
-    auramine:   "Auramine",
     draconian:  "Draconian",
     embergiest: "Embergiest",
     scion:      "Scion",
@@ -28,8 +27,8 @@ export const RaceData = {
   // -------------------------------------
   descriptions: {
 
-    anthozoan: {
-      label: "Anthozoan",
+    anthazoan: {
+      label: "Anthazoan",
       description: `
 <h2>Anthozoan</h2>
 
