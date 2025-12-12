@@ -734,25 +734,35 @@ Hooks.on("updateActor", async (actor, changed, options, userId) => {
 
 /* ------------------------------------
  * Ensure racial ability folders + items
- * ----------------------------------*/
+ * ------------------------------------*/
 Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
   try {
-    // Helper: create or get a folder for Items under a specific parent
+    /**
+     * Ensure an Item folder with a given name and parentId exists.
+     * parentId is the *folder id* of the parent folder, or null for root.
+     */
     async function ensureFolder(name, parentId = null) {
+      // Foundry stores parent by "folder" id, not always via .parent
       let folder = game.folders.find(f => {
         if (f.type !== "Item") return false;
         if (f.name !== name) return false;
-        const pid = f.parent ? f.parent.id : null;
-        return pid === parentId;
+
+        // Root folder: no parentId and no f.folder
+        if (parentId === null) {
+          return !f.folder;
+        }
+
+        // Child folder: f.folder must match parentId
+        return f.folder === parentId;
       });
 
       if (!folder) {
         folder = await Folder.create({
           name,
           type: "Item",
-          parent: parentId
+          folder: parentId   // parent folder id
         });
       }
 
@@ -760,7 +770,7 @@ Hooks.once("ready", async () => {
     }
 
     // Folder structure: Actor / Abilities / Racial / <Race>
-    const actorFolder     = await ensureFolder("Actor");
+    const actorFolder     = await ensureFolder("Actor", null);
     const abilitiesFolder = await ensureFolder("Abilities", actorFolder.id);
     const racialFolder    = await ensureFolder("Racial", abilitiesFolder.id);
 
@@ -768,15 +778,15 @@ Hooks.once("ready", async () => {
     const worldItems = game.items.contents;
 
     for (const [raceKey, defs] of Object.entries(racialData)) {
-      if (!defs.length) continue;
+      if (!Array.isArray(defs) || !defs.length) continue;
 
       const raceFolderName = raceKey.charAt(0).toUpperCase() + raceKey.slice(1);
-      const raceFolder = await ensureFolder(raceFolderName, racialFolder.id);
+      const raceFolder     = await ensureFolder(raceFolderName, racialFolder.id);
 
       for (const def of defs) {
         if (!def || !def.key) continue;
 
-        // Skip if already exists (identified by racialKey)
+        // If a template with this racialKey already exists anywhere, skip
         const exists = worldItems.find(i =>
           i.type === "ability" &&
           i.system?.details?.racialKey === def.key
@@ -784,6 +794,7 @@ Hooks.once("ready", async () => {
         if (exists) continue;
 
         const data = foundry.utils.deepClone(def);
+
         data.type   = "ability";
         data.folder = raceFolder.id;
 
