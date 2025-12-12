@@ -256,6 +256,40 @@ export class MinimalActorSheet extends ActorSheet {
       }
 
       // -------------------------------
+// 3c) Whisper of the Grove (Sylvan)
+// -------------------------------
+if (effect.type === "buff" &&
+    effect.appliesTo === "awareness" &&
+    racialKey === "sylvan-whisper-grove") {
+
+  const cfg       = CONFIG["marks-of-mezoria"] || {};
+  const rankOrder = cfg.ranks || [];
+  const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
+  let rankIndex   = rankOrder.indexOf(charRank);
+  if (rankIndex < 0) rankIndex = 0;
+
+  const duration = Number(effect.durationRounds ?? 3) || 3;
+
+  const baseDiameter   = Number(effect.areaDiameterBase ?? 10) || 10;
+  const perRankDiameter = Number(effect.areaDiameterPerRank ?? 5) || 5;
+
+  const diameter = baseDiameter + (perRankDiameter * rankIndex);
+
+  const payload = {
+    remainingRounds: duration,
+    diameter
+  };
+
+  await actor.setFlag("marks-of-mezoria", "whisperOfTheGrove", payload);
+
+  ui.notifications?.info(
+    `Whisper of the Grove activated: heightened natural awareness in a ${diameter} ft diameter around you for ${duration} rounds.`
+  );
+
+  return; // Buff only (no roll)
+}
+
+      // -------------------------------
       // 3b) Flame Imbuement (Embergiest)
       // -------------------------------
       if (effect.type === "buff" &&
