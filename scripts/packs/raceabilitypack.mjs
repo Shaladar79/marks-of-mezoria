@@ -79,14 +79,141 @@ export const RaceAbilityPack = {
             sourceType: "racial",
             sourceKey: "human",
             autoGranted: false,   // template; embedded copy will be marked true
-            tags: "human, racial, versatility"
+            tags: "human, racial, versatility",
+
+            // racialKey is set again when seeding templates, but harmless here
+            racialKey: "human-versatility"
           }
         }
       }
     ],
 
-    // other races: fill later
-     etherean: [
+    // --------------------
+    // DRACONIAN: Breath Weapon
+    // --------------------
+    draconian: [
+      {
+        key: "draconian-breath-weapon",
+        name: "Draconian – Breath Weapon",
+        type: "ability",
+        img: "icons/svg/cone.svg",
+        system: {
+          details: {
+            short: "Exhale a clan-themed breath weapon in a line.",
+            description:
+              "You unleash a devastating breath weapon whose damage type is determined by your clan (fire, cold, lightning, acid, etc.). " +
+              "As an action (Action Cost 5), you exhale a 15-foot line that deals 1d8 damage per character rank. " +
+              "The line’s length increases by +5 feet for each rank above Normal. The ability costs Mana per rank (3 Mana per rank by default) " +
+              "and cannot be consolidated; it scales automatically with your rank.",
+
+            rankReq: "normal",
+            currentRank: "normal",
+            syncWithRank: true,
+            noConsolidate: true,
+
+            actionType: "action",
+            actionCost: 5,
+            range: "15 ft line +5 ft per rank",
+
+            cost: {
+              type: "mana",
+              value: 3,
+              perRank: true
+            },
+
+            effect: {
+              type: "damage",
+              damageType: "clan", // interpret via clan elsewhere
+              notes: "Line AoE. Targets in the line take clan-type damage.",
+              roll: {
+                dieType: "d8",
+                diceBase: 1,      // 1d8 at Normal; ability rank adds more dice
+                modAttribute: "might"
+              },
+              baseRangeFeet: 15,
+              rangePerRankFeet: 5
+            },
+
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "draconian",
+            autoGranted: false,
+            tags: "draconian, racial, breath, damage",
+            racialKey: "draconian-breath-weapon"
+          }
+        }
+      }
+    ],
+
+    // --------------------
+    // EMBERGIEST: Flame Imbuement
+    // --------------------
+    embergiest: [
+      {
+        key: "embergiest-flame-imbuement",
+        name: "Embergiest – Flame Imbuement",
+        type: "ability",
+        img: "icons/svg/fire.svg",
+        system: {
+          details: {
+            short: "Imbue your physical attacks with fire for several rounds.",
+            description:
+              "You wreathe your weapons in living flame. For 3 full rounds, all physical weapon attacks you make deal fire damage instead of their normal type. " +
+              "At Normal rank, this is a pure conversion. For each rank above Normal, your weapon attacks also deal an additional +1d4 fire damage. " +
+              "Flame Imbuement costs 3 Mana per rank and cannot be consolidated; it scales automatically with your character rank.",
+
+            rankReq: "normal",
+            currentRank: "normal",
+            syncWithRank: true,
+            noConsolidate: true,
+
+            actionType: "action",
+            actionCost: 3,
+            range: "Self",
+
+            cost: {
+              type: "mana",
+              value: 3,
+              perRank: true
+            },
+
+            effect: {
+              type: "buff",
+              appliesTo: "weaponAttacks",
+              damageType: "fire",
+              durationRounds: 3,
+              extraDicePerRank: 1,   // +1 die per rank above Normal
+              extraDieType: "d4",
+              notes:
+                "For the duration, all physical weapon attacks deal fire damage instead of their normal type. " +
+                "Each rank above Normal adds +1d4 fire damage to each hit."
+            },
+
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "embergiest",
+            autoGranted: false,
+            tags: "embergiest, racial, fire, buff",
+            racialKey: "embergiest-flame-imbuement"
+          }
+        }
+      }
+    ],
+
+    // --------------------
+    // ETHEREAN: Ethereal Step
+    // --------------------
+    etherean: [
       {
         key: "etherean-ethereal-step",
         name: "Etherean – Ethereal Step",
@@ -121,7 +248,8 @@ export const RaceAbilityPack = {
               baseRangeFeet: 15,
               rangePerRankFeet: 10,
               provokeOpportunity: false,
-              notes: "Movement action. Teleport to a visible square without provoking attacks of opportunity."
+              notes:
+                "Movement action. Teleport to a visible square without provoking attacks of opportunity."
             },
 
             scaling: {
@@ -133,48 +261,14 @@ export const RaceAbilityPack = {
             sourceType: "racial",
             sourceKey: "etherean",
             autoGranted: false,
-            tags: "etherean, racial, teleport"
+            tags: "etherean, racial, teleport, movement",
+            racialKey: "etherean-ethereal-step"
           }
         }
       }
     ],
 
-        // Effect configuration (teleport is non-damaging, non-rolling)
-        effect: {
-          type: "movement",      // You can add this as a category
-          resource: "",
-          amount: 0,
-          damageType: "",
-          notes:
-            "Teleport to a visible square. Does not provoke attacks of opportunity.",
-          roll: {
-            dieType: "",
-            diceBase: 0,
-            modAttribute: ""
-          },
-
-          // No dice or modifiers – movement only
-          teleportBaseRange: 15,
-          teleportPerRank: 10
-        },
-
-        scaling: {
-          enabled: true,
-          mode: "rank",
-          value: ""
-        },
-
-        sourceType: "racial",
-        sourceKey: "aetherian",
-        autoGranted: false,
-        tags: "aetherian, racial, teleport, movement"
-      }
-    }
-  }
-],
-    sylvan: [],
-    sprite: [],
-       // --------------------
+    // --------------------
     // ANTHAZOAN: Chest of the Depths
     // --------------------
     anthazoan: [
@@ -182,57 +276,39 @@ export const RaceAbilityPack = {
         key: "anthazoan-chest-depths",
         name: "Anthazoan – Chest of the Depths",
         type: "ability",
-        img: "icons/containers/chest/chest-octopus-tentacles.webp",
+        img: "icons/svg/chest.svg",
         system: {
           details: {
-            short: "Open a personal dimensional vault that ignores encumbrance.",
+            short: "Open a personal extradimensional storage vault.",
             description:
-              "You call upon the crushing weight and hidden trenches of the deep to open a personal dimensional vault. " +
-              "As an action, you open your Chest of the Depths within 5 feet. The Chest is a personal extradimensional space " +
-              "that can hold up to 40 distinct item types without tracking encumbrance. A \"type\" is a stack: for example, one " +
-              "Quartz-rank shortsword is one type; three identical Quartz-rank shortswords still count as one type; thirty identical " +
-              "healing potions also count as one type. The vault’s capacity increases by +5 item types for each character rank above Normal. " +
-              "Chest of the Depths may be used once per day, and costs 10 mana plus 2 additional mana per rank above Normal.",
+              "You open a personal dimensional storage space – a living coral vault. Activating this ability (Action Cost 3) opens access to a private inventory that ignores encumbrance. " +
+              "The vault can hold 40 different item types at Normal rank. For each rank above Normal, capacity increases by 5 item types. " +
+              "One vault slot holds all copies of a single item type (e.g., 3 quartz shortswords share one slot; 30 healing potions share one slot). " +
+              "Chest of the Depths costs 10 Mana + 2 Mana per rank above Normal and can be used once per day.",
 
-            // Rank handling
             rankReq: "normal",
             currentRank: "normal",
-
-            // Scales automatically with character rank, not via consolidation
             syncWithRank: true,
             noConsolidate: true,
 
-            // Action usage
             actionType: "action",
-            actionCost: 5,
-            range: "5 ft (open / access vault)",
+            actionCost: 3,
+            range: "5 ft",
 
-            // Cost: 10 mana + 2 mana per rank above Normal
             cost: {
-              type: "mana",      // resource to pay from status
-              value: 10,         // base cost at Normal
-              perRank: false,    // we are NOT multiplying by rank
-              extraPerRank: 2    // +2 mana per rank above Normal
+              type: "mana",
+              value: 10,
+              perRank: false,
+              extraPerRank: 2   // handled by system.mjs cost logic
             },
 
-            // Effect: storage / vault
             effect: {
               type: "storage",
-              resource: "",
-              amount: 0,
-              damageType: "",
+              appliesTo: "personalVault",
+              storageBaseSlots: 40,
+              storageSlotsPerRank: 5,
               notes:
-                "Opens personal extradimensional storage. Holds item stacks without encumbrance. Once per day.",
-              roll: {
-                dieType: "",
-                diceBase: 0,
-                modAttribute: ""
-              },
-
-              // Storage-specific metadata
-              storageBaseSlots: 40,   // base item-type capacity
-              storageSlotsPerRank: 5, // +5 item types per rank above Normal
-              usesPerDay: 1
+                "Personal extradimensional vault for treasure items. Ignores encumbrance. Once-per-day use will be enforced when time/ resting is implemented."
             },
 
             scaling: {
@@ -244,168 +320,21 @@ export const RaceAbilityPack = {
             sourceType: "racial",
             sourceKey: "anthazoan",
             autoGranted: false,
-            tags: "anthazoan, racial, storage, vault, chest"
+            tags: "anthazoan, racial, storage, utility",
+            racialKey: "anthazoan-chest-depths"
           }
         }
       }
     ],
 
-    mythrian: [],
-    
-    draconian: [
-      {
-        key: "draconian-breath-weapon",
-        name: "Draconian – Breath Weapon",
-        type: "ability",
-        img: "icons/magic/fire/breath-weapon-ray-orange.webp", // or any icon you like
-        system: {
-          details: {
-            short: "Exhale elemental power in a line, with damage and type scaling by rank and clan.",
-            description:
-              "You unleash a blast of elemental breath in a straight line. The damage type is determined by your Draconian clan "
-              + "(for example: Fire Clan = fire, Frost Clan = cold, Lightning Clan = lightning, etc.). "
-              + "The breath weapon has a base range of 15 feet and increases by +5 feet for each rank above Normal. "
-              + "It deals 1d8 damage per character rank (e.g., 1d8 at Normal, 2d8 at Quartz, 3d8 at Topaz, and so on). "
-              + "You must spend mana equal to 3 per character rank to use this ability. "
-              + "This ability is a racial power: it automatically scales with your rank and cannot be consolidated.",
-
-            // Rank + scaling
-            rankReq: "normal",
-            currentRank: "normal",
-
-            // Racial scaling: follows character rank, not consolidation
-            syncWithRank: true,
-            // Cannot be consolidated
-            noConsolidate: true,
-
-            // Action usage
-            actionType: "action",
-            actionCost: 5,
-
-            // Range: 15 ft line, +5 ft per rank above Normal
-            range: "15 ft line (+5 ft per rank)",
-            rangeBase: 15,
-            rangePerRank: 5,
-            lineShape: "line",
-
-            // Mana cost: 3 mana per character rank
-            cost: {
-              type: "mana",   // spends from system.status.mana.current
-              value: 3,       // base cost per rank
-              perRank: true   // multiply by (rank index + 1)
-            },
-
-            // Effect: Damage, type based on clan
-            effect: {
-              type: "damage",
-              resource: "vitality",
-              amount: 0,          // resolved by the roll, not flat amount
-              damageType: "",     // determined by Draconian clan; see notes
-              notes: "Damage type is determined by your Draconian clan (fire, cold, lightning, acid, etc.).",
-              roll: {
-                dieType: "d8",
-                diceBase: 1,      // 1d8 at Normal; rank scaling logic adds +1 die per rank
-                modAttribute: "might" // or leave blank to default; currently uses Might for damage
-              }
-            },
-
-            // Scaling metadata (already supported by your roll logic)
-            scaling: {
-              enabled: true,
-              mode: "rank",
-              value: ""
-            },
-
-            sourceType: "racial",
-            sourceKey: "draconian",
-            autoGranted: false,   // template; embedded copies will be marked autoGranted=true
-            tags: "draconian, racial, breath-weapon"
-          }
-        }
-      }
-    ],
-    
-    scion: [],
-    embergiest: [
-      {
-        key: "embergiest-flame-imbuement",
-        name: "Embergiest – Flame Imbuement",
-        type: "ability",
-        img: "icons/svg/explosion.svg", // change later if you want a custom fire icon
-        system: {
-          details: {
-            short: "Wreathe your weapons in living flame.",
-            description:
-              "You ignite your inner embers, wreathed in living flame. For 3 full turns, all of your physical weapon attacks " +
-              "are treated as fire damage instead of their normal type. Starting at ranks above Normal, your fiery strikes " +
-              "also deal additional burning damage.\n\n" +
-              "• Duration: 3 full turns\n" +
-              "• Range: Self\n" +
-              "• Cost: 3 Mana per character rank\n" +
-              "• Effect at Normal: Your physical weapon attacks deal fire damage.\n" +
-              "• Effect per rank above Normal: Your physical weapon attacks deal +1d4 additional fire damage per rank above Normal.\n" +
-              "• This is a racial ability; it scales automatically with your character rank and cannot be consolidated.",
-
-            // Rank + scaling
-            rankReq: "normal",
-            currentRank: "normal",
-
-            // This ability’s rank follows the character’s rank automatically
-            syncWithRank: true,
-            // Cannot be consolidated via Spirit
-            noConsolidate: true,
-
-            // Action usage
-            actionType: "action",
-            actionCost: 5,
-            range: "Self",
-
-            // Cost: 3 mana per character rank
-            cost: {
-              type: "mana",   // spends from status.mana.current
-              value: 3,       // base cost per rank
-              perRank: true   // Normal = 3, Quartz = 6, Topaz = 9, etc.
-            },
-
-            // Effect: weapon buff
-            effect: {
-              type: "buff",
-              resource: "",
-              amount: 0,
-              damageType: "fire",
-              notes:
-                "For 3 full turns, your physical weapon attacks are treated as fire damage. " +
-                "At ranks above Normal, they also deal additional fire damage.",
-
-              // No direct roll from the ability button itself (it’s a buff)
-              roll: {
-                dieType: "",
-                diceBase: 0,
-                modAttribute: ""
-              },
-
-              // Custom Embergiest flags – for when we wire weapon attacks to look for this
-              appliesTo: "weaponAttacks",
-              durationRoundsBase: 3,     // lasts 3 turns
-              extraDamageDieType: "d4",  // extra die type
-              extraDamagePerRank: 1      // +1d4 per rank above Normal
-            },
-
-            scaling: {
-              enabled: true,
-              mode: "rank",
-              value: ""
-            },
-
-            sourceType: "racial",
-            sourceKey: "embergiest",
-            autoGranted: false, // template; embedded copies will be autoGranted
-            tags: "embergiest, racial, fire, flame-imbuement"
-          }
-        }
-      }
-    ],
-    auramine: []
+    // --------------------
+    // PLACEHOLDER RACES (no abilities yet)
+    // --------------------
+    sylvan:    [],
+    sprite:    [],
+    mythrian:  [],
+    scion:     [],
+    auramine:  []
   },
 
   /**
