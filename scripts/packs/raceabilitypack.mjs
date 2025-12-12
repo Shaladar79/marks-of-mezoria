@@ -328,9 +328,53 @@ export const RaceAbilityPack = {
     ],
 
     // --------------------
+    // Sylvan
+    // --------------------
+    sylvan: [
+  {
+    key: "sylvan-whisper-grove",
+    name: "Sylvan – Whisper of the Grove",
+    type: "ability",
+    img: "icons/magic/nature/leaf-glow-trail-green.webp",
+    system: {
+      details: {
+        sourceType: "racial",
+        sourceKey: "sylvan",
+        racialKey: "sylvan-whisper-grove",
+
+        // Action economy
+        actionType: "action",
+        actionCost: 2,
+
+        // Resource cost: 2 mana per rank
+        cost: {
+          type: "mana",
+          value: 2,
+          perRank: true
+        },
+
+        // Effect definition (buff)
+        effect: {
+          type: "buff",
+          appliesTo: "awareness",
+          durationRounds: 3,
+
+          // You requested 10' diameter at Normal +5' per rank
+          // Store it explicitly as diameter to match your wording.
+          areaDiameterBase: 10,
+          areaDiameterPerRank: 5
+        },
+
+        // These are consistent with how you handle racials that should scale automatically
+        syncWithRank: true,
+        noConsolidate: true
+      }
+    }
+  }
+],
+ // --------------------
     // PLACEHOLDER RACES (no abilities yet)
     // --------------------
-    sylvan:    [],
     sprite:    [],
     mythrian:  [],
     scion:     [],
