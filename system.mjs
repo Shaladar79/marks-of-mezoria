@@ -225,6 +225,46 @@ class MinimalActorSheet extends ActorSheet {
         return; // No dice roll for Versatility
       }
 
+            // -------------------------------
+      // 3b) Flame Imbuement – Embergiest racial buff
+      // -------------------------------
+      if (effect.type === "buff" &&
+          effect.appliesTo === "weaponAttacks" &&
+          racialKey === "embergiest-flame-imbuement") {
+
+        const cfg       = CONFIG["marks-of-mezoria"] || {};
+        const rankOrder = cfg.ranks || [];
+        const charRank  = actor.system?.details?.rank || "";
+        let rankIndex   = rankOrder.indexOf(charRank);
+        if (rankIndex < 0) rankIndex = 0;
+
+        // At Normal (index 0): conversion only, no bonus dice.
+        // Each rank above Normal: +1d4 (or whatever extraDieType is).
+        const duration   = Number(effect.durationRounds ?? 3) || 3;
+        const extraDieType   = effect.extraDieType || "d4";
+        const extraDicePerRank = Number(effect.extraDicePerRank ?? 1) || 1;
+        const extraDice   = Math.max(0, rankIndex) * extraDicePerRank;
+        const damageType  = effect.damageType || "fire";
+
+        const payload = {
+          remainingRounds: duration,
+          extraDice,
+          extraDieType,
+          damageType
+        };
+
+        await actor.setFlag("marks-of-mezoria", "flameImbuement", payload);
+
+        const bonusText = extraDice > 0 ? ` and +${extraDice}${extraDieType}` : "";
+        ui.notifications?.info(
+          `Flame Imbuement activated: your physical weapon attacks deal ${damageType}${bonusText} ` +
+          `for the next ${duration} rounds.`
+        );
+
+        // No direct roll for this ability – it's a buff.
+        return;
+      }
+
       // -------------------------------
       // 4) Normal ability roll
       // -------------------------------
@@ -254,6 +294,28 @@ class MinimalActorSheet extends ActorSheet {
       await actor.deleteEmbeddedDocuments("Item", [itemId]);
     });
   }
+
+      // Weapon damage rolls (uses Flame Imbuement if active)
+    html.find(".weapon-damage-roll").on("click", async (event) => {
+      event.preventDefault();
+      const btn = event.currentTarget;
+
+      // Read base damage from data attributes on the button
+      const baseDice    = Number(btn.dataset.dice   || 1)  || 1;   // e.g. 1
+      const baseDieType =          btn.dataset.dietype      || "d8"; // e.g. "d8"
+      const label       =          btn.dataset.label        || "Weapon Damage";
+
+      const { formula, damageType } =
+        await buildWeaponDamageFormula(actor, baseDice, baseDieType, true);
+
+      const roll = new Roll(formula);
+      await roll.evaluate({ async: true });
+
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: `${label} (${damageType})`
+      });
+    });
 
   async _updateObject(event, formData) {
     const expanded = foundry.utils.expandObject(formData);
