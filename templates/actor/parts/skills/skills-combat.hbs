@@ -15,6 +15,7 @@
         <th>Misc</th>
         <th>Total</th>
         <th>Roll</th>
+        <th>DMG</th>
       </tr>
     </thead>
     <tbody>
@@ -48,6 +49,16 @@
             🎲
           </button>
         </td>
+        <td>
+          <button
+            type="button"
+            class="weapon-damage-roll"
+            data-dice="1"
+            data-dietype="d12"
+            data-label="Heavy Weapon">
+            DMG
+          </button>
+        </td>
       </tr>
 
       {{!-- Combat: Grappling (Body – Might) --}}
@@ -77,6 +88,16 @@
             data-rolltype="skill"
             data-path="body.might.combatGrappling">
             🎲
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="weapon-damage-roll"
+            data-dice="1"
+            data-dietype="d6"
+            data-label="Grapple Damage">
+            DMG
           </button>
         </td>
       </tr>
@@ -110,6 +131,16 @@
             🎲
           </button>
         </td>
+        <td>
+          <button
+            type="button"
+            class="weapon-damage-roll"
+            data-dice="1"
+            data-dietype="d8"
+            data-label="Medium Weapon">
+            DMG
+          </button>
+        </td>
       </tr>
 
       {{!-- Combat: Ranged Weapons (Body – Swiftness) --}}
@@ -139,6 +170,16 @@
             data-rolltype="skill"
             data-path="body.swiftness.combatRanged">
             🎲
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            class="weapon-damage-roll"
+            data-dice="1"
+            data-dietype="d8"
+            data-label="Ranged Weapon">
+            DMG
           </button>
         </td>
       </tr>
@@ -172,6 +213,16 @@
             🎲
           </button>
         </td>
+        <td>
+          <button
+            type="button"
+            class="weapon-damage-roll"
+            data-dice="1"
+            data-dietype="d6"
+            data-label="Throwing Weapon">
+            DMG
+          </button>
+        </td>
       </tr>
 
       {{!-- Combat: Spellcasting (Mind – Insight) --}}
@@ -203,6 +254,7 @@
             🎲
           </button>
         </td>
+        <td></td>
       </tr>
 
       {{!-- Combat: Wands (Mind – Focus) --}}
@@ -234,6 +286,7 @@
             🎲
           </button>
         </td>
+        <td></td>
       </tr>
 
     </tbody>
