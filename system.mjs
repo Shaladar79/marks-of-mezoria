@@ -585,6 +585,47 @@ function buildAbilityRollFormula(actor, item) {
     return legacy || "";
   }
 
+  /* ------------------------------------
+ * Helper: build weapon damage formula (Flame Imbuement aware)
+ * ----------------------------------*/
+async function buildWeaponDamageFormula(actor, baseDice, baseDieType, isPhysicalAttack = true) {
+  // Base formula (weapon’s own damage)
+  let formula    = `${baseDice}${baseDieType}`;
+  let damageType = "physical";
+
+  if (!actor) {
+    return { formula, damageType };
+  }
+
+  // Check for Embergiest Flame Imbuement buff
+  let flame = await actor.getFlag("marks-of-mezoria", "flameImbuement");
+  if (flame && isPhysicalAttack) {
+    // Convert damage type to fire (or configured type)
+    damageType = flame.damageType || "fire";
+
+    const extraDice    = Number(flame.extraDice ?? 0)    || 0;
+    const extraDieType =          flame.extraDieType     || "d4";
+
+    if (extraDice > 0) {
+      formula += ` + ${extraDice}${extraDieType}`;
+    }
+
+    // Tick down remaining rounds
+    let remaining = Number(flame.remainingRounds ?? 0) || 0;
+    remaining = Math.max(remaining - 1, 0);
+
+    if (remaining <= 0) {
+      await actor.unsetFlag("marks-of-mezoria", "flameImbuement");
+      ui.notifications?.info("Flame Imbuement has ended.");
+    } else {
+      flame.remainingRounds = remaining;
+      await actor.setFlag("marks-of-mezoria", "flameImbuement", flame);
+    }
+  }
+
+  return { formula, damageType };
+}
+
   // ---------- Rank scaling: Base vs Current Ability Rank ----------
   const baseRankKey    = details.rankReq || "";          // Min Character Rank as base
   const currentRankKey = details.currentRank || baseRankKey || "";
