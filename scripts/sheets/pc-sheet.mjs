@@ -1,19 +1,11 @@
 // scripts/sheets/pc-sheet.mjs
-
 import { MezoriaConfig } from "../../config.mjs";
 import { RaceData } from "../races.mjs";
-import { buildAbilityRollFormula, buildWeaponDamageFormula } from "../abilities/rolls.mjs";
+import {
+  buildAbilityRollFormula,
+  buildWeaponDamageFormula
+} from "../abilities/rolls.mjs";
 
-/**
- * MinimalActorSheet
- *
- * PC actor sheet for Marks of Mezoria.
- * This preserves ALL behavior from your current system.mjs:
- * - Background filtering
- * - Skill rolls + Versatility
- * - Ability rolls (costs, Versatility, Flame Imbuement, Chest of the Depths)
- * - Weapon damage rolls using Flame Imbuement
- */
 export class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
@@ -46,16 +38,21 @@ export class MinimalActorSheet extends ActorSheet {
     data.raceData = RaceData || {};
     data.user     = game.user;
 
-    // Backgrounds
+    // -----------------------------
+    // Background dropdowns
+    // -----------------------------
     const bgType = data.system?.details?.backgroundType ?? "";
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
+
     let availableBackgrounds = {};
     if (bgType && allBackgrounds[bgType]) {
       availableBackgrounds = allBackgrounds[bgType];
     }
     data.availableBackgrounds = availableBackgrounds;
 
+    // -----------------------------
     // Abilities grouped by sourceType
+    // -----------------------------
     const allAbilities = (data.items || []).filter(i => i.type === "ability");
     const grouped = {
       racial:     [],
@@ -83,9 +80,9 @@ export class MinimalActorSheet extends ActorSheet {
 
     const actor = this.actor;
 
-    // -------------------------------
+    // ---------------------------------
     // Save rolls
-    // -------------------------------
+    // ---------------------------------
     html.find(".save-roll").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -104,9 +101,9 @@ export class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // -------------------------------
-    // Generic skill rolls (with Versatility)
-    // -------------------------------
+    // ---------------------------------
+    // Generic skill rolls (uses Versatility when flagged)
+    // ---------------------------------
     html.find(".roll-any").on("click", async (event) => {
       event.preventDefault();
       const btn  = event.currentTarget;
@@ -143,9 +140,9 @@ export class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // -------------------------------
+    // ---------------------------------
     // Ability editing
-    // -------------------------------
+    // ---------------------------------
     html.find(".item-edit").on("click", (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -157,13 +154,13 @@ export class MinimalActorSheet extends ActorSheet {
       if (item) item.sheet.render(true);
     });
 
-    // -------------------------------
-    // Ability effect rolls
-    // -------------------------------
+    // ---------------------------------
+    // Ability use / effect / buff handling
+    // ---------------------------------
     html.find(".ability-roll").on("click", async (event) => {
       event.preventDefault();
 
-      const btn = event.currentTarget;
+      const btn    = event.currentTarget;
       const itemId = btn.dataset.itemId;
       if (!itemId) return;
 
@@ -223,10 +220,11 @@ export class MinimalActorSheet extends ActorSheet {
         }
       }
 
-      // -------------------------------
-      // 3a) Versatility special activation (Human)
-      // -------------------------------
       const racialKey = details.racialKey || null;
+
+      // -------------------------------
+      // 3a) Versatility (Human)
+      // -------------------------------
       if (effect.type === "buff" &&
           effect.appliesTo === "nextTrainedSkill" &&
           racialKey === "human-versatility") {
@@ -249,7 +247,7 @@ export class MinimalActorSheet extends ActorSheet {
       }
 
       // -------------------------------
-      // 3b) Flame Imbuement – Embergiest racial buff
+      // 3b) Flame Imbuement (Embergiest)
       // -------------------------------
       if (effect.type === "buff" &&
           effect.appliesTo === "weaponAttacks" &&
@@ -261,8 +259,6 @@ export class MinimalActorSheet extends ActorSheet {
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
-        // At Normal (index 0): conversion only, no bonus dice.
-        // Each rank above Normal: +1d4 (or whatever extraDieType is).
         const duration        = Number(effect.durationRounds ?? 3) || 3;
         const extraDieType    = effect.extraDieType || "d4";
         const extraDicePerRank = Number(effect.extraDicePerRank ?? 1) || 1;
@@ -284,15 +280,14 @@ export class MinimalActorSheet extends ActorSheet {
           `for the next ${duration} rounds.`
         );
 
-        // No direct roll for this ability – it's a buff.
-        return;
+        return; // Buff only
       }
 
       // -------------------------------
-      // 3c) Chest of the Depths – Anthazoan storage ability
+      // 3c) Chest of the Depths (Anthazoan)
       // -------------------------------
       if (effect.type === "storage" &&
-          details.racialKey === "anthazoan-chest-depths") {
+          racialKey === "anthazoan-chest-depths") {
 
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
@@ -300,16 +295,15 @@ export class MinimalActorSheet extends ActorSheet {
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
-        const baseSlots     = Number(effect.storageBaseSlots ?? 40) || 40;
-        const slotsPerRank  = Number(effect.storageSlotsPerRank ?? 5) || 5;
-        const totalSlots    = baseSlots + (slotsPerRank * rankIndex);
+        const baseSlots    = Number(effect.storageBaseSlots ?? 40) || 40;
+        const slotsPerRank = Number(effect.storageSlotsPerRank ?? 5) || 5;
+        const totalSlots   = baseSlots + (slotsPerRank * rankIndex);
 
-        // TODO: once-per-day tracking to be wired when we have a day/rest model
         ui.notifications?.info(
           `Chest of the Depths opened. Vault capacity: ${totalSlots} item types (no encumbrance).`
         );
 
-        return; // No dice roll for Chest of the Depths
+        return; // No roll
       }
 
       // -------------------------------
@@ -330,9 +324,9 @@ export class MinimalActorSheet extends ActorSheet {
       });
     });
 
-    // -------------------------------
+    // ---------------------------------
     // Ability removal
-    // -------------------------------
+    // ---------------------------------
     html.find(".item-delete").on("click", async (event) => {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
@@ -343,17 +337,16 @@ export class MinimalActorSheet extends ActorSheet {
       await actor.deleteEmbeddedDocuments("Item", [itemId]);
     });
 
-    // -------------------------------
-    // Weapon damage rolls (uses Flame Imbuement if active)
-    // -------------------------------
+    // ---------------------------------
+    // Weapon damage roll (uses Flame Imbuement if active)
+    // ---------------------------------
     html.find(".weapon-damage-roll").on("click", async (event) => {
       event.preventDefault();
       const btn = event.currentTarget;
 
-      // Read base damage from data attributes on the button
       const baseDice    = Number(btn.dataset.dice   || 1)  || 1;   // e.g. 1
-      const baseDieType =          btn.dataset.dietype      || "d8"; // e.g. "d8"
-      const label       =          btn.dataset.label        || "Weapon Damage";
+      const baseDieType =        btn.dataset.dietype      || "d8"; // e.g. "d8"
+      const label       =        btn.dataset.label        || "Weapon Damage";
 
       const { formula, damageType } =
         await buildWeaponDamageFormula(actor, baseDice, baseDieType, true);
