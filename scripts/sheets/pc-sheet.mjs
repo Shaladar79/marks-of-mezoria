@@ -329,6 +329,79 @@ if (effect.type === "buff" &&
       }
 
       // -------------------------------
+// 3x) Pixie Dust (Sprite) - Single Target Daze
+// -------------------------------
+if (effect.type === "debuff" &&
+    effect.appliesTo === "daze" &&
+    racialKey === "sprite-pixie-dust") {
+
+  const cfg       = CONFIG["marks-of-mezoria"] || {};
+  const rankOrder = cfg.ranks || [];
+  const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
+  let rankIndex   = rankOrder.indexOf(charRank);
+  if (rankIndex < 0) rankIndex = 0;
+
+  // Targeting: exactly one target token
+  const targets = Array.from(game.user?.targets ?? []);
+  if (targets.length !== 1) {
+    ui.notifications?.warn("Pixie Dust requires exactly 1 targeted token.");
+    return;
+  }
+
+  const targetToken = targets[0];
+  const targetActor = targetToken?.actor;
+  if (!targetActor) {
+    ui.notifications?.warn("Target has no actor.");
+    return;
+  }
+
+  // Range check (feet)
+  const baseRange = Number(effect.rangeBase ?? 20) || 20;
+  const perRank   = Number(effect.rangePerRank ?? 5) || 5;
+  const rangeFt   = baseRange + (perRank * rankIndex);
+
+  // Measure distance in scene units
+  const dist = canvas?.grid?.measureDistance(actor.getActiveTokens()?.[0], targetToken) ?? null;
+  if (dist === null) {
+    ui.notifications?.warn("Could not measure distance to target.");
+    return;
+  }
+  if (dist > rangeFt) {
+    ui.notifications?.warn(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
+    return;
+  }
+
+  // Compute reaction-drop increase
+  const reactionDropPerRank = Number(effect.reactionDropPerRank ?? 2) || 2;
+  const reactionDropIncrease = reactionDropPerRank * rankIndex;
+
+  // Store as a flag on the TARGET for now
+  // TODO: When Reaction/Action system is implemented, consume this flag to:
+  // - cancel the target's next action
+  // - increase reaction drop by reactionDropIncrease
+  // - clear the flag after it triggers/expires
+  const payload = {
+    remainingRounds: 1,              // daze is one "next action" in practice
+    loseNextAction: !!effect.loseNextAction,
+    reactionDropIncrease,
+    sourceActorId: actor.id,
+    sourceItemId: item.id
+  };
+
+  await targetActor.setFlag("marks-of-mezoria", "pixieDustDaze", payload);
+
+  ChatMessage.create({
+    speaker: ChatMessage.getSpeaker({ actor }),
+    content:
+      `<b>Pixie Dust</b> dazes <b>${targetActor.name}</b>.<br>` +
+      `They lose their next action.<br>` +
+      `Reaction drop increase: <b>+${reactionDropIncrease}</b> (TODO: wire into Reaction system).`
+  });
+
+  return; // no roll for now (effect is applied via flag)
+}
+
+      // -------------------------------
       // 3c) Chest of the Depths (Anthazoan)
       // -------------------------------
       if (effect.type === "storage" &&
