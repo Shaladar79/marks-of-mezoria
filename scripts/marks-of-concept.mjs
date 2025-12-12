@@ -1,9 +1,8 @@
-// scripts/marks/marks-reserved.ph.mjs
-// PLACEHOLDER FILE
-// These marks are NOT Marks of Power.
-// They are reserved for future Mark systems.
+// /scripts/marks-of-concept.mjs
+// Mark of Concept
+// Abstract, internal, cosmic, and metaphysical expressions of power
 
-export const ReservedMarks = {
+export const MarksOfConcept = {
 
   materials_forms: [
     "Bone",
