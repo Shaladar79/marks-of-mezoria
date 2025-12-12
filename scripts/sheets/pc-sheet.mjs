@@ -6,6 +6,10 @@ import {
   buildWeaponDamageFormula
 } from "../abilities/rolls.mjs";
 
+function normalizeRankKey(raw) {
+  if (!raw) return "";
+  return String(raw).trim().toLowerCase();
+}
 export class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
