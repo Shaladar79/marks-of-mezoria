@@ -375,7 +375,51 @@ export const RaceAbilityPack = {
  // --------------------
     // PLACEHOLDER RACES (no abilities yet)
     // --------------------
-    sprite:    [],
+    sprite: [
+  {
+    key: "sprite-pixie-dust",
+    name: "Sprite – Pixie Dust",
+    type: "ability",
+    img: "icons/magic/air/fog-gas-smoke-dust-white.webp",
+    system: {
+      details: {
+        sourceType: "racial",
+        sourceKey: "sprite",
+        racialKey: "sprite-pixie-dust",
+
+        actionType: "action",
+        actionCost: 4,
+
+        // 4 mana per rank
+        cost: {
+          type: "mana",
+          value: 4,
+          perRank: true
+        },
+
+        // Single-target daze effect
+        effect: {
+          type: "debuff",
+          appliesTo: "daze",
+
+          // "Range is good" — using a sane default consistent with earlier patterns
+          // Adjust later if you want a different baseline.
+          rangeBase: 20,
+          rangePerRank: 5,
+
+          // Daze: lose next action
+          loseNextAction: true,
+
+          // TODO: wire this into your Reaction/Action Cost system later
+          reactionDropPerRank: 2
+        },
+
+        syncWithRank: true,
+        noConsolidate: true
+      }
+    }
+  }
+],
     mythrian:  [],
     scion:     [],
     auramine:  []
