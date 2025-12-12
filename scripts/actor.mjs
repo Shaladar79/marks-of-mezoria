@@ -6,6 +6,14 @@ import { RaceAbilityPack } from "./packs/raceabilitypack.mjs";
 
 export class MezoriaActor extends Actor {
 
+  function normalizeRaceKey(raw) {
+  if (!raw) return "";
+  const v = String(raw).trim().toLowerCase();
+  if (v === "aetherian") return "etherean";
+  if (v === "anthozoan") return "anthazoan";
+  return v;
+}
+  
   prepareDerivedData() {
     super.prepareDerivedData();
 
@@ -439,13 +447,16 @@ export class MezoriaActor extends Actor {
    *  - Removes all auto-granted racial abilities on the actor.
    *  - Creates new racial abilities from RaceAbilityPack definitions.
    */
+  
   static async applyRacialAbilities(actor) {
     try {
-      const raceKey = actor.system?.details?.race;
-      if (!raceKey) return;
+     const rawRace = actor.system?.details?.race;
+     const raceKey = normalizeRaceKey(rawRace);
+     if (!raceKey) return;
+
 
       // Get configured racial ability definitions for this race
-      const defs = RaceAbilityPack.getRacialAbilityDefinitions(raceKey);
+      RaceAbilityPack.getRacialAbilityDefinitions(raceKey);
       const items = actor.items ?? [];
 
       // 1) Remove existing auto-granted racial abilities from this actor
