@@ -465,7 +465,51 @@ export const RaceAbilityPack = {
   }
 ],
 
-    scion:     [],
+    scion: [
+  {
+    key: "scion-elemental-bolt",
+    name: "Scion – Elemental Bolt",
+    type: "ability",
+    img: "icons/magic/elemental/elemental-bolt.webp",
+    system: {
+      details: {
+        sourceType: "racial",
+        sourceKey: "scion",
+        racialKey: "scion-elemental-bolt",
+
+        // Action economy
+        actionType: "action",
+        actionCost: 3,
+
+        // Mana cost (flat)
+        cost: {
+          type: "mana",
+          value: 5
+        },
+
+        effect: {
+          type: "damage",
+          appliesTo: "singleTarget",
+
+          // Range scaling
+          rangeBase: 20,
+          rangePerRank: 5,
+
+          // Damage scaling
+          dicePerRank: 1,
+          dieType: "d6",
+
+          // Damage type resolved dynamically from Scion aspect
+          damageType: "aspect"
+        },
+
+        syncWithRank: true,
+        noConsolidate: true
+      }
+    }
+  }
+],
+
     prismatic: [
   {
     key: "prismatic-reflection-cloak",
