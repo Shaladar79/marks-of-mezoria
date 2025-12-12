@@ -86,40 +86,58 @@ export const RaceAbilityPack = {
     ],
 
     // other races: fill later
-    aetherian: [
-  {
-    key: "aetherian-ethereal-step",
-    name: "Aetherian – Ethereal Step",
-    type: "ability",
-    img: "icons/magic/air/air-wave-wind-blue.webp",
-    system: {
-      details: {
-        short: "Teleport a short distance without provoking opportunity attacks.",
-        description:
-          "You briefly phase into the Astral Winds and reappear at a nearby point. " +
-          "Teleport up to 15 feet to any visible square. This does not provoke an attack of opportunity. " +
-          "The range increases by +10 feet per character rank above Normal. " +
-          "This is a Movement action (AC: 2). The ability costs 3 mana per rank.",
+     etherean: [
+      {
+        key: "etherean-ethereal-step",
+        name: "Etherean – Ethereal Step",
+        type: "ability",
+        img: "icons/svg/wing.svg",
+        system: {
+          details: {
+            short: "Short-range teleport that avoids attacks of opportunity.",
+            description:
+              "You step sideways into the aether and reappear a short distance away. As a movement action, you instantly move up to 15 feet to any square you can see. " +
+              "This movement does not provoke attacks of opportunity. For each character rank above Normal, the range increases by 10 feet (e.g., 25 ft at Quartz, 35 ft at Topaz, etc.). " +
+              "Ethereal Step costs 3 Mana per character rank and cannot be consolidated; it scales automatically with your rank.",
 
-        // Rank handling
-        rankReq: "normal",
-        currentRank: "normal",
+            rankReq: "normal",
+            currentRank: "normal",
+            syncWithRank: true,
+            noConsolidate: true,
 
-        // This racial scales automatically with character rank
-        syncWithRank: true,
-        noConsolidate: true,
+            actionType: "move",
+            actionCost: 2,
+            range: "15 ft + 10 ft per rank",
 
-        // This is a movement-type action
-        actionType: "movement",
-        actionCost: 2,
-        range: "15 ft + 10 ft per rank above Normal (self-teleport)",
+            cost: {
+              type: "mana",
+              value: 3,
+              perRank: true
+            },
 
-        // Cost: 3 mana per character rank
-        cost: {
-          type: "mana",
-          value: 3,
-          perRank: true
-        },
+            effect: {
+              type: "teleport",
+              appliesTo: "selfMovement",
+              baseRangeFeet: 15,
+              rangePerRankFeet: 10,
+              provokeOpportunity: false,
+              notes: "Movement action. Teleport to a visible square without provoking attacks of opportunity."
+            },
+
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "etherean",
+            autoGranted: false,
+            tags: "etherean, racial, teleport"
+          }
+        }
+      }
+    ],
 
         // Effect configuration (teleport is non-damaging, non-rolling)
         effect: {
