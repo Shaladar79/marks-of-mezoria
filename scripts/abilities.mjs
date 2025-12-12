@@ -76,7 +76,8 @@ export const AbilityData = {
     reaction: "Reaction",
     free:     "Free Action",
     passive:  "Passive",
-    toggle:   "Toggle"
+    toggle:   "Toggle",
+    movement: "Movement"
   },
 
   // --------------------------------------------------------
