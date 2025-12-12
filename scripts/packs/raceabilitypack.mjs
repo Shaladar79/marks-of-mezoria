@@ -422,7 +422,46 @@ export const RaceAbilityPack = {
 ],
     mythrian:  [],
     scion:     [],
-    auramine:  []
+    prismatic: [
+  {
+    key: "prismatic-reflection-cloak",
+    name: "Prismatic – Reflection Cloak",
+    type: "ability",
+    img: "icons/magic/light/shield-reflect-prism.webp",
+    system: {
+      details: {
+        sourceType: "racial",
+        sourceKey: "prismatic",
+        racialKey: "prismatic-reflection-cloak",
+
+        // Action economy
+        actionType: "action",
+        actionCost: 2,
+
+        // Resource cost: 3 mana per rank
+        cost: {
+          type: "mana",
+          value: 3,
+          perRank: true
+        },
+
+        // Buff definition
+        effect: {
+          type: "buff",
+          appliesTo: "magicalDefense",
+          durationRounds: 3,
+
+          baseBonus: 2,
+          bonusPerRank: 1
+        },
+
+        syncWithRank: true,
+        noConsolidate: true
+      }
+    }
+  }
+],
+
   },
 
   /**
