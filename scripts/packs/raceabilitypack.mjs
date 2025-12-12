@@ -91,7 +91,80 @@ export const RaceAbilityPack = {
     sprite: [],
     anthazoan: [],
     mythrian: [],
-    draconian: [],
+    
+    draconian: [
+      {
+        key: "draconian-breath-weapon",
+        name: "Draconian – Breath Weapon",
+        type: "ability",
+        img: "icons/magic/fire/breath-weapon-ray-orange.webp", // or any icon you like
+        system: {
+          details: {
+            short: "Exhale elemental power in a line, with damage and type scaling by rank and clan.",
+            description:
+              "You unleash a blast of elemental breath in a straight line. The damage type is determined by your Draconian clan "
+              + "(for example: Fire Clan = fire, Frost Clan = cold, Lightning Clan = lightning, etc.). "
+              + "The breath weapon has a base range of 15 feet and increases by +5 feet for each rank above Normal. "
+              + "It deals 1d8 damage per character rank (e.g., 1d8 at Normal, 2d8 at Quartz, 3d8 at Topaz, and so on). "
+              + "You must spend mana equal to 3 per character rank to use this ability. "
+              + "This ability is a racial power: it automatically scales with your rank and cannot be consolidated.",
+
+            // Rank + scaling
+            rankReq: "normal",
+            currentRank: "normal",
+
+            // Racial scaling: follows character rank, not consolidation
+            syncWithRank: true,
+            // Cannot be consolidated
+            noConsolidate: true,
+
+            // Action usage
+            actionType: "action",
+            actionCost: 5,
+
+            // Range: 15 ft line, +5 ft per rank above Normal
+            range: "15 ft line (+5 ft per rank)",
+            rangeBase: 15,
+            rangePerRank: 5,
+            lineShape: "line",
+
+            // Mana cost: 3 mana per character rank
+            cost: {
+              type: "mana",   // spends from system.status.mana.current
+              value: 3,       // base cost per rank
+              perRank: true   // multiply by (rank index + 1)
+            },
+
+            // Effect: Damage, type based on clan
+            effect: {
+              type: "damage",
+              resource: "vitality",
+              amount: 0,          // resolved by the roll, not flat amount
+              damageType: "",     // determined by Draconian clan; see notes
+              notes: "Damage type is determined by your Draconian clan (fire, cold, lightning, acid, etc.).",
+              roll: {
+                dieType: "d8",
+                diceBase: 1,      // 1d8 at Normal; rank scaling logic adds +1 die per rank
+                modAttribute: "might" // or leave blank to default; currently uses Might for damage
+              }
+            },
+
+            // Scaling metadata (already supported by your roll logic)
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "draconian",
+            autoGranted: false,   // template; embedded copies will be marked autoGranted=true
+            tags: "draconian, racial, breath-weapon"
+          }
+        }
+      }
+    ],
+    
     scion: [],
     embergiest: [],
     auramine: []
