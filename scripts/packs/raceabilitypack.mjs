@@ -420,7 +420,51 @@ export const RaceAbilityPack = {
     }
   }
 ],
-    mythrian:  [],
+   mythrian: [
+  {
+    key: "mythrian-call-of-the-wild",
+    name: "Mythrian – Call of the Wild",
+    type: "ability",
+    img: "icons/creatures/mammals/wolf-howl-moon-blue.webp",
+    system: {
+      details: {
+        sourceType: "racial",
+        sourceKey: "mythrian",
+        racialKey: "mythrian-call-of-the-wild",
+
+        // Action economy
+        // NOTE: Your system can keep "bonus" as a string even if you haven't formalized it yet.
+        actionType: "bonus",
+        actionCost: 4,
+
+        // Cost: 4 stamina per rank
+        cost: {
+          type: "stamina",
+          value: 4,
+          perRank: true
+        },
+
+        effect: {
+          type: "buff",
+          appliesTo: "partyAura",
+          durationRounds: 3,
+
+          // Bonus: +1 per rank (Normal +1, Quartz +2, etc.)
+          bonusPerRank: 1,
+
+          // Aura radius not specified by you yet; we’ll store placeholders for later wiring.
+          // TODO: Decide radius model (e.g., 10ft +5ft/rank) and enforce distance in code.
+          auraRadiusBase: 0,
+          auraRadiusPerRank: 0
+        },
+
+        syncWithRank: true,
+        noConsolidate: true
+      }
+    }
+  }
+],
+
     scion:     [],
     prismatic: [
   {
