@@ -1,10 +1,7 @@
 // scripts/abilities/rolls.mjs
 
 /**
- * Build the dice formula for an Ability item.
- * Used by:
- *  - Actor sheet (when rolling an ability)
- *  - Ability item sheet (roll preview)
+ * Build an ability roll formula based on the ability's effect.roll configuration.
  */
 export function buildAbilityRollFormula(actor, item) {
   const hasActor = !!actor;
@@ -127,16 +124,11 @@ export function buildAbilityRollFormula(actor, item) {
   return formula;
 }
 
-/* ------------------------------------
- * Helper: build weapon damage formula (Flame Imbuement aware)
- * ----------------------------------*/
-export async function buildWeaponDamageFormula(
-  actor,
-  baseDice,
-  baseDieType,
-  isPhysicalAttack = true
-) {
-  // Base formula (weapon’s own damage)
+/**
+ * Build a weapon damage formula, aware of Embergiest Flame Imbuement.
+ * baseDice/baseDieType come from the weapon (e.g. 1 and "d8").
+ */
+export async function buildWeaponDamageFormula(actor, baseDice, baseDieType, isPhysicalAttack = true) {
   let formula    = `${baseDice}${baseDieType}`;
   let damageType = "physical";
 
