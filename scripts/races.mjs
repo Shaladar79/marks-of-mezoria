@@ -861,12 +861,6 @@ export const RaceBonuses = {
     grace: 1
   },
 
-  auramine: {
-    resolve: 2,
-    insight: 1,
-    presence: 1
-  },
-
   embergiest: {
     might: 2,
     endurance: 1,
@@ -956,18 +950,6 @@ export const RaceStatus = {
     vitalityMax: 7,
     staminaMax: 10,
     manaMax: 11,
-    traumaMax: 2,
-    defPhysical: 0,
-    defMagical: 1
-  },
-
-  auramine: {
-    pace: 5,
-    naturalArmor: 0,
-    defTouch: 0,
-    vitalityMax: 9,
-    staminaMax: 8,
-    manaMax: 12,
     traumaMax: 2,
     defPhysical: 0,
     defMagical: 1
