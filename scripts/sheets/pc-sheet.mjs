@@ -312,15 +312,64 @@ if (effect.type === "buff" &&
   // TODO: move this mapping into MezoriaConfig once tribe taxonomy is finalized
   const tribeRaw = String(actor.system?.details?.mythrianTribe ?? "").trim().toLowerCase();
 
-  // Basic categorization by keyword (safe starter approach)
-  const tribeCategory =
-    tribeRaw.includes("feline") ? "feline" :
-    tribeRaw.includes("lupine") ? "lupine" :
-    tribeRaw.includes("ursine") ? "ursine" :
-    tribeRaw.includes("avian") ? "avian" :
-    tribeRaw.includes("cervine") ? "cervine" :
-    tribeRaw.includes("serpent") || tribeRaw.includes("serpentine") ? "serpentine" :
-    "lupine"; // default fallback (change anytime)
+ // Tribe key comes from system.details.mythrianTribe, e.g. "lion", "wolf", "bear"
+const tribeKey = String(actor.system?.details?.mythrianTribe ?? "").trim().toLowerCase();
+
+// Tribe -> category (your requested sub-sections)
+const tribeToCategory = {
+  // Feline
+  lion: "feline",
+  tiger: "feline",
+  leopard: "feline",
+  panther: "feline",
+
+  // Lupine
+  wolf: "lupine",
+  fox: "lupine",
+
+  // Ursine
+  bear: "ursine",
+  badger: "ursine",
+
+  // Avian
+  falcon: "avian",
+  owl: "avian",
+  crow: "avian",
+
+  // Cervine (horned/hoofed endurance + grace vibe)
+  stag: "cervine",
+  goat: "cervine",
+  bull: "cervine",
+  boar: "cervine",
+
+  // Serpentine
+  serpent: "serpentine",
+
+  // Amphibian / other (we’ll treat as “cunning / focus” for now)
+  toad: "serpentine",
+
+  // Aquatic (tactical/mental by default until you define aquatic category)
+  cuttlefish: "serpentine",
+  shark: "serpentine",
+
+  // Insectoid (precision / focus)
+  mantis: "serpentine"
+};
+
+// Fallback if blank/unset
+const tribeCategory = tribeToCategory[tribeKey] ?? "lupine";
+
+// Category -> sub-attribute buff
+const categoryToSubAttr = {
+  feline:     { group: "body", sub: "swiftness", label: "Swiftness" },
+  lupine:     { group: "soul", sub: "resolve",   label: "Resolve"   },
+  ursine:     { group: "body", sub: "endurance", label: "Endurance" },
+  avian:      { group: "mind", sub: "insight",   label: "Insight"   },
+  cervine:    { group: "soul", sub: "grace",     label: "Grace"     },
+  serpentine: { group: "mind", sub: "focus",     label: "Focus"     }
+};
+
+const targetAttr = categoryToSubAttr[tribeCategory] ?? categoryToSubAttr.lupine;
 
   // Category -> sub-attribute key used by your actor data model
   const categoryToSubAttr = {
