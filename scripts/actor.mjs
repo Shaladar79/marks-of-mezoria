@@ -4,16 +4,17 @@
 import { MezoriaConfig } from "../config.mjs";
 import { RaceAbilityPack } from "./packs/raceabilitypack.mjs";
 
-export class MezoriaActor extends Actor {
-
-  function normalizeRaceKey(raw) {
+// IMPORTANT: This must be OUTSIDE the class (or rewritten as a class method).
+function normalizeRaceKey(raw) {
   if (!raw) return "";
   const v = String(raw).trim().toLowerCase();
   if (v === "aetherian") return "etherean";
   if (v === "anthozoan") return "anthazoan";
   return v;
 }
-  
+
+export class MezoriaActor extends Actor {
+
   prepareDerivedData() {
     super.prepareDerivedData();
 
@@ -92,7 +93,8 @@ export class MezoriaActor extends Actor {
       resolve:    ["soul", "resolve"]
     };
 
-    const raceKey   = system.details.race           || "";
+    // IMPORTANT: normalize race for all derived systems
+    const raceKey   = normalizeRaceKey(system.details.race || "");
     const tribeKey  = system.details.mythrianTribe  || "";
     const clanKey   = system.details.draconianClan  || "";
     const aspectKey = system.details.scionAspect    || "";
@@ -210,7 +212,6 @@ export class MezoriaActor extends Actor {
           node.label   = node.label ?? "";
           node.trained = !!node.trained;
 
-          // Persist misc, wipe derived parts
           node.racialBonus     = 0;
           node.backgroundBonus = 0;
           node.rankBonus       = 0;
@@ -222,28 +223,26 @@ export class MezoriaActor extends Actor {
       }
     }
 
-    // Config data for skills & ranks
     const raceSkillData        = MezoriaConfig.raceSkillData         || {};
     const rawRankSkillBonusMap = MezoriaConfig.rankSkillBonuses      || {};
     const rankOrder            = MezoriaConfig.ranks                 || [];
     const bgTypeForSkills      = MezoriaConfig.backgroundTypeBonuses || {};
     const bgForSkills          = MezoriaConfig.backgroundBonuses     || {};
 
-    // Normalize rankSkillBonuses keys (e.g., "Topaz" → "topaz")
+    // Normalize rankSkillBonuses keys
     const rankSkillBonuses = {};
     for (const [key, value] of Object.entries(rawRankSkillBonusMap)) {
       const normKey = String(key).trim().toLowerCase();
       rankSkillBonuses[normKey] = Number(value ?? 0);
     }
 
-    // Rank-based trained skill bonus (full) and half for untrained
+    // Rank-based trained skill bonus
     const rawRankValue = system.details.rank ?? "";
     let rankKeySkill = "";
 
     if (rawRankValue !== "" && rawRankValue !== null && rawRankValue !== undefined) {
       const rawStr = String(rawRankValue).trim();
 
-      // If it's purely numeric (e.g. "2"), treat it as an index into rankOrder
       if (/^[0-9]+$/.test(rawStr)) {
         const idx = parseInt(rawStr, 10);
         const orderKey = rankOrder[idx];
@@ -251,7 +250,6 @@ export class MezoriaActor extends Actor {
           rankKeySkill = String(orderKey).trim().toLowerCase();
         }
       } else {
-        // Otherwise treat it as a rank ID directly
         rankKeySkill = rawStr.toLowerCase();
       }
     }
@@ -263,8 +261,8 @@ export class MezoriaActor extends Actor {
     );
     const halfRankBonus = Math.floor(fullRankBonus / 2);
 
-    // Race keys for skill bonuses
-    const raceKeySkill   = system.details.race          || "";
+    // IMPORTANT: normalize race key for skill bonuses too
+    const raceKeySkill   = normalizeRaceKey(system.details.race || "");
     const tribeKeySkill  = system.details.mythrianTribe || "";
     const clanKeySkill   = system.details.draconianClan || "";
     const aspectKeySkill = system.details.scionAspect   || "";
@@ -272,7 +270,6 @@ export class MezoriaActor extends Actor {
     const backTypeKeySkill = system.details.backgroundType || "";
     const backKeySkill     = system.details.background     || "";
 
-    // Helper: apply skill bonus arrays
     const applySkillArray = (arr, targetField) => {
       if (!Array.isArray(arr)) return;
       for (const entry of arr) {
@@ -293,7 +290,6 @@ export class MezoriaActor extends Actor {
       }
     };
 
-    // Racial skill bonuses
     if (raceSkillData.base &&
         raceKeySkill &&
         raceSkillData.base[raceKeySkill] &&
@@ -301,7 +297,6 @@ export class MezoriaActor extends Actor {
       applySkillArray(raceSkillData.base[raceKeySkill].skills, "racialBonus");
     }
 
-    // Mythrian tribe skill bonuses
     if (raceKeySkill === "mythrian" &&
         raceSkillData.mythrianTribes &&
         tribeKeySkill &&
@@ -310,7 +305,6 @@ export class MezoriaActor extends Actor {
       applySkillArray(raceSkillData.mythrianTribes[tribeKeySkill].skills, "racialBonus");
     }
 
-    // Draconian clan skill bonuses
     if (raceKeySkill === "draconian" &&
         raceSkillData.draconianClans &&
         clanKeySkill &&
@@ -319,7 +313,6 @@ export class MezoriaActor extends Actor {
       applySkillArray(raceSkillData.draconianClans[clanKeySkill].skills, "racialBonus");
     }
 
-    // Scion aspect skill bonuses
     if (raceKeySkill === "scion" &&
         raceSkillData.scionAspects &&
         aspectKeySkill &&
@@ -328,23 +321,18 @@ export class MezoriaActor extends Actor {
       applySkillArray(raceSkillData.scionAspects[aspectKeySkill].skills, "racialBonus");
     }
 
-    // Background type skill bonus
     if (backTypeKeySkill &&
         bgTypeForSkills[backTypeKeySkill] &&
         bgTypeForSkills[backTypeKeySkill].skill) {
       applySkillArray([bgTypeForSkills[backTypeKeySkill].skill], "backgroundBonus");
     }
 
-    // Individual background skill bonus
     if (backKeySkill &&
         bgForSkills[backKeySkill] &&
         bgForSkills[backKeySkill].skill) {
       applySkillArray([bgForSkills[backKeySkill].skill], "backgroundBonus");
     }
 
-    // Final skill totals:
-    //  - Trained: full rank bonus
-    //  - Untrained: half rank bonus (rounded down)
     for (const group in skillGroups) {
       if (!Object.prototype.hasOwnProperty.call(skillGroups, group)) continue;
       const subs = skillGroups[group];
@@ -447,16 +435,14 @@ export class MezoriaActor extends Actor {
    *  - Removes all auto-granted racial abilities on the actor.
    *  - Creates new racial abilities from RaceAbilityPack definitions.
    */
-  
   static async applyRacialAbilities(actor) {
     try {
-     const rawRace = actor.system?.details?.race;
-     const raceKey = normalizeRaceKey(rawRace);
-     if (!raceKey) return;
+      const rawRace = actor.system?.details?.race;
+      const raceKey = normalizeRaceKey(rawRace);
+      if (!raceKey) return;
 
-
-      // Get configured racial ability definitions for this race
-      RaceAbilityPack.getRacialAbilityDefinitions(raceKey);
+      // IMPORTANT: you must ASSIGN this to defs
+      const defs = RaceAbilityPack.getRacialAbilityDefinitions(raceKey);
       const items = actor.items ?? [];
 
       // 1) Remove existing auto-granted racial abilities from this actor
@@ -473,7 +459,7 @@ export class MezoriaActor extends Actor {
       }
 
       // If no racial definitions, nothing more to do
-      if (!defs.length) return;
+      if (!defs || !defs.length) return;
 
       // 2) Create new embedded racial abilities from definitions
       const createdData = [];
@@ -481,7 +467,6 @@ export class MezoriaActor extends Actor {
       for (const def of defs) {
         if (!def) continue;
 
-        // Deep clone the definition
         const data = foundry.utils.deepClone(def);
 
         data.type = "ability";
@@ -491,17 +476,13 @@ export class MezoriaActor extends Actor {
         data.system ??= {};
         data.system.details ??= {};
 
-        // Enforce racial metadata for the embedded copy
         data.system.details.sourceType  = "racial";
         data.system.details.autoGranted = true;
         data.system.details.sourceKey   = raceKey;
 
-        // Keep a key for debugging/identification
         data.system.details.racialKey ??= def.key ?? null;
 
-        // Ensure this will be a brand new embedded document
         delete data._id;
-
         createdData.push(data);
       }
 
