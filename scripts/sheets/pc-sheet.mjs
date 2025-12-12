@@ -290,6 +290,39 @@ if (effect.type === "buff" &&
 }
 
       // -------------------------------
+// Reflection Cloak (Prismatic)
+// -------------------------------
+if (effect.type === "buff" &&
+    effect.appliesTo === "magicalDefense" &&
+    racialKey === "prismatic-reflection-cloak") {
+
+  const cfg       = CONFIG["marks-of-mezoria"] || {};
+  const rankOrder = cfg.ranks || [];
+  const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
+  let rankIndex   = rankOrder.indexOf(charRank);
+  if (rankIndex < 0) rankIndex = 0;
+
+  const duration     = Number(effect.durationRounds ?? 3) || 3;
+  const baseBonus    = Number(effect.baseBonus ?? 2) || 2;
+  const perRankBonus = Number(effect.bonusPerRank ?? 1) || 1;
+
+  const bonus = baseBonus + (perRankBonus * rankIndex);
+
+  const payload = {
+    remainingRounds: duration,
+    magicalDefenseBonus: bonus
+  };
+
+  await actor.setFlag("marks-of-mezoria", "reflectionCloak", payload);
+
+  ui.notifications?.info(
+    `Reflection Cloak activated: +${bonus} Magical Defense for ${duration} rounds.`
+  );
+
+  return; // Buff only
+}
+
+      // -------------------------------
       // 3b) Flame Imbuement (Embergiest)
       // -------------------------------
       if (effect.type === "buff" &&
