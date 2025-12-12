@@ -163,21 +163,29 @@ class MinimalActorSheet extends ActorSheet {
       // -------------------------------
       // 1) Compute effective resource cost
       // -------------------------------
-      const costType  = costCfg.type || "";    // "stamina" or "mana"
-      const baseCost  = Number(costCfg.value ?? 0) || 0;
-      const perRank   = !!costCfg.perRank;
+       const costType      = costCfg.type || "";    // "stamina" or "mana"
+  const baseCost      = Number(costCfg.value ?? 0) || 0;
+  const perRank       = !!costCfg.perRank;
+  const extraPerRank  = Number(costCfg.extraPerRank ?? 0) || 0;
 
-      let effectiveCost = baseCost;
+  let effectiveCost = baseCost;
 
-      if (perRank) {
-        const cfg       = CONFIG["marks-of-mezoria"] || {};
-        const rankOrder = cfg.ranks || [];
-        const charRank  = actor.system?.details?.rank || "";
-        let rankIndex   = rankOrder.indexOf(charRank);
-        if (rankIndex < 0) rankIndex = 0;
-        // Normal = index 0 => 1×base, Quartz = index 1 => 2×base, etc.
-        effectiveCost = baseCost * (rankIndex + 1);
-      }
+  if (perRank || extraPerRank) {
+    const cfg       = CONFIG["marks-of-mezoria"] || {};
+    const rankOrder = cfg.ranks || [];
+    const charRank  = actor.system?.details?.rank || "";
+    let rankIndex   = rankOrder.indexOf(charRank);
+    if (rankIndex < 0) rankIndex = 0;
+
+    if (perRank) {
+      // Normal = index 0 => 1×base, Quartz = index 1 => 2×base, etc.
+      effectiveCost = baseCost * (rankIndex + 1);
+    } else if (extraPerRank) {
+      // Normal = index 0 => baseCost
+      // Quartz = index 1 => baseCost + extraPerRank
+      effectiveCost = baseCost + (extraPerRank * rankIndex);
+    }
+  }
 
       // -------------------------------
       // 2) Deduct resource (stamina/mana)
@@ -265,6 +273,30 @@ class MinimalActorSheet extends ActorSheet {
         return;
       }
 
+       // -------------------------------
+      // 3b) Chest of the Depths special activation
+      // -------------------------------
+      if (effect.type === "storage" &&
+          details.racialKey === "anthazoan-chest-depths") {
+
+        const cfg       = CONFIG["marks-of-mezoria"] || {};
+        const rankOrder = cfg.ranks || [];
+        const charRank  = actor.system?.details?.rank || "";
+        let rankIndex   = rankOrder.indexOf(charRank);
+        if (rankIndex < 0) rankIndex = 0;
+
+        const baseSlots     = Number(effect.storageBaseSlots ?? 40) || 40;
+        const slotsPerRank  = Number(effect.storageSlotsPerRank ?? 5) || 5;
+        const totalSlots    = baseSlots + (slotsPerRank * rankIndex);
+
+        // TODO: once-per-day tracking to be wired when we have a day/rest model
+        ui.notifications?.info(
+          `Chest of the Depths opened. Vault capacity: ${totalSlots} item types (no encumbrance).`
+        );
+
+        return; // No dice roll for Chest of the Depths
+      }
+      
       // -------------------------------
       // 4) Normal ability roll
       // -------------------------------
