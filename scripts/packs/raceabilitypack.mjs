@@ -156,7 +156,82 @@ export const RaceAbilityPack = {
 ],
     sylvan: [],
     sprite: [],
-    anthazoan: [],
+       // --------------------
+    // ANTHAZOAN: Chest of the Depths
+    // --------------------
+    anthazoan: [
+      {
+        key: "anthazoan-chest-depths",
+        name: "Anthazoan – Chest of the Depths",
+        type: "ability",
+        img: "icons/containers/chest/chest-octopus-tentacles.webp",
+        system: {
+          details: {
+            short: "Open a personal dimensional vault that ignores encumbrance.",
+            description:
+              "You call upon the crushing weight and hidden trenches of the deep to open a personal dimensional vault. " +
+              "As an action, you open your Chest of the Depths within 5 feet. The Chest is a personal extradimensional space " +
+              "that can hold up to 40 distinct item types without tracking encumbrance. A \"type\" is a stack: for example, one " +
+              "Quartz-rank shortsword is one type; three identical Quartz-rank shortswords still count as one type; thirty identical " +
+              "healing potions also count as one type. The vault’s capacity increases by +5 item types for each character rank above Normal. " +
+              "Chest of the Depths may be used once per day, and costs 10 mana plus 2 additional mana per rank above Normal.",
+
+            // Rank handling
+            rankReq: "normal",
+            currentRank: "normal",
+
+            // Scales automatically with character rank, not via consolidation
+            syncWithRank: true,
+            noConsolidate: true,
+
+            // Action usage
+            actionType: "action",
+            actionCost: 5,
+            range: "5 ft (open / access vault)",
+
+            // Cost: 10 mana + 2 mana per rank above Normal
+            cost: {
+              type: "mana",      // resource to pay from status
+              value: 10,         // base cost at Normal
+              perRank: false,    // we are NOT multiplying by rank
+              extraPerRank: 2    // +2 mana per rank above Normal
+            },
+
+            // Effect: storage / vault
+            effect: {
+              type: "storage",
+              resource: "",
+              amount: 0,
+              damageType: "",
+              notes:
+                "Opens personal extradimensional storage. Holds item stacks without encumbrance. Once per day.",
+              roll: {
+                dieType: "",
+                diceBase: 0,
+                modAttribute: ""
+              },
+
+              // Storage-specific metadata
+              storageBaseSlots: 40,   // base item-type capacity
+              storageSlotsPerRank: 5, // +5 item types per rank above Normal
+              usesPerDay: 1
+            },
+
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "anthazoan",
+            autoGranted: false,
+            tags: "anthazoan, racial, storage, vault, chest"
+          }
+        }
+      }
+    ],
+
     mythrian: [],
     
     draconian: [
