@@ -103,27 +103,27 @@ class MinimalActorSheet extends ActorSheet {
       if (!path) return;
 
       const basePath = `skills.${path}`;
-     const total =
-     foundry.utils.getProperty(actor.system, `${basePath}.total`) ?? 0;
-     const label =
-     foundry.utils.getProperty(actor.system, `${basePath}.label`) || "Skill Check";
+      const total =
+        foundry.utils.getProperty(actor.system, `${basePath}.total`) ?? 0;
+      const label =
+        foundry.utils.getProperty(actor.system, `${basePath}.label`) || "Skill Check";
 
-let mod = total;
+      let mod = total;
 
-// Versatility bonus (Human racial ability)
-let versatilityBonus = await actor.getFlag("marks-of-mezoria", "versatilityBonus");
-const isTrained =
-  !!foundry.utils.getProperty(actor.system, `${basePath}.trained`);
+      // Versatility bonus (Human racial ability)
+      let versatilityBonus = await actor.getFlag("marks-of-mezoria", "versatilityBonus");
+      const isTrained =
+        !!foundry.utils.getProperty(actor.system, `${basePath}.trained`);
 
-if (versatilityBonus && isTrained) {
-  versatilityBonus = Number(versatilityBonus) || 0;
-  mod += versatilityBonus;
+      if (versatilityBonus && isTrained) {
+        versatilityBonus = Number(versatilityBonus) || 0;
+        mod += versatilityBonus;
 
-  await actor.unsetFlag("marks-of-mezoria", "versatilityBonus");
-  ui.notifications?.info(`Versatility bonus (+${versatilityBonus}) applied to ${label}.`);
-}
+        await actor.unsetFlag("marks-of-mezoria", "versatilityBonus");
+        ui.notifications?.info(`Versatility bonus (+${versatilityBonus}) applied to ${label}.`);
+      }
 
-const roll = new Roll("1d20 + @mod", { mod });
+      const roll = new Roll("1d20 + @mod", { mod });
       await roll.evaluate({ async: true });
 
       roll.toMessage({
@@ -204,7 +204,10 @@ const roll = new Roll("1d20 + @mod", { mod });
       // 3) Versatility special activation
       // -------------------------------
       const racialKey = details.racialKey || null;
-      if (effect.type === "buff" && effect.appliesTo === "nextTrainedSkill" && racialKey === "human-versatility") {
+      if (effect.type === "buff" &&
+          effect.appliesTo === "nextTrainedSkill" &&
+          racialKey === "human-versatility") {
+
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
         const charRank  = actor.system?.details?.rank || "";
@@ -300,19 +303,15 @@ class MezoriaAbilitySheet extends ItemSheet {
     const rankOrder    = (config && config.abilityRankOrder) || [];
 
     if (sourceType === "racial") {
-      // Use race labels as source keys
       sourceKeyOptions = races;
     }
     else if (sourceType === "background") {
-      // Use flat background map
       sourceKeyOptions = backgrounds;
     }
     else if (sourceType === "mark") {
-      // Use Mark of Purpose names
       sourceKeyOptions = markPurposes;
     }
     else if (sourceType === "rank") {
-      // Build a map from ability rank order/labels
       const out = {};
       for (const key of rankOrder) {
         out[key] = rankLabels[key] || (key.charAt(0).toUpperCase() + key.slice(1));
@@ -320,7 +319,6 @@ class MezoriaAbilitySheet extends ItemSheet {
       sourceKeyOptions = out;
     }
     else {
-      // generic / other → leave empty or add a placeholder if you want
       sourceKeyOptions = {};
     }
 
@@ -350,7 +348,7 @@ class MezoriaAbilitySheet extends ItemSheet {
 
     data.modAttributeOptions = filtered;
 
-      // ---------------------------------
+    // ---------------------------------
     // Consolidation / Upgrade Cost
     // ---------------------------------
     const rankCostsCfg = config.abilityRankCosts || {};
@@ -373,7 +371,6 @@ class MezoriaAbilitySheet extends ItemSheet {
       if (curIdx !== -1 && nextIdx < rankOrderAb.length) {
         const nextRankKey = rankOrderAb[nextIdx];
 
-        // Prefer explicit costByRank; fall back to baseCost * multiplier
         let cost = Number(costByRank[nextRankKey]);
         if (!cost || isNaN(cost)) {
           const mult = Number(multipliers[nextRankKey] ?? 1);
@@ -395,7 +392,7 @@ class MezoriaAbilitySheet extends ItemSheet {
     // If this ability is flagged as non-consolidatable, force-disable
     const noConsolidate = !!details.noConsolidate;
     if (noConsolidate) {
-      data.upgradeCost = null;
+      data.upgradeCost    = null;
       data.canConsolidate = false;
     }
 
@@ -432,16 +429,17 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       const item = actor.items.get(itemId);
       if (!item) return;
-      
+
       const sys = item.system || {};
       if (sys.details?.noConsolidate) {
-       ui.notifications?.warn("This ability ranks up automatically and cannot be consolidated.");
-       return;
-  }
-      const cfg = CONFIG["marks-of-mezoria"] || {};
-      const rankOrder = cfg.abilityRankOrder || [];
-      const details   = sys.details || {};
-      const baseRankKey    = details.rankReq || "";
+        ui.notifications?.warn("This ability ranks up automatically and cannot be consolidated.");
+        return;
+      }
+
+      const cfg         = CONFIG["marks-of-mezoria"] || {};
+      const rankOrder   = cfg.abilityRankOrder || [];
+      const details     = sys.details || {};
+      const baseRankKey = details.rankReq || "";
       const currentRankKey = details.currentRank || baseRankKey;
 
       if (!currentRankKey || !rankOrder.length) {
@@ -459,7 +457,6 @@ class MezoriaAbilitySheet extends ItemSheet {
 
       const nextRankKey = rankOrder[nextIdx];
 
-      // Same cost logic as in getData, but using config.abilityRankCosts
       const rankCostsCfg = cfg.abilityRankCosts || {};
       const baseCost     = Number(rankCostsCfg.baseCost ?? 100);
       const costByRank   = rankCostsCfg.costByRank || {};
@@ -471,16 +468,15 @@ class MezoriaAbilitySheet extends ItemSheet {
         cost = baseCost * (mult || 1);
       }
 
-      const spiritNode     = actor.system.spirit || {};
-      const currentSpirit  = Number(spiritNode.current ?? 0);
-      const spentSpirit    = Number(spiritNode.spent ?? 0);
+      const spiritNode    = actor.system.spirit || {};
+      const currentSpirit = Number(spiritNode.current ?? 0);
+      const spentSpirit   = Number(spiritNode.spent   ?? 0);
 
       if (currentSpirit < cost) {
         ui.notifications?.warn("Not enough Spirit to consolidate this ability.");
         return;
       }
 
-      // Spend Spirit and advance the ability rank
       const newSpiritCurrent = currentSpirit - cost;
       const newSpiritSpent   = spentSpirit + cost;
 
@@ -565,7 +561,7 @@ function buildAbilityRollFormula(actor, item) {
 
   const modAttr = normalizeModAttr(effectType, selectedAttr);
 
-  // ---------- Attribute modifier: prefer .mod, fall back to .total ----------
+  // ---------- Attribute modifier ----------
   function getAttrMod(attrRoot) {
     if (!hasActor) return 0;
     const attr = foundry.utils.getProperty(actor.system, attrRoot) || {};
@@ -738,24 +734,25 @@ Hooks.on("updateActor", async (actor, changed, options, userId) => {
 
 /* ------------------------------------
  * Ensure racial ability folders + items
- * ------------------------------------*/
+ * ----------------------------------*/
 Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
   try {
-    // Helper: create or get a folder for Items
-    async function ensureFolder(name, parent = null) {
-      let folder = game.folders.find(f =>
-        f.name === name &&
-        f.type === "Item" &&
-        f.parent === parent
-      );
+    // Helper: create or get a folder for Items under a specific parent
+    async function ensureFolder(name, parentId = null) {
+      let folder = game.folders.find(f => {
+        if (f.type !== "Item") return false;
+        if (f.name !== name) return false;
+        const pid = f.parent ? f.parent.id : null;
+        return pid === parentId;
+      });
 
       if (!folder) {
         folder = await Folder.create({
           name,
           type: "Item",
-          parent
+          parent: parentId
         });
       }
 
@@ -773,7 +770,6 @@ Hooks.once("ready", async () => {
     for (const [raceKey, defs] of Object.entries(racialData)) {
       if (!defs.length) continue;
 
-      // e.g. "human" -> "Human"
       const raceFolderName = raceKey.charAt(0).toUpperCase() + raceKey.slice(1);
       const raceFolder = await ensureFolder(raceFolderName, racialFolder.id);
 
@@ -807,3 +803,4 @@ Hooks.once("ready", async () => {
     console.error("Marks of Mezoria | Folder/Ability seeding error:", err);
   }
 });
+
