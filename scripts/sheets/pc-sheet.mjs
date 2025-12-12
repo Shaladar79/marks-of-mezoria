@@ -290,6 +290,80 @@ if (effect.type === "buff" &&
 }
 
       // -------------------------------
+// Call of the Wild (Mythrian) - Group Aura Buff
+// -------------------------------
+if (effect.type === "buff" &&
+    effect.appliesTo === "partyAura" &&
+    racialKey === "mythrian-call-of-the-wild") {
+
+  const cfg       = CONFIG["marks-of-mezoria"] || {};
+  const rankOrder = cfg.ranks || [];
+  const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
+  let rankIndex   = rankOrder.indexOf(charRank);
+  if (rankIndex < 0) rankIndex = 0;
+
+  const duration = Number(effect.durationRounds ?? 3) || 3;
+
+  // +1 per rank: Normal +1, Quartz +2, Topaz +3, etc.
+  const bonusPerRank = Number(effect.bonusPerRank ?? 1) || 1;
+  const bonus = bonusPerRank * (rankIndex + 1);
+
+  // Tribe category -> which sub-attribute is buffed
+  // TODO: move this mapping into MezoriaConfig once tribe taxonomy is finalized
+  const tribeRaw = String(actor.system?.details?.mythrianTribe ?? "").trim().toLowerCase();
+
+  // Basic categorization by keyword (safe starter approach)
+  const tribeCategory =
+    tribeRaw.includes("feline") ? "feline" :
+    tribeRaw.includes("lupine") ? "lupine" :
+    tribeRaw.includes("ursine") ? "ursine" :
+    tribeRaw.includes("avian") ? "avian" :
+    tribeRaw.includes("cervine") ? "cervine" :
+    tribeRaw.includes("serpent") || tribeRaw.includes("serpentine") ? "serpentine" :
+    "lupine"; // default fallback (change anytime)
+
+  // Category -> sub-attribute key used by your actor data model
+  const categoryToSubAttr = {
+    feline:     { group: "body", sub: "swiftness", label: "Swiftness" },
+    lupine:     { group: "soul", sub: "resolve",   label: "Resolve"   },
+    ursine:     { group: "body", sub: "endurance", label: "Endurance" },
+    avian:      { group: "mind", sub: "insight",   label: "Insight"   },
+    cervine:    { group: "soul", sub: "grace",     label: "Grace"     },
+    serpentine: { group: "mind", sub: "focus",     label: "Focus"     }
+  };
+
+  const targetAttr = categoryToSubAttr[tribeCategory] ?? categoryToSubAttr.lupine;
+
+  // Store as an actor flag for now.
+  // TODO (later):
+  // - Apply this aura to allies within radius each round (or while active)
+  // - Implement expiration ticking (remainingRounds)
+  // - Wire into your Reaction/Action economy system
+  const payload = {
+    remainingRounds: duration,
+    tribeCategory,
+    buff: {
+      group: targetAttr.group,
+      sub: targetAttr.sub,
+      label: targetAttr.label,
+      bonus
+    },
+
+    // Placeholder until you define aura radius rules
+    auraRadiusFt: null
+  };
+
+  await actor.setFlag("marks-of-mezoria", "callOfTheWild", payload);
+
+  ui.notifications?.info(
+    `Call of the Wild activated: allies near you gain +${bonus} ${targetAttr.label} for ${duration} rounds. ` +
+    `(TODO: wire aura radius + Reaction system later)`
+  );
+
+  return; // Buff only
+}
+
+      // -------------------------------
 // Reflection Cloak (Prismatic)
 // -------------------------------
 if (effect.type === "buff" &&
