@@ -50,6 +50,7 @@ export const MarksOfPower = {
     "Fire",
     "Ice",
     "Light",
+    "Shadow",
     "Lightning",
     "Water",
     "Wind"
