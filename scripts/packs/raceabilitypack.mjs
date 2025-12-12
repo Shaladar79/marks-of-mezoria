@@ -166,7 +166,85 @@ export const RaceAbilityPack = {
     ],
     
     scion: [],
-    embergiest: [],
+    embergiest: [
+      {
+        key: "embergiest-flame-imbuement",
+        name: "Embergiest – Flame Imbuement",
+        type: "ability",
+        img: "icons/svg/explosion.svg", // change later if you want a custom fire icon
+        system: {
+          details: {
+            short: "Wreathe your weapons in living flame.",
+            description:
+              "You ignite your inner embers, wreathed in living flame. For 3 full turns, all of your physical weapon attacks " +
+              "are treated as fire damage instead of their normal type. Starting at ranks above Normal, your fiery strikes " +
+              "also deal additional burning damage.\n\n" +
+              "• Duration: 3 full turns\n" +
+              "• Range: Self\n" +
+              "• Cost: 3 Mana per character rank\n" +
+              "• Effect at Normal: Your physical weapon attacks deal fire damage.\n" +
+              "• Effect per rank above Normal: Your physical weapon attacks deal +1d4 additional fire damage per rank above Normal.\n" +
+              "• This is a racial ability; it scales automatically with your character rank and cannot be consolidated.",
+
+            // Rank + scaling
+            rankReq: "normal",
+            currentRank: "normal",
+
+            // This ability’s rank follows the character’s rank automatically
+            syncWithRank: true,
+            // Cannot be consolidated via Spirit
+            noConsolidate: true,
+
+            // Action usage
+            actionType: "action",
+            actionCost: 5,
+            range: "Self",
+
+            // Cost: 3 mana per character rank
+            cost: {
+              type: "mana",   // spends from status.mana.current
+              value: 3,       // base cost per rank
+              perRank: true   // Normal = 3, Quartz = 6, Topaz = 9, etc.
+            },
+
+            // Effect: weapon buff
+            effect: {
+              type: "buff",
+              resource: "",
+              amount: 0,
+              damageType: "fire",
+              notes:
+                "For 3 full turns, your physical weapon attacks are treated as fire damage. " +
+                "At ranks above Normal, they also deal additional fire damage.",
+
+              // No direct roll from the ability button itself (it’s a buff)
+              roll: {
+                dieType: "",
+                diceBase: 0,
+                modAttribute: ""
+              },
+
+              // Custom Embergiest flags – for when we wire weapon attacks to look for this
+              appliesTo: "weaponAttacks",
+              durationRoundsBase: 3,     // lasts 3 turns
+              extraDamageDieType: "d4",  // extra die type
+              extraDamagePerRank: 1      // +1d4 per rank above Normal
+            },
+
+            scaling: {
+              enabled: true,
+              mode: "rank",
+              value: ""
+            },
+
+            sourceType: "racial",
+            sourceKey: "embergiest",
+            autoGranted: false, // template; embedded copies will be autoGranted
+            tags: "embergiest, racial, fire, flame-imbuement"
+          }
+        }
+      }
+    ],
     auramine: []
   },
 
