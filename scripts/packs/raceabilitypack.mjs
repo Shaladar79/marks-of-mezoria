@@ -86,7 +86,74 @@ export const RaceAbilityPack = {
     ],
 
     // other races: fill later
-    aetherian: [],
+    aetherian: [
+  {
+    key: "aetherian-ethereal-step",
+    name: "Aetherian – Ethereal Step",
+    type: "ability",
+    img: "icons/magic/air/air-wave-wind-blue.webp",
+    system: {
+      details: {
+        short: "Teleport a short distance without provoking opportunity attacks.",
+        description:
+          "You briefly phase into the Astral Winds and reappear at a nearby point. " +
+          "Teleport up to 15 feet to any visible square. This does not provoke an attack of opportunity. " +
+          "The range increases by +10 feet per character rank above Normal. " +
+          "This is a Movement action (AC: 2). The ability costs 3 mana per rank.",
+
+        // Rank handling
+        rankReq: "normal",
+        currentRank: "normal",
+
+        // This racial scales automatically with character rank
+        syncWithRank: true,
+        noConsolidate: true,
+
+        // This is a movement-type action
+        actionType: "movement",
+        actionCost: 2,
+        range: "15 ft + 10 ft per rank above Normal (self-teleport)",
+
+        // Cost: 3 mana per character rank
+        cost: {
+          type: "mana",
+          value: 3,
+          perRank: true
+        },
+
+        // Effect configuration (teleport is non-damaging, non-rolling)
+        effect: {
+          type: "movement",      // You can add this as a category
+          resource: "",
+          amount: 0,
+          damageType: "",
+          notes:
+            "Teleport to a visible square. Does not provoke attacks of opportunity.",
+          roll: {
+            dieType: "",
+            diceBase: 0,
+            modAttribute: ""
+          },
+
+          // No dice or modifiers – movement only
+          teleportBaseRange: 15,
+          teleportPerRank: 10
+        },
+
+        scaling: {
+          enabled: true,
+          mode: "rank",
+          value: ""
+        },
+
+        sourceType: "racial",
+        sourceKey: "aetherian",
+        autoGranted: false,
+        tags: "aetherian, racial, teleport, movement"
+      }
+    }
+  }
+],
     sylvan: [],
     sprite: [],
     anthazoan: [],
