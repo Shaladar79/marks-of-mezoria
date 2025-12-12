@@ -10,6 +10,7 @@ function normalizeRankKey(raw) {
   if (!raw) return "";
   return String(raw).trim().toLowerCase();
 }
+
 export class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
@@ -48,8 +49,12 @@ export class MinimalActorSheet extends ActorSheet {
     const bgType = data.system?.details?.backgroundType ?? "";
     const allBackgrounds = MezoriaConfig.backgroundsByType || {};
 
-    let availableBackgrounds = {};
-    if (bgType && allBackgrounds[bgType]) {
+    // IMPORTANT:
+    // - {} is truthy in Handlebars, so your template's {{#if availableBackgrounds}}
+    //   would render even when there are no options.
+    // - Use null unless we have real keys to show.
+    let availableBackgrounds = null;
+    if (bgType && allBackgrounds[bgType] && Object.keys(allBackgrounds[bgType]).length > 0) {
       availableBackgrounds = allBackgrounds[bgType];
     }
     data.availableBackgrounds = availableBackgrounds;
@@ -189,7 +194,7 @@ export class MinimalActorSheet extends ActorSheet {
       if (perRank || extraPerRank) {
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
-        const charRank  = actor.system?.details?.rank || "";
+        const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
@@ -235,7 +240,7 @@ export class MinimalActorSheet extends ActorSheet {
 
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
-        const charRank  = actor.system?.details?.rank || "";
+        const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
@@ -259,15 +264,17 @@ export class MinimalActorSheet extends ActorSheet {
 
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
-        const charRank  = actor.system?.details?.rank || "";
+        const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
-        const duration        = Number(effect.durationRounds ?? 3) || 3;
-        const extraDieType    = effect.extraDieType || "d4";
+        const duration         = Number(effect.durationRounds ?? 3) || 3;
+        const extraDieType     = effect.extraDieType || "d4";
         const extraDicePerRank = Number(effect.extraDicePerRank ?? 1) || 1;
-        const extraDice       = Math.max(0, rankIndex) * extraDicePerRank;
-        const damageType      = effect.damageType || "fire";
+
+        // Rank scaling: Normal index 0 => 0 extra dice; Topaz index 2 => +2*extraDicePerRank dice
+        const extraDice   = Math.max(0, rankIndex) * extraDicePerRank;
+        const damageType  = effect.damageType || "fire";
 
         const payload = {
           remainingRounds: duration,
@@ -295,7 +302,7 @@ export class MinimalActorSheet extends ActorSheet {
 
         const cfg       = CONFIG["marks-of-mezoria"] || {};
         const rankOrder = cfg.ranks || [];
-        const charRank  = actor.system?.details?.rank || "";
+        const charRank  = normalizeRankKey(actor.system?.details?.rank || "");
         let rankIndex   = rankOrder.indexOf(charRank);
         if (rankIndex < 0) rankIndex = 0;
 
