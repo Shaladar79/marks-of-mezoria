@@ -46,6 +46,7 @@ export const MarksOfPower = {
 
   elements: [
     "Cold",
+    "Arcane",
     "Earth",
     "Fire",
     "Ice",
