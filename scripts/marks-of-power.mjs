@@ -33,15 +33,9 @@ export const MarksOfPower = {
     "Armour",
     "Cage",
     "Chain",
-    "Cloth",
     "Iron",
-    "Paper",
-    "Ship",
     "Technology",
-    "Vehicle",
-    "Wall",
-    "Wheel",
-    "Wood"
+    "Wall"
   ],
 
   elements: [
@@ -54,7 +48,8 @@ export const MarksOfPower = {
     "Shadow",
     "Lightning",
     "Water",
-    "Wind"
+    "Wind",
+    "Nature"
   ],
 
   animals_creatures: [
@@ -64,7 +59,6 @@ export const MarksOfPower = {
     "Bee",
     "Bird",
     "Cat",
-    "Cattle",
     "Crocodile",
     "Deer",
     "Dog",
@@ -77,12 +71,10 @@ export const MarksOfPower = {
     "Horse",
     "Lizard",
     "Locust",
-    "Lurker",
     "Manatee",
     "Monkey",
     "Mouse",
     "Octopus",
-    "Pangolin",
     "Rabbit",
     "Rat",
     "Shark",
@@ -92,7 +84,6 @@ export const MarksOfPower = {
     "Spider",
     "Turtle",
     "Wasp",
-    "Whale",
     "Wolf"
   ],
 
