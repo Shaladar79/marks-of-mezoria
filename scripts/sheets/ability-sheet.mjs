@@ -39,7 +39,7 @@ export class MezoriaAbilitySheet extends ItemSheet {
     data.actor  = actor || null;
 
     // =========================================================================
-    // MARK SYSTEM + MARK REQUIRED (NEW)
+    // MARK SYSTEM + MARK REQUIRED
     // =========================================================================
     data.markSystemOptions = config.markSystems || {
       purpose:  "Mark of Purpose",
@@ -62,16 +62,16 @@ export class MezoriaAbilitySheet extends ItemSheet {
     }
 
     // =========================================================================
-    // SOURCE KEY options based on Source Type (UNCHANGED)
+    // SOURCE KEY options based on Source Type (UPDATED)
     // =========================================================================
-    const sourceType = system?.details?.sourceType ?? "";
+    const sourceTypeRaw = system?.details?.sourceType ?? "";
+    const sourceType = String(sourceTypeRaw).trim().toLowerCase();
     let sourceKeyOptions = {};
 
-    const races        = (config && config.races)            || {};
-    const backgrounds  = (config && config.backgrounds)      || {};
-    const markPurposes = (config && config.markOfPurpose)    || {};
-    const rankLabels   = (config && config.abilityRanks)     || {};
-    const rankOrder    = (config && config.abilityRankOrder) || [];
+    const races        = config.races || {};
+    const backgrounds  = config.backgrounds || {};
+    const rankLabels   = config.abilityRanks || {};
+    const rankOrder    = config.abilityRankOrder || [];
 
     if (sourceType === "racial") {
       sourceKeyOptions = races;
@@ -80,10 +80,13 @@ export class MezoriaAbilitySheet extends ItemSheet {
       sourceKeyOptions = backgrounds;
     }
     else if (sourceType === "mark") {
-      // NOTE: This is your legacy behavior: mark source type uses mark of purpose keys.
-      // Later, if you want mark-source abilities to support Power/Concept/Eldritch as well,
-      // we can switch this to look at markSystem + marksBySystem.
-      sourceKeyOptions = markPurposes;
+      // This is the missing connection:
+      // SourceKey should match the mark system (purpose/power/concept/eldritch)
+      // Prefer marksBySystem (your new unified structure). Fallback to legacy.
+      sourceKeyOptions =
+        (config.marksBySystem && config.marksBySystem[markSystem]) ||
+        config.markOfPurpose ||
+        {};
     }
     else if (sourceType === "rank") {
       const out = {};
@@ -99,7 +102,7 @@ export class MezoriaAbilitySheet extends ItemSheet {
     data.sourceKeyOptions = sourceKeyOptions;
 
     // =========================================================================
-    // Filtered mod-attribute options based on Effect Type (UNCHANGED)
+    // Filtered mod-attribute options based on Effect Type
     // =========================================================================
     const allModAttrs = config.abilityModAttributes || {};
     const effectType  = system?.details?.effect?.type ?? "";
@@ -123,7 +126,7 @@ export class MezoriaAbilitySheet extends ItemSheet {
     data.modAttributeOptions = filtered;
 
     // =========================================================================
-    // Consolidation / Upgrade Cost (UNCHANGED)
+    // Consolidation / Upgrade Cost
     // =========================================================================
     const rankCostsCfg = config.abilityRankCosts || {};
     const baseCost     = Number(rankCostsCfg.baseCost ?? 100);
@@ -171,7 +174,7 @@ export class MezoriaAbilitySheet extends ItemSheet {
     }
 
     // =========================================================================
-    // Roll Preview (UNCHANGED)
+    // Roll Preview
     // =========================================================================
     data.rollPreview = "";
     try {
