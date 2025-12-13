@@ -101,13 +101,15 @@ MezoriaConfig.backgroundTypes = {
 };
 
 // -------------------------------------
-// BACKGROUNDS BY TYPE
+// BACKGROUNDS BY TYPE (robust to export shape)
 // -------------------------------------
+const bb = BackgroundBonuses || {};
+
 MezoriaConfig.backgroundsByType = {
-  common:  BackgroundBonuses.commonNames,
-  skilled: BackgroundBonuses.skilledNames,
-  street:  BackgroundBonuses.streetNames,
-  social:  BackgroundBonuses.socialNames
+  common:  bb.commonNames  ?? bb.common  ?? bb.commonList  ?? bb.names?.common  ?? {},
+  skilled: bb.skilledNames ?? bb.skilled ?? bb.skilledList ?? bb.names?.skilled ?? {},
+  street:  bb.streetNames  ?? bb.street  ?? bb.streetList  ?? bb.names?.street  ?? {},
+  social:  bb.socialNames  ?? bb.social  ?? bb.socialList  ?? bb.names?.social  ?? {}
 };
 
 // -------------------------------------
@@ -119,12 +121,11 @@ MezoriaConfig.backgroundDescriptions = BackgroundBonuses.descriptions;
 // Optional flat background map
 // -------------------------------------
 MezoriaConfig.backgrounds = {
-  ...BackgroundBonuses.commonNames,
-  ...BackgroundBonuses.skilledNames,
-  ...BackgroundBonuses.streetNames,
-  ...BackgroundBonuses.socialNames
+  ...(MezoriaConfig.backgroundsByType.common  || {}),
+  ...(MezoriaConfig.backgroundsByType.skilled || {}),
+  ...(MezoriaConfig.backgroundsByType.street  || {}),
+  ...(MezoriaConfig.backgroundsByType.social  || {})
 };
-
 // -------------------------------------
 // BACKGROUND BONUSES
 // -------------------------------------
