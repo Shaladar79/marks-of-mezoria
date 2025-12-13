@@ -11,10 +11,53 @@ import { RaceSkillData } from "./scripts/raceSkills.mjs";
 import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.mjs";
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
 import { AbilityData } from "./scripts/abilities.mjs";
+
 import { MarksOfPower } from "./scripts/marks-of-power.mjs";
 import { MarksOfConcept } from "./scripts/marks-of-concept.mjs";
 
 export const MezoriaConfig = {};
+
+// ============================================================================
+//                               HELPERS
+// ============================================================================
+
+/**
+ * Flatten grouped mark objects { groupName: ["A","B"] } -> ["A","B",...]
+ */
+function flattenMarkGroups(grouped) {
+  const out = [];
+  for (const arr of Object.values(grouped || {})) {
+    if (Array.isArray(arr)) out.push(...arr);
+  }
+  return Array.from(new Set(out));
+}
+
+/**
+ * Convert a labels map { key: "Label" } into dropdown options object { key: "Label" }.
+ */
+function labelsMapToOptions(map) {
+  const out = {};
+  for (const [k, v] of Object.entries(map || {})) {
+    const key = String(k).trim();
+    if (!key) continue;
+    out[key] = String(v);
+  }
+  return out;
+}
+
+/**
+ * Convert an array of labels ["Fire","Ice"] into dropdown options object { "fire":"Fire", "ice":"Ice" }.
+ * Keys are normalized to lowercase for stable storage.
+ */
+function labelArrayToOptions(arr) {
+  const out = {};
+  for (const label of (arr || [])) {
+    const raw = String(label ?? "").trim();
+    if (!raw) continue;
+    out[raw.toLowerCase()] = raw;
+  }
+  return out;
+}
 
 // -------------------------------------
 // RACES
@@ -156,8 +199,34 @@ MezoriaConfig.abilityCostTypes = AbilityData.costTypes;
 // Ability Rank Upgrade Costs (Spirit consolidation)
 // -------------------------------------
 MezoriaConfig.abilityRankCosts = {
-  baseCost:   AbilityData.rankCosts.baseCost,      // 100
-  multipliers: AbilityData.rankCosts.multipliers,  // rank -> multiplier
-  costByRank: AbilityData.rankCosts.costByRank     // rank -> total cost
+  baseCost:    AbilityData.rankCosts.baseCost,      // 100
+  multipliers: AbilityData.rankCosts.multipliers,   // rank -> multiplier
+  costByRank:  AbilityData.rankCosts.costByRank     // rank -> total cost
 };
 
+// ============================================================================
+//                           MARK SYSTEM REGISTRY
+// ============================================================================
+
+/**
+ * Drives the Ability sheet "Mark System" dropdown.
+ */
+MezoriaConfig.markSystems = {
+  purpose:  "Mark of Purpose",
+  power:    "Mark of Power",
+  concept:  "Mark of Concept",
+  eldritch: "Eldritch Mark"
+};
+
+/**
+ * Drives the Ability sheet "Mark Required" dropdown.
+ * - purpose uses your real keys from MarkPurposeData.labels (guardian, defender, etc.)
+ * - power / concept use flattened label lists with lowercase keys
+ * - eldritch is an empty placeholder until designed
+ */
+MezoriaConfig.marksBySystem = {
+  purpose:  labelsMapToOptions(MezoriaConfig.markOfPurpose),
+  power:    labelArrayToOptions(flattenMarkGroups(MarksOfPower)),
+  concept:  labelArrayToOptions(flattenMarkGroups(MarksOfConcept)),
+  eldritch: {}
+};
