@@ -126,6 +126,19 @@
           </div>
         </div>
 
+        {{!-- NEW: Mark System + Mark Required --}}
+        <div class="flexrow">
+          <div class="field">
+            <label>Mark System</label>
+            {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-marksystem.hbs"}}
+          </div>
+
+          <div class="field">
+            <label>Mark Required</label>
+            {{> "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs"}}
+          </div>
+        </div>
+
         <div class="flexrow">
           <div class="field checkbox-field">
             <label>
@@ -319,3 +332,4 @@
 
   </section>
 </form>
+
