@@ -2,8 +2,7 @@
 
 function normalizeRankKey(raw) {
   if (raw === null || raw === undefined) return "";
-  const s = String(raw).trim().toLowerCase();
-  return s;
+  return String(raw).trim().toLowerCase();
 }
 
 /**
@@ -20,6 +19,8 @@ export function getCharacterRankIndex(actor) {
   if (!rankOrder.length || !key) return 0;
 
   let idx = rankOrder.indexOf(key);
+
+  // If stored as a number-string, allow "1" meaning rankOrder[1]
   if (idx === -1 && /^[0-9]+$/.test(key)) {
     const n = parseInt(key, 10);
     if (!Number.isNaN(n) && n >= 0 && n < rankOrder.length) idx = n;
@@ -35,12 +36,11 @@ export function getCharacterRankIndex(actor) {
 export async function handleSpecialAbilityEffect(actor, item) {
   if (!actor || !item) return false;
 
-  const sys     = item.system || {};
-  const details = sys.details || {};
-  const effect  = details.effect || {};
+  const sys      = item.system || {};
+  const details  = sys.details || {};
+  const effect   = details.effect || {};
   const racialKey = details.racialKey || null;
 
-  const cfg = CONFIG["marks-of-mezoria"] || {};
   const rankIndex = getCharacterRankIndex(actor);
 
   // -------------------------------
@@ -55,7 +55,7 @@ export async function handleSpecialAbilityEffect(actor, item) {
     const bonus = baseBonus + perRankBonus * rankIndex;
 
     await actor.setFlag("marks-of-mezoria", "versatilityBonus", bonus);
-    ui.notifications?.info(`Versatility activated: +${bonus} to your next trained skill roll.`);
+    ui.notifications?.info?.(`Versatility activated: +${bonus} to your next trained skill roll.`);
     return true;
   }
 
@@ -66,14 +66,17 @@ export async function handleSpecialAbilityEffect(actor, item) {
       effect.appliesTo === "awareness" &&
       racialKey === "sylvan-whisper-grove") {
 
-    const duration = Number(effect.durationRounds ?? 3) || 3;
-    const baseDiameter     = Number(effect.areaDiameterBase ?? 10) || 10;
-    const perRankDiameter  = Number(effect.areaDiameterPerRank ?? 5) || 5;
-    const diameter = baseDiameter + (perRankDiameter * rankIndex);
+    const duration       = Number(effect.durationRounds ?? 3) || 3;
+    const baseDiameter   = Number(effect.areaDiameterBase ?? 10) || 10;
+    const perRankDiameter= Number(effect.areaDiameterPerRank ?? 5) || 5;
+    const diameter       = baseDiameter + (perRankDiameter * rankIndex);
 
-    await actor.setFlag("marks-of-mezoria", "whisperOfTheGrove", { remainingRounds: duration, diameter });
+    await actor.setFlag("marks-of-mezoria", "whisperOfTheGrove", {
+      remainingRounds: duration,
+      diameter
+    });
 
-    ui.notifications?.info(
+    ui.notifications?.info?.(
       `Whisper of the Grove activated: heightened natural awareness in a ${diameter} ft diameter around you for ${duration} rounds.`
     );
     return true;
@@ -99,7 +102,8 @@ export async function handleSpecialAbilityEffect(actor, item) {
       bear: "ursine", badger: "ursine",
       falcon: "avian", owl: "avian", crow: "avian",
       stag: "cervine", goat: "cervine", bull: "cervine", boar: "cervine",
-      serpent: "serpentine", toad: "serpentine", cuttlefish: "serpentine", shark: "serpentine", mantis: "serpentine"
+      serpent: "serpentine", toad: "serpentine", cuttlefish: "serpentine",
+      shark: "serpentine", mantis: "serpentine"
     };
 
     const tribeCategory = tribeToCategory[tribeKey] ?? "lupine";
@@ -118,11 +122,16 @@ export async function handleSpecialAbilityEffect(actor, item) {
     await actor.setFlag("marks-of-mezoria", "callOfTheWild", {
       remainingRounds: duration,
       tribeCategory,
-      buff: { group: targetAttr.group, sub: targetAttr.sub, label: targetAttr.label, bonus },
+      buff: {
+        group: targetAttr.group,
+        sub:   targetAttr.sub,
+        label: targetAttr.label,
+        bonus
+      },
       auraRadiusFt: null
     });
 
-    ui.notifications?.info(
+    ui.notifications?.info?.(
       `Call of the Wild activated: allies near you gain +${bonus} ${targetAttr.label} for ${duration} rounds. ` +
       `(TODO: wire aura radius + Reaction system later)`
     );
@@ -139,14 +148,14 @@ export async function handleSpecialAbilityEffect(actor, item) {
 
     const targets = Array.from(game.user?.targets ?? []);
     if (targets.length !== 1) {
-      ui.notifications?.warn("Elemental Bolt requires exactly 1 targeted token.");
+      ui.notifications?.warn?.("Elemental Bolt requires exactly 1 targeted token.");
       return true;
     }
 
     const targetToken = targets[0];
     const targetActor = targetToken?.actor;
     if (!targetActor) {
-      ui.notifications?.warn("Target has no actor.");
+      ui.notifications?.warn?.("Target has no actor.");
       return true;
     }
 
@@ -156,13 +165,21 @@ export async function handleSpecialAbilityEffect(actor, item) {
 
     const sourceToken = actor.getActiveTokens()?.[0];
     if (!sourceToken) {
-      ui.notifications?.warn("You must have an active token to use Elemental Bolt.");
+      ui.notifications?.warn?.("You must have an active token to use Elemental Bolt.");
       return true;
     }
 
-    const dist = canvas.grid.measureDistance(sourceToken, targetToken);
+    const dist = canvas?.grid?.measureDistance
+      ? canvas.grid.measureDistance(sourceToken, targetToken)
+      : null;
+
+    if (dist == null) {
+      ui.notifications?.warn?.("Could not measure distance to target.");
+      return true;
+    }
+
     if (dist > rangeFt) {
-      ui.notifications?.warn(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
+      ui.notifications?.warn?.(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
       return true;
     }
 
@@ -170,8 +187,8 @@ export async function handleSpecialAbilityEffect(actor, item) {
     const dieType     = effect.dieType || "d6";
     const diceCount   = Math.max(1, dicePerRank * (rankIndex + 1));
 
-    const aspectKey  = String(actor.system?.details?.scionAspect ?? "").toLowerCase();
-    const damageType = aspectKey || "elemental";
+    const aspectKey   = String(actor.system?.details?.scionAspect ?? "").toLowerCase();
+    const damageType  = aspectKey || "elemental";
 
     const roll = new Roll(`${diceCount}${dieType}`);
     await roll.evaluate({ async: true });
@@ -194,10 +211,14 @@ export async function handleSpecialAbilityEffect(actor, item) {
     const duration     = Number(effect.durationRounds ?? 3) || 3;
     const baseBonus    = Number(effect.baseBonus ?? 2) || 2;
     const perRankBonus = Number(effect.bonusPerRank ?? 1) || 1;
-    const bonus = baseBonus + (perRankBonus * rankIndex);
+    const bonus        = baseBonus + (perRankBonus * rankIndex);
 
-    await actor.setFlag("marks-of-mezoria", "reflectionCloak", { remainingRounds: duration, magicalDefenseBonus: bonus });
-    ui.notifications?.info(`Reflection Cloak activated: +${bonus} Magical Defense for ${duration} rounds.`);
+    await actor.setFlag("marks-of-mezoria", "reflectionCloak", {
+      remainingRounds: duration,
+      magicalDefenseBonus: bonus
+    });
+
+    ui.notifications?.info?.(`Reflection Cloak activated: +${bonus} Magical Defense for ${duration} rounds.`);
     return true;
   }
 
@@ -212,6 +233,7 @@ export async function handleSpecialAbilityEffect(actor, item) {
     const extraDieType     = effect.extraDieType || "d4";
     const extraDicePerRank = Number(effect.extraDicePerRank ?? 1) || 1;
 
+    // Important: rankIndex is 0 for Normal, 1 for Quartz, etc.
     const extraDice  = Math.max(0, rankIndex) * extraDicePerRank;
     const damageType = effect.damageType || "fire";
 
@@ -223,7 +245,7 @@ export async function handleSpecialAbilityEffect(actor, item) {
     });
 
     const bonusText = extraDice > 0 ? ` and +${extraDice}${extraDieType}` : "";
-    ui.notifications?.info(
+    ui.notifications?.info?.(
       `Flame Imbuement activated: your physical weapon attacks deal ${damageType}${bonusText} for the next ${duration} rounds.`
     );
 
@@ -239,14 +261,14 @@ export async function handleSpecialAbilityEffect(actor, item) {
 
     const targets = Array.from(game.user?.targets ?? []);
     if (targets.length !== 1) {
-      ui.notifications?.warn("Pixie Dust requires exactly 1 targeted token.");
+      ui.notifications?.warn?.("Pixie Dust requires exactly 1 targeted token.");
       return true;
     }
 
     const targetToken = targets[0];
     const targetActor = targetToken?.actor;
     if (!targetActor) {
-      ui.notifications?.warn("Target has no actor.");
+      ui.notifications?.warn?.("Target has no actor.");
       return true;
     }
 
@@ -256,22 +278,26 @@ export async function handleSpecialAbilityEffect(actor, item) {
 
     const sourceToken = actor.getActiveTokens()?.[0];
     if (!sourceToken) {
-      ui.notifications?.warn("You must have an active token to use Pixie Dust.");
+      ui.notifications?.warn?.("You must have an active token to use Pixie Dust.");
       return true;
     }
 
-    const dist = canvas?.grid?.measureDistance(sourceToken, targetToken);
+    const dist = canvas?.grid?.measureDistance
+      ? canvas.grid.measureDistance(sourceToken, targetToken)
+      : null;
+
     if (dist == null) {
-      ui.notifications?.warn("Could not measure distance to target.");
-      return true;
-    }
-    if (dist > rangeFt) {
-      ui.notifications?.warn(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
+      ui.notifications?.warn?.("Could not measure distance to target.");
       return true;
     }
 
-    const reactionDropPerRank   = Number(effect.reactionDropPerRank ?? 2) || 2;
-    const reactionDropIncrease  = reactionDropPerRank * rankIndex;
+    if (dist > rangeFt) {
+      ui.notifications?.warn?.(`Target is out of range (${dist.toFixed(0)}ft > ${rangeFt}ft).`);
+      return true;
+    }
+
+    const reactionDropPerRank  = Number(effect.reactionDropPerRank ?? 2) || 2;
+    const reactionDropIncrease = reactionDropPerRank * rankIndex;
 
     await targetActor.setFlag("marks-of-mezoria", "pixieDustDaze", {
       remainingRounds: 1,
@@ -302,7 +328,9 @@ export async function handleSpecialAbilityEffect(actor, item) {
     const slotsPerRank = Number(effect.storageSlotsPerRank ?? 5) || 5;
     const totalSlots   = baseSlots + (slotsPerRank * rankIndex);
 
-    ui.notifications?.info(`Chest of the Depths opened. Vault capacity: ${totalSlots} item types (no encumbrance).`);
+    ui.notifications?.info?.(
+      `Chest of the Depths opened. Vault capacity: ${totalSlots} item types (no encumbrance).`
+    );
     return true;
   }
 
