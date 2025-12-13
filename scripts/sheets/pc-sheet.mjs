@@ -1,6 +1,7 @@
 // scripts/sheets/pc-sheet.mjs
 import { MezoriaConfig } from "../../config.mjs";
 import { RaceData } from "../races.mjs";
+import { handleSpecialAbilityEffect } from "../abilities/special-effects.mjs";
 import {
   buildAbilityRollFormula,
   buildWeaponDamageFormula
