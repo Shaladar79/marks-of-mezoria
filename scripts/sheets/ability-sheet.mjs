@@ -6,7 +6,6 @@ import { buildAbilityRollFormula } from "../abilities/rolls.mjs";
  * MezoriaAbilitySheet
  *
  * Item sheet for Abilities.
- * Logic is unchanged from your current system.mjs, just moved here.
  */
 export class MezoriaAbilitySheet extends ItemSheet {
 
@@ -23,20 +22,48 @@ export class MezoriaAbilitySheet extends ItemSheet {
 
   async getData(options) {
     const data   = await super.getData(options);
-    const config = CONFIG["marks-of-mezoria"];
+    const config = CONFIG["marks-of-mezoria"] || {};
 
     data.config = config;
 
     const system = data.item.system || {};
     data.system  = system;
 
+    // Ensure nested structure exists (prevents undefined errors in HBS)
+    system.details ??= {};
+    system.details.effect ??= {};
+    system.details.cost ??= {};
+
     // Parent actor (if this ability is on a character)
     const actor = data.item.parent ?? null;
     data.actor  = actor || null;
 
-    // ---------------------------------
-    // Source Key options based on Source Type
-    // ---------------------------------
+    // =========================================================================
+    // MARK SYSTEM + MARK REQUIRED (NEW)
+    // =========================================================================
+    data.markSystemOptions = config.markSystems || {
+      purpose:  "Mark of Purpose",
+      power:    "Mark of Power",
+      concept:  "Mark of Concept",
+      eldritch: "Eldritch Mark"
+    };
+
+    const markSystemRaw = system.details.markSystem ?? "power";
+    const markSystem = String(markSystemRaw).trim().toLowerCase() || "power";
+    system.details.markSystem = markSystem;
+
+    const marksBySystem = config.marksBySystem || {};
+    data.markReqOptions = marksBySystem[markSystem] || {};
+
+    // If the stored markReq doesn't exist in the current option set, clear it.
+    const currentReq = String(system.details.markReq ?? "").trim().toLowerCase();
+    if (currentReq && !Object.prototype.hasOwnProperty.call(data.markReqOptions, currentReq)) {
+      system.details.markReq = "";
+    }
+
+    // =========================================================================
+    // SOURCE KEY options based on Source Type (UNCHANGED)
+    // =========================================================================
     const sourceType = system?.details?.sourceType ?? "";
     let sourceKeyOptions = {};
 
@@ -53,6 +80,9 @@ export class MezoriaAbilitySheet extends ItemSheet {
       sourceKeyOptions = backgrounds;
     }
     else if (sourceType === "mark") {
+      // NOTE: This is your legacy behavior: mark source type uses mark of purpose keys.
+      // Later, if you want mark-source abilities to support Power/Concept/Eldritch as well,
+      // we can switch this to look at markSystem + marksBySystem.
       sourceKeyOptions = markPurposes;
     }
     else if (sourceType === "rank") {
@@ -68,9 +98,9 @@ export class MezoriaAbilitySheet extends ItemSheet {
 
     data.sourceKeyOptions = sourceKeyOptions;
 
-    // ---------------------------------
-    // Filtered mod-attribute options based on Effect Type
-    // ---------------------------------
+    // =========================================================================
+    // Filtered mod-attribute options based on Effect Type (UNCHANGED)
+    // =========================================================================
     const allModAttrs = config.abilityModAttributes || {};
     const effectType  = system?.details?.effect?.type ?? "";
 
@@ -92,18 +122,18 @@ export class MezoriaAbilitySheet extends ItemSheet {
 
     data.modAttributeOptions = filtered;
 
-    // ---------------------------------
-    // Consolidation / Upgrade Cost
-    // ---------------------------------
+    // =========================================================================
+    // Consolidation / Upgrade Cost (UNCHANGED)
+    // =========================================================================
     const rankCostsCfg = config.abilityRankCosts || {};
     const baseCost     = Number(rankCostsCfg.baseCost ?? 100);
     const costByRank   = rankCostsCfg.costByRank || {};
     const multipliers  = rankCostsCfg.multipliers || {};
 
-    const details        = system.details || {};
-    const rankOrderAb    = config.abilityRankOrder || [];
-    const baseRankKey    = details.rankReq || "";              // treat min char rank as base
-    const currentRankKey = details.currentRank || baseRankKey; // default to base if not set
+    const details         = system.details || {};
+    const rankOrderAb     = config.abilityRankOrder || [];
+    const baseRankKey     = details.rankReq || "";               // treat min char rank as base
+    const currentRankKey  = details.currentRank || baseRankKey;  // default to base if not set
 
     let upgradeCost    = null;
     let canConsolidate = false;
@@ -140,9 +170,9 @@ export class MezoriaAbilitySheet extends ItemSheet {
       data.canConsolidate = false;
     }
 
-    // ---------------------------------
-    // Roll Preview
-    // ---------------------------------
+    // =========================================================================
+    // Roll Preview (UNCHANGED)
+    // =========================================================================
     data.rollPreview = "";
     try {
       const formula = buildAbilityRollFormula(actor, data.item);
@@ -180,10 +210,10 @@ export class MezoriaAbilitySheet extends ItemSheet {
         return;
       }
 
-      const cfg           = CONFIG["marks-of-mezoria"] || {};
-      const rankOrder     = cfg.abilityRankOrder || [];
-      const details       = sys.details || {};
-      const baseRankKey   = details.rankReq || "";
+      const cfg            = CONFIG["marks-of-mezoria"] || {};
+      const rankOrder      = cfg.abilityRankOrder || [];
+      const details        = sys.details || {};
+      const baseRankKey    = details.rankReq || "";
       const currentRankKey = details.currentRank || baseRankKey;
 
       if (!currentRankKey || !rankOrder.length) {
