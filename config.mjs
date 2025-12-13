@@ -14,9 +14,8 @@ import { AbilityData } from "./scripts/abilities.mjs";
 
 // IMPORTANT: These should match where the files actually live.
 // If your marks are still in /scripts/ (root), change these back to "./scripts/marks-of-power.mjs" etc.
-import { MarksOfPower } from "./scripts/marks/marks-of-power.mjs";
-import { MarksOfConcept } from "./scripts/marks/marks-of-concept.mjs";
-
+import { MarksOfPower } from "./scripts/marks-of-power.mjs";
+import { MarksOfConcept } from "./scripts/marks-of-concept.mjs";
 export const MezoriaConfig = {};
 
 // ============================================================================
