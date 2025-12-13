@@ -12,8 +12,10 @@ import { BackgroundTypeBonuses, BackgroundBonuses } from "./scripts/backgrounds.
 import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
 import { AbilityData } from "./scripts/abilities.mjs";
 
-import { MarksOfPower } from "./scripts/marks-of-power.mjs";
-import { MarksOfConcept } from "./scripts/marks-of-concept.mjs";
+// IMPORTANT: These should match where the files actually live.
+// If your marks are still in /scripts/ (root), change these back to "./scripts/marks-of-power.mjs" etc.
+import { MarksOfPower } from "./scripts/marks/marks-of-power.mjs";
+import { MarksOfConcept } from "./scripts/marks/marks-of-concept.mjs";
 
 export const MezoriaConfig = {};
 
@@ -219,6 +221,16 @@ MezoriaConfig.markSystems = {
 };
 
 /**
+ * IMPORTANT FIX:
+ * Your mark files are shaped like:
+ *   MarksOfPower = { categories: { ... } }
+ *   MarksOfConcept = { categories: { ... } }
+ * So we must flatten MarksOfPower.categories / MarksOfConcept.categories.
+ */
+const powerLabels   = flattenMarkGroups(MarksOfPower?.categories);
+const conceptLabels = flattenMarkGroups(MarksOfConcept?.categories);
+
+/**
  * Drives the Ability sheet "Mark Required" dropdown.
  * - purpose uses your real keys from MarkPurposeData.labels (guardian, defender, etc.)
  * - power / concept use flattened label lists with lowercase keys
@@ -226,7 +238,7 @@ MezoriaConfig.markSystems = {
  */
 MezoriaConfig.marksBySystem = {
   purpose:  labelsMapToOptions(MezoriaConfig.markOfPurpose),
-  power:    labelArrayToOptions(flattenMarkGroups(MarksOfPower)),
-  concept:  labelArrayToOptions(flattenMarkGroups(MarksOfConcept)),
+  power:    labelArrayToOptions(powerLabels),
+  concept:  labelArrayToOptions(conceptLabels),
   eldritch: {}
 };
