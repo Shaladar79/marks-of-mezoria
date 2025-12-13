@@ -16,7 +16,6 @@ Hooks.once("init", async () => {
 
   await loadTemplates([
     "systems/marks-of-mezoria/templates/actor/actor-sheet.hbs",
-
     "systems/marks-of-mezoria/templates/actor/parts/header.hbs",
 
     // Actor dropdowns
@@ -32,7 +31,13 @@ Hooks.once("init", async () => {
     // Ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
+
+    // NEW: Mark System dropdown (Purpose/Power/Concept/Eldritch)
+    "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-marksystem.hbs",
+
+    // Existing mark required dropdown (now must be dynamic)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
+
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs",
@@ -96,7 +101,7 @@ Hooks.once("init", async () => {
 /* ------------------------------------
  * Auto-grant racial abilities & sync rank-tied abilities
  * ----------------------------------*/
-Hooks.on("updateActor", async (actor, changed, options, userId) => {
+Hooks.on("updateActor", async (actor, changed) => {
   if (actor.type !== "pc") return;
 
   const raceChanged = foundry.utils.getProperty(changed, "system.details.race") !== undefined;
@@ -123,17 +128,11 @@ Hooks.once("ready", async () => {
      * parentId is the *folder id* of the parent folder, or null for root.
      */
     async function ensureFolder(name, parentId = null) {
-      // Foundry stores parent by "folder" id, not always via .parent
       let folder = game.folders.find(f => {
         if (f.type !== "Item") return false;
         if (f.name !== name) return false;
 
-        // Root folder: no parentId and no f.folder
-        if (parentId === null) {
-          return !f.folder;
-        }
-
-        // Child folder: f.folder must match parentId
+        if (parentId === null) return !f.folder;
         return f.folder === parentId;
       });
 
@@ -141,7 +140,7 @@ Hooks.once("ready", async () => {
         folder = await Folder.create({
           name,
           type: "Item",
-          folder: parentId   // parent folder id
+          folder: parentId
         });
       }
 
