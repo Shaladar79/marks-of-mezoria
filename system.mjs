@@ -3,6 +3,7 @@ import { MezoriaConfig } from "./config.mjs";
 import { MezoriaActor } from "./scripts/actor.mjs";
 import { MinimalActorSheet } from "./scripts/sheets/pc-sheet.mjs";
 import { MezoriaAbilitySheet } from "./scripts/sheets/ability-sheet.mjs";
+import { MezoriaEquipmentSheet } from "./scripts/sheets/equipment-sheet.mjs";
 import { RaceAbilityPack } from "./scripts/packs/raceabilitypack.mjs";
 
 /* ------------------------------------
@@ -31,13 +32,8 @@ Hooks.once("init", async () => {
     // Ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
-
-    // NEW: Mark System dropdown (Purpose/Power/Concept/Eldritch)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-marksystem.hbs",
-
-    // Existing mark required dropdown (now must be dynamic)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
-
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs",
@@ -90,8 +86,9 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/consumables.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/storage.hbs",
 
-    // Ability item sheet
-    "systems/marks-of-mezoria/templates/items/ability-sheet.hbs"
+    // Item sheets
+    "systems/marks-of-mezoria/templates/items/ability-sheet.hbs",
+    "systems/marks-of-mezoria/templates/items/equipment-sheet.hbs"
   ]);
 
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
@@ -101,6 +98,12 @@ Hooks.once("init", async () => {
 
   Items.registerSheet("marks-of-mezoria", MezoriaAbilitySheet, {
     types: ["ability"],
+    makeDefault: true
+  });
+
+  // NEW: Equipment sheet for weapon/armor/gear
+  Items.registerSheet("marks-of-mezoria", MezoriaEquipmentSheet, {
+    types: ["weapon", "armor", "gear"],
     makeDefault: true
   });
 });
@@ -125,15 +128,11 @@ Hooks.on("updateActor", async (actor, changed) => {
 
 /* ------------------------------------
  * Ensure racial ability folders + items
- * ------------------------------------*/
+ * ----------------------------------*/
 Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
   try {
-    /**
-     * Ensure an Item folder with a given name and parentId exists.
-     * parentId is the *folder id* of the parent folder, or null for root.
-     */
     async function ensureFolder(name, parentId = null) {
       let folder = game.folders.find(f => {
         if (f.type !== "Item") return false;
@@ -154,7 +153,6 @@ Hooks.once("ready", async () => {
       return folder;
     }
 
-    // Folder structure: Actor / Abilities / Racial / <Race>
     const actorFolder     = await ensureFolder("Actor", null);
     const abilitiesFolder = await ensureFolder("Abilities", actorFolder.id);
     const racialFolder    = await ensureFolder("Racial", abilitiesFolder.id);
@@ -171,7 +169,6 @@ Hooks.once("ready", async () => {
       for (const def of defs) {
         if (!def || !def.key) continue;
 
-        // If a template with this racialKey already exists anywhere, skip
         const exists = worldItems.find(i =>
           i.type === "ability" &&
           i.system?.details?.racialKey === def.key
@@ -187,7 +184,6 @@ Hooks.once("ready", async () => {
         data.system.details ??= {};
         data.system.details.racialKey = def.key;
 
-        // Template version: not autoGranted
         data.system.details.sourceType  ??= "racial";
         data.system.details.sourceKey   ??= raceKey;
         data.system.details.autoGranted ??= false;
