@@ -13,9 +13,9 @@ import { MarkPurposeData } from "./scripts/mark-purpose.mjs";
 import { AbilityData } from "./scripts/abilities.mjs";
 
 // IMPORTANT: These should match where the files actually live.
-// If your marks are still in /scripts/ (root), change these back to "./scripts/marks-of-power.mjs" etc.
 import { MarksOfPower } from "./scripts/marks-of-power.mjs";
 import { MarksOfConcept } from "./scripts/marks-of-concept.mjs";
+
 export const MezoriaConfig = {};
 
 // ============================================================================
@@ -118,20 +118,24 @@ MezoriaConfig.backgroundsByType = {
 MezoriaConfig.backgroundDescriptions = BackgroundBonuses.descriptions;
 
 // -------------------------------------
-// TREASURE (placeholder lists; can be renamed later)
+// TREASURE (Riches)
 // -------------------------------------
 MezoriaConfig.currencyDenoms = {
-  gold: "Gold",
-  denom2: "Denomination 2",
-  denom3: "Denomination 3",
-  denom4: "Denomination 4",
-  denom5: "Denomination 5",
-  denom6: "Denomination 6",
-  denom7: "Denomination 7",
-  denom8: "Denomination 8",
-  denom9: "Denomination 9",
-  denom10: "Denomination 10"
+  gold: "Gold"
 };
+
+// Core rank order for Riches
+MezoriaConfig.coreOrder = [
+  "quartz",
+  "topaz",
+  "garnet",
+  "emerald",
+  "sapphire",
+  "ruby",
+  "diamond",
+  "mythrite",
+  "celestite"
+];
 
 // -------------------------------------
 // Optional flat background map
@@ -142,6 +146,7 @@ MezoriaConfig.backgrounds = {
   ...(MezoriaConfig.backgroundsByType.street  || {}),
   ...(MezoriaConfig.backgroundsByType.social  || {})
 };
+
 // -------------------------------------
 // BACKGROUND BONUSES
 // -------------------------------------
@@ -217,18 +222,15 @@ MezoriaConfig.abilityCostTypes = AbilityData.costTypes;
 // Ability Rank Upgrade Costs (Spirit consolidation)
 // -------------------------------------
 MezoriaConfig.abilityRankCosts = {
-  baseCost:    AbilityData.rankCosts.baseCost,      // 100
-  multipliers: AbilityData.rankCosts.multipliers,   // rank -> multiplier
-  costByRank:  AbilityData.rankCosts.costByRank     // rank -> total cost
+  baseCost:    AbilityData.rankCosts.baseCost,
+  multipliers: AbilityData.rankCosts.multipliers,
+  costByRank:  AbilityData.rankCosts.costByRank
 };
 
 // ============================================================================
 //                           MARK SYSTEM REGISTRY
 // ============================================================================
 
-/**
- * Drives the Ability sheet "Mark System" dropdown.
- */
 MezoriaConfig.markSystems = {
   purpose:  "Mark of Purpose",
   power:    "Mark of Power",
@@ -236,22 +238,9 @@ MezoriaConfig.markSystems = {
   eldritch: "Eldritch Mark"
 };
 
-/**
- * IMPORTANT FIX:
- * Your mark files are shaped like:
- *   MarksOfPower = { categories: { ... } }
- *   MarksOfConcept = { categories: { ... } }
- * So we must flatten MarksOfPower.categories / MarksOfConcept.categories.
- */
 const powerLabels   = flattenMarkGroups(MarksOfPower?.categories);
 const conceptLabels = flattenMarkGroups(MarksOfConcept?.categories);
 
-/**
- * Drives the Ability sheet "Mark Required" dropdown.
- * - purpose uses your real keys from MarkPurposeData.labels (guardian, defender, etc.)
- * - power / concept use flattened label lists with lowercase keys
- * - eldritch is an empty placeholder until designed
- */
 MezoriaConfig.marksBySystem = {
   purpose:  labelsMapToOptions(MezoriaConfig.markOfPurpose),
   power:    labelArrayToOptions(powerLabels),
