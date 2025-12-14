@@ -459,7 +459,11 @@ export class MezoriaActor extends Actor {
       }
 
       // If no racial definitions, nothing more to do
-      if (!defs || !defs.length) return;
+      if (!defs || !defs.length) {
+        // Ensure conditional features reset when switching races
+        try { await actor.unsetFlag("marks-of-mezoria", "hasDimensionalStorage"); } catch (e) { /* no-op */ }
+        return;
+      }
 
       // 2) Create new embedded racial abilities from definitions
       const createdData = [];
@@ -488,6 +492,14 @@ export class MezoriaActor extends Actor {
 
       if (createdData.length > 0) {
         await actor.createEmbeddedDocuments("Item", createdData);
+      }
+
+      // Conditional: Dimensional Storage (Anthazoan - Chest of the Depths)
+      const hasDimensionalStorage = createdData.some(d => d.system?.details?.racialKey === "anthazoan-chest-depths");
+      if (hasDimensionalStorage) {
+        await actor.setFlag("marks-of-mezoria", "hasDimensionalStorage", true);
+      } else {
+        try { await actor.unsetFlag("marks-of-mezoria", "hasDimensionalStorage"); } catch (e) { /* no-op */ }
       }
 
     } catch (err) {
