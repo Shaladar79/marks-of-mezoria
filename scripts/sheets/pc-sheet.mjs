@@ -30,6 +30,11 @@ export class MinimalActorSheet extends ActorSheet {
           navSelector: ".skills-tabs",
           contentSelector: ".skills-panels",
           initial: "skills-body"
+        },
+        {
+          navSelector: ".treasure-tabs",
+          contentSelector: ".treasure-panels",
+          initial: "treasure-riches"
         }
       ],
       submitOnChange: true
@@ -77,6 +82,66 @@ export class MinimalActorSheet extends ActorSheet {
 
     data.abilities         = allAbilities;
     data.abilitiesBySource = grouped;
+
+    // -----------------------------
+    // Treasure tab data
+    // -----------------------------
+    const sys = data.system ?? {};
+    sys.treasure ??= {};
+    sys.treasure.currency ??= {};
+    sys.treasure.cores ??= {};
+
+    // Dimensional storage availability (preferred: flag; fallback: racial ability key check)
+    let hasStorage = await this.actor.getFlag("marks-of-mezoria", "hasDimensionalStorage");
+    if (hasStorage === undefined) {
+      hasStorage = allAbilities.some(a => a.system?.details?.racialKey === "anthazoan-chest-depths");
+    }
+    data.hasDimensionalStorage = !!hasStorage;
+
+    // Currency denominations (10). Use config if present, otherwise provide placeholders.
+    const defaultCurrency = {
+      gold: "Gold",
+      denom2: "Denomination 2",
+      denom3: "Denomination 3",
+      denom4: "Denomination 4",
+      denom5: "Denomination 5",
+      denom6: "Denomination 6",
+      denom7: "Denomination 7",
+      denom8: "Denomination 8",
+      denom9: "Denomination 9",
+      denom10: "Denomination 10"
+    };
+
+    const currencyMap = (data.config?.currencyDenoms && Object.keys(data.config.currencyDenoms).length)
+      ? data.config.currencyDenoms
+      : defaultCurrency;
+
+    data.treasureCurrency = Object.entries(currencyMap).slice(0, 10).map(([key, label]) => ({ key, label }));
+
+    // Cores (one per rank tier; start at Quartz by default)
+    const rankOrder = Array.isArray(data.config?.ranks) ? data.config.ranks : [];
+    const coreRanks = rankOrder.filter(r => r && r !== "normal");
+    data.treasureCores = coreRanks.map(key => {
+      const label = `${key.charAt(0).toUpperCase() + key.slice(1)} Core`;
+      return { key, label };
+    });
+
+    // Item categorization for equipment/consumables/storage
+    const allItems = (data.items || []).filter(i => i.type !== "ability");
+
+    const isStored = (i) => (i.system?.location || "carried") === "dimensional";
+    const isWeapon = (i) => i.type === "weapon" || i.system?.category === "weapon";
+    const isArmor  = (i) => i.type === "armor"  || i.system?.category === "armor";
+    const isConsumable = (i) => i.type === "consumable" || i.system?.category === "consumable";
+
+    data.treasureEquipment = {
+      weapons: allItems.filter(i => isWeapon(i) && !isStored(i)),
+      armor:   allItems.filter(i => isArmor(i)  && !isStored(i)),
+      gear:    allItems.filter(i => !isWeapon(i) && !isArmor(i) && !isConsumable(i) && !isStored(i))
+    };
+
+    data.treasureConsumables = allItems.filter(i => isConsumable(i) && !isStored(i));
+    data.treasureStorage     = allItems.filter(i => isStored(i));
 
     return data;
   }
@@ -254,6 +319,61 @@ export class MinimalActorSheet extends ActorSheet {
       event.preventDefault();
       const li = event.currentTarget.closest(".ability-item");
       if (!li) return;
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      await actor.deleteEmbeddedDocuments("Item", [itemId]);
+    });
+
+    // ---------------------------------
+    // Treasure: equip toggle (weapon/armor/gear)
+    // ---------------------------------
+    html.find(".treasure-equip-toggle").on("change", async (event) => {
+      const checkbox = event.currentTarget;
+      const li = checkbox.closest(".treasure-item");
+      if (!li) return;
+
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      const item = actor.items.get(itemId);
+      if (!item) return;
+
+      await actor.updateEmbeddedDocuments("Item", [
+        { _id: itemId, "system.equipped": !!checkbox.checked }
+      ]);
+    });
+
+    // ---------------------------------
+    // Treasure: move to/from dimensional storage
+    // ---------------------------------
+    html.find(".treasure-move-storage").on("click", async (event) => {
+      event.preventDefault();
+      const btn = event.currentTarget;
+      const li = btn.closest(".treasure-item");
+      if (!li) return;
+
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+      const item = actor.items.get(itemId);
+      if (!item) return;
+
+      const current = String(item.system?.location || "carried");
+      const next = current === "dimensional" ? "carried" : "dimensional";
+
+      await actor.updateEmbeddedDocuments("Item", [
+        { _id: itemId, "system.location": next }
+      ]);
+    });
+
+    // ---------------------------------
+    // Treasure: item removal
+    // ---------------------------------
+    html.find(".treasure-item-delete").on("click", async (event) => {
+      event.preventDefault();
+      const li = event.currentTarget.closest(".treasure-item");
+      if (!li) return;
+
       const itemId = li.dataset.itemId;
       if (!itemId) return;
 
