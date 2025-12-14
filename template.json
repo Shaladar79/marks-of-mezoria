@@ -9,14 +9,11 @@
           "race": "",
           "backgroundType": "",
           "background": "",
-
           "markOfPurpose": "",
           "purpose": "",
-
           "markOfPower": "",
           "markOfConcept": "",
           "eldritchMark": "",
-
           "mythrianTribe": "",
           "draconianClan": "",
           "scionAspect": ""
@@ -49,16 +46,11 @@
           "vitality": { "current": 0, "max": 0, "regen": 0 },
           "stamina":  { "current": 0, "max": 0, "regen": 0 },
           "mana":     { "current": 0, "max": 0, "regen": 0 },
-
           "trauma":   { "current": 0, "max": 0 },
-
           "naturalArmor": 0,
-
           "armor":     { "current": 0, "max": 0 },
           "shielding": { "current": 0 },
-
           "defense":   { "touch": 0, "physical": 0, "magical": 0 },
-
           "reaction": 0,
           "pace": 0
         },
@@ -71,16 +63,7 @@
 
         "treasure": {
           "currency": {
-            "gold":   { "value": 0 },
-            "denom2": { "value": 0 },
-            "denom3": { "value": 0 },
-            "denom4": { "value": 0 },
-            "denom5": { "value": 0 },
-            "denom6": { "value": 0 },
-            "denom7": { "value": 0 },
-            "denom8": { "value": 0 },
-            "denom9": { "value": 0 },
-            "denom10": { "value": 0 }
+            "gold": { "value": 0 }
           },
 
           "cores": {
@@ -196,35 +179,26 @@
 
         "details": {
           "name": "",
-
           "sourceType": "",
           "sourceKey": "",
           "autoGranted": false,
-
           "racialKey": "",
-
           "markSystem": "power",
           "markReq": "",
-
           "rankReq": "",
           "rank": "",
           "currentRank": "",
-
           "syncWithRank": false,
           "noConsolidate": false,
-
           "actionType": "",
           "actionCost": 0,
-
           "range": "",
-
           "cost": {
             "type": "",
             "value": 0,
             "perRank": false,
             "extraPerRank": 0
           },
-
           "effect": {
             "type": "",
             "appliesTo": "",
@@ -232,25 +206,19 @@
             "amount": 0,
             "damageType": "",
             "notes": "",
-
             "durationRounds": 0,
-
             "rangeBase": 0,
             "rangePerRank": 0,
-
             "dieType": "",
             "diceBase": 0,
             "dicePerRank": 0,
-
             "roll": ""
           },
-
           "scaling": {
             "enabled": false,
             "mode": "",
             "value": ""
           },
-
           "tags": "",
           "short": "",
           "description": ""
@@ -261,35 +229,26 @@
     "ability": {
       "details": {
         "name": "",
-
         "sourceType": "",
         "sourceKey": "",
         "autoGranted": false,
-
         "racialKey": "",
-
         "markSystem": "power",
         "markReq": "",
-
         "rankReq": "",
         "rank": "",
         "currentRank": "",
-
         "syncWithRank": false,
         "noConsolidate": false,
-
         "actionType": "",
         "actionCost": 0,
-
         "range": "",
-
         "cost": {
           "type": "",
           "value": 0,
           "perRank": false,
           "extraPerRank": 0
         },
-
         "effect": {
           "type": "",
           "appliesTo": "",
@@ -297,25 +256,19 @@
           "amount": 0,
           "damageType": "",
           "notes": "",
-
           "durationRounds": 0,
-
           "rangeBase": 0,
           "rangePerRank": 0,
-
           "dieType": "",
           "diceBase": 0,
           "dicePerRank": 0,
-
           "roll": ""
         },
-
         "scaling": {
           "enabled": false,
           "mode": "",
           "value": ""
         },
-
         "tags": "",
         "short": "",
         "description": ""
