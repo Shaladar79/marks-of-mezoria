@@ -1,6 +1,8 @@
 {
   "Actor": {
-    "types": ["pc"],
+    "types": [
+      "pc"
+    ],
     "templates": {
       "base": {
         "details": {
@@ -9,100 +11,208 @@
           "race": "",
           "backgroundType": "",
           "background": "",
-          "markOfPurpose": "",
           "purpose": "",
-          "markOfPower": "",
-          "markOfConcept": "",
-          "eldritchMark": "",
           "mythrianTribe": "",
           "draconianClan": "",
           "scionAspect": ""
         },
-
         "attributes": {
           "body": {
             "value": 0,
-            "might": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "swiftness": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "endurance": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 }
+            "might": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "swiftness": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "endurance": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           },
           "mind": {
             "value": 0,
-            "insight": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "focus": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "willpower": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 }
+            "insight": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "focus": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "willpower": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           },
           "soul": {
             "value": 0,
-            "presence": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "grace": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 },
-            "resolve": { "base": 0, "race": 0, "background": 0, "mark": 0, "misc": 0, "total": 0, "mod": 0 }
+            "presence": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "grace": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            },
+            "resolve": {
+              "base": 0,
+              "race": 0,
+              "background": 0,
+              "mark": 0,
+              "misc": 0,
+              "total": 0,
+              "mod": 0
+            }
           }
         },
-
         "status": {
-          "vitality": { "current": 0, "max": 0, "regen": 0 },
-          "stamina": { "current": 0, "max": 0, "regen": 0 },
-          "mana": { "current": 0, "max": 0, "regen": 0 },
-          "trauma": { "current": 0, "max": 0 },
+          "vitality": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
+          "stamina": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
+          "mana": {
+            "current": 0,
+            "max": 0,
+            "regen": 0
+          },
+          "trauma": {
+            "current": 0,
+            "max": 0
+          },
           "naturalArmor": 0,
-          "armor": { "current": 0, "max": 0 },
-          "shielding": { "current": 0 },
-          "defense": { "touch": 0, "physical": 0, "magical": 0 },
+          "armor": {
+            "current": 0,
+            "max": 0
+          },
+          "shielding": {
+            "current": 0
+          },
+          "defense": {
+            "touch": 0,
+            "physical": 0,
+            "magical": 0
+          },
           "reaction": 0,
           "pace": 0
         },
-
-        "spirit": { "current": 0, "spent": 0, "total": 0 },
-
+        "spirit": {
+          "current": 0,
+          "spent": 0,
+          "total": 0
+        },
         "treasure": {
           "currency": {
-            "gold": { "value": 0 }
+            "gold": {
+              "value": 0
+            }
           },
           "cores": {
-            "quartz": { "value": 0 },
-            "topaz": { "value": 0 },
-            "garnet": { "value": 0 },
-            "emerald": { "value": 0 },
-            "sapphire": { "value": 0 },
-            "ruby": { "value": 0 },
-            "diamond": { "value": 0 },
-            "mythrite": { "value": 0 },
-            "celestite": { "value": 0 }
+            "quartz": {
+              "value": 0
+            },
+            "topaz": {
+              "value": 0
+            },
+            "garnet": {
+              "value": 0
+            },
+            "emerald": {
+              "value": 0
+            },
+            "sapphire": {
+              "value": 0
+            },
+            "ruby": {
+              "value": 0
+            },
+            "diamond": {
+              "value": 0
+            },
+            "mythrite": {
+              "value": 0
+            },
+            "celestite": {
+              "value": 0
+            }
           }
         },
-
         "skills": {}
       }
     }
   },
-
   "Item": {
-    "types": ["ability", "weapon", "armor", "gear", "consumable"],
+    "types": [
+      "ability",
+      "equipment",
+      "consumable"
+    ],
     "templates": {
       "base": {
         "equipped": false,
         "quantity": 1,
         "location": "carried",
-        "category": "",
-
-        "equipment": {
-          "rank": "",
-          "description": "",
-          "tags": ""
-        },
-
+        "equipType": "misc",
+        "rank": "",
+        "description": "",
+        "tags": "",
         "armor": {
           "defenseBonus": 0,
           "armorPoints": 0
         },
-
         "weapon": {
           "skillKey": "",
           "damageDice": 1,
           "damageDie": "d6"
         },
-
         "details": {
           "name": "",
           "sourceType": "",
@@ -119,7 +229,12 @@
           "actionType": "",
           "actionCost": 0,
           "range": "",
-          "cost": { "type": "", "value": 0, "perRank": false, "extraPerRank": 0 },
+          "cost": {
+            "type": "",
+            "value": 0,
+            "perRank": false,
+            "extraPerRank": 0
+          },
           "effect": {
             "type": "",
             "appliesTo": "",
@@ -135,14 +250,17 @@
             "dicePerRank": 0,
             "roll": ""
           },
-          "scaling": { "enabled": false, "mode": "", "value": "" },
+          "scaling": {
+            "enabled": false,
+            "mode": "",
+            "value": ""
+          },
           "tags": "",
           "short": "",
           "description": ""
         }
       }
     },
-
     "ability": {
       "details": {
         "name": "",
@@ -160,7 +278,12 @@
         "actionType": "",
         "actionCost": 0,
         "range": "",
-        "cost": { "type": "", "value": 0, "perRank": false, "extraPerRank": 0 },
+        "cost": {
+          "type": "",
+          "value": 0,
+          "perRank": false,
+          "extraPerRank": 0
+        },
         "effect": {
           "type": "",
           "appliesTo": "",
@@ -176,7 +299,11 @@
           "dicePerRank": 0,
           "roll": ""
         },
-        "scaling": { "enabled": false, "mode": "", "value": "" },
+        "scaling": {
+          "enabled": false,
+          "mode": "",
+          "value": ""
+        },
         "tags": "",
         "short": "",
         "description": ""
