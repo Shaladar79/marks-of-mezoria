@@ -1,0 +1,33 @@
+{{!-- ================================
+      TREASURE: DIMENSIONAL STORAGE
+      (Only rendered if hasDimensionalStorage)
+================================ --}}
+
+<section class="treasure-storage">
+
+  <h3>Dimensional Storage</h3>
+  <p class="hint">Items marked as stored will appear here. Use "To Pack" to bring them back to carried inventory.</p>
+
+  <ol class="item-list">
+    {{#each treasureStorage as |i|}}
+      <li class="treasure-item" data-item-id="{{i.id}}">
+        <div class="item-row flexrow">
+          <div class="item-name flexrow">
+            <img src="{{i.img}}" title="{{i.name}}" width="24" height="24" />
+            <span class="name">{{i.name}}</span>
+          </div>
+
+          <div class="item-controls flexrow">
+            <button type="button" class="treasure-move-storage" data-action="toggle-storage" title="Move to/from Dimensional Storage">To Pack</button>
+            <button type="button" class="treasure-item-delete" title="Delete Item">X</button>
+          </div>
+        </div>
+      </li>
+    {{/each}}
+
+    {{#unless treasureStorage.length}}
+      <li class="hint">No items in storage.</li>
+    {{/unless}}
+  </ol>
+
+</section>
