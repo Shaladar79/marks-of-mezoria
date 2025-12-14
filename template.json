@@ -69,6 +69,33 @@
           "total": 0
         },
 
+        "treasure": {
+          "currency": {
+            "gold":   { "value": 0 },
+            "denom2": { "value": 0 },
+            "denom3": { "value": 0 },
+            "denom4": { "value": 0 },
+            "denom5": { "value": 0 },
+            "denom6": { "value": 0 },
+            "denom7": { "value": 0 },
+            "denom8": { "value": 0 },
+            "denom9": { "value": 0 },
+            "denom10": { "value": 0 }
+          },
+
+          "cores": {
+            "quartz":    { "value": 0 },
+            "topaz":     { "value": 0 },
+            "garnet":    { "value": 0 },
+            "emerald":   { "value": 0 },
+            "sapphire":  { "value": 0 },
+            "ruby":      { "value": 0 },
+            "diamond":   { "value": 0 },
+            "mythrite":  { "value": 0 },
+            "celestite": { "value": 0 }
+          }
+        },
+
         "skills": {
           "body": {
             "might": {
@@ -158,10 +185,15 @@
   },
 
   "Item": {
-    "types": ["ability"],
+    "types": ["ability", "weapon", "armor", "gear", "consumable"],
 
     "templates": {
       "base": {
+        "equipped": false,
+        "quantity": 1,
+        "location": "carried",
+        "category": "",
+
         "details": {
           "name": "",
 
