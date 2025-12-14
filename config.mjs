@@ -118,6 +118,22 @@ MezoriaConfig.backgroundsByType = {
 MezoriaConfig.backgroundDescriptions = BackgroundBonuses.descriptions;
 
 // -------------------------------------
+// TREASURE (placeholder lists; can be renamed later)
+// -------------------------------------
+MezoriaConfig.currencyDenoms = {
+  gold: "Gold",
+  denom2: "Denomination 2",
+  denom3: "Denomination 3",
+  denom4: "Denomination 4",
+  denom5: "Denomination 5",
+  denom6: "Denomination 6",
+  denom7: "Denomination 7",
+  denom8: "Denomination 8",
+  denom9: "Denomination 9",
+  denom10: "Denomination 10"
+};
+
+// -------------------------------------
 // Optional flat background map
 // -------------------------------------
 MezoriaConfig.backgrounds = {
