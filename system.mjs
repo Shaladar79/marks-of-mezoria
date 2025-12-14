@@ -32,8 +32,14 @@ Hooks.once("init", async () => {
     // Ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
+
+    // NEW: Mark System dropdown (Purpose/Power/Concept/Eldritch)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-marksystem.hbs",
+
+    // Existing mark required dropdown (now must be dynamic)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
+
+    // Rest of ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs",
@@ -101,9 +107,8 @@ Hooks.once("init", async () => {
     makeDefault: true
   });
 
-  // NEW: Equipment sheet for weapon/armor/gear
   Items.registerSheet("marks-of-mezoria", MezoriaEquipmentSheet, {
-    types: ["weapon", "armor", "gear"],
+    types: ["equipment"],
     makeDefault: true
   });
 });
