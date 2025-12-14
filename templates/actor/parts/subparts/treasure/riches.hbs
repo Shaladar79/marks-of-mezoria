@@ -1,35 +1,44 @@
 {{!-- ================================
       TREASURE: RICHES
-      - Currency (10 denominations)
-      - Cores (by rank)
+      - Gold
+      - Cores by rank
+      - Conversion labels (display only)
 ================================ --}}
 
 <section class="treasure-riches">
 
-  <h3>Currency</h3>
+  <h3>Riches</h3>
+
   <div class="grid grid-2col">
+
+    {{!-- GOLD --}}
     {{#each treasureCurrency as |denom|}}
       <div class="field">
         <label>{{denom.label}}</label>
-        <input type="number"
-               name="system.treasure.currency.{{denom.key}}.value"
-               value="{{lookup (lookup ../system.treasure.currency denom.key) 'value'}}"
-               data-dtype="Number" />
+        <div class="flexrow">
+          <input type="number"
+                 name="system.treasure.currency.{{denom.key}}.value"
+                 value="{{lookup (lookup ../system.treasure.currency denom.key) 'value'}}"
+                 data-dtype="Number" />
+          <span class="hint" style="margin-left:8px;">{{denom.conversion}}</span>
+        </div>
       </div>
     {{/each}}
-  </div>
 
-  <h3>Cores</h3>
-  <div class="grid grid-2col">
+    {{!-- CORES --}}
     {{#each treasureCores as |core|}}
       <div class="field">
         <label>{{core.label}}</label>
-        <input type="number"
-               name="system.treasure.cores.{{core.key}}.value"
-               value="{{lookup (lookup ../system.treasure.cores core.key) 'value'}}"
-               data-dtype="Number" />
+        <div class="flexrow">
+          <input type="number"
+                 name="system.treasure.cores.{{core.key}}.value"
+                 value="{{lookup (lookup ../system.treasure.cores core.key) 'value'}}"
+                 data-dtype="Number" />
+          <span class="hint" style="margin-left:8px;">{{core.conversion}}</span>
+        </div>
       </div>
     {{/each}}
+
   </div>
 
 </section>
