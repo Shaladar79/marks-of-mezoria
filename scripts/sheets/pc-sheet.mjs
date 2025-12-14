@@ -12,6 +12,43 @@ function normalizeRankKey(raw) {
   return String(raw).trim().toLowerCase();
 }
 
+/**
+ * Recursively search actor.system.skills for a leaf skill object by key.
+ * Returns { skill, path } where skill is the object containing {label,total,...}
+ * and path is the dot path from "skills" (e.g. "body.might.combatHeavy").
+ */
+function findSkillByKey(skillsRoot, targetKey) {
+  if (!skillsRoot || !targetKey) return null;
+  const key = String(targetKey);
+
+  const walk = (node, pathParts) => {
+    if (!node || typeof node !== "object") return null;
+
+    // If this node has a direct property matching the key and it looks like a skill leaf, return it
+    if (Object.prototype.hasOwnProperty.call(node, key)) {
+      const candidate = node[key];
+      if (candidate && typeof candidate === "object" && ("total" in candidate || "label" in candidate)) {
+        return { skill: candidate, path: pathParts.concat([key]).join(".") };
+      }
+    }
+
+    // Otherwise recurse
+    for (const [k, v] of Object.entries(node)) {
+      if (!v || typeof v !== "object") continue;
+
+      // Skip booleans like "expertise" and other non-skill markers
+      if (k === "expertise") continue;
+
+      const res = walk(v, pathParts.concat([k]));
+      if (res) return res;
+    }
+
+    return null;
+  };
+
+  return walk(skillsRoot, []);
+}
+
 export class MinimalActorSheet extends ActorSheet {
 
   static get defaultOptions() {
@@ -98,14 +135,11 @@ export class MinimalActorSheet extends ActorSheet {
     }
     data.hasDimensionalStorage = !!hasStorage;
 
-
     // -----------------------------
     // Riches (Gold + Cores)
     // -----------------------------
-    // Currency: Gold only (no other denominations in this iteration)
     data.treasureCurrency = [{ key: "gold", label: "Gold", conversion: "= 1 Gold" }];
 
-    // Cores: fixed order by rank tier
     const coreOrder = Array.isArray(data.config?.coreOrder) && data.config.coreOrder.length
       ? data.config.coreOrder
       : ["quartz","topaz","garnet","emerald","sapphire","ruby","diamond","mythrite","celestite"];
@@ -119,11 +153,13 @@ export class MinimalActorSheet extends ActorSheet {
       return { key, label: coreLabel(key), conversion };
     });
 
-    // Item categorization for equipment/consumables/storage
+    // -----------------------------
+    // Equipment / Consumables / Storage items
+    // -----------------------------
     const allItems = (data.items || []).filter(i => i.type !== "ability");
 
-    const isStored = (i) => (i.system?.location || "carried") === "dimensional";
-    const isEquipment = (i) => i.type === "equipment";
+    const isStored     = (i) => (i.system?.location || "carried") === "dimensional";
+    const isEquipment  = (i) => i.type === "equipment";
     const isConsumable = (i) => i.type === "consumable";
 
     const equipType = (i) => String(i.system?.equipType || "misc").toLowerCase();
@@ -135,6 +171,7 @@ export class MinimalActorSheet extends ActorSheet {
       armor:   carriedEquipment.filter(i => equipType(i) === "armor"),
       misc:    carriedEquipment.filter(i => equipType(i) === "misc")
     };
+
     data.treasureConsumables = allItems.filter(i => isConsumable(i) && !isStored(i));
     data.treasureStorage     = allItems.filter(i => isStored(i));
 
@@ -145,6 +182,77 @@ export class MinimalActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const actor = this.actor;
+
+    // ---------------------------------
+    // Treasure: weapon ATTACK roll (1d20 + skill total)
+    // ---------------------------------
+    html.find(".equipment-weapon-attack-roll").on("click", async (event) => {
+      event.preventDefault();
+
+      const btn = event.currentTarget;
+      const li = btn.closest(".treasure-item");
+      if (!li) return;
+
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      const item = actor.items.get(itemId);
+      if (!item) return;
+
+      const skillKey = String(item.system?.weapon?.skillKey || "").trim();
+      if (!skillKey) {
+        ui.notifications?.warn(`Weapon "${item.name}" has no Combat Skill selected.`);
+        return;
+      }
+
+      const found = findSkillByKey(actor.system?.skills, skillKey);
+      if (!found?.skill) {
+        ui.notifications?.warn(`Could not find a skill matching "${skillKey}" on this actor.`);
+        return;
+      }
+
+      const skillTotal = Number(found.skill.total ?? 0) || 0;
+      const skillLabel = String(found.skill.label || skillKey);
+
+      const roll = new Roll("1d20 + @mod", { mod: skillTotal });
+      await roll.evaluate({ async: true });
+
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: `${item.name} — Attack (${skillLabel})`
+      });
+    });
+
+    // ---------------------------------
+    // Treasure: weapon DAMAGE roll (uses equipment config + buildWeaponDamageFormula)
+    // ---------------------------------
+    html.find(".equipment-weapon-damage-roll").on("click", async (event) => {
+      event.preventDefault();
+
+      const btn = event.currentTarget;
+      const li = btn.closest(".treasure-item");
+      if (!li) return;
+
+      const itemId = li.dataset.itemId;
+      if (!itemId) return;
+
+      const item = actor.items.get(itemId);
+      if (!item) return;
+
+      const dice = Number(item.system?.weapon?.damageDice ?? 1) || 1;
+      const die  = String(item.system?.weapon?.damageDie || "d6");
+
+      const { formula, damageType } =
+        await buildWeaponDamageFormula(actor, dice, die, true);
+
+      const roll = new Roll(formula);
+      await roll.evaluate({ async: true });
+
+      roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor }),
+        flavor: `${item.name} — Damage (${damageType})`
+      });
+    });
 
     // ---------------------------------
     // Save rolls
@@ -235,12 +343,9 @@ export class MinimalActorSheet extends ActorSheet {
 
       const sys     = item.system || {};
       const details = sys.details || {};
-      const effect  = details.effect || {};
       const costCfg = details.cost || {};
 
-      // -------------------------------
       // 1) Compute effective resource cost
-      // -------------------------------
       const costType      = costCfg.type || "";
       const baseCost      = Number(costCfg.value ?? 0) || 0;
       const perRank       = !!costCfg.perRank;
@@ -262,9 +367,7 @@ export class MinimalActorSheet extends ActorSheet {
         }
       }
 
-      // -------------------------------
       // 2) Deduct resource (stamina/mana)
-      // -------------------------------
       if (costType && effectiveCost > 0) {
         let pathCurrent = "";
         if (costType === "stamina") pathCurrent = "status.stamina.current";
@@ -283,15 +386,11 @@ export class MinimalActorSheet extends ActorSheet {
         }
       }
 
-      // -------------------------------
       // 3) Special-case ability handling
-      // -------------------------------
       const handled = await handleSpecialAbilityEffect(actor, item);
       if (handled) return;
 
-      // -------------------------------
       // 4) Normal ability roll
-      // -------------------------------
       const formula = buildAbilityRollFormula(actor, item);
       if (!formula) {
         ui.notifications?.warn("This ability does not have a valid roll configuration.");
@@ -330,9 +429,6 @@ export class MinimalActorSheet extends ActorSheet {
 
       const itemId = li.dataset.itemId;
       if (!itemId) return;
-
-      const item = actor.items.get(itemId);
-      if (!item) return;
 
       await actor.updateEmbeddedDocuments("Item", [
         { _id: itemId, "system.equipped": !!checkbox.checked }
@@ -376,7 +472,7 @@ export class MinimalActorSheet extends ActorSheet {
     });
 
     // ---------------------------------
-    // Weapon damage roll
+    // Legacy weapon damage roll (kept intact)
     // ---------------------------------
     html.find(".weapon-damage-roll").on("click", async (event) => {
       event.preventDefault();
