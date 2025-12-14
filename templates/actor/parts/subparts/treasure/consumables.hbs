@@ -1,0 +1,35 @@
+{{!-- ================================
+      TREASURE: CONSUMABLES
+================================ --}}
+
+<section class="treasure-consumables">
+
+  <h3>Consumables</h3>
+
+  <ol class="item-list">
+    {{#each treasureConsumables as |i|}}
+      <li class="treasure-item" data-item-id="{{i.id}}">
+        <div class="item-row flexrow">
+          <div class="item-name flexrow">
+            <img src="{{i.img}}" title="{{i.name}}" width="24" height="24" />
+            <span class="name">{{i.name}}</span>
+          </div>
+
+          <div class="item-controls flexrow">
+            {{#if ../hasDimensionalStorage}}
+              <button type="button" class="treasure-move-storage" data-action="toggle-storage" title="Move to/from Dimensional Storage">
+                {{#if (eq i.system.location "dimensional")}}To Pack{{else}}To Storage{{/if}}
+              </button>
+            {{/if}}
+            <button type="button" class="treasure-item-delete" title="Delete Item">X</button>
+          </div>
+        </div>
+      </li>
+    {{/each}}
+
+    {{#unless treasureConsumables.length}}
+      <li class="hint">No consumables.</li>
+    {{/unless}}
+  </ol>
+
+</section>
