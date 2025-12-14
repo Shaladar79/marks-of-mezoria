@@ -153,24 +153,46 @@ Hooks.once("ready", async () => {
     } else {
       await pack.getIndex();
 
+      // NOTE: Only this function has been updated to prevent duplicate folder creation.
       const ensureCompendiumFolder = async (name, parentFolderId = null, folderKey = null) => {
-        const folders = pack.folders?.contents ?? [];
-        let folder = folders.find(f => {
-          const sameName = f.name === name;
-          const sameParent = parentFolderId ? (f.folder?.id === parentFolderId) : !f.folder;
-          return sameName && sameParent;
-        });
+        const SCOPE = "marks-of-mezoria";
 
+        // Compendium folders are stored as real Folder documents; they can be found via game.folders
+        // where folder.pack === pack.collection.
+        const folders = game.folders.filter(f =>
+          f.type === "Item" &&
+          f.pack === pack.collection
+        );
+
+        // 1) Prefer stable flag match when folderKey is provided
+        let folder = null;
+        if (folderKey) {
+          folder = folders.find(f => f.getFlag(SCOPE, "folderKey") === folderKey) ?? null;
+        }
+
+        // 2) Fallback to name + parent match (supports legacy folders that predate flags)
+        if (!folder) {
+          folder = folders.find(f => {
+            const sameName = f.name === name;
+            const sameParent = parentFolderId ? (f.folder?.id === parentFolderId) : !f.folder;
+            return sameName && sameParent;
+          }) ?? null;
+        }
+
+        // 3) Create if missing
         if (!folder) {
           folder = await Folder.create(
             {
               name,
               type: "Item",
               folder: parentFolderId || null,
-              flags: folderKey ? { "marks-of-mezoria": { folderKey } } : {}
+              flags: folderKey ? { [SCOPE]: { folderKey } } : {}
             },
             { pack: pack.collection }
           );
+        } else if (folderKey && folder.getFlag(SCOPE, "folderKey") !== folderKey) {
+          // 4) Stamp flag on existing folder so future runs are stable and never duplicate
+          await folder.setFlag(SCOPE, "folderKey", folderKey);
         }
 
         return folder;
