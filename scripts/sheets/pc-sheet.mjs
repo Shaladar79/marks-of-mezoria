@@ -98,35 +98,36 @@ export class MinimalActorSheet extends ActorSheet {
     }
     data.hasDimensionalStorage = !!hasStorage;
 
-    // Currency denominations (10). Use config if present, otherwise provide placeholders.
-    const defaultCurrency = {
-      gold: "Gold",
-      denom2: "Denomination 2",
-      denom3: "Denomination 3",
-      denom4: "Denomination 4",
-      denom5: "Denomination 5",
-      denom6: "Denomination 6",
-      denom7: "Denomination 7",
-      denom8: "Denomination 8",
-      denom9: "Denomination 9",
-      denom10: "Denomination 10"
-    };
-
+    // -----------------------------
+    // Riches (Gold + Cores)
+    // -----------------------------
+    // Currency: Gold only
     const currencyMap = (data.config?.currencyDenoms && Object.keys(data.config.currencyDenoms).length)
       ? data.config.currencyDenoms
-      : defaultCurrency;
+      : { gold: "Gold" };
 
-    data.treasureCurrency = Object.entries(currencyMap).slice(0, 10).map(([key, label]) => ({ key, label }));
+    // Force Gold-only for this iteration
+    data.treasureCurrency = [{ key: "gold", label: currencyMap.gold || "Gold", conversion: "= 1 Gold" }];
 
-    // Cores (one per rank tier; start at Quartz by default)
-    const rankOrder = Array.isArray(data.config?.ranks) ? data.config.ranks : [];
-    const coreRanks = rankOrder.filter(r => r && r !== "normal");
-    data.treasureCores = coreRanks.map(key => {
-      const label = `${key.charAt(0).toUpperCase() + key.slice(1)} Core`;
-      return { key, label };
+    // Cores: ordered list + conversion strings
+    const coreOrder = Array.isArray(data.config?.coreOrder) && data.config.coreOrder.length
+      ? data.config.coreOrder
+      : ["quartz", "topaz", "garnet", "emerald", "sapphire", "ruby", "diamond", "mythrite", "celestite"];
+
+    const coreLabel = (k) => `${k.charAt(0).toUpperCase() + k.slice(1)} Core`;
+
+    data.treasureCores = coreOrder.map((key, idx) => {
+      let conversion = "";
+      if (key === "quartz") conversion = "= 1,000 Gold";
+      else if (idx > 0) conversion = `= 100 ${coreLabel(coreOrder[idx - 1])}s`;
+      else conversion = "";
+
+      return { key, label: coreLabel(key), conversion };
     });
 
+    // -----------------------------
     // Item categorization for equipment/consumables/storage
+    // -----------------------------
     const allItems = (data.items || []).filter(i => i.type !== "ability");
 
     const isStored = (i) => (i.system?.location || "carried") === "dimensional";
@@ -246,7 +247,7 @@ export class MinimalActorSheet extends ActorSheet {
       // -------------------------------
       // 1) Compute effective resource cost
       // -------------------------------
-      const costType      = costCfg.type || "";    // "stamina" or "mana"
+      const costType      = costCfg.type || "";
       const baseCost      = Number(costCfg.value ?? 0) || 0;
       const perRank       = !!costCfg.perRank;
       const extraPerRank  = Number(costCfg.extraPerRank ?? 0) || 0;
@@ -289,7 +290,7 @@ export class MinimalActorSheet extends ActorSheet {
       }
 
       // -------------------------------
-      // 3) Special-case ability handling (racial / bespoke effects)
+      // 3) Special-case ability handling
       // -------------------------------
       const handled = await handleSpecialAbilityEffect(actor, item);
       if (handled) return;
@@ -326,7 +327,7 @@ export class MinimalActorSheet extends ActorSheet {
     });
 
     // ---------------------------------
-    // Treasure: equip toggle (weapon/armor/gear)
+    // Treasure: equip toggle
     // ---------------------------------
     html.find(".treasure-equip-toggle").on("change", async (event) => {
       const checkbox = event.currentTarget;
@@ -381,7 +382,7 @@ export class MinimalActorSheet extends ActorSheet {
     });
 
     // ---------------------------------
-    // Weapon damage roll (uses Flame Imbuement if active)
+    // Weapon damage roll
     // ---------------------------------
     html.find(".weapon-damage-roll").on("click", async (event) => {
       event.preventDefault();
