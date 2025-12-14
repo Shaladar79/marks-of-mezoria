@@ -98,49 +98,43 @@ export class MinimalActorSheet extends ActorSheet {
     }
     data.hasDimensionalStorage = !!hasStorage;
 
+
     // -----------------------------
     // Riches (Gold + Cores)
     // -----------------------------
-    // Currency: Gold only
-    const currencyMap = (data.config?.currencyDenoms && Object.keys(data.config.currencyDenoms).length)
-      ? data.config.currencyDenoms
-      : { gold: "Gold" };
+    // Currency: Gold only (no other denominations in this iteration)
+    data.treasureCurrency = [{ key: "gold", label: "Gold", conversion: "= 1 Gold" }];
 
-    // Force Gold-only for this iteration
-    data.treasureCurrency = [{ key: "gold", label: currencyMap.gold || "Gold", conversion: "= 1 Gold" }];
-
-    // Cores: ordered list + conversion strings
+    // Cores: fixed order by rank tier
     const coreOrder = Array.isArray(data.config?.coreOrder) && data.config.coreOrder.length
       ? data.config.coreOrder
-      : ["quartz", "topaz", "garnet", "emerald", "sapphire", "ruby", "diamond", "mythrite", "celestite"];
+      : ["quartz","topaz","garnet","emerald","sapphire","ruby","diamond","mythrite","celestite"];
 
     const coreLabel = (k) => `${k.charAt(0).toUpperCase() + k.slice(1)} Core`;
 
     data.treasureCores = coreOrder.map((key, idx) => {
       let conversion = "";
       if (key === "quartz") conversion = "= 1,000 Gold";
-      else if (idx > 0) conversion = `= 100 ${coreLabel(coreOrder[idx - 1])}s`;
-      else conversion = "";
-
+      else if (idx > 0) conversion = `= 100 ${coreLabel(coreOrder[idx - 1]).replace(" Core","")} Cores`;
       return { key, label: coreLabel(key), conversion };
     });
 
-    // -----------------------------
     // Item categorization for equipment/consumables/storage
-    // -----------------------------
     const allItems = (data.items || []).filter(i => i.type !== "ability");
 
     const isStored = (i) => (i.system?.location || "carried") === "dimensional";
-    const isWeapon = (i) => i.type === "weapon" || i.system?.category === "weapon";
-    const isArmor  = (i) => i.type === "armor"  || i.system?.category === "armor";
-    const isConsumable = (i) => i.type === "consumable" || i.system?.category === "consumable";
+    const isEquipment = (i) => i.type === "equipment";
+    const isConsumable = (i) => i.type === "consumable";
+
+    const equipType = (i) => String(i.system?.equipType || "misc").toLowerCase();
+
+    const carriedEquipment = allItems.filter(i => isEquipment(i) && !isStored(i));
 
     data.treasureEquipment = {
-      weapons: allItems.filter(i => isWeapon(i) && !isStored(i)),
-      armor:   allItems.filter(i => isArmor(i)  && !isStored(i)),
-      gear:    allItems.filter(i => !isWeapon(i) && !isArmor(i) && !isConsumable(i) && !isStored(i))
+      weapons: carriedEquipment.filter(i => equipType(i) === "weapon"),
+      armor:   carriedEquipment.filter(i => equipType(i) === "armor"),
+      misc:    carriedEquipment.filter(i => equipType(i) === "misc")
     };
-
     data.treasureConsumables = allItems.filter(i => isConsumable(i) && !isStored(i));
     data.treasureStorage     = allItems.filter(i => isStored(i));
 
