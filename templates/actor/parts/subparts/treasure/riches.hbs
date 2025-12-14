@@ -1,0 +1,35 @@
+{{!-- ================================
+      TREASURE: RICHES
+      - Currency (10 denominations)
+      - Cores (by rank)
+================================ --}}
+
+<section class="treasure-riches">
+
+  <h3>Currency</h3>
+  <div class="grid grid-2col">
+    {{#each treasureCurrency as |denom|}}
+      <div class="field">
+        <label>{{denom.label}}</label>
+        <input type="number"
+               name="system.treasure.currency.{{denom.key}}.value"
+               value="{{lookup (lookup ../system.treasure.currency denom.key) 'value'}}"
+               data-dtype="Number" />
+      </div>
+    {{/each}}
+  </div>
+
+  <h3>Cores</h3>
+  <div class="grid grid-2col">
+    {{#each treasureCores as |core|}}
+      <div class="field">
+        <label>{{core.label}}</label>
+        <input type="number"
+               name="system.treasure.cores.{{core.key}}.value"
+               value="{{lookup (lookup ../system.treasure.cores core.key) 'value'}}"
+               data-dtype="Number" />
+      </div>
+    {{/each}}
+  </div>
+
+</section>
