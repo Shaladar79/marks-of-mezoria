@@ -12,29 +12,21 @@
     {{#each treasureEquipment.weapons as |i|}}
       <li class="treasure-item" data-item-id="{{i.id}}">
         <div class="item-row flexrow">
-          <div class="item-name flexrow">
-            <img src="{{i.img}}" title="{{i.name}}" width="24" height="24" />
-            <span class="name">{{i.name}}</span>
-          </div>
+          <div class="item-name">{{i.name}}</div>
 
-          <div class="item-controls flexrow">
-            <label class="equipped">
-              <input type="checkbox" class="treasure-equip-toggle" {{#if i.system.equipped}}checked{{/if}} />
-              Equipped
-            </label>
-            {{#if ../hasDimensionalStorage}}
-              <button type="button" class="treasure-move-storage" data-action="toggle-storage" title="Move to/from Dimensional Storage">
-                {{#if (eq i.system.location "dimensional")}}To Pack{{else}}To Storage{{/if}}
-              </button>
-            {{/if}}
-            <button type="button" class="treasure-item-delete" title="Delete Item">X</button>
-          </div>
+          <label class="equip-toggle">
+            <input type="checkbox"
+                   class="treasure-equip-toggle"
+                   {{checked i.system.equipped}} />
+            Equipped
+          </label>
+
+          <a class="item-control item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+          <a class="item-control treasure-move-storage" title="Move to/from Storage"><i class="fas fa-box"></i></a>
+          <a class="item-control treasure-item-delete" title="Delete"><i class="fas fa-trash"></i></a>
         </div>
       </li>
     {{/each}}
-    {{#unless treasureEquipment.weapons.length}}
-      <li class="hint">No weapons.</li>
-    {{/unless}}
   </ol>
 
   <h3>Armor</h3>
@@ -42,59 +34,43 @@
     {{#each treasureEquipment.armor as |i|}}
       <li class="treasure-item" data-item-id="{{i.id}}">
         <div class="item-row flexrow">
-          <div class="item-name flexrow">
-            <img src="{{i.img}}" title="{{i.name}}" width="24" height="24" />
-            <span class="name">{{i.name}}</span>
-          </div>
+          <div class="item-name">{{i.name}}</div>
 
-          <div class="item-controls flexrow">
-            <label class="equipped">
-              <input type="checkbox" class="treasure-equip-toggle" {{#if i.system.equipped}}checked{{/if}} />
-              Equipped
-            </label>
-            {{#if ../hasDimensionalStorage}}
-              <button type="button" class="treasure-move-storage" data-action="toggle-storage" title="Move to/from Dimensional Storage">
-                {{#if (eq i.system.location "dimensional")}}To Pack{{else}}To Storage{{/if}}
-              </button>
-            {{/if}}
-            <button type="button" class="treasure-item-delete" title="Delete Item">X</button>
-          </div>
+          <label class="equip-toggle">
+            <input type="checkbox"
+                   class="treasure-equip-toggle"
+                   {{checked i.system.equipped}} />
+            Equipped
+          </label>
+
+          <a class="item-control item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+          <a class="item-control treasure-move-storage" title="Move to/from Storage"><i class="fas fa-box"></i></a>
+          <a class="item-control treasure-item-delete" title="Delete"><i class="fas fa-trash"></i></a>
         </div>
       </li>
     {{/each}}
-    {{#unless treasureEquipment.armor.length}}
-      <li class="hint">No armor.</li>
-    {{/unless}}
   </ol>
 
   <h3>Misc Equipment</h3>
   <ol class="item-list">
-    {{#each treasureEquipment.gear as |i|}}
+    {{#each treasureEquipment.misc as |i|}}
       <li class="treasure-item" data-item-id="{{i.id}}">
         <div class="item-row flexrow">
-          <div class="item-name flexrow">
-            <img src="{{i.img}}" title="{{i.name}}" width="24" height="24" />
-            <span class="name">{{i.name}}</span>
-          </div>
+          <div class="item-name">{{i.name}}</div>
 
-          <div class="item-controls flexrow">
-            <label class="equipped">
-              <input type="checkbox" class="treasure-equip-toggle" {{#if i.system.equipped}}checked{{/if}} />
-              Equipped
-            </label>
-            {{#if ../hasDimensionalStorage}}
-              <button type="button" class="treasure-move-storage" data-action="toggle-storage" title="Move to/from Dimensional Storage">
-                {{#if (eq i.system.location "dimensional")}}To Pack{{else}}To Storage{{/if}}
-              </button>
-            {{/if}}
-            <button type="button" class="treasure-item-delete" title="Delete Item">X</button>
-          </div>
+          <label class="equip-toggle">
+            <input type="checkbox"
+                   class="treasure-equip-toggle"
+                   {{checked i.system.equipped}} />
+            Equipped
+          </label>
+
+          <a class="item-control item-edit" title="Edit"><i class="fas fa-edit"></i></a>
+          <a class="item-control treasure-move-storage" title="Move to/from Storage"><i class="fas fa-box"></i></a>
+          <a class="item-control treasure-item-delete" title="Delete"><i class="fas fa-trash"></i></a>
         </div>
       </li>
     {{/each}}
-    {{#unless treasureEquipment.gear.length}}
-      <li class="hint">No misc equipment.</li>
-    {{/unless}}
   </ol>
 
 </section>
