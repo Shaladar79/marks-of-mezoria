@@ -34,17 +34,17 @@
   ],
 
   "packs": [
-    {
-      "name": "abilities",
-      "label": "Abilities",
-      "path": "packs/abilities",
-      "type": "Item",
-      "system": "marks-of-mezoria",
-      "ownership": {
-        "default": 0
-      }
+  {
+    "name": "abilities",
+    "label": "Abilities",
+    "path": "packs/abilities.db",
+    "type": "Item",
+    "system": "marks-of-mezoria",
+    "ownership": {
+      "default": 0
     }
-  ],
+  }
+],
 
   "socket": false,
 
