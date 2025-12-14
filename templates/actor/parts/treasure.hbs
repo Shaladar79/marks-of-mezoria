@@ -1,0 +1,34 @@
+{{!-- ================================
+      TREASURE TAB (Riches / Equipment / Consumables / Storage)
+================================ --}}
+
+<nav class="treasure-tabs tabs" data-group="treasure-subtabs">
+  <a class="item" data-tab="treasure-riches">Riches</a>
+  <a class="item" data-tab="treasure-equipment">Equipment</a>
+  <a class="item" data-tab="treasure-consumables">Consumables</a>
+  {{#if hasDimensionalStorage}}
+    <a class="item" data-tab="treasure-storage">Dimensional Storage</a>
+  {{/if}}
+</nav>
+
+<section class="treasure-panels">
+
+  <div class="tab" data-group="treasure-subtabs" data-tab="treasure-riches">
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/riches.hbs"}}
+  </div>
+
+  <div class="tab" data-group="treasure-subtabs" data-tab="treasure-equipment">
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/equipment.hbs"}}
+  </div>
+
+  <div class="tab" data-group="treasure-subtabs" data-tab="treasure-consumables">
+    {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/consumables.hbs"}}
+  </div>
+
+  {{#if hasDimensionalStorage}}
+    <div class="tab" data-group="treasure-subtabs" data-tab="treasure-storage">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/storage.hbs"}}
+    </div>
+  {{/if}}
+
+</section>
