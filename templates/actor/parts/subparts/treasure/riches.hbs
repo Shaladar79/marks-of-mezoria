@@ -1,7 +1,7 @@
 {{!-- ================================
       TREASURE: RICHES
       - Gold
-      - Cores by rank
+      - Cores by rank tier
       - Conversion labels (display only)
 ================================ --}}
 
@@ -20,7 +20,9 @@
                  name="system.treasure.currency.{{denom.key}}.value"
                  value="{{lookup (lookup ../system.treasure.currency denom.key) 'value'}}"
                  data-dtype="Number" />
-          <span class="hint" style="margin-left:8px;">{{denom.conversion}}</span>
+          {{#if denom.conversion}}
+            <span class="hint" style="margin-left:8px;">{{denom.conversion}}</span>
+          {{/if}}
         </div>
       </div>
     {{/each}}
@@ -34,7 +36,9 @@
                  name="system.treasure.cores.{{core.key}}.value"
                  value="{{lookup (lookup ../system.treasure.cores core.key) 'value'}}"
                  data-dtype="Number" />
-          <span class="hint" style="margin-left:8px;">{{core.conversion}}</span>
+          {{#if core.conversion}}
+            <span class="hint" style="margin-left:8px;">{{core.conversion}}</span>
+          {{/if}}
         </div>
       </div>
     {{/each}}
