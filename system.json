@@ -27,15 +27,16 @@
     }
   ],
   "packs": [
-    {
-      "name": "abilities",
-      "label": "Abilities",
-      "type": "Item",
-      "ownership": {
-        "PLAYER": "OBSERVER"
-      }
-    }
-  ],
+  {
+    "name": "abilities",
+    "label": "Abilities",
+    "type": "Item",
+    "system": "marks-of-mezoria",
+    "path": "packs/abilities",
+    "ownership": { "PLAYER": "OBSERVER" }
+  }
+],
+  
   "socket": false,
   "gridDistance": 5,
   "gridUnits": "ft",
