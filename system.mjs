@@ -1,9 +1,14 @@
 // system.mjs
 import { MezoriaConfig } from "./config.mjs";
+import { RaceData } from "./scripts/races.mjs";
 import { MezoriaActor } from "./scripts/actor.mjs";
+
+// Actor sheet + Item sheets
 import { MinimalActorSheet } from "./scripts/sheets/pc-sheet.mjs";
 import { MezoriaAbilitySheet } from "./scripts/sheets/ability-sheet.mjs";
 import { MezoriaEquipmentSheet } from "./scripts/sheets/equipment-sheet.mjs";
+
+// Existing pack helper (you already have this in your project)
 import { RaceAbilityPack } from "./scripts/packs/raceabilitypack.mjs";
 
 /* ------------------------------------
@@ -32,14 +37,8 @@ Hooks.once("init", async () => {
     // Ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rank.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-rankreq.hbs",
-
-    // NEW: Mark System dropdown (Purpose/Power/Concept/Eldritch)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-marksystem.hbs",
-
-    // Existing mark required dropdown (now must be dynamic)
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-markreq.hbs",
-
-    // Rest of ability dropdowns
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-actiontype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcetype.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-effecttype.hbs",
@@ -53,7 +52,7 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-sourcekey.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/drops/abilities/ability-costtype.hbs",
 
-    // Cinfo
+    // Character Info
     "systems/marks-of-mezoria/templates/actor/parts/cinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/rankinfo.hbs",
     "systems/marks-of-mezoria/templates/actor/parts/subparts/charinfo/raceinfo.hbs",
@@ -97,16 +96,19 @@ Hooks.once("init", async () => {
     "systems/marks-of-mezoria/templates/items/equipment-sheet.hbs"
   ]);
 
+  // Actor sheet
   Actors.registerSheet("marks-of-mezoria", MinimalActorSheet, {
     types: ["pc"],
     makeDefault: true
   });
 
+  // Ability item sheet
   Items.registerSheet("marks-of-mezoria", MezoriaAbilitySheet, {
     types: ["ability"],
     makeDefault: true
   });
 
+  // Equipment item sheet (single equipment type workflow)
   Items.registerSheet("marks-of-mezoria", MezoriaEquipmentSheet, {
     types: ["equipment"],
     makeDefault: true
@@ -132,11 +134,90 @@ Hooks.on("updateActor", async (actor, changed) => {
 });
 
 /* ------------------------------------
- * Ensure racial ability folders + items
+ * Ready hook
+ * - Abilities compendium folder wiring (system pack)
+ * - Existing world Item folder seeding (kept intact)
  * ----------------------------------*/
 Hooks.once("ready", async () => {
   if (!game.user.isGM) return;
 
+  // ---------------------------------------------------------------------------
+  // 1) Abilities Compendium Folder Wiring
+  // ---------------------------------------------------------------------------
+  try {
+    const PACK_KEY = "marks-of-mezoria.abilities";
+    const pack = game.packs.get(PACK_KEY);
+
+    if (!pack) {
+      console.warn(`Marks of Mezoria | Abilities compendium not found: ${PACK_KEY}. Check system.json packs[].`);
+    } else {
+      await pack.getIndex();
+
+      const ensureCompendiumFolder = async (name, parentFolderId = null, folderKey = null) => {
+        const folders = pack.folders?.contents ?? [];
+        let folder = folders.find(f => {
+          const sameName = f.name === name;
+          const sameParent = parentFolderId ? (f.folder?.id === parentFolderId) : !f.folder;
+          return sameName && sameParent;
+        });
+
+        if (!folder) {
+          folder = await Folder.create(
+            {
+              name,
+              type: "Item",
+              folder: parentFolderId || null,
+              flags: folderKey ? { "marks-of-mezoria": { folderKey } } : {}
+            },
+            { pack: pack.collection }
+          );
+        }
+
+        return folder;
+      };
+
+      // Top-level folders
+      const racialFolder     = await ensureCompendiumFolder("Racial", null, "abilities-racial");
+      const backgroundFolder = await ensureCompendiumFolder("Background", null, "abilities-background");
+      const marksFolder      = await ensureCompendiumFolder("Marks", null, "abilities-marks");
+      await ensureCompendiumFolder("Talents", null, "abilities-talents");
+
+      // Background subfolders
+      await ensureCompendiumFolder("Common Professions", backgroundFolder.id, "abilities-background-common");
+      await ensureCompendiumFolder("Skilled Trades & Crafts", backgroundFolder.id, "abilities-background-skilled");
+      await ensureCompendiumFolder("Street-Level Backgrounds", backgroundFolder.id, "abilities-background-street");
+      await ensureCompendiumFolder("Social & Cultural Backgrounds", backgroundFolder.id, "abilities-background-social");
+
+      // Marks subfolders
+      await ensureCompendiumFolder("Purpose", marksFolder.id, "abilities-marks-purpose");
+      await ensureCompendiumFolder("Power", marksFolder.id, "abilities-marks-power");
+      await ensureCompendiumFolder("Concept", marksFolder.id, "abilities-marks-concept");
+      await ensureCompendiumFolder("Eldritch", marksFolder.id, "abilities-marks-eldritch");
+
+      // Racial subfolders: one per race
+      const raceLabels =
+        MezoriaConfig?.races ??
+        RaceData?.labels ??
+        {};
+
+      const raceEntries = Object.entries(raceLabels)
+        .filter(([k, v]) => k && v)
+        .sort((a, b) => String(a[1]).localeCompare(String(b[1])));
+
+      for (const [raceKey, raceName] of raceEntries) {
+        await ensureCompendiumFolder(String(raceName), racialFolder.id, `abilities-racial-${String(raceKey)}`);
+      }
+
+      console.log("Marks of Mezoria | Abilities compendium folder tree verified (including per-race folders).");
+    }
+  } catch (err) {
+    console.error("Marks of Mezoria | Failed to wire Abilities compendium folders:", err);
+  }
+
+  // ---------------------------------------------------------------------------
+  // 2) Existing World Item folder seeding for racial abilities (kept intact)
+  //    (You said the world-folder duplication issue is out-of-scope; leaving as-is.)
+  // ---------------------------------------------------------------------------
   try {
     async function ensureFolder(name, parentId = null) {
       let folder = game.folders.find(f => {
