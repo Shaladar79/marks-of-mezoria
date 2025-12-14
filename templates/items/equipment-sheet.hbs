@@ -1,0 +1,94 @@
+<form class="marks-of-mezoria sheet item equipment" autocomplete="off">
+
+  <header class="sheet-header flexrow">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="64" height="64"/>
+
+    <div class="header-fields">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{item.name}}" placeholder="Equipment Name"/>
+      </h1>
+
+      <div class="grid grid-2col">
+
+        {{!-- Equipment Type dropdown (stored as system.category) --}}
+        <div class="field">
+          <label>Equipment Type</label>
+          <select name="system.category" data-dtype="String">
+            {{selectOptions equipmentKinds selected=system.category}}
+          </select>
+        </div>
+
+        {{!-- Rank dropdown --}}
+        <div class="field">
+          <label>Rank</label>
+          <select name="system.equipment.rank" data-dtype="String">
+            {{selectOptions rankOptions selected=system.equipment.rank}}
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <section class="sheet-body">
+
+    {{!-- ARMOR SECTION --}}
+    {{#if isArmor}}
+      <h3>Armor</h3>
+      <div class="grid grid-2col">
+        <div class="field">
+          <label>Defense Bonus</label>
+          <input type="number" name="system.armor.defenseBonus" value="{{system.armor.defenseBonus}}" data-dtype="Number"/>
+        </div>
+
+        <div class="field">
+          <label>Armor Points</label>
+          <input type="number" name="system.armor.armorPoints" value="{{system.armor.armorPoints}}" data-dtype="Number"/>
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- WEAPON SECTION --}}
+    {{#if isWeapon}}
+      <h3>Weapon</h3>
+      <div class="grid grid-2col">
+        <div class="field">
+          <label>Combat Skill</label>
+          <select name="system.weapon.skillKey" data-dtype="String">
+            {{selectOptions combatSkillOptions selected=system.weapon.skillKey}}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Damage Dice</label>
+          <div class="flexrow">
+            <input type="number" name="system.weapon.damageDice" value="{{system.weapon.damageDice}}" data-dtype="Number" style="max-width:90px;"/>
+            <select name="system.weapon.damageDie" data-dtype="String" style="margin-left:8px;">
+              {{selectOptions dieTypeOptions selected=system.weapon.damageDie}}
+            </select>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- MISC SECTION --}}
+    {{#if isMisc}}
+      <h3>Misc Equipment</h3>
+      <p class="hint">Use Tags for any passive or equipped effects. Effects automation will be wired later.</p>
+    {{/if}}
+
+    <hr/>
+
+    <h3>Description</h3>
+    <div class="field">
+      <textarea name="system.equipment.description" rows="6">{{system.equipment.description}}</textarea>
+    </div>
+
+    <h3>Tags / Misc Effects</h3>
+    <div class="field">
+      <textarea name="system.equipment.tags" rows="4" placeholder="comma-separated tags or short notes">{{system.equipment.tags}}</textarea>
+    </div>
+
+  </section>
+
+</form>
