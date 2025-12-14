@@ -83,6 +83,13 @@ Hooks.once("init", async () => {
     // Abilities tab
     "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs",
 
+    // Treasure tab
+    "systems/marks-of-mezoria/templates/actor/parts/treasure.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/riches.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/equipment.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/consumables.hbs",
+    "systems/marks-of-mezoria/templates/actor/parts/subparts/treasure/storage.hbs",
+
     // Ability item sheet
     "systems/marks-of-mezoria/templates/items/ability-sheet.hbs"
   ]);
