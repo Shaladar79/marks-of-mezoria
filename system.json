@@ -27,15 +27,51 @@
     }
   ],
 
-  "packs": [ {
-    "name": "abilities-racial",                
-    "label": "Abilities - Racial",             
-    "system": "marks-of-mezoria",               
-    "path": "packs/abilities-racial.db",          
-    "type": "Item",                            
-    "private": false
-  }
-],
+ {
+  "id": "marks-of-mezoria",
+  "title": "Marks of Mezoria",
+  "description": "Custom game system for Marks of Mezoria (Foundry VTT v13).",
+  "version": "0.0.0.1",
+  "authors": [
+    { "name": "Shaladar" }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "system.mjs"
+  ],
+  "styles": [
+    "styles.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "abilities",
+      "label": "Abilities",
+      "path": "packs/abilities",
+      "type": "Item",
+      "system": "marks-of-mezoria",
+      "ownership": {
+        "default": 0
+      }
+    }
+  ],
+  "socket": false,
+  "gridDistance": 5,
+  "gridUnits": "ft",
+  "url": "",
+  "manifest": "",
+  "download": ""
+}
+
   "gridDistance": 5,
   "gridUnits": "ft",
 
