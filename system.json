@@ -3,28 +3,22 @@
   "title": "Marks of Mezoria System",
   "description": "Custom game system for Marks of Mezoria.",
   "version": "0.0.2.32",
-
   "authors": [
     {
       "name": "Shaladar"
     }
   ],
-
   "compatibility": {
     "minimum": "13",
     "verified": "13"
   },
-
   "esmodules": [
     "system.mjs"
   ],
-
   "styles": [
     "styles/styles.css"
   ],
-
   "template": "template.json",
-
   "languages": [
     {
       "lang": "en",
@@ -32,23 +26,19 @@
       "path": "lang/en.json"
     }
   ],
-
   "packs": [
-  {
-    "name": "abilities",
-    "label": "Abilities",
-    "type": "Item",
-    "ownership": {
-      "PLAYER": "OBSERVER"
+    {
+      "name": "abilities",
+      "label": "Abilities",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER"
+      }
     }
-  }
-  ]
-
+  ],
   "socket": false,
-
   "gridDistance": 5,
   "gridUnits": "ft",
-
   "url": "https://github.com/Shaladar79/marks-of-mezoria",
   "manifest": "https://raw.githubusercontent.com/Shaladar79/marks-of-mezoria/main/system.json",
   "download": "https://github.com/Shaladar79/marks-of-mezoria/archive/refs/heads/main.zip"
