@@ -9,6 +9,7 @@
     <a class="item" data-tab="astats">Attributes &amp; Status</a>
     <a class="item" data-tab="skills">Skills</a>
     <a class="item" data-tab="abilities">Abilities</a>
+    <a class="item" data-tab="treasure">Treasure</a>
   </nav>
 
   {{!-- TAB CONTENT AREA --}}
@@ -34,7 +35,11 @@
       {{> "systems/marks-of-mezoria/templates/actor/parts/abilities.hbs"}}
     </div>
 
+    {{!-- TREASURE TAB --}}
+    <div class="tab" data-group="primary" data-tab="treasure">
+      {{> "systems/marks-of-mezoria/templates/actor/parts/treasure.hbs"}}
+    </div>
+
   </section>
 
 </form>
-
