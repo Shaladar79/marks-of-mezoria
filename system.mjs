@@ -237,30 +237,33 @@ Hooks.once("ready", async () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 2) Existing World Item folder seeding for racial abilities (kept intact)
-  //    (You said the world-folder duplication issue is out-of-scope; leaving as-is.)
+  // Shared helper for world Item folders (v13-safe)
   // ---------------------------------------------------------------------------
-  try {
-    async function ensureFolder(name, parentId = null) {
-      let folder = game.folders.find(f => {
-        if (f.type !== "Item") return false;
-        if (f.name !== name) return false;
+  async function ensureFolder(name, parentId = null) {
+    let folder = game.folders.find(f => {
+      if (f.type !== "Item") return false;
+      if (f.name !== name) return false;
 
-        if (parentId === null) return !f.folder;
-        return f.folder === parentId;
+      if (parentId === null) return !f.folder;
+      // FIX: v13 uses Folder references; compare by id
+      return f.folder?.id === parentId;
+    });
+
+    if (!folder) {
+      folder = await Folder.create({
+        name,
+        type: "Item",
+        folder: parentId
       });
-
-      if (!folder) {
-        folder = await Folder.create({
-          name,
-          type: "Item",
-          folder: parentId
-        });
-      }
-
-      return folder;
     }
 
+    return folder;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 2) Existing World Item folder seeding for racial abilities
+  // ---------------------------------------------------------------------------
+  try {
     const actorFolder     = await ensureFolder("Actor", null);
     const abilitiesFolder = await ensureFolder("Abilities", actorFolder.id);
     const racialFolder    = await ensureFolder("Racial", abilitiesFolder.id);
@@ -302,21 +305,20 @@ Hooks.once("ready", async () => {
   } catch (err) {
     console.error("Marks of Mezoria | Folder/Ability seeding error:", err);
   }
+
   // ---------------------------------------------------------------------------
-// 3) World Item folder seeding for Equipment (folders only for now)
-// ---------------------------------------------------------------------------
-try {
-  // Reuse the same ensureFolder helper from Section 2 (must already include f.folder?.id fix)
-  // async function ensureFolder(name, parentId = null) { ... }
+  // 3) World Item folder seeding for Equipment (folders only for now)
+  // ---------------------------------------------------------------------------
+  try {
+    const equipmentRoot = await ensureFolder("Equipment", null);
 
-  const equipmentRoot = await ensureFolder("Equipment", null);
+    await ensureFolder("Armor",   equipmentRoot.id);
+    await ensureFolder("Weapons", equipmentRoot.id);
+    await ensureFolder("Misc",    equipmentRoot.id);
 
-  await ensureFolder("Armor",   equipmentRoot.id);
-  await ensureFolder("Weapons", equipmentRoot.id);
-  await ensureFolder("Misc",    equipmentRoot.id);
-
-  console.log("Marks of Mezoria | Equipment folder tree verified (Armor/Weapons/Misc).");
-} catch (err) {
-  console.error("Marks of Mezoria | Equipment folder seeding error:", err);
-}
+    console.log("Marks of Mezoria | Equipment folder tree verified (Armor/Weapons/Misc).");
+  } catch (err) {
+    console.error("Marks of Mezoria | Equipment folder seeding error:", err);
+  }
 });
+
