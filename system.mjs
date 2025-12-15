@@ -302,4 +302,21 @@ Hooks.once("ready", async () => {
   } catch (err) {
     console.error("Marks of Mezoria | Folder/Ability seeding error:", err);
   }
+  // ---------------------------------------------------------------------------
+// 3) World Item folder seeding for Equipment (folders only for now)
+// ---------------------------------------------------------------------------
+try {
+  // Reuse the same ensureFolder helper from Section 2 (must already include f.folder?.id fix)
+  // async function ensureFolder(name, parentId = null) { ... }
+
+  const equipmentRoot = await ensureFolder("Equipment", null);
+
+  await ensureFolder("Armor",   equipmentRoot.id);
+  await ensureFolder("Weapons", equipmentRoot.id);
+  await ensureFolder("Misc",    equipmentRoot.id);
+
+  console.log("Marks of Mezoria | Equipment folder tree verified (Armor/Weapons/Misc).");
+} catch (err) {
+  console.error("Marks of Mezoria | Equipment folder seeding error:", err);
+}
 });
