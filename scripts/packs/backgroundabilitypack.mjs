@@ -349,14 +349,37 @@ export const BackgroundAbilityPack = {
 });
 
 
-    D("fisher", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "River Sense",
-        effect: { type: "utility", subtype: "navigateWater", bonus: 2 },
-        notes: "Once per scene, gain +2 to a check involving water, currents, boats, nets, or shoreline hazards."
-      })
-    );
+   D("fisher", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Slip the Hook`;
+
+  a.system.details.short = "Once per day: Escape and reposition (self).";
+  a.system.details.description =
+    "Once per day, when you successfully escape a grapple, restraint, or movement-impairing effect, " +
+    "you may immediately relocate yourself up to 5 feet per character rank. " +
+    "This relocation does not provoke reactions/opportunity effects and must be to a physically reachable space.";
+
+  // Utility with 1 action cost
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by daily charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "day" };
+
+  // Effect payload (interpreted by your engine later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "escapeReposition",
+    target: "self",
+    trigger: "onEscape",
+    reposition: { feetPerRank: 5, provokes: false },
+    notes: "Once per day. Triggers when you successfully escape a grapple/restraint or similar hinder."
+  };
+
+  return a;
+});
+
 
     D("laborer", ({ bg }) =>
       oncePerSceneUtility({
