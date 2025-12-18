@@ -316,14 +316,38 @@ export const BackgroundAbilityPack = {
 });
 
 
-    D("hunter", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Keen Quarry",
-        effect: { type: "utility", subtype: "track", bonus: 2 },
-        notes: "Once per scene, gain +2 to a Tracking/pursuit check or to identify signs of prey/predators (GM adjudication)."
-      })
-    );
+    D("hunter", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Track Quarry`;
+
+  a.system.details.short = "Once per scene: Sense quarry direction (self).";
+  a.system.details.description =
+    "Once per scene, choose a creature you have personally seen within the last 24 hours. " +
+    "You learn the general direction to that quarry, up to 2 miles per character rank. " +
+    "This reveals direction only (not exact distance or location).";
+
+  // Common background design: utility, 1 action
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost (per your requirement). Still marks recover window for tracking.
+  a.system.details.cost = { type: "none", value: 0, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (interpreted by your system later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "locateDirection",
+    target: "quarry",
+    requiresSeenWithinHours: 24,
+    range: { perRankMiles: 2 },
+    reveals: ["direction"],
+    notes: "Once per scene. Must have personally seen the target within last 24 hours."
+  };
+
+  return a;
+});
+
 
     D("fisher", ({ bg }) =>
       oncePerSceneUtility({
