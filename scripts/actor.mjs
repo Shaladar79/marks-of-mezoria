@@ -508,6 +508,94 @@ export class MezoriaActor extends Actor {
   }
 
   /**
+   * Phase 5:
+   * Ensure the actor has exactly one auto-granted Background ability matching
+   * actor.system.details.background (backgroundKey).
+   *
+   * World template identity:
+   *  item.type === "ability" AND
+   *  item.system.details.sourceType === "background" AND
+   *  item.system.details.sourceKey === "<backgroundKey>"
+   *
+   * Actor embedded identity:
+   *  same as above AND autoGranted === true
+   */
+  static async applyBackgroundAbilities(actor) {
+    if (!actor || actor.type !== "pc") return;
+
+    const SCOPE = "marks-of-mezoria";
+
+    // Prevent recursive loops if other hooks observe embedded changes
+    if (actor.getFlag(SCOPE, "_applyingBackground")) return;
+
+    await actor.setFlag(SCOPE, "_applyingBackground", true);
+
+    try {
+      const backgroundKey = actor.system?.details?.background ?? "";
+
+      // All currently auto-granted background abilities on the actor
+      const currentAuto = actor.items.filter(i =>
+        i.type === "ability" &&
+        i.system?.details?.sourceType === "background" &&
+        i.system?.details?.autoGranted === true
+      );
+
+      // If no background selected, remove all auto-granted background abilities and stop
+      if (!backgroundKey) {
+        if (currentAuto.length) {
+          await actor.deleteEmbeddedDocuments("Item", currentAuto.map(i => i.id));
+        }
+        return;
+      }
+
+      // Remove any auto-granted background abilities that do NOT match the current backgroundKey
+      const wrongAuto = currentAuto.filter(i => i.system?.details?.sourceKey !== backgroundKey);
+      if (wrongAuto.length) {
+        await actor.deleteEmbeddedDocuments("Item", wrongAuto.map(i => i.id));
+      }
+
+      // Check if the correct one already exists
+      const hasCorrect = actor.items.some(i =>
+        i.type === "ability" &&
+        i.system?.details?.sourceType === "background" &&
+        i.system?.details?.sourceKey === backgroundKey &&
+        i.system?.details?.autoGranted === true
+      );
+      if (hasCorrect) return;
+
+      // Find the world template by identity (sourceType + sourceKey)
+      const template = game.items.contents.find(i =>
+        i.type === "ability" &&
+        i.system?.details?.sourceType === "background" &&
+        i.system?.details?.sourceKey === backgroundKey
+      );
+
+      if (!template) {
+        console.warn(`Marks of Mezoria | No world template found for background key: ${backgroundKey}`);
+        return;
+      }
+
+      // Create embedded copy
+      const data = template.toObject();
+      data._id = null; // ensure Foundry generates a new embedded ID
+
+      data.system ??= {};
+      data.system.details ??= {};
+
+      // Enforce identity + autoGranted on embedded copy
+      data.system.details.sourceType = "background";
+      data.system.details.sourceKey = backgroundKey;
+      data.system.details.autoGranted = true;
+
+      await actor.createEmbeddedDocuments("Item", [data], { renderSheet: false });
+    } catch (err) {
+      console.error("Marks of Mezoria | applyBackgroundAbilities failed:", err);
+    } finally {
+      await actor.unsetFlag("marks-of-mezoria", "_applyingBackground");
+    }
+  }
+
+  /**
    * Sync abilities flagged with syncWithRank to match the actor's current rank.
    */
   static async syncAbilityRanksToActor(actor) {
