@@ -11,6 +11,13 @@
  *  item.system.details.sourceKey  === "<backgroundKey>"
  *
  * NOTE: cook_skilled intentionally excluded; Cook remains Common only.
+ *
+ * UPDATE (Common list trim):
+ *  - Removed: milkmaid, field_hand, field_guide
+ *  - Added: conscript
+ *
+ * DESIGN RULE (Common):
+ *  - Common background abilities are utility powers, usable 1/scene.
  */
 
 function baseBackgroundAbility({ backgroundKey, backgroundLabel, backgroundType }) {
@@ -178,11 +185,11 @@ function combatTechnique({ bg, abilityName, effect, notes }) {
 }
 
 // -------------------------
-// Background List (unchanged)
+// Background List (updated common trim)
 // -------------------------
 export const BackgroundAbilityPack = {
   backgroundList: [
-    // COMMON (14)
+    // COMMON (12) — trimmed + conscript added
     { backgroundType: "common", backgroundKey: "farmer", backgroundLabel: "Farmer" },
     { backgroundType: "common", backgroundKey: "hunter", backgroundLabel: "Hunter" },
     { backgroundType: "common", backgroundKey: "fisher", backgroundLabel: "Fisher" },
@@ -193,10 +200,8 @@ export const BackgroundAbilityPack = {
     { backgroundType: "common", backgroundKey: "stable_hand", backgroundLabel: "Stable Hand" },
     { backgroundType: "common", backgroundKey: "messenger", backgroundLabel: "Messenger" },
     { backgroundType: "common", backgroundKey: "woodcutter", backgroundLabel: "Woodcutter" },
-    { backgroundType: "common", backgroundKey: "milkmaid", backgroundLabel: "Milkmaid" },
-    { backgroundType: "common", backgroundKey: "field_hand", backgroundLabel: "Field Hand" },
-    { backgroundType: "common", backgroundKey: "field_guide", backgroundLabel: "Field Guide" },
     { backgroundType: "common", backgroundKey: "cook", backgroundLabel: "Cook" },
+    { backgroundType: "common", backgroundKey: "conscript", backgroundLabel: "Conscript" },
 
     // SKILLED (25) — cook_skilled excluded
     { backgroundType: "skilled", backgroundKey: "blacksmith_app", backgroundLabel: "Blacksmith Apprentice" },
@@ -278,25 +283,23 @@ export const BackgroundAbilityPack = {
     };
 
     // -------------------------
-    // COMMON (14)
+    // COMMON (12) — utility 1/scene (per your rule)
     // -------------------------
     D("farmer", ({ bg }) =>
-      passiveResourceBonus({
+      oncePerSceneUtility({
         bg,
         abilityName: "Hardy Stock",
-        resource: "stamina",
-        value: 1,
-        notes: "Years of labor harden your body. Increase your maximum Stamina by 1."
+        effect: { type: "utility", subtype: "endure", bonus: 2 },
+        notes: "Once per scene, gain +2 to a check to push through fatigue, harsh weather, hunger, or long labor (GM adjudication)."
       })
     );
 
     D("hunter", ({ bg }) =>
-      passiveSkillBonus({
+      oncePerSceneUtility({
         bg,
         abilityName: "Keen Quarry",
-        skill: "tracking",
-        value: 2,
-        notes: "You gain +2 to Tracking checks and related pursuit actions."
+        effect: { type: "utility", subtype: "track", bonus: 2 },
+        notes: "Once per scene, gain +2 to a Tracking/pursuit check or to identify signs of prey/predators (GM adjudication)."
       })
     );
 
@@ -304,112 +307,89 @@ export const BackgroundAbilityPack = {
       oncePerSceneUtility({
         bg,
         abilityName: "River Sense",
-        effect: { type: "utility", subtype: "navigation", bonus: 2, target: "water/shore" },
-        notes: "Once per scene, gain +2 to a navigation/perception check involving water, currents, or shoreline hazards."
+        effect: { type: "utility", subtype: "navigateWater", bonus: 2 },
+        notes: "Once per scene, gain +2 to a check involving water, currents, boats, nets, or shoreline hazards."
       })
     );
 
     D("laborer", ({ bg }) =>
-      passiveResourceBonus({
+      oncePerSceneUtility({
         bg,
         abilityName: "Load Bearer",
-        resource: "stamina",
-        value: 1,
-        notes: "Increase max Stamina by 1 and treat your carry/haul tasks as one step easier (where applicable)."
+        effect: { type: "utility", subtype: "liftHaul", bonus: 2 },
+        notes: "Once per scene, gain +2 to a check involving lifting, hauling, dragging, bracing, or forced movement resistance (GM adjudication)."
       })
     );
 
     D("merchant", ({ bg }) =>
-      oncePerDayUtility({
+      oncePerSceneUtility({
         bg,
         abilityName: "Appraise & Leverage",
-        effect: { type: "utility", subtype: "appraise", bonus: 2 },
-        notes: "Once per day, gain +2 to an appraisal, bargaining, or negotiation check involving value or trade."
+        effect: { type: "utility", subtype: "trade", bonus: 2 },
+        notes: "Once per scene, gain +2 to an appraisal, bargaining, or negotiation check involving value, contracts, or trade."
       })
     );
 
     D("shepherd", ({ bg }) =>
-      passiveSkillBonus({
+      oncePerSceneUtility({
         bg,
         abilityName: "Calm the Flock",
-        skill: "animal_handling",
-        value: 2,
-        notes: "You gain +2 to Animal Handling checks, especially when calming, herding, or controlling frightened creatures."
+        effect: { type: "utility", subtype: "calmAnimals", bonus: 2 },
+        notes: "Once per scene, gain +2 to calm, herd, or control frightened beasts; also applies to managing panicked crowds of animals (GM adjudication)."
       })
     );
 
     D("gravedigger", ({ bg }) =>
-      passiveSkillBonus({
+      oncePerSceneUtility({
         bg,
-        abilityName: "Grave Lore",
-        skill: "monster_lore",
-        value: 2,
-        notes: "You gain +2 to checks involving undead, burial rites, crypt hazards, and associated lore."
+        abilityName: "Grave Sense",
+        effect: { type: "utility", subtype: "detectUndead", bonus: 2 },
+        notes: "Once per scene, gain +2 to notice burial hazards, identify funerary signs, or detect unnatural stillness associated with undead/crypts (GM adjudication)."
       })
     );
 
     D("stable_hand", ({ bg }) =>
-      reactionTech({
+      oncePerSceneUtility({
         bg,
         abilityName: "Sure Seat",
-        effect: { type: "reaction", subtype: "avoidDismount", bonus: 2 },
-        notes: "Reaction: When you would be dismounted or knocked prone while mounted, gain +2 to resist or remain seated."
+        effect: { type: "utility", subtype: "keepBalance", bonus: 2 },
+        notes: "Once per scene, gain +2 to remain mounted, avoid being knocked prone, or keep control of an animal under stress (GM adjudication)."
       })
     );
 
     D("messenger", ({ bg }) =>
-      movementTech({
+      oncePerSceneUtility({
         bg,
         abilityName: "Courier Sprint",
-        effect: { type: "movement", subtype: "burst", paceBonus: 1, duration: "one-move" },
-        notes: "Movement: Gain +1 Pace for one movement action (positioning burst)."
+        effect: { type: "utility", subtype: "burstMove", bonus: 0, paceBonus: 1 },
+        notes: "Once per scene, you may treat one movement as a burst: gain +1 Pace for that movement action."
       })
     );
 
     D("woodcutter", ({ bg }) =>
-      combatTechnique({
+      oncePerSceneUtility({
         bg,
         abilityName: "Splitting Stroke",
-        effect: { type: "combatBoost", subtype: "melee", weaponTag: "axe", bonus: 1 },
-        notes: "Once per scene, gain +1 to a melee damage roll or damage effect when using an axe or heavy chopping tool."
-      })
-    );
-
-    D("milkmaid", ({ bg }) =>
-      downtimeEdge({
-        bg,
-        abilityName: "Nourishing Fare",
-        effect: { type: "downtime", subtype: "recoveryBonus", resource: "lifeForce", value: 1 },
-        notes: "Downtime: When you help prepare meals during a rest, one ally restores +1 additional Life Force (or equivalent)."
-      })
-    );
-
-    D("field_hand", ({ bg }) =>
-      passiveSkillBonus({
-        bg,
-        abilityName: "Callused Grip",
-        skill: "athletics",
-        value: 2,
-        notes: "You gain +2 to Athletics checks involving lifting, pulling, climbing, and resisting forced movement."
-      })
-    );
-
-    D("field_guide", ({ bg }) =>
-      passiveSkillBonus({
-        bg,
-        abilityName: "Trailwise",
-        skill: "survival",
-        value: 2,
-        notes: "You gain +2 to Survival checks for navigation, foraging, and safe route selection."
+        effect: { type: "utility", subtype: "breakOrCleave", bonus: 2 },
+        notes: "Once per scene, gain +2 to a check to break obstacles, chop through barriers, or force open stuck wooden structures (GM adjudication)."
       })
     );
 
     D("cook", ({ bg }) =>
-      oncePerDayUtility({
+      oncePerSceneUtility({
         bg,
-        abilityName: "Hearty Meal",
-        effect: { type: "restore", resource: "stamina", value: 1, target: "allyOrSelf" },
-        notes: "Once per day, prepare a quick restorative meal. Restore 1 Stamina to yourself or an ally (during a safe pause)."
+        abilityName: "Hearty Fix",
+        effect: { type: "utility", subtype: "restore", bonus: 0, resource: "stamina", value: 1, target: "allyOrSelf" },
+        notes: "Once per scene during a safe pause, restore 1 Stamina to yourself or an ally with a quick restorative bite or brew (GM adjudication)."
+      })
+    );
+
+    D("conscript", ({ bg }) =>
+      oncePerSceneUtility({
+        bg,
+        abilityName: "Hold the Line",
+        effect: { type: "utility", subtype: "brace", bonus: 2 },
+        notes: "Once per scene, gain +2 to resist being moved, knocked prone, intimidated under pressure, or forced to break formation (GM adjudication)."
       })
     );
 
@@ -837,7 +817,7 @@ export const BackgroundAbilityPack = {
       oncePerSceneUtility({
         bg,
         abilityName: "Rapid Study",
-        effect: { type: "utility", subtype: "recall", bonus: 2 },
+        effect: { type: "utility", subtype: "recall", bonus: 2, target: "self" },
         notes: "Once per scene, gain +2 to a recall/research check when referencing notes, archives, or instruction."
       })
     );
