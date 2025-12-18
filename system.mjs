@@ -117,13 +117,20 @@ Hooks.once("init", async () => {
 });
 
 /* ------------------------------------
- * Auto-grant racial abilities & sync rank-tied abilities
+ * Auto-grant racial abilities, auto-grant background abilities,
+ * & sync rank-tied abilities
  * ----------------------------------*/
 Hooks.on("updateActor", async (actor, changed) => {
   if (actor.type !== "pc") return;
 
+  // Guard against loops when background granting edits embedded items
+  if (actor.getFlag("marks-of-mezoria", "_applyingBackground")) return;
+
   const raceChanged = foundry.utils.getProperty(changed, "system.details.race") !== undefined;
   const rankChanged = foundry.utils.getProperty(changed, "system.details.rank") !== undefined;
+
+  const backgroundTypeChanged = foundry.utils.getProperty(changed, "system.details.backgroundType") !== undefined;
+  const backgroundChanged     = foundry.utils.getProperty(changed, "system.details.background") !== undefined;
 
   if (raceChanged) {
     await MezoriaActor.applyRacialAbilities(actor);
@@ -131,6 +138,11 @@ Hooks.on("updateActor", async (actor, changed) => {
 
   if (rankChanged) {
     await MezoriaActor.syncAbilityRanksToActor(actor);
+  }
+
+  // Phase 5: background auto-grant
+  if (backgroundTypeChanged || backgroundChanged) {
+    await MezoriaActor.applyBackgroundAbilities(actor);
   }
 });
 
