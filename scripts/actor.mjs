@@ -384,6 +384,29 @@ export class MezoriaActor extends Actor {
       }
     }
 
+    /* ====================================================================== */
+    /* BACKGROUND RESOURCE BONUSES (Vitality/Mana/Stamina)                     */
+    /* ====================================================================== */
+    // Applies on top of race-based max values.
+    // Does not stack, because max is recomputed fresh each prepareDerivedData.
+    {
+      const selectedBackgroundKey = system.details.background || "";
+      const bg = (selectedBackgroundKey && backgroundBonuses[selectedBackgroundKey])
+        ? backgroundBonuses[selectedBackgroundKey]
+        : null;
+
+      const r = bg?.resources;
+      if (r) {
+        const vAdd = Number(r.vitality ?? 0);
+        const mAdd = Number(r.mana     ?? 0);
+        const sAdd = Number(r.stamina  ?? 0);
+
+        if (system.status.vitality) system.status.vitality.max = Number(system.status.vitality.max ?? 0) + vAdd;
+        if (system.status.mana)     system.status.mana.max     = Number(system.status.mana.max     ?? 0) + mAdd;
+        if (system.status.stamina)  system.status.stamina.max  = Number(system.status.stamina.max  ?? 0) + sAdd;
+      }
+    }
+
     system.status.pace = Number(
       rs.pace ?? system.status.pace ?? 0
     );
