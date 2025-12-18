@@ -381,41 +381,156 @@ export const BackgroundAbilityPack = {
 });
 
 
-    D("laborer", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Load Bearer",
-        effect: { type: "utility", subtype: "liftHaul", bonus: 2 },
-        notes: "Once per scene, gain +2 to a check involving lifting, hauling, dragging, bracing, or forced movement resistance (GM adjudication)."
-      })
-    );
+   D("laborer", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
 
-    D("merchant", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Appraise & Leverage",
-        effect: { type: "utility", subtype: "trade", bonus: 2 },
-        notes: "Once per scene, gain +2 to an appraisal, bargaining, or negotiation check involving value, contracts, or trade."
-      })
-    );
+  a.name = `${bg.backgroundLabel} — Lift Like a Mule`;
 
-    D("shepherd", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Calm the Flock",
-        effect: { type: "utility", subtype: "calmAnimals", bonus: 2 },
-        notes: "Once per scene, gain +2 to calm, herd, or control frightened beasts; also applies to managing panicked crowds of animals (GM adjudication)."
-      })
-    );
+  a.system.details.short = "Once per scene: +carry/drag/lift capacity (self).";
+  a.system.details.description =
+    "Once per scene, you tap into practiced work-strength. For the rest of the scene, " +
+    "increase your carrying/dragging/lifting capacity by 50%, plus an additional 25% per character rank. " +
+    "This is a logistics/objective utility, not a combat damage buff.";
 
-    D("gravedigger", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Grave Sense",
-        effect: { type: "utility", subtype: "detectUndead", bonus: 2 },
-        notes: "Once per scene, gain +2 to notice burial hazards, identify funerary signs, or detect unnatural stillness associated with undead/crypts (GM adjudication)."
-      })
-    );
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation resource cost; limited by once-per-scene charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "capacityBoost",
+    target: "self",
+    duration: "scene",
+    capacity: {
+      basePercent: 50,
+      perRankPercent: 25,
+      appliesTo: ["carry", "drag", "lift"]
+    },
+    notes: "Once per scene. +50% capacity, +25% per character rank."
+  };
+
+  return a;
+});
+
+
+   D("merchant", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Appraise Instantly`;
+
+  a.system.details.short = "Once per scene: Appraise an item (rank-limited).";
+  a.system.details.description =
+    "Once per scene, you can quickly appraise one item you can see and reasonably inspect. " +
+    "If the item is of your character rank or lower, you learn its approximate value band (or market range), " +
+    "whether it is fake/damaged/misrepresented, and one notable risk/trait. " +
+    "This does not reveal full magical properties or hidden powers.";
+
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-scene charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "appraise",
+    target: "item",
+    duration: "instant",
+    rankLimit: "actor", // meaning: only items of actor rank or lower
+    reveals: ["valueBand", "authenticity", "oneRiskOrTrait"],
+    notes: "Only works on items of your character rank or lower. Not a magical identification."
+  };
+
+  return a;
+});
+
+
+   D("shepherd", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Calm the Flock`;
+
+  a.system.details.short = "Once per scene: Calm animals (rank-limited).";
+  a.system.details.description =
+    "Once per scene, you calm frightened or agitated animals of your character rank or lower, " +
+    "preventing panic, stampede, or uncontrolled aggression for the remainder of the scene. " +
+    "At Normal rank you affect 1 animal, and you affect +1 additional animal every other character rank.";
+
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-scene charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "calmAnimals",
+    target: "animals",
+    duration: "scene",
+    rankLimit: "actor",         // only animals of actor rank or lower
+    affects: {
+      baseAtNormal: 1,
+      plusEveryOtherRank: 1
+    },
+    notes: "Calms animals; prevents panic/stampede/uncontrolled aggression. Does not compel obedience."
+  };
+
+  return a;
+});
+
+
+   D("gravedigger", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Steady Hands in the Dark`;
+
+  a.system.details.short = "Once per scene: Secure remains or assess death (rank-limited).";
+  a.system.details.description =
+    "Once per scene, when you have physical access to a corpse or remains, choose one: " +
+    "(1) Secure the remains to prevent the raising/reanimation of an undead creature of your character rank or lower, " +
+    "or (2) determine the approximate time and likely cause of death, limited to circumstances equivalent to your character rank or lower. " +
+    "This does not override higher-rank necromancy or miracles.";
+
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-scene charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "corpseHandling",
+    target: "corpse",
+    duration: "instantOrScene",
+    rankLimit: "actor",
+    options: [
+      {
+        mode: "preventRaising",
+        appliesTo: "undead",
+        notes: "Prevents raising/reanimation for undead of actor rank or lower (GM adjudication)."
+      },
+      {
+        mode: "forensics",
+        reveals: ["timeOfDeath", "causeOfDeath"],
+        notes: "Only reliable for circumstances/forces of actor rank or lower (GM adjudication)."
+      }
+    ],
+    notes: "Requires physical access to remains. Does not override higher-rank necromancy/miracles."
+  };
+
+  return a;
+});
+
 
     D("stable_hand", ({ bg }) =>
       oncePerSceneUtility({
