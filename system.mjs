@@ -10,6 +10,7 @@ import { MezoriaEquipmentSheet } from "./scripts/sheets/equipment-sheet.mjs";
 
 // Existing pack helper (you already have this in your project)
 import { RaceAbilityPack } from "./scripts/packs/raceabilitypack.mjs";
+import { BackgroundAbilityPack } from "./scripts/packs/backgroundabilitypack.mjs";
 
 /* ------------------------------------
  * Init hook
