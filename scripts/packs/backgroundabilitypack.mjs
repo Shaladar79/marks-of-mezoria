@@ -285,14 +285,36 @@ export const BackgroundAbilityPack = {
     // -------------------------
     // COMMON (12) — utility 1/scene (per your rule)
     // -------------------------
-    D("farmer", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Hardy Stock",
-        effect: { type: "utility", subtype: "endure", bonus: 2 },
-        notes: "Once per scene, gain +2 to a check to push through fatigue, harsh weather, hunger, or long labor (GM adjudication)."
-      })
-    );
+   D("farmer", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Second Wind`;
+
+  a.system.details.short = "Once per scene: Restore Stamina (self).";
+  a.system.details.description =
+    "Once per scene, you push through fatigue. Restore 5 Stamina per character rank to yourself. " +
+    "This has no activation cost.";
+
+  // Common background design: utility, 1/scene
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // Explicitly no activation cost (per your requirement)
+  a.system.details.cost = { type: "none", value: 0, perRank: false, extraPerRank: 0, recover: "" };
+
+  // Effect payload (the sheet/engine can interpret this later; notes clarify scaling)
+  a.system.details.effect = {
+    type: "restore",
+    resource: "stamina",
+    target: "self",
+    value: 5,
+    per: "rank",
+    notes: "Restore 5 Stamina per character rank. Once per scene. Self only."
+  };
+
+  return a;
+});
+
 
     D("hunter", ({ bg }) =>
       oncePerSceneUtility({
