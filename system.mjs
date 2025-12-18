@@ -308,6 +308,75 @@ Hooks.once("ready", async () => {
   }
 
   // ---------------------------------------------------------------------------
+  // 2B) World Item folder seeding for Background abilities (Phase 4, Option B)
+  //     Folder chain: Actor / Abilities / Background / (Common|Skilled|Street|Social)
+  // ---------------------------------------------------------------------------
+  try {
+    const actorFolder      = await ensureFolder("Actor", null);
+    const abilitiesFolder  = await ensureFolder("Abilities", actorFolder.id);
+    const backgroundFolder = await ensureFolder("Background", abilitiesFolder.id);
+
+    const typeToFolderName = {
+      common: "Common",
+      skilled: "Skilled",
+      street: "Street",
+      social: "Social"
+    };
+
+    const typeFolderIds = {};
+    for (const [typeKey, folderName] of Object.entries(typeToFolderName)) {
+      const f = await ensureFolder(folderName, backgroundFolder.id);
+      typeFolderIds[typeKey] = f.id;
+    }
+
+    const worldItems = game.items.contents;
+
+    for (const bg of (BackgroundAbilityPack?.backgroundList ?? [])) {
+      const def = BackgroundAbilityPack.getBackgroundAbilityDefinition(bg.backgroundKey);
+
+      if (!def) {
+        console.warn(`Marks of Mezoria | No background ability definition for key: ${bg.backgroundKey}`);
+        continue;
+      }
+
+      const matches = worldItems.filter(i =>
+        i.type === "ability" &&
+        i.system?.details?.sourceType === "background" &&
+        i.system?.details?.sourceKey === bg.backgroundKey
+      );
+
+      if (matches.length >= 1) {
+        if (matches.length > 1) {
+          console.warn(
+            `Marks of Mezoria | Duplicate background templates found for key "${bg.backgroundKey}". ` +
+            `Count=${matches.length}. Seeding will not add more.`
+          );
+        }
+        continue;
+      }
+
+      const targetFolderId = typeFolderIds[bg.backgroundType] ?? backgroundFolder.id;
+
+      const data = foundry.utils.deepClone(def);
+      data.type = "ability";
+      data.folder = targetFolderId;
+
+      // Ensure required identity fields exist (def should already have these)
+      data.system ??= {};
+      data.system.details ??= {};
+      data.system.details.sourceType  = "background";
+      data.system.details.sourceKey   = bg.backgroundKey;
+      data.system.details.autoGranted ??= false;
+
+      await Item.create(data, { renderSheet: false });
+    }
+
+    console.log("Marks of Mezoria | Background ability template seeding verified.");
+  } catch (err) {
+    console.error("Marks of Mezoria | Background template seeding error:", err);
+  }
+
+  // ---------------------------------------------------------------------------
   // 3) World Item folder seeding for Equipment (folders only for now)
   // ---------------------------------------------------------------------------
   try {
@@ -322,4 +391,3 @@ Hooks.once("ready", async () => {
     console.error("Marks of Mezoria | Equipment folder seeding error:", err);
   }
 });
-
