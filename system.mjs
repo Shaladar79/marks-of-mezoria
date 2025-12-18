@@ -274,6 +274,21 @@ Hooks.once("ready", async () => {
   }
 
   // ---------------------------------------------------------------------------
+  // 1B) Phase 6: Grant/correct background abilities on world load (GM-only)
+  // ---------------------------------------------------------------------------
+  try {
+    const pcs = game.actors.contents.filter(a => a.type === "pc");
+    for (const pc of pcs) {
+      const backgroundKey = pc.system?.details?.background ?? "";
+      if (!backgroundKey) continue;
+      await MezoriaActor.applyBackgroundAbilities(pc);
+    }
+    console.log("Marks of Mezoria | Phase 6 background grant-on-load pass complete.");
+  } catch (err) {
+    console.error("Marks of Mezoria | Phase 6 background grant-on-load failed:", err);
+  }
+
+  // ---------------------------------------------------------------------------
   // 2) Existing World Item folder seeding for racial abilities
   // ---------------------------------------------------------------------------
   try {
