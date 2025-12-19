@@ -532,50 +532,205 @@ export const BackgroundAbilityPack = {
 });
 
 
-    D("stable_hand", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Sure Seat",
-        effect: { type: "utility", subtype: "keepBalance", bonus: 2 },
-        notes: "Once per scene, gain +2 to remain mounted, avoid being knocked prone, or keep control of an animal under stress (GM adjudication)."
-      })
-    );
+   D("stable_hand", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
 
-    D("messenger", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Courier Sprint",
-        effect: { type: "utility", subtype: "burstMove", bonus: 0, paceBonus: 1 },
-        notes: "Once per scene, you may treat one movement as a burst: gain +1 Pace for that movement action."
-      })
-    );
+  a.name = `${bg.backgroundLabel} — Reliable Stable Network`;
 
-    D("woodcutter", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Splitting Stroke",
-        effect: { type: "utility", subtype: "breakOrCleave", bonus: 2 },
-        notes: "Once per scene, gain +2 to a check to break obstacles, chop through barriers, or force open stuck wooden structures (GM adjudication)."
-      })
-    );
+  a.system.details.short = "Once per day: Cheaper mount rentals and more mounts.";
+  a.system.details.description =
+    "Once per day, when arranging standard mount/pack-animal rentals where such services exist, " +
+    "you receive a discount of 10% every other character rank past Normal, and you can secure +1 additional rented mount per character rank, " +
+    "subject to availability. This does not automatically apply to exotic or rare mounts unless the GM allows.";
 
-    D("cook", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Hearty Fix",
-        effect: { type: "utility", subtype: "restore", bonus: 0, resource: "stamina", value: 1, target: "allyOrSelf" },
-        notes: "Once per scene during a safe pause, restore 1 Stamina to yourself or an ally with a quick restorative bite or brew (GM adjudication)."
-      })
-    );
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
 
-    D("conscript", ({ bg }) =>
-      oncePerSceneUtility({
-        bg,
-        abilityName: "Hold the Line",
-        effect: { type: "utility", subtype: "brace", bonus: 2 },
-        notes: "Once per scene, gain +2 to resist being moved, knocked prone, intimidated under pressure, or forced to break formation (GM adjudication)."
-      })
-    );
+  // No activation cost; limited by once-per-day charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "day" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "mountRental",
+    target: "self",
+    duration: "instant",
+    discount: {
+      percentPerEveryOtherRankPastNormal: 10
+    },
+    extraMounts: {
+      perRank: 1
+    },
+    constraints: {
+      requiresServiceAvailability: true,
+      excludesExoticUnlessGMAllows: true
+    },
+    notes: "Discount: -10% every other rank past Normal. Extra mounts: +1 per character rank. Once per day."
+  };
+
+  return a;
+});
+
+
+   D("messenger", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Run the Route`;
+
+  a.system.details.short = "Once per day: Pace boost + ignore minor terrain penalties.";
+  a.system.details.description =
+    "Once per day, for the remainder of the scene, you gain +1 Pace at Normal rank and +1 additional Pace every 2 character ranks. " +
+    "You also ignore minor movement penalties from crowds, rough ground, light debris, stairs, and common urban obstacles (GM discretion).";
+
+  // Utility activation
+  a.system.details.actionType = "movement";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-day charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "day" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "movement",
+    subtype: "paceBoost",
+    target: "self",
+    duration: "scene",
+    pace: {
+      baseAtNormal: 1,
+      plusPerTwoRanks: 1
+    },
+    ignores: ["crowds", "roughGroundMinor", "lightDebris", "stairs", "urbanObstaclesMinor"],
+    notes: "Once per day. +1 Pace at Normal, +1 Pace per 2 ranks. Ignore minor movement penalties (GM discretion)."
+  };
+
+  return a;
+});
+
+
+   D("woodcutter", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Clear the Way`;
+
+  a.system.details.short = "Once per scene: Clear/breach mundane wooden obstructions.";
+  a.system.details.description =
+    "Once per scene, you can rapidly clear or breach mundane wooden obstructions (door, fence section, brush, barricade, rigging, poles). " +
+    "At Normal rank you can clear one small obstruction, creating a passable opening for 1–2 creatures or fully removing the obstacle. " +
+    "Each character rank thereafter, you may clear one additional small obstruction OR clear one size step larger (GM adjudication). " +
+    "When using this ability, you do not cause unintended collapse or falling debris unless the structure was already unstable (GM discretion).";
+
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-scene charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "scene" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "clearObstruction",
+    target: "environment",
+    duration: "instant",
+    material: ["wood", "brush", "rope"],
+    base: {
+      obstructionSize: "small",
+      count: 1,
+      opening: "1-2 creatures"
+    },
+    scaling: {
+      perRankChoice: "addCountOrIncreaseSize",   // one more small OR one size step larger per rank
+      countPerRank: 1,
+      sizeStepPerRank: 1
+    },
+    safety: {
+      avoidsUnintendedCollapse: true,
+      note: "Unless already unstable (GM discretion)."
+    },
+    notes: "Once per scene. Normal: 1 small. Each rank: +1 small OR +1 size step."
+  };
+
+  return a;
+});
+
+
+    D("cook", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Restorative Broth`;
+
+  a.system.details.short = "Once per day (out of combat): restorative servings.";
+  a.system.details.description =
+    "Once per day, during a safe pause and out of combat, you prepare restorative broth with 2 servings per character rank. " +
+    "Each serving can be consumed by you or an ally and restores Mana, Vitality, and Stamina equal to 3 per character rank each. " +
+    "This cannot be used during combat.";
+
+  // Utility activation (explicitly non-combat)
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // No activation cost; limited by once-per-day charge
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "day" };
+
+  // Effect payload (engine interprets later)
+  a.system.details.effect = {
+    type: "restore",
+    subtype: "restorativeBroth",
+    target: "allyOrSelf",
+    duration: "instant",
+    restriction: {
+      outOfCombatOnly: true,
+      requiresSafePause: true
+    },
+    servings: {
+      perRank: 2
+    },
+    restorePerServing: {
+      vitalityPerRank: 3,
+      manaPerRank: 3,
+      staminaPerRank: 3
+    },
+    notes: "Once per day. Out of combat only. 2 servings per rank. Each serving restores 3 Vitality/Mana/Stamina per rank."
+  };
+
+  return a;
+});
+
+
+   D("conscript", ({ bg }) => {
+  const a = baseBackgroundAbility(bg);
+
+  a.name = `${bg.backgroundLabel} — Battlefield First Aid`;
+
+  a.system.details.short = "Daily: Stabilize (scales uses by rank).";
+  a.system.details.description =
+    "You apply drilled battlefield procedures to stabilize a dying character. " +
+    "This ability does not remove conditions and provides no healing or resource restoration. " +
+    "You have 1 use per day at Normal rank, and gain +1 additional use every 2 character ranks.";
+
+  // Utility activation
+  a.system.details.actionType = "utility";
+  a.system.details.actionCost = 1;
+
+  // Per-day uses scale by rank (tracked via effect; sheet/engine can interpret later)
+  a.system.details.cost = { type: "charges", value: 1, perRank: false, extraPerRank: 0, recover: "day" };
+
+  a.system.details.effect = {
+    type: "utility",
+    subtype: "stabilize",
+    target: "allyOrSelf",
+    duration: "instant",
+    uses: {
+      baseAtNormal: 1,
+      plusPerTwoRanks: 1
+    },
+    notes: "Stabilizes a dying character only. No healing, no condition removal. Uses/day: 1 at Normal, +1 per 2 ranks."
+  };
+
+  return a;
+});
+
 
     // -------------------------
     // SKILLED (25)
