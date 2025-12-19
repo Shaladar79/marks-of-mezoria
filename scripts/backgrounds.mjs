@@ -81,11 +81,6 @@ function titleCaseFromKey(key) {
 //  • +1 to a sub-attribute
 //  • +1 to one skill
 //
-// Phase update (Common):
-//  - Remove: milkmaid, field_hand, field_guide
-//  - Add: conscript
-//  - Add resources for each remaining Common background:
-//      resources: { vitality: 8|6|4, mana: 8|6|4, stamina: 8|6|4 }
 // -------------------------------------
 
 const values = {
@@ -170,28 +165,18 @@ const values = {
   scribe:          { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.logic",             value: 1 } },
   tanner:          { attribute: { group: "body", sub: "endurance", value: 1 }, skill: { path: "body.endurance.fortitude",     value: 1 } },
   glassblower:     { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.poise",             value: 1 } },
-  weaver:          { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.mimicry",           value: 1 } },
-  potter:          { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.improvisation",     value: 1 } },
-  chandler:        { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.research",          value: 1 } },
   mason:           { attribute: { group: "body", sub: "might",     value: 1 }, skill: { path: "body.might.athletics",         value: 1 } },
   bowyer_fletcher: { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.tactics",           value: 1 } },
   brewer:          { attribute: { group: "mind", sub: "insight",   value: 1 }, skill: { path: "mind.focus.research",          value: 1 } },
-  tailor:          { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.performance",       value: 1 } },
   shipwright:      { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.logic",             value: 1 } },
-  jeweler:         { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.poise: ",           value: 1 } }, // NOTE: left as-is; if this is a typo in your live file, tell me and I’ll fix it explicitly.
   carpenter:       { attribute: { group: "body", sub: "might",     value: 1 }, skill: { path: "body.might.athletics",         value: 1 } },
   calligrapher:    { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.willpower.concentration", value: 1 } },
   miner:           { attribute: { group: "body", sub: "endurance", value: 1 }, skill: { path: "body.endurance.fortitude",     value: 1 } },
   tinker:          { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.useMagicDevice",    value: 1 } },
   butcher:         { attribute: { group: "body", sub: "might",     value: 1 }, skill: { path: "soul.resolve.composure",       value: 1 } },
-  cobbler:         { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.improvisation",     value: 1 } },
-  bookbinder:      { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "mind.focus.research",          value: 1 } },
   painter:         { attribute: { group: "soul", sub: "grace",     value: 1 }, skill: { path: "soul.grace.performance",       value: 1 } },
   ropemaker:       { attribute: { group: "body", sub: "endurance", value: 1 }, skill: { path: "body.might.athletics",         value: 1 } },
-  armorer:         { attribute: { group: "body", sub: "might",     value: 1 }, skill: { path: "body.might.heft",              value: 1 } },
-  perfumer:        { attribute: { group: "mind", sub: "insight",   value: 1 }, skill: { path: "mind.insight.perception",      value: 1 } },
-  cook_skilled:    { attribute: { group: "mind", sub: "focus",     value: 1 }, skill: { path: "soul.grace.performance",       value: 1 } },
-
+ 
   // ---------- STREET ----------
   urchin:          { attribute: { group: "body", sub: "swiftness", value: 1 }, skill: { path: "body.swiftness.stealth",         value: 1 } },
   beggar:          { attribute: { group: "soul", sub: "presence",  value: 1 }, skill: { path: "soul.presence.deception",        value: 1 } },
