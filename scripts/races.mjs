@@ -843,7 +843,7 @@ export const RaceBonuses = {
     resolve: 1
   },
 
-  anthozoan: {
+  anthazoan: {
     endurance: 2,
     insight: 1,
     grace: 1
@@ -919,7 +919,7 @@ export const RaceStatus = {
     defMagical: 1
   },
 
-  anthozoan: {
+  anthazoan: {
     pace: 4,
     naturalArmor: 0,
     defTouch: 0,
