@@ -34,7 +34,7 @@ export const RaceSkillData = {
       ]
     },
 
-    aetherian: {
+    etherean: {
       skills: [
         { path: "mind.insight.ritualCasting", value: 2 },
         { path: "mind.insight.intuition",     value: 1 },
